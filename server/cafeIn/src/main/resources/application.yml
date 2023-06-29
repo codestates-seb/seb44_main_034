@@ -1,0 +1,11 @@
+
+
+---
+spring:
+  profiles:
+    group:
+      "local": "local, common"
+      "dev": "dev, common"
+      "prod": "prod, common"
+    active: local
+
