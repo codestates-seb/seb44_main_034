@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/cafe?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password:
+    url: jdbc:mysql://${AWS_RDS_Endpoint}/cafe?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${RDS_MYSQL_ID}
+    password: ${RDS_MYSQL_PW}
 
   jpa:
     hibernate:
