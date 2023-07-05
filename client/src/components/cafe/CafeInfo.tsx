@@ -29,6 +29,10 @@ const CafeInfo = () => {
           주소 :
           <CafeAddress type='text' />
         </S.CafeInputLabel>
+        <S.CafeInputLabel>
+          연락처 :
+          <CafeContact type='text' />
+        </S.CafeInputLabel>
         <S.CafeNoticeDiv>
           공지사항
           <CafeNotice type='text' />
@@ -59,7 +63,7 @@ const S = {
   `,
   AddImageDiv: styled.div`
     width: 35vw;
-    height: 50vh;
+    height: 55vh;
     border: 2px solid ${COLOR_1.black};
     margin-right: 2%;
     @media screen and (max-width: 500px) {
@@ -71,7 +75,7 @@ const S = {
   `,
   AddCafeInfoDiv: styled.div`
     width: 45vw;
-    height: 50vh;
+    height: 55vh;
     padding: 1%;
 
     @media screen and (max-width: 500px) {
@@ -89,7 +93,7 @@ const S = {
   `,
   CafeName: styled.input`
     width: 100%;
-    height: 20%;
+    height: 18%;
     outline: none;
     border: none;
     margin-bottom: 2%;
@@ -120,6 +124,7 @@ const S = {
     }
   `,
   CafeFacilityDiv: styled.div`
+    min-width: 350px;
     display: flex;
     flex-wrap: wrap;
     white-space: nowrap;
@@ -157,6 +162,10 @@ const CafeAddress = styled(S.InputBase)`
     width: 80%;
     height: 50%;
   }
+`;
+const CafeContact = styled(S.InputBase)`
+  width: 50%;
+  height: 90%;
 `;
 const CafeNotice = styled(S.InputBase)`
   width: 90%;
