@@ -1,6 +1,8 @@
 import { StoreID, atom, useRecoilState } from 'recoil';
 
 export type CafeType = {
+  id: string;
+  ownerId: string;
   name: string;
   adress: string;
   contact: string;
@@ -41,6 +43,8 @@ export type CommentType = {
 export const CafeState = atom<CafeType>({
   key: 'cafeState',
   default: {
+    id: '',
+    ownerId: '',
     name: '',
     adress: '',
     contact: '',
