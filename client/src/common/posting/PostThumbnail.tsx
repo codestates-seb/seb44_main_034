@@ -1,4 +1,4 @@
-import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2, FONT_WEIGHT } from "../common";
+import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from "../common";
 import styled from 'styled-components';
 
 type PostThumbnailProps = {
@@ -14,12 +14,14 @@ const PostThumbnail = ({image, title, author}:PostThumbnailProps) => {
     <S.ImgWrap>
       <S.Img src={image} />
     </S.ImgWrap>
+    <S.Div>
     <S.TitleWrap>
-      <S.Title>{title.length>28 ? `${title.slice(0, 28)}...`: title}</S.Title>
+      <S.Title>{title.length>26 ? `${title.slice(0, 26)}...`: title}</S.Title>
     </S.TitleWrap>
-    <S.UserNameWrap>
-      <S.UserName>- {author}</S.UserName>
-    </S.UserNameWrap>
+    <S.AuthorWrap>
+      <S.Author>- {author}</S.Author>
+    </S.AuthorWrap>
+    </S.Div>
   </S.Container>
   )
 }
@@ -30,33 +32,68 @@ const S = {
   height:450px;
   border-radius:20px;
   box-shadow: 0 4px 3px ${COLOR_1.dark_brown};
+  @media screen and (max-width: 500px) {
+    width: 42vw;
+    height: 68VW;
+    min-height: 243.163px;
+    min-width: 150.188px;
+  }
   `,
   ImgWrap: styled.div`
-    
+
   `,
   Img: styled.img`
   width:300px;
   height:300px;
-  max-width:400px;
-  max-height:400px;
+  object-fit: cover;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
+  @media screen and (max-width: 500px) {
+    width: 42vw;
+    height: 42vw;
+    min-height: 150.188px;
+    min-width: 150.188px;
+  }
   `,
+  Div: styled.div`
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto 0;
+    padding: 0;
+    height: 130px;
+    @media screen and (max-width: 500px) {
+      height: 24vw;
+    }
+  `
+  ,
   TitleWrap: styled.div`
-    margin: 4px 8px;
+    margin: 4px auto 0 auto;
   `,
   Title: styled.span`
     color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_2.normal_5};
+    @media screen and (max-width: 280px) {
+      font-size: ${FONT_SIZE_1.small_3};
+    }
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_1.normal_1};
+    }
   `,
-  UserNameWrap: styled.div`
+  AuthorWrap: styled.div`
     display: flex;
     justify-content: end;
-    margin: 20px 16px;
+    margin: auto 12px 8px auto;
+    @media screen and (max-width: 500px) {
+      margin: auto 12px 8px auto;
+    }
   `,
-  UserName: styled.span`
+  Author: styled.span`
     color: ${COLOR_1.brown};
     font-size: ${FONT_SIZE_2.normal_4};
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_2.normal_2};
+  }
   `,
   FacilitiesTag: styled.button`
     background-color: ${COLOR_1.white};
