@@ -15,10 +15,10 @@ const PostThumbnail = ({title, userName, url}:PostThumbnailProps) => {
       <S.Img src={url} />
     </S.ImgWrap>
     <S.TitleWrap>
-      <S.Title>{title}</S.Title>
+      <S.Title>{title.length>28 ? `${title.slice(0, 28)}...`: title}</S.Title>
     </S.TitleWrap>
     <S.UserNameWrap>
-      <S.UserName>{userName}</S.UserName>
+      <S.UserName>- {userName}</S.UserName>
     </S.UserNameWrap>
   </S.Container>
   )
@@ -26,10 +26,8 @@ const PostThumbnail = ({title, userName, url}:PostThumbnailProps) => {
 
 const S = {
   Container: styled.div`
-  width:30vw;
-  height:80vh;
-  max-width:400px;
-  max-height:600px;
+  width:300px;
+  height:450px;
   border-radius:20px;
   box-shadow: 0 4px 3px ${COLOR_1.dark_brown};
   `,
@@ -37,26 +35,28 @@ const S = {
     
   `,
   Img: styled.img`
-  width:1em;
-  height:1em;
+  width:300px;
+  height:300px;
   max-width:400px;
   max-height:400px;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   `,
   TitleWrap: styled.div`
-  
+    margin: 4px 8px;
   `,
   Title: styled.span`
     color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_2.big_6};
+    font-size: ${FONT_SIZE_2.normal_5};
   `,
   UserNameWrap: styled.div`
-  
+    display: flex;
+    justify-content: end;
+    margin: 20px 16px;
   `,
   UserName: styled.span`
     color: ${COLOR_1.brown};
-    font-size: ${FONT_SIZE_2.big_1};
+    font-size: ${FONT_SIZE_2.normal_4};
   `,
   FacilitiesTag: styled.button`
     background-color: ${COLOR_1.white};
