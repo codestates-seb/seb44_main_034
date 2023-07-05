@@ -2,23 +2,23 @@ import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2, FONT_WEIGHT } from "../common";
 import styled from 'styled-components';
 
 type PostThumbnailProps = {
+  image: string;
   title: string;
-  userName: string;
-  url: string;
+  author: string;
 }
 
-const PostThumbnail = ({title, userName, url}:PostThumbnailProps) => {
+const PostThumbnail = ({image, title, author}:PostThumbnailProps) => {
 
   return (
   <S.Container>
     <S.ImgWrap>
-      <S.Img src={url} />
+      <S.Img src={image} />
     </S.ImgWrap>
     <S.TitleWrap>
       <S.Title>{title.length>28 ? `${title.slice(0, 28)}...`: title}</S.Title>
     </S.TitleWrap>
     <S.UserNameWrap>
-      <S.UserName>- {userName}</S.UserName>
+      <S.UserName>- {author}</S.UserName>
     </S.UserNameWrap>
   </S.Container>
   )
