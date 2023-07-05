@@ -12,10 +12,10 @@ phases:
       - ./gradlew build
   post_build:
     commands:
-      - echo $(basename ./DeployServer/build/libs/*.jar)
+      - echo $(basename ./cafeIn/build/libs/*.jar)
 artifacts:
   files:
-    - DeployServer/build/libs/*.jar
-    - DeployServer/scripts/**
-    - DeployServer/appspec.yml
+    - cafeIn/build/libs/*.jar
+    - cafeIn/scripts/**
+    - cafeIn/appspec.yml
   discard-paths: yes
