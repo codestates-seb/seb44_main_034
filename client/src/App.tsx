@@ -24,6 +24,7 @@ import CreateInformationCafe from './pages/CreateInformationCafe';
 import CreateMenuCafe from './pages/CreateMenuCafe';
 import ALlPostPage from './pages/AllPostPage';
 import Login from './pages/Login';
+import AddCafeInfoPage from './pages/AddCafeInfoPage';
 
 const queryClient = new QueryClient();
 const Container = styled.div`
