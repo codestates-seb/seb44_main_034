@@ -7,13 +7,12 @@ import {
 const queryClient = new QueryClient();
 
 function App() {
-
   return (
     <QueryClientProvider client={queryClient}>
     <RecoilRoot>
     </RecoilRoot>
     </QueryClientProvider>
-  )
+  );
 }
 
-export default App
+export default App;
