@@ -29,7 +29,7 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
 `;
 function App() {
