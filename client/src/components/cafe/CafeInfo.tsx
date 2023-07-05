@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
+import { FacilityType } from '../../recoil/recoil';
 
-const facility = [
-  { id: 'isOpenAllTime', name: '24시간 운영여부' },
-  { id: 'isChargingAvailable', name: '콘센트 유무' },
-  { id: 'hasParking', name: '주차공간' },
-  { id: 'isPetFriendly', name: '동물 출입 가능 여부' },
-  { id: 'hasDessert', name: '디저트 판매 여부' },
+const facility: FacilityType[] = [
+  { id: 'isOpenAllTime', name: '24시간 운영여부', value: false },
+  { id: 'isChargingAvailable', name: '콘센트 유무', value: false },
+  { id: 'hasParking', name: '주차공간', value: false },
+  { id: 'isPetFriendly', name: '동물 출입 가능 여부', value: false },
+  { id: 'hasDessert', name: '디저트 판매 여부', value: false },
 ];
 
 const CafeInfo = () => {
