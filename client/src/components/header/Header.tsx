@@ -98,7 +98,9 @@ const Header: React.FC = () => {
         <S.LogoImg src={logocafein} />
       </S.LogoBox>
       <S.MiddleBox>
+        <Link to='/AllPostPage'>
         <S.ListBtn>Post</S.ListBtn>
+        </Link>
         <S.ListBtn>Cafe</S.ListBtn>
       </S.MiddleBox>
       <S.UserBox>

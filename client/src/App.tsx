@@ -22,7 +22,7 @@ import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
 import CreateInformationCafe from './pages/CreateInformationCafe';
 import CreateMenuCafe from './pages/CreateMenuCafe';
-import ALlPostPage from './pages/AllPostPage';
+import AllPostPage from './pages/AllPostPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 
@@ -68,7 +68,7 @@ function App() {
             <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:id' element={<EditPostPage />} />
-            <Route path='/allpostpage' element={<ALlPostPage />} />
+            <Route path='/allpostpage' element={<AllPostPage />} />
           </Routes>
         </Container>
         <Footer />
