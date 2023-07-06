@@ -10,6 +10,10 @@ const S = {
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+    @media screen and (max-width: 800px) {
+      height: 80vh;
+      width: 70vw;
+    }
     @media screen and (max-width: 500px) {
       height: 300px;
       width: 250px;
@@ -39,10 +43,17 @@ const S = {
     }
   `,
   MainTitle: styled.div`
+    display: flex;
+    justify-content: center;
     font-size: ${FONT_SIZE_1.big_6};
     height: 30px;
+    width: 500px;
+    @media screen and (max-width: 800px) {
+      width: 70vw;
+    }
     @media screen and (max-width: 500px) {
-      font-size: 13px;
+      font-size: ${FONT_SIZE_1.big_1};
+      width: 250px;
       height: 15px;
     }
   `,
@@ -51,13 +62,13 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: ${FONT_SIZE_1.big_2};
     @media screen and (max-width: 500px) {
       height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: ${FONT_SIZE_1.normal_1};
     }
   `,
 
@@ -70,6 +81,10 @@ const S = {
     border-radius: 20px 0px 0px 20px;
     background-color: ${COLOR_1.ivory};
     font-size: 16px;
+    @media screen and (max-width: 800px) {
+      height: 60vh;
+      width: 35vw;
+    }
     @media screen and (max-width: 500px) {
       height: 250px;
       width: 150px;
@@ -84,6 +99,10 @@ const S = {
     width: 250px;
     border-radius: 0px 20px 20px 0px;
     background-color: ${COLOR_1.light_green};
+    @media screen and (max-width: 800px) {
+      height: 60vh;
+      width: 35vw;
+    }
     @media screen and (max-width: 500px) {
       height: 250px;
       width: 150px;
@@ -94,6 +113,9 @@ const S = {
     height: 100px;
     width: 137px;
     font-size: ${FONT_SIZE_1.normal_1};
+    @media screen and (max-width: 800px) {
+      height: 60px;
+    }
     @media screen and (max-width: 500px) {
       height: 50px;
       width: 75px;
@@ -115,7 +137,7 @@ const S = {
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
-    font-size: 20px;
+    font-size: ${FONT_SIZE_1.big_1};
     cursor: pointer;
 
     &:hover {
@@ -124,15 +146,14 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
+    @media screen and (max-width: 800px) {
+      width: 25vw;
+      font-size: ${FONT_SIZE_1.normal_2};
+    }
     @media screen and (max-width: 500px) {
       width: 100px;
       height: 25px;
-      border-radius: 7px;
-      border: none;
-      background-color: dark_sand;
-      color: white;
-      font-size: 10px;
-      cursor: pointer;
+      font-size: ${FONT_SIZE_1.small_2};
     }
   `,
 };

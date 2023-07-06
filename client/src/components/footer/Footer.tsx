@@ -24,7 +24,7 @@ const S = {
     text-align: left;
     height: 200px;
     width: 65vw;
-    margin-left: 15vw;
+    margin-left: 10vw;
   `,
   LogoBox: styled.img`
     height: 150px;
