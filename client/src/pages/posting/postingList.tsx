@@ -5,9 +5,6 @@ import PostThumbnail from '../../common/posting/PostThumbnail';
 import { CafePostList } from '../../types/type';
 import PlusBtn from "../../common/posting/plusBtn";
 
-// interface CafePostListProps {
-//       data:CafePostList[];
-// }
 const PostingList = () => {
   const data= dataAll.post;
   return (
