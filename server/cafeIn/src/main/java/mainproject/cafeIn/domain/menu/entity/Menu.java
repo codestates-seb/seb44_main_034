@@ -1,12 +1,11 @@
 package mainproject.cafeIn.domain.menu.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mainproject.cafeIn.domain.menu.entity.enums.MenuType;
 
 import javax.persistence.*;
+
+import static javax.persistence.FetchType.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,11 +26,22 @@ public class Menu {
     @Column(name = "menu_type")
     private MenuType menuType;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cafe_id", nullable = false)
+    private Cafe cafe;
+
     @Builder
     public Menu(String name, Integer price, MenuType menuType) {
         this.name = name;
         this.price = price;
         this.menuType = menuType;
+    }
+
+    public Menu of(String name, Integer price, MenuType menuType, Cafe cafe) {
+        this.name = name;
+        this.price = price;
+        this.menuType = menuType;
+        this.cafe = cafe;
     }
 
     public void updateMenu(Menu menu) {
