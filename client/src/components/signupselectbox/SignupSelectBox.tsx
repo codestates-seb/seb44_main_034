@@ -92,10 +92,12 @@ const S = {
   `,
   SubExplain: styled.div`
     height: 100px;
-    width: 150px;
+    width: 137px;
+    font-size: ${FONT_SIZE_1.normal_1};
     @media screen and (max-width: 500px) {
       height: 50px;
       width: 75px;
+      font-size: ${FONT_SIZE_1.small_2};
     }
   `,
   ImgBox: styled.img`
@@ -154,7 +156,7 @@ const SignupSelectBox: React.FC = () => {
           <S.SubTitle>사업자</S.SubTitle>
           <S.ImgBox src={ownericon}></S.ImgBox>
           <S.SubExplain>
-            사업자 회원 가입하고, 내 카페를 등록해보세요!
+            사업자 회원 가입하고, 카페를 등록해보세요!
           </S.SubExplain>
           <S.DarkSandBtn>사업자회원가입</S.DarkSandBtn>
         </S.OwnerSubContainer>
