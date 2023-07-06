@@ -30,10 +30,10 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 500px;
+  min-height: 700px;
   width: 100vw;
   @media screen and (max-width: 500px) {
-    min-height: 500px;
+    min-height: 400px;
     width: 100vw;
   }
 `;
