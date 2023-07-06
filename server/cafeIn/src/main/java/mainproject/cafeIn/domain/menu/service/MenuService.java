@@ -1,6 +1,8 @@
 package mainproject.cafeIn.domain.menu.service;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.menu.dto.request.MenuRequest;
 import mainproject.cafeIn.domain.menu.dto.response.MenuResponse;
 import mainproject.cafeIn.domain.menu.entity.Menu;
@@ -27,7 +29,7 @@ public class MenuService {
         List<Menu> menus = menuRequestToMenu(menuRequests);
 
         for (Menu menu : menus) {
-            Menu result = menu.of(menu.getName(), menu.getPrice(), menu.getMenuType(), cafe);
+            Menu result = Menu.of(menu.getName(), menu.getPrice(), menu.getMenuType(), cafe);
             menuRepository.save(result);
         }
     }

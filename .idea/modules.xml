@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cafeIn.main.iml" filepath="$PROJECT_DIR$/.idea/modules/cafeIn.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cafeIn.querydsl.iml" filepath="$PROJECT_DIR$/.idea/modules/cafeIn.querydsl.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/cafeIn.test.iml" filepath="$PROJECT_DIR$/.idea/modules/cafeIn.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/main-project.cafeIn.querydsl.iml" filepath="$PROJECT_DIR$/.idea/modules/main-project.cafeIn.querydsl.iml" />
     </modules>
   </component>
 </project>

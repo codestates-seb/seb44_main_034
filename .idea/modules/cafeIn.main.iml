@@ -3,6 +3,7 @@
   <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../server/cafeIn/build/classes/java/main" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../server/cafeIn/build/generated/querydsl" />
     <content url="file://$MODULE_DIR$/../../server/cafeIn/src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../server/cafeIn/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../server/cafeIn/src/main/resources" type="java-resource" />

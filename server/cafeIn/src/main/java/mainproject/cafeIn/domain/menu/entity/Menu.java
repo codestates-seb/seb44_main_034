@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.menu.entity;
 
 import lombok.*;
+import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.menu.entity.enums.MenuType;
 
 import javax.persistence.*;
@@ -31,17 +32,20 @@ public class Menu {
     private Cafe cafe;
 
     @Builder
-    public Menu(String name, Integer price, MenuType menuType) {
-        this.name = name;
-        this.price = price;
-        this.menuType = menuType;
-    }
-
-    public Menu of(String name, Integer price, MenuType menuType, Cafe cafe) {
+    public Menu(String name, Integer price, MenuType menuType, Cafe cafe) {
         this.name = name;
         this.price = price;
         this.menuType = menuType;
         this.cafe = cafe;
+    }
+
+    public static Menu of(String name, Integer price, MenuType menuType, Cafe cafe) {
+        return Menu.builder()
+                .name(name)
+                .price(price)
+                .menuType(menuType)
+                .cafe(cafe)
+                .build();
     }
 
     public void updateMenu(Menu menu) {
