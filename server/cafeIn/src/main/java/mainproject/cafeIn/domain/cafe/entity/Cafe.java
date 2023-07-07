@@ -4,6 +4,7 @@ import lombok.*;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.global.base.BaseEntity;
+import mainproject.cafeIn.global.exception.CustomException;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,8 +12,12 @@ import javax.persistence.*;
 import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
+import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
 import static org.hibernate.annotations.OnDeleteAction.*;
 
 @Getter
@@ -31,7 +36,6 @@ public class Cafe extends BaseEntity {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Setter
     @Column(name = "short_address", nullable = false)
     private String shortAddress;
 
@@ -74,15 +78,19 @@ public class Cafe extends BaseEntity {
     @Column(name = "has_dessert")
     private boolean hasDessert;
 
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
+
     @OnDelete(action = CASCADE)
     @OneToMany(mappedBy = "cafe", cascade = PERSIST)
     private List<Menu> menus = new ArrayList<>();
 
     @Builder
-    public Cafe(String name, String address, String shortAddress, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert) {
+    public Cafe(String name, String address, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {
         this.name = name;
         this.address = address;
-        this.shortAddress = shortAddress;
+        this.shortAddress = extractAreaFromAddress(address);
         this.contact = contact;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -96,6 +104,7 @@ public class Cafe extends BaseEntity {
         this.isPetFriendly = isPetFriendly;
         this.hasDessert = hasDessert;
         this.rating = 0;
+        this.owner = owner;
     }
 
     public void updateCafe(Cafe cafe) {
@@ -110,5 +119,16 @@ public class Cafe extends BaseEntity {
         this.hasParking = cafe.isHasParking();
         this.isPetFriendly = cafe.isPetFriendly();
         this.hasDessert = cafe.isHasDessert();
+    }
+
+    private String extractAreaFromAddress(String address) {
+        String pattern = "\\b(\\w+구)\\b";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(address);
+
+        // TODO: ErrorCode 수정
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else throw new CustomException(INTERNAL_SERVER_ERROR);
     }
 }

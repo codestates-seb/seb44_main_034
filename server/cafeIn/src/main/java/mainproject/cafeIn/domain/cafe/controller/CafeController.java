@@ -27,7 +27,7 @@ public class CafeController {
                                                 @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
         // TODO: 로그인 정보 가져오는 로직 적용
         Long loginId = 1L;
-        Long cafeId = cafeService.createCafe(loginId, request.toEntity(), multipartFile);
+        Long cafeId = cafeService.createCafe(loginId, request, multipartFile);
 
         return new ApplicationResponse<>(cafeId);
     }
@@ -40,7 +40,7 @@ public class CafeController {
                                           @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
         // TODO: 로그인 정보 가져오는 로직 적용
         Long loginId = 1L;
-        cafeService.updateCafe(loginId, request.toEntity(), multipartFile);
+        cafeService.updateCafe(loginId, cafeId, request, multipartFile);
 
         return new ApplicationResponse();
     }
