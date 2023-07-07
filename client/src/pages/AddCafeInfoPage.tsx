@@ -15,13 +15,14 @@ const AddCafeInfoPage = () => {
 const S = {
   Container: styled.div`
     display: flex;
+    justify-content: center;
     flex-direction: column;
   `,
   ButtonDiv: styled.div`
     display: flex;
     justify-content: end;
     margin-top: 2%;
-
+    margin-bottom: 10%;
     @media screen and (max-width: 500px) {
       justify-content: center;
     }
