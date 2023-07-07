@@ -7,7 +7,6 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.global.exception.CustomException;
 import mainproject.cafeIn.global.exception.ErrorCode;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +59,7 @@ public class CafeService {
         } else throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 
-    private Cafe findCafeById(Long cafeId) {
+    public Cafe findCafeById(Long cafeId) {
 
         // TODO: ErrorCode 수정
         return cafeRepository.findById(cafeId)

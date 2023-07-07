@@ -2,10 +2,18 @@ package mainproject.cafeIn.domain.cafe.entity;
 
 import lombok.*;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
+import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.global.base.BaseEntity;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.security.acl.Owner;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.*;
+import static org.hibernate.annotations.OnDeleteAction.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -65,6 +73,10 @@ public class Cafe extends BaseEntity {
 
     @Column(name = "has_dessert")
     private boolean hasDessert;
+
+    @OnDelete(action = CASCADE)
+    @OneToMany(mappedBy = "cafe", cascade = PERSIST)
+    private List<Menu> menus = new ArrayList<>();
 
     @Builder
     public Cafe(String name, String address, String shortAddress, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert) {
