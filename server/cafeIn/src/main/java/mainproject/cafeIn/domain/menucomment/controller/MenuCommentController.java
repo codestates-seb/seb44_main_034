@@ -20,7 +20,7 @@ public class MenuCommentController {
                                                        @RequestBody MenuCommentRequest request) {
         // TODO: 로그인 정보 받아오는 로직 추가
         Long loginId = 1L;
-        menuCommentService.createMenuComment(loginId, menuId, request.toEntity());
+        menuCommentService.createMenuComment(loginId, menuId, request);
 
         return new ApplicationResponse<>(menuId);
     }
@@ -31,7 +31,7 @@ public class MenuCommentController {
                                                        @RequestBody MenuCommentRequest request) {
         // TODO: 로그인 정보 받아오는 로직 추가
         Long loginId = 1L;
-        Long menuId = menuCommentService.updateMenuComment(loginId, commentId, request.toEntity());
+        Long menuId = menuCommentService.updateMenuComment(loginId, commentId, request);
 
         return new ApplicationResponse<>(menuId);
     }
