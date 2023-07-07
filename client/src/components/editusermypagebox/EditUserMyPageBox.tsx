@@ -8,10 +8,10 @@ import axios from 'axios';
 const S = {
   Container: styled.div`
     margin-top: 20px;
-    height: 600px;
+    height: 700px;
     width: 400px;
     @media screen and (max-width: 500px) {
-      height: 350px;
+      height: 450px;
       width: 300px;
     }
   `,
@@ -27,13 +27,13 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 500px;
+    height: 600px;
     width: 400px;
     border-radius: 20px;
     border: solid 1px #cfcfcf;
     background-color: ${COLOR_1.ivory};
     @media screen and (max-width: 500px) {
-      height: 320px;
+      height: 350px;
       width: 300px;
     }
   `,
@@ -41,11 +41,11 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 400px;
+    height: 500px;
     width: 350px;
     margin-top: 10px;
     @media screen and (max-width: 500px) {
-      height: 375px;
+      height: 300px;
       width: 250px;
     }
   `,
@@ -82,7 +82,7 @@ const S = {
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
-    font-size: 20px;
+    font-size: ${FONT_SIZE_1.big_2};
     margin-bottom: 40px;
     cursor: pointer;
     border: solid 1px #cfcfcf;
@@ -99,7 +99,7 @@ const S = {
       border: none;
       background-color: dark_sand;
       color: white;
-      font-size: 10px;
+      font-size: ${FONT_SIZE_1.normal_2};
       margin-bottom: 20px;
     }
   `,
@@ -122,8 +122,20 @@ const S = {
       width: 250px;
     }
   `,
-  ProfileImgBox: styled.div``,
-  ProfileImg: styled.img``,
+  ProfileImgBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    @media screen and (max-width: 500px) {
+      width: 260px;
+    }
+  `,
+  ProfileImg: styled.img`
+    height: 150px;
+    @media screen and (max-width: 500px) {
+      height: 80px;
+    }
+  `,
   DeleteBtn: styled.button``,
 };
 
@@ -212,7 +224,9 @@ const EditUserMyPageBox = () => {
       </S.MainBox>
       <S.SubBox>
         <S.SubMiniBox>
-          <S.ProfileImg src={profileimg}></S.ProfileImg>
+          <S.ProfileImgBox>
+            <S.ProfileImg src={profileimg}></S.ProfileImg>
+          </S.ProfileImgBox>
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
             id='displayName'

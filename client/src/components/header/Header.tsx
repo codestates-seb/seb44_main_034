@@ -96,9 +96,9 @@ const S = {
     height: 50px;
     width: 50px;
     cursor: pointer;
-    @media screen and (max-width: 700px) {
-      height: 30px;
-      width: 30px;
+    @media screen and (max-width: 500px) {
+      height: 40px;
+      width: 40px;
     }
   `,
   Box: styled.div`
