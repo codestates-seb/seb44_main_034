@@ -1,5 +1,5 @@
-const PostPage = () => {
-  return <>로그인</>;
+const OwnerSignup = () => {
+  return <>메인</>;
 };
 
-export default PostPage;
+export default OwnerSignup;

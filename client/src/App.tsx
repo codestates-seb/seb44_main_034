@@ -22,7 +22,7 @@ import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
 import CreateInformationCafe from './pages/CreateInformationCafe';
 import CreateMenuCafe from './pages/CreateMenuCafe';
-import ALlPostPage from './pages/AllPostPage';
+import AllPostPage from './pages/AllPostPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 
@@ -30,10 +30,10 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 700px;
+  min-height: 700px;
   width: 100vw;
   @media screen and (max-width: 500px) {
-    height: 400px;
+    min-height: 400px;
     width: 100vw;
   }
 `;
@@ -65,10 +65,10 @@ function App() {
               element={<EditInformationCafe />}
             />
             <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
-            <Route path='/allpostpage' element={<ALlPostPage />} />
             <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:id' element={<EditPostPage />} />
+            <Route path='/allpostpage' element={<AllPostPage />} />
           </Routes>
         </Container>
         <Footer />
