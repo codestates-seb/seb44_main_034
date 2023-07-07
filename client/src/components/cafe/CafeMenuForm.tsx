@@ -31,10 +31,10 @@ function CafeMenuForm({ type }: { type: string }) {
   });
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    setMenuState(menuState);
+    // setMenuState(menuState);
   };
-  console.log(fields);
-  const [menuState, setMenuState] = useRecoilState(CafeState);
+
+  // const [menuState, setMenuState] = useRecoilState(CafeState);
 
   return (
     <div>
@@ -104,16 +104,21 @@ const S = {
     padding: 0% 3%;
     border-radius: 15px;
     background-color: ${COLOR_1.light_green};
-    text-align: start;
     font-size: ${FONT_SIZE_2.normal_3};
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_2.normal_2};
+    }
   `,
   FormDiv: styled.div`
     padding: 1%;
     font-size: ${FONT_SIZE_2.normal_2};
     border-bottom: 2px dotted ${COLOR_1.green};
     display: flex;
-    justify-content: start;
+    justify-content: space-evenly;
     align-items: center;
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_2.normal_1};
+    }
   `,
   MenuInput: styled.input`
     width: 15vw;
@@ -125,6 +130,9 @@ const S = {
     &:hover {
       outline: auto;
       outline-color: ${COLOR_1.dark_sand};
+    }
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_2.normal_1};
     }
   `,
   RemoveBtn: styled(FaSquareMinus)`

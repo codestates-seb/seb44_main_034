@@ -13,8 +13,8 @@ const AddCafeMenuPage = () => {
   return (
     <S.Container>
       <S.MenuTitle>Menu</S.MenuTitle>
-      {types.map((item) => (
-        <CafeMenuForm type={item.name} />
+      {types.map((item, index) => (
+        <CafeMenuForm key={index} type={item.name} />
       ))}
       <S.ButtonDiv>
         <S.Submitbut>메뉴등록</S.Submitbut>
@@ -46,6 +46,7 @@ const S = {
   `,
   Submitbut: styled(ConfirmBtn)`
     height: 2vw;
+    margin-bottom: 10%;
   `,
 };
 export default AddCafeMenuPage;
