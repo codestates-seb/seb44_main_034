@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import './App.css';
 import { RecoilRoot } from 'recoil';
 import Styled, { styled } from 'styled-components';
@@ -30,13 +31,14 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  height: 700px;
+  height: 100vh;
   width: 100vw;
   @media screen and (max-width: 500px) {
-    height: 400px;
+    height: 100vh;
     width: 100vw;
   }
 `;
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>

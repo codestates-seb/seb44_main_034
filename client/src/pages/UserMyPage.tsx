@@ -1,5 +1,7 @@
+import UserMyPageBox from '../components/usermypagebox/UserMyPageBox';
+
 const UserMyPage = () => {
-  return <>메인</>;
+  return <UserMyPageBox></UserMyPageBox>;
 };
 
 export default UserMyPage;
