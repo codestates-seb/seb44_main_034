@@ -4,3 +4,14 @@ export interface CafePostList {
   title: string;
   author: string;
 }
+export interface Post {
+  cafeName:string,
+  title:string,
+  createdAt:string,
+  updatedAt:string,
+  authorId:number,
+  author:string,
+  image:string,
+  body:string,
+  isBookmarked:boolean
+}

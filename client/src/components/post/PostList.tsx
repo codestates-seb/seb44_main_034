@@ -4,6 +4,7 @@ import {data as dataAll} from '../../mockData/cafePost.json'
 import PostThumbnail from '../../common/posting/PostThumbnail';
 import { CafePostList } from '../../types/type';
 import PlusBtn from "../../common/posting/plusBtn";
+import { Link } from 'react-router-dom';
 
 const PostingList = () => {
   const data= dataAll.post;
@@ -14,7 +15,7 @@ const PostingList = () => {
         <PlusBtn text={'+'}/>
       </S.PostStart>
         <ul>
-          {data.map((el:CafePostList)=> <li key={el.postId}><PostThumbnail image={el.image} title={el.title} author={el.author} /></li>)}
+          {data.map((el:CafePostList)=> <li key={el.postId}><Link to={`postpage/${el.postId}`} ><PostThumbnail image={el.image} title={el.title} author={el.author} /></Link></li>)}
         </ul>
     </S.Container>
   )

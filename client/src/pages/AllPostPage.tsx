@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 import {data as dataAll} from '../mockData/cafePost.json'
 import PostThumbnail from '../common/posting/PostThumbnail';
 import { CafePostList } from '../types/type';
-import PlusBtn from "../common/posting/plusBtn";
 
 const ALlPostPage = () => {
   const data= dataAll.post;
@@ -13,7 +13,7 @@ const ALlPostPage = () => {
         <span>POST</span>
       </S.PostStart>
         <ul>
-          {data.map((el:CafePostList)=> <li key={el.postId}><PostThumbnail image={el.image} title={el.title} author={el.author} /></li>)}
+          {data.map((el:CafePostList)=> <li key={el.postId}><Link to={`../postpage/${el.postId}`} ><PostThumbnail image={el.image} title={el.title} author={el.author} /></Link></li>)}
         </ul>
     </S.Container>
   )
