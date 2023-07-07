@@ -47,4 +47,8 @@ public class MenuComment extends BaseEntity {
                 .menu(menu)
                 .build();
     }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }
