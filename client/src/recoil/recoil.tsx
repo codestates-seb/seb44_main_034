@@ -27,11 +27,11 @@ export type PostType = {
 };
 
 export type MenuType = {
-  id: string;
+  id?: string;
   type: string;
   name: string;
   price: string;
-  comment: CommentType[];
+  comment?: CommentType[];
 };
 export type CommentType = {
   id: string;

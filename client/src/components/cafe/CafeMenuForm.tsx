@@ -1,12 +1,15 @@
 import { useForm, useFieldArray } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import { CafeState } from '../../recoil/recoil';
 import { styled } from 'styled-components';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
-import { FiMinusSquare, FiPlusSquare } from 'react-icons/FI';
-type FormValues = {
+import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
+export type FormValues = {
   menu: {
     name: string;
     price: number;
+    Mtype: string;
   }[];
 };
 
@@ -18,7 +21,7 @@ function CafeMenuForm({ type }: { type: string }) {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      menu: [{ name: '아메리카노', price: 3000 }],
+      menu: [{ name: '아메리카노', price: 3000, Mtype: type }],
     },
     mode: 'onBlur',
   });
@@ -26,68 +29,75 @@ function CafeMenuForm({ type }: { type: string }) {
     name: 'menu',
     control,
   });
-  const onSubmit = (data: FormValues) => console.log(data);
+  const onSubmit = (data: FormValues) => {
+    console.log(data);
+    setMenuState(menuState);
+  };
+  console.log(fields);
+  const [menuState, setMenuState] = useRecoilState(CafeState);
 
   return (
     <div>
       <S.MainDiv>
         <S.CafeTypeName>{type}</S.CafeTypeName>
 
-        <form>
-          {fields.map((field, index) => {
-            return (
-              <div key={field.id}>
-                {/* <section className={'section'} key={field.id}> */}
-                <S.FormDiv>
-                  메뉴
-                  <S.MenuInput
-                    placeholder='메뉴이름'
-                    {...register(`menu.${index}.name` as const, {
-                      required: true,
-                    })}
-                    className={errors?.menu?.[index]?.name ? 'error' : ''}
-                  />
-                  가격
-                  <S.MenuInput
-                    placeholder='메뉴가격'
-                    type='number'
-                    {...register(`menu.${index}.price` as const, {
-                      valueAsNumber: true,
-                      required: true,
-                    })}
-                    className={errors?.menu?.[index]?.price ? 'error' : ''}
-                  />
-                  <S.RemoveBtn
-                    type='button'
-                    onClick={() => remove(index)}
-                  ></S.RemoveBtn>
-                </S.FormDiv>
-              </div>
-            );
-          })}
-        </form>
-        <S.AppendBtn
-          type='button'
-          onClick={() =>
-            append({
-              name: '',
-              price: 0,
-            })
-          }
-        >
-          +
-        </S.AppendBtn>
+        {/* <form> */}
+        {fields.map((field, index) => {
+          return (
+            <div key={field.id}>
+              <S.FormDiv>
+                메뉴
+                <S.MenuInput
+                  placeholder='메뉴이름'
+                  {...register(`menu.${index}.name` as const, {
+                    required: true,
+                  })}
+                  className={errors?.menu?.[index]?.name ? 'error' : ''}
+                />
+                가격
+                <S.MenuInput
+                  placeholder='메뉴가격'
+                  type='number'
+                  {...register(`menu.${index}.price` as const, {
+                    valueAsNumber: true,
+                    required: true,
+                  })}
+                  className={errors?.menu?.[index]?.price ? 'error' : ''}
+                />
+                <S.RemoveBtn
+                  type='button'
+                  onClick={() => remove(index)}
+                ></S.RemoveBtn>
+              </S.FormDiv>
+            </div>
+          );
+        })}
+        {/* </form> */}
+        <S.BtnDiv>
+          <S.AppendBtn
+            type='button'
+            onClick={() =>
+              append({
+                name: '',
+                price: 0,
+                Mtype: type,
+              })
+            }
+          ></S.AppendBtn>
+          <S.SaveBtn type='submit' onClick={handleSubmit(onSubmit)}>
+            저장
+          </S.SaveBtn>
+        </S.BtnDiv>
       </S.MainDiv>
-      <input type='submit' onClick={handleSubmit(onSubmit)} />
-      {/* // input 태그 하나만 만들기  */}
     </div>
   );
 }
 const S = {
   MainDiv: styled.div`
     border: 2px solid ${COLOR_1.brown};
-    border-radius: 20px;
+    border-radius: 0;
     padding: 2%;
+    margin: 1%;
   `,
   CafeTypeName: styled.div`
     display: inline-block;
@@ -117,26 +127,53 @@ const S = {
       outline-color: ${COLOR_1.dark_sand};
     }
   `,
-  RemoveBtn: styled(FiMinusSquare)`
-    width: 3vw;
-    height: 3vw;
-    color: ${COLOR_1.brown};
-    font-size: ${FONT_SIZE_2.normal_6};
+  RemoveBtn: styled(FaSquareMinus)`
+    width: 20px;
+    height: 20px;
+    color: red;
     &:hover {
-      color: ${COLOR_1.dark_sand};
       cursor: pointer;
+    }
+    @media screen and (max-width: 500px) {
+      width: 15px;
+      height: 15px;
     }
   `,
-  AppendBtn: styled(FiPlusSquare)`
-    width: 3vw;
-    height: 3vw;
-    color: ${COLOR_1.brown};
-    font-size: ${FONT_SIZE_2.normal_6};
+  AppendBtn: styled(FaSquarePlus)`
+    width: 20px;
+    height: 20px;
+    color: green;
     padding: 1%;
     &:hover {
-      color: ${COLOR_1.dark_sand};
       cursor: pointer;
     }
+    @media screen and (max-width: 500px) {
+      width: 15px;
+      height: 15px;
+    }
+  `,
+  SaveBtn: styled.button`
+    min-width: 40px;
+    width: 5vw;
+    height: 3vh;
+    font-size: ${FONT_SIZE_2.small_1};
+    border-radius: 15px;
+    border: none;
+    background-color: ${COLOR_1.sand};
+    box-shadow: 2px 2px 4px ${COLOR_1.dark_brown};
+    &:active {
+      transform: translateY(2px);
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: ${COLOR_1.brown};
+      color: white;
+    }
+  `,
+  BtnDiv: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   `,
 };
 export default CafeMenuForm;
