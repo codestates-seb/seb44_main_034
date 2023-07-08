@@ -147,7 +147,9 @@ const Header = () => {
         </Link>
       </S.LogoBox>
       <S.MiddleBox>
+        <Link to='/AllPostPage'>
         <S.ListBtn>Post</S.ListBtn>
+        </Link>
         <S.ListBtn>Cafe</S.ListBtn>
       </S.MiddleBox>
       <S.UserBox ref={dropdownRef}>

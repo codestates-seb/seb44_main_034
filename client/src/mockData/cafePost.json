@@ -1,0 +1,98 @@
+{
+  "data" : {
+  "post":[
+    {"postId":1,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다. 이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":2,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 있었다. 이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":3,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다. 이것은 식당인가 카페인가",
+    "author":"카페인중독자"
+    },
+    {"postId":4,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다.",
+    "author":"카페인중독자"
+    },
+    {"postId":5,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다. 이것은 식당인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":6,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 있었다. 이것은 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":7,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다. 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":8,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":9,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이것은 카페인가 카페인가",
+    "author":"카페인중독자"
+    },
+    {"postId":10,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 카페는 없었다. 이것은 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":11,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 있었다. 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":12,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 없었다. 카페인가 카페인가",
+    "author":"카페인중독자"
+    },
+    {"postId":13,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":14,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":15,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 이런 카페는 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":16,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이런 카페는 없었다. 이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":17,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이런 카페는 없었다. 카페인가 식당인가",
+    "author":"카페인중독자"
+    },
+    {"postId":18,
+    "image":"https://cdn.pixabay.com/photo/2019/02/21/19/00/restaurant-4011989_1280.jpg",
+    "title":"이제까지 카페는 없었다. 이것은 카페인가 식당인가",
+    "author":"카페인중독자"
+    }
+    
+]
+}
+  
+}

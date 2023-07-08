@@ -1,4 +1,4 @@
-import { StoreID, atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState } from 'recoil';
 
 export type CafeType = {
   id: string;
@@ -27,12 +27,11 @@ export type PostType = {
 };
 
 export type MenuType = {
-  id: string;
+  id?: string;
   type: string;
   name: string;
   price: string;
-  isSignature: boolean;
-  comment: CommentType[];
+  comment?: CommentType[];
 };
 export type CommentType = {
   id: string;
