@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import clienticon from '../../assets/clienticon.svg';
 import ownericon from '../../assets/ownericon.svg';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
@@ -76,7 +77,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 500px;
+    height: 450px;
     width: 250px;
     border-radius: 20px 0px 0px 20px;
     background-color: ${COLOR_1.ivory};
@@ -95,7 +96,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 500px;
+    height: 450px;
     width: 250px;
     border-radius: 0px 20px 20px 0px;
     background-color: ${COLOR_1.light_green};
@@ -110,7 +111,7 @@ const S = {
     }
   `,
   SubExplain: styled.div`
-    height: 100px;
+    height: 70px;
     width: 137px;
     font-size: ${FONT_SIZE_1.normal_1};
     @media screen and (max-width: 800px) {
@@ -124,9 +125,13 @@ const S = {
   `,
   ImgBox: styled.img`
     width: 150px;
-    height: 200px;
+    height: 170px;
+    @media screen and (max-width: 800px) {
+      height: 140px;
+      width: 120px;
+    }
     @media screen and (max-width: 500px) {
-      height: 100px;
+      height: 90px;
       width: 75px;
     }
   `,
@@ -138,6 +143,7 @@ const S = {
     background-color: ${COLOR_1.dark_sand};
     color: white;
     font-size: ${FONT_SIZE_1.big_1};
+    border: solid 1px #cfcfcf;
     cursor: pointer;
 
     &:hover {
@@ -171,7 +177,9 @@ const SignupSelectBox: React.FC = () => {
           <S.SubExplain>
             가입하고,카페에 대한 포스트를 발행해보세요!
           </S.SubExplain>
-          <S.DarkSandBtn>개인 회원가입</S.DarkSandBtn>
+          <Link to='/usersignup'>
+            <S.DarkSandBtn>개인 회원가입</S.DarkSandBtn>
+          </Link>
         </S.UserSubContainer>
         <S.OwnerSubContainer>
           <S.SubTitle>사업자</S.SubTitle>
@@ -179,7 +187,9 @@ const SignupSelectBox: React.FC = () => {
           <S.SubExplain>
             사업자 회원 가입하고, 카페를 등록해보세요!
           </S.SubExplain>
-          <S.DarkSandBtn>사업자회원가입</S.DarkSandBtn>
+          <Link to='/ownersignup'>
+            <S.DarkSandBtn>사업자회원가입</S.DarkSandBtn>
+          </Link>
         </S.OwnerSubContainer>
       </S.SubBox>
     </S.Container>

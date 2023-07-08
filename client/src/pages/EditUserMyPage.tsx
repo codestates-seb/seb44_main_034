@@ -1,5 +1,7 @@
+import EditUserMyPageBox from '../components/editusermypagebox/EditUserMyPageBox';
+
 const EditUserMyPage = () => {
-  return <>로그인</>;
+  return <EditUserMyPageBox></EditUserMyPageBox>;
 };
 
 export default EditUserMyPage;
