@@ -52,7 +52,7 @@ public class Post extends BaseEntity {
     private List<Comment> comments;
 
     @Builder
-    public Post(String title, String content, int starRating, String image, Cafe cafe, Member member, List<PostTag> postTags) {
+    public Post(String title, String content, int starRating, String image, Cafe cafe, Member member, List<PostTag> postTags, List<Comment> comments) {
         this.title = title;
         this.content = content;
         this.starRating = starRating;
@@ -60,6 +60,15 @@ public class Post extends BaseEntity {
         this.cafe = cafe;
         this.member = member;
         this.postTags = postTags;
+        this.comments = comments;
+    }
+
+    public void updatePostWithTags(List<PostTag> postTags) {
+        this.postTags = postTags;
+    }
+
+    public void updatePostWithComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public void updatePost(Post post) {
@@ -67,13 +76,6 @@ public class Post extends BaseEntity {
         this.content = post.getContent();
         this.starRating = post.getStarRating();
         this.image = post.getImage();
-    }
-
-    public void setPostTags(List<PostTag> postTags) {
-        this.postTags = postTags;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+        this.postTags = post.getPostTags();
     }
 }

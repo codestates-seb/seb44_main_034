@@ -42,8 +42,7 @@ public class PostService {
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(cafe);
         Long postId = postRepository.save(post).getPostId();
-        post.setPostTags(postTagService.createPostTag(postRequest.getTags(), postId, cafe));
-
+        post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), postId, cafe));
         return postId;
     }
 
