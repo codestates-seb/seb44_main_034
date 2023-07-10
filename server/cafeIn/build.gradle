@@ -53,6 +53,8 @@ dependencies {
 	implementation "com.querydsl:querydsl-apt:5.0.0"
 
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	implementation 'com.google.code.gson:gson:2.8.8'
 }
 
 tasks.named('test') {
