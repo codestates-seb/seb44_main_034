@@ -2,7 +2,6 @@ package mainproject.cafeIn.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
-import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
@@ -40,14 +39,15 @@ public class PostService {
     @Transactional
     public Long createPost(Long loginId, Cafe cafe, PostRequest postRequest, MultipartFile multipartFile) {
 
-        List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags());
+        List<PostTag> postTags = postTagService.createSimplePostTag(postRequest.getTags());
 
         Post post = postRequest.toEntity(cafe, postTags);
 
+        Long postId = postRepository.save(post).getPostId();
 
-        // TODO : 이미지 업로드, 저장
+        postTagService.addPostTagInfo(postId, cafe);
 
-        return postRepository.save(post).getPostId();
+        return postId;
     }
 
     // 게시물 수정
@@ -56,20 +56,27 @@ public class PostService {
         // TODO: login user 검증
 
         Post post = findPostById(postId);
-
+        // 요청에 태그값이 있고
         if(postRequest.getTags() != null) {
             Optional<List<PostTag>> optionalPostTags = checkPostTag(postId);
 
+            // 현재 게시글의 태그값이 있다면
             if(optionalPostTags.isPresent()) {
+                // 현재 태그값을 삭제
                 List<PostTag> postTags = optionalPostTags.get();
                 postTagRepository.deleteInBatch(postTags);
             }
+
+            // 그리고 새로 태그를 등록
+            List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags(), postId, post.getCafe());
+            // 새로운 태그를 포함하여 게시물 수정
+            post.updatePost(postRequest.toEntity(postTags));
+
+        // 요청에 태그값이 없다면
+        } else {
+            // 태그값 변경 없이 게시물 수정
+            post.updatePost(postRequest.toEntity());
         }
-
-        List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags());
-
-        post.updatePost(postRequest.toEntity(postTags));
-
         // TODO: 이미지 수정
 
         return postId;
@@ -99,8 +106,13 @@ public class PostService {
         // 디테일 조회
         Post post = findPostById(postId);
 
+        List<String> tagNames = postTagService.getTagNamesFromPostTags(post.getPostTags());
+
+
         PostDetailResponse response = new PostDetailResponse(
                 post.getPostId(),
+                post.getCafe().getId(),
+                post.getCafe().getName(),
                 post.getMember().getId(),
                 post.getMember().getDisplayName(),
                 post.getImage(),
@@ -108,7 +120,7 @@ public class PostService {
                 post.getStarRating(),
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
-                post.getPostTags(),
+                tagNames,
                 isBookmarked
         );
 
@@ -124,8 +136,7 @@ public class PostService {
                         post.getPostId(),
                         post.getMember().getDisplayName(),
                         post.getImage(),
-                        post.getStarRating(),
-                        post.getPostTags()))
+                        post.getTitle()))
                 .collect(Collectors.toList());
 
         return new MultiPostResponse<>(posts, postPage);

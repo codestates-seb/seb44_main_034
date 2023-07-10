@@ -6,16 +6,14 @@ import java.util.List;
 
 public class PostResponse {
     private Long postId;
-    private String author;
     private String image;
-    private float starRating;
-    private List<PostTag> postTags;
+    private String title;
+    private String author;
 
-    public PostResponse(Long postId, String author, String image, float starRating, List<PostTag> postTags) {
+    public PostResponse(Long postId, String image, String title, String author) {
         this.postId = postId;
-        this.author = author;
         this.image = image;
-        this.starRating = starRating;
-        this.postTags = postTags;
+        this.title = title;
+        this.author = author;
     }
 }

@@ -32,7 +32,7 @@ public class Post extends BaseEntity {
     private String content;
 
     @Column(name = "star_rating", nullable = false)
-    private float starRating;
+    private int starRating;
 
     @Column(name = "post_image")
     private String image;
@@ -52,7 +52,7 @@ public class Post extends BaseEntity {
     private List<Comment> comments;
 
     @Builder
-    public Post(String title, String content, float starRating, String image, Cafe cafe, Member member, List<PostTag> postTags) {
+    public Post(String title, String content, int starRating, String image, Cafe cafe, Member member, List<PostTag> postTags) {
         this.title = title;
         this.content = content;
         this.starRating = starRating;

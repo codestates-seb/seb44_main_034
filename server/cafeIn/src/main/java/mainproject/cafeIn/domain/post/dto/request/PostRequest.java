@@ -22,11 +22,11 @@ public class PostRequest {
     private String content;
 
     @NotNull
-    private float starRating;
+    private int starRating;
 
     private String image;
 
-    private String tags;
+    private List<String> tags;
 
     public Post toEntity(Cafe cafe, List<PostTag> postTags) {
         return Post.builder()
@@ -46,6 +46,15 @@ public class PostRequest {
                 .starRating(starRating)
                 .image(image)
                 .postTags(postTags)
+                .build();
+    }
+
+    public Post toEntity() {
+        return Post.builder()
+                .title(title)
+                .content(content)
+                .starRating(starRating)
+                .image(image)
                 .build();
     }
 

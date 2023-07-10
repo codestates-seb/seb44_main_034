@@ -30,12 +30,20 @@ public class PostTag {
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 
-    @OneToMany(mappedBy = "tag_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 
+//    @Builder
+//    public PostTag(Tag tag) {
+//        this.tag = tag;
+//    }
+
     @Builder
-    public PostTag(Tag tag) {
+    public PostTag(Post post, Cafe cafe, Tag tag) {
         this.tag = tag;
+        this.cafe = cafe;
+        this.post = post;
     }
 
     public void setPost(Post post) {

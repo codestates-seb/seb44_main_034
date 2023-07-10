@@ -6,10 +6,10 @@ import mainproject.cafeIn.domain.post.entity.Post;
 import mainproject.cafeIn.domain.post.service.PostService;
 import mainproject.cafeIn.domain.tag.entity.PostTag;
 import mainproject.cafeIn.domain.tag.repsitory.PostTagRepository;
-import mainproject.cafeIn.domain.tag.entity.Tag;
 import mainproject.cafeIn.domain.tag.repsitory.TagRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -22,24 +22,39 @@ public class PostTagService {
     private final TagRepository tagRepository;
     private final PostTagRepository postTagRepository;
 
-    public List<PostTag> createPostTag (String tagString) {
-        List<String> tagNames = parseTags(tagString);
+    public List<PostTag> createSimplePostTag(List<String> tags) {
 
         // 반복문으로 PostTag 생성
-        for(String tagName : tagNames) {
-            postTagRepository.save(
-                    PostTag.builder()
-                    .tag(tagRepository.findByName(tagName))
-                    .build()
-            );
-        }
-
-        List<PostTag> postTag = tagNames
-                .stream()
-                .map(name -> postTagRepository.findByName(name))
+        List<PostTag> postTags = tags.stream()
+                .map(name -> PostTag.builder().tag(tagRepository.findByName(name)).build())
+                .peek(postTagRepository::save)
                 .collect(Collectors.toList());
 
-        return postTag;
+        return postTags;
+    }
+
+    public List<PostTag> createPostTag(List<String> tags, Long postId, Cafe cafe) {
+        Post post = postService.findPostById(postId);
+
+        List<PostTag> postTags = new ArrayList<>();
+        for (String tagName : tags) {
+            PostTag postTag = PostTag.builder()
+                    .tag(tagRepository.findByName(tagName))
+                    .cafe(cafe)
+                    .post(post)
+                    .build();
+            postTags.add(postTag);
+        }
+
+        return postTags;
+    }
+
+    public List<String> getTagNamesFromPostTags(List<PostTag> postTags) {
+        List<String> tagNames = postTags.stream()
+                .map(postTag -> postTag.getTag().getName())
+                .collect(Collectors.toList());
+
+        return tagNames;
     }
 
     public void addPostTagInfo(Long postId, Cafe cafe) {
@@ -49,10 +64,5 @@ public class PostTagService {
             postTag.setPost(post);
             postTag.setCafe(cafe);
         });
-    }
-
-    private List<String> parseTags(String tagString) {
-
-        return Arrays.asList(tagString.split(","));
     }
 }

@@ -8,21 +8,26 @@ import java.util.List;
 
 public class PostDetailResponse {
     private Long postId;
+    private Long cafeId;
+    private String cafeName;
     private Long authorId;
     private String author;
     private String image;
     private String content;
-    private float starRating;
+    private int starRating;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private List<PostTag> postTags;
+    private List<String> tagNames;
     private Boolean isBookmarked;
 
     // 기능 미완성
     // private List<Comment> comments;
 
-    public PostDetailResponse(Long postId, Long authorId, String author, String image, String content, float starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<PostTag> postTags, Boolean isBookmarked) {
+
+    public PostDetailResponse(Long postId, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked) {
         this.postId = postId;
+        this.cafeId = cafeId;
+        this.cafeName = cafeName;
         this.authorId = authorId;
         this.author = author;
         this.image = image;
@@ -30,7 +35,7 @@ public class PostDetailResponse {
         this.starRating = starRating;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.postTags = postTags;
+        this.tagNames = tagNames;
         this.isBookmarked = isBookmarked;
     }
 }

@@ -40,8 +40,6 @@ public class PostController {
 
         Long postId = postService.createPost(loginId, cafe, request, multipartFile);
 
-        postTagService.addPostTagInfo(postId, cafe);
-
         return new ApplicationResponse<>(postId);
     }
 
