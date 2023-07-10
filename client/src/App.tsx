@@ -30,10 +30,10 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   min-height: 700px;
-  height: 100vh;
+  /* height: 100vh; */
   width: 100vw;
   @media screen and (max-width: 500px) {
-    height: 100vh;
+    /* height: 100vh; */
     min-height: 400px;
   }
 `;

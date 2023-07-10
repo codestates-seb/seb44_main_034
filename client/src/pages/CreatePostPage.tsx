@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import SunEditor from 'suneditor-react';
+import 'suneditor/dist/css/suneditor.min.css';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 // import { CiCoffeeBean } from "react-icons/ci";
@@ -45,13 +47,13 @@ const CreatePostPage = () => {
             onChange={handleFileChange}
           ></S.AddImg>
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
-          <S.TextInput type='text'></S.TextInput>
+          <SunEditor height='300px' />
           <S.BtnWrap>
             <ConfirmBtn>출간하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(
-                  '지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?'
+                  `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
                 );
               }}
             >
@@ -67,17 +69,26 @@ const CreatePostPage = () => {
 const S = {
   Container: styled.div`
     display: flex;
-    height: 1000px;
-    margin: 10%;
+    min-height: 1000px;
+    margin: 5%;
     > form {
-      height: 1000px;
+      min-height: 1000px;
+      @media screen and (max-width: 500px) {
+      min-height: 1100px;
+  }
       > div {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        height: 1000px;
+        min-height: 1000px;
+        @media screen and (max-width: 500px) {
+      min-height: 1100px;
+  }
       }
     }
+    @media screen and (max-width: 500px) {
+      min-height: 1100px;
+  }
   `,
   MoodAskWrap: styled.div`
     text-align: left;
@@ -120,9 +131,6 @@ const S = {
     cursor: pointer;
   `,
   AddImg: styled.input``,
-  TextInput: styled.input`
-    height: 300px;
-  `,
   BtnWrap: styled.div`
     display: flex;
     justify-content: flex-start;
