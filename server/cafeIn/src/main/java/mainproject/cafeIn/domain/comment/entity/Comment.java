@@ -21,6 +21,7 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id", nullable = false, updatable = false)
     private Long id;
 
+    // 공통 필드
     @Column(name = "content", nullable = false)
     private String content;
 
@@ -32,8 +33,6 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private boolean isReply;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
@@ -42,16 +41,16 @@ public class Comment extends BaseEntity {
     private List<Comment> replies;
 
     @Builder
-    public Comment(String content, Post post, Member member, boolean isReply, Comment parentComment, List<Comment> replies) {
+    public Comment(String content, Post post, Member member, Comment parentComment, List<Comment> replies) {
         this.content = content;
         this.post = post;
         this.member = member;
-        this.isReply = isReply;
         this.parentComment = parentComment;
         this.replies = replies;
     }
 
     public void updateComment(Comment comment) {
+
         this.content = comment.getContent();
     }
 }

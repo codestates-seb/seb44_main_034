@@ -35,50 +35,26 @@ public class PostService {
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
 
-    // 게시물 생성
+    // 게시물 생성(+ PostTag 생성)
     @Transactional
-    public Long createPost(Long loginId, Cafe cafe, PostRequest postRequest, MultipartFile multipartFile) {
-
-        List<PostTag> postTags = postTagService.createSimplePostTag(postRequest.getTags());
-
-        Post post = postRequest.toEntity(cafe, postTags);
-
+    public Long createPost(Long loginId, Long cafeId, PostRequest postRequest, MultipartFile multipartFile) {
+        // TODO: login user 검증
+        Cafe cafe = cafeService.findCafeById(cafeId);
+        Post post = postRequest.toEntity(cafe);
         Long postId = postRepository.save(post).getPostId();
-
-        postTagService.addPostTagInfo(postId, cafe);
+        post.setPostTags(postTagService.createPostTag(postRequest.getTags(), postId, cafe));
 
         return postId;
     }
 
-    // 게시물 수정
+    // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
     public Long updatePost(Long loginId, Long postId, PostRequest postRequest, MultipartFile multipartFile) {
         // TODO: login user 검증
-
         Post post = findPostById(postId);
-        // 요청에 태그값이 있고
-        if(postRequest.getTags() != null) {
-            Optional<List<PostTag>> optionalPostTags = checkPostTag(postId);
-
-            // 현재 게시글의 태그값이 있다면
-            if(optionalPostTags.isPresent()) {
-                // 현재 태그값을 삭제
-                List<PostTag> postTags = optionalPostTags.get();
-                postTagRepository.deleteInBatch(postTags);
-            }
-
-            // 그리고 새로 태그를 등록
-            List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags(), postId, post.getCafe());
-            // 새로운 태그를 포함하여 게시물 수정
-            post.updatePost(postRequest.toEntity(postTags));
-
-        // 요청에 태그값이 없다면
-        } else {
-            // 태그값 변경 없이 게시물 수정
-            post.updatePost(postRequest.toEntity());
-        }
+        updatePostTags(postId, postRequest, post);
+        post.updatePost(postRequest.toEntity());
         // TODO: 이미지 수정
-
         return postId;
     }
 
@@ -88,27 +64,21 @@ public class PostService {
         // TODO: login user 검증
         // TODO: password 검증
         Post post = findPostById(postId);
-
         Long cafeId = post.getCafe().getId();
-
         postRepository.delete(post);
-
         return cafeId;
     }
 
     // 게시물 단일 조회
     public PostDetailResponse findPost(Long loginId, Long postId) {
-        // 북마크 조회
-        Boolean isBookmarked = postBookmarkRepository.findByMemberIdAndPostId(loginId, postId)
-                .map(postBookmark -> true)
-                .orElse(false);
-
-        // 디테일 조회
+        Boolean isBookmarked = false;
+        if (loginId != null) {
+            isBookmarked = postBookmarkRepository.findByMemberIdAndPostId(loginId, postId)
+                    .map(postBookmark -> true)
+                    .orElse(false);
+        }
         Post post = findPostById(postId);
-
-        List<String> tagNames = postTagService.getTagNamesFromPostTags(post.getPostTags());
-
-
+        List<String> tagNames = postTagService.getTagNames(postId);
         PostDetailResponse response = new PostDetailResponse(
                 post.getPostId(),
                 post.getCafe().getId(),
@@ -121,9 +91,7 @@ public class PostService {
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 tagNames,
-                isBookmarked
-        );
-
+                isBookmarked);
         return response;
     }
 
@@ -138,21 +106,24 @@ public class PostService {
                         post.getImage(),
                         post.getTitle()))
                 .collect(Collectors.toList());
-
         return new MultiPostResponse<>(posts, postPage);
     }
 
     // 아이디로 게시물 조회
     public Post findPostById(Long postId) {
-
         return postRepository.findById(postId)
                 .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
-    // 게시물 태그 조회
-    public Optional<List<PostTag>> checkPostTag(Long postId) {
-        Optional<List<PostTag>> optionalPostTags = postTagRepository.findPostTagsByPostPostId(postId);
-
-        return optionalPostTags;
+    // postTag 업데이트 로직 분리
+    public void updatePostTags(Long postId, PostRequest postRequest, Post post) {
+        if (postRequest.getTags() != null) {
+            Optional<List<PostTag>> optionalPostTags = postTagRepository.findPostTagsByPostPostId(postId);
+            if (optionalPostTags.isPresent()) {
+                List<PostTag> postTags = optionalPostTags.get();
+                postTagRepository.deleteInBatch(postTags);
+            }
+            List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags(), postId, post.getCafe());
+        }
     }
 }

@@ -67,7 +67,13 @@ public class Post extends BaseEntity {
         this.content = post.getContent();
         this.starRating = post.getStarRating();
         this.image = post.getImage();
-        this.postTags = post.getPostTags();
     }
 
+    public void setPostTags(List<PostTag> postTags) {
+        this.postTags = postTags;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 }

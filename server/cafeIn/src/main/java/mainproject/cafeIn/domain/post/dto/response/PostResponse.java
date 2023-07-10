@@ -1,9 +1,5 @@
 package mainproject.cafeIn.domain.post.dto.response;
 
-import mainproject.cafeIn.domain.tag.entity.PostTag;
-
-import java.util.List;
-
 public class PostResponse {
     private Long postId;
     private String image;

@@ -22,47 +22,24 @@ public class PostTagService {
     private final TagRepository tagRepository;
     private final PostTagRepository postTagRepository;
 
-    public List<PostTag> createSimplePostTag(List<String> tags) {
-
-        // 반복문으로 PostTag 생성
-        List<PostTag> postTags = tags.stream()
-                .map(name -> PostTag.builder().tag(tagRepository.findByName(name)).build())
-                .peek(postTagRepository::save)
-                .collect(Collectors.toList());
-
-        return postTags;
-    }
-
     public List<PostTag> createPostTag(List<String> tags, Long postId, Cafe cafe) {
         Post post = postService.findPostById(postId);
-
-        List<PostTag> postTags = new ArrayList<>();
-        for (String tagName : tags) {
-            PostTag postTag = PostTag.builder()
-                    .tag(tagRepository.findByName(tagName))
-                    .cafe(cafe)
-                    .post(post)
-                    .build();
-            postTags.add(postTag);
-        }
-
+        List<PostTag> postTags = tags.stream()
+                .map(name -> PostTag.builder()
+                        .tag(tagRepository.findByName(name))
+                        .cafe(cafe)
+                        .post(post)
+                        .build())
+                .peek(postTagRepository::save)
+                .collect(Collectors.toList());
         return postTags;
     }
 
-    public List<String> getTagNamesFromPostTags(List<PostTag> postTags) {
+    public List<String> getTagNames(Long postId) {
+        List<PostTag> postTags = postTagRepository.findPostTagsByPostPostId(postId).get();
         List<String> tagNames = postTags.stream()
                 .map(postTag -> postTag.getTag().getName())
                 .collect(Collectors.toList());
-
         return tagNames;
-    }
-
-    public void addPostTagInfo(Long postId, Cafe cafe) {
-        Post post = postService.findPostById(postId);
-        Optional<List<PostTag>> optionalPostTags = postService.checkPostTag(postId);
-        optionalPostTags.get().stream().forEach(postTag -> {
-            postTag.setPost(post);
-            postTag.setCafe(cafe);
-        });
     }
 }
