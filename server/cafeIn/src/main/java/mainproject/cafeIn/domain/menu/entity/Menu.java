@@ -1,12 +1,22 @@
 package mainproject.cafeIn.domain.menu.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.menu.entity.enums.MenuType;
+import mainproject.cafeIn.domain.menucomment.entity.MenuComment;
+import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,6 +34,7 @@ public class Menu {
     @Column(name = "price")
     private Integer price;
 
+    @Enumerated(STRING)
     @Column(name = "menu_type")
     private MenuType menuType;
 
@@ -31,21 +42,16 @@ public class Menu {
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
+    @OnDelete(action = CASCADE)
+    @OneToMany(cascade = PERSIST)
+    private List<MenuComment> menuComments = new ArrayList<>();
+
     @Builder
     public Menu(String name, Integer price, MenuType menuType, Cafe cafe) {
         this.name = name;
         this.price = price;
         this.menuType = menuType;
         this.cafe = cafe;
-    }
-
-    public static Menu of(String name, Integer price, MenuType menuType, Cafe cafe) {
-        return Menu.builder()
-                .name(name)
-                .price(price)
-                .menuType(menuType)
-                .cafe(cafe)
-                .build();
     }
 
     public void updateMenu(Menu menu) {

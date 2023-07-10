@@ -3,10 +3,9 @@ package mainproject.cafeIn.domain.menu.dto.request;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.menu.entity.enums.MenuType;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,6 +21,15 @@ public class MenuRequest {
                 .name(name)
                 .price(price)
                 .menuType(menuType)
+                .build();
+    }
+
+    public Menu toEntity(Cafe cafe) {
+        return Menu.builder()
+                .name(name)
+                .price(price)
+                .menuType(menuType)
+                .cafe(cafe)
                 .build();
     }
 }

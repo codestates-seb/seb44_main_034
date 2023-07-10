@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static mainproject.cafeIn.global.exception.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,11 +28,10 @@ public class MenuService {
     public void createMenu(Long loginId, Long cafeId, List<MenuRequest> menuRequests) {
         // TODO: login user 검증
         Cafe cafe = cafeService.findCafeById(cafeId);
-        List<Menu> menus = menuRequestToMenu(menuRequests);
+        List<Menu> menus = menuRequestToMenu(menuRequests, cafe);
 
         for (Menu menu : menus) {
-            Menu result = Menu.of(menu.getName(), menu.getPrice(), menu.getMenuType(), cafe);
-            menuRepository.save(result);
+            menuRepository.save(menu);
         }
     }
 
@@ -54,14 +55,16 @@ public class MenuService {
         return menuRepository.getMenu(menuId);
     }
 
-    private List<Menu> menuRequestToMenu(List<MenuRequest> menuRequests) {
+    private List<Menu> menuRequestToMenu(List<MenuRequest> menuRequests, Cafe cafe) {
+
         return menuRequests.stream()
-                .map(menu -> menu.toEntity())
+                .map(menu -> menu.toEntity(cafe))
                 .collect(Collectors.toList());
     }
 
-    private Menu findMenuById(Long menuId) {
+    public Menu findMenuById(Long menuId) {
+
         return menuRepository.findById(menuId)
-                .orElseThrow(() -> new CustomException(ErrorCode.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CustomException(MENU_NOT_FOUND));
     }
 }
