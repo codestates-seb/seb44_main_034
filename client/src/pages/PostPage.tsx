@@ -38,7 +38,6 @@ const PostPage = () => {
 
       </div>
 
-
     </S.Container>
   )
 }
