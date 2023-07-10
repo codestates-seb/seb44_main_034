@@ -4,9 +4,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.owner.entity.Owner;
 
 import javax.validation.constraints.NotNull;
-import java.security.acl.Owner;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
