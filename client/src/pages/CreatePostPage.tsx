@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import styled from 'styled-components';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -10,10 +12,17 @@ import { ConfirmBtn } from '../common/button/button';
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
 import { PostItemAtom } from '../recoil/postState';
+import { useMutation } from '@tanstack/react-query';
 
 const CreatePostPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState(PostItemAtom);
+
+//api
+const saveImage = async(formData: FormData) => {
+  return (await axios.post('/api/postId', formData)).data;
+}
+const saveImageMutation = useMutation((formData: FormData)=> saveImage(formData), {})
 
   const submitPost = () {
     setDisabled(true);
@@ -24,6 +33,7 @@ const CreatePostPage = () => {
     const fileList = event.target.files;
     if (fileList) {
       // 파일 처리 로직을 여기에 추가하세요
+      const formData = new FormData();
       console.log(fileList);
     }
   };
@@ -55,6 +65,7 @@ const CreatePostPage = () => {
           <S.AddImg
             id='file-upload'
             type='file'
+            accept='image/*'
             onChange={handleFileChange}
           ></S.AddImg>
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
