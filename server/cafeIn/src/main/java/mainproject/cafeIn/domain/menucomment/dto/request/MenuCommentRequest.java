@@ -1,12 +1,12 @@
 package mainproject.cafeIn.domain.menucomment.dto.request;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.menucomment.entity.MenuComment;
 
-import static lombok.AccessLevel.*;
+import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @NoArgsConstructor(access = PROTECTED)

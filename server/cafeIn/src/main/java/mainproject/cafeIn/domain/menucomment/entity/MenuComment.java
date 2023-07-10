@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.global.base.BaseEntity;
 
