@@ -26,8 +26,8 @@ public class ErrorResponder {
         Gson gson = new Gson();
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .errorCode(ErrorCode.USER_ACCESS_DENIED)
-                .message(ErrorCode.USER_ACCESS_DENIED.getMessage())
+                .errorCode(ErrorCode.NONE_AUTHORIZATION_TOKEN)
+                .message(ErrorCode.NONE_AUTHORIZATION_TOKEN.getMessage())
                 .build();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.FORBIDDEN.value());
