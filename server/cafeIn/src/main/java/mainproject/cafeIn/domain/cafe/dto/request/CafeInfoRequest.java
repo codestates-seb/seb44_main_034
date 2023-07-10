@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 
 import javax.validation.constraints.NotNull;
+import java.security.acl.Owner;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,6 +56,25 @@ public class CafeInfoRequest {
                 .isPetFriendly(isPetFriendly)
                 .hasParking(hasParking)
                 .hasDessert(hasDessert)
+                .build();
+    }
+
+    public Cafe toEntity(Owner owner) {
+        return Cafe.builder()
+                .name(name)
+                .address(address)
+                .contact(contact)
+                .latitude(latitude)
+                .longitude(longitude)
+                .notice(notice)
+                .openTime(openTime)
+                .closeTime(closeTime)
+                .isOpenAllTime(isOpenAllTime)
+                .isChargingAvailable(isChargingAvailable)
+                .isPetFriendly(isPetFriendly)
+                .hasParking(hasParking)
+                .hasDessert(hasDessert)
+                .owner(owner)
                 .build();
     }
 }
