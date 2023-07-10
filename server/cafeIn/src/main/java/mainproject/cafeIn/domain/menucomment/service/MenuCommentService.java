@@ -1,16 +1,17 @@
 package mainproject.cafeIn.domain.menucomment.service;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.menu.entity.Menu;
+import mainproject.cafeIn.domain.menu.service.MenuService;
+import mainproject.cafeIn.domain.menucomment.dto.request.MenuCommentRequest;
 import mainproject.cafeIn.domain.menucomment.entity.MenuComment;
 import mainproject.cafeIn.domain.menucomment.repository.MenuCommentRepository;
 import mainproject.cafeIn.global.exception.CustomException;
-import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.*;
-
-import static mainproject.cafeIn.global.exception.ErrorCode.*;
+import static mainproject.cafeIn.global.exception.ErrorCode.COMMENT_NOT_FOUND;
+import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
 
 @Service
 @RequiredArgsConstructor
@@ -21,19 +22,19 @@ public class MenuCommentService {
     private final MenuCommentRepository menuCommentRepository;
 
     @Transactional
-    public void createMenuComment(Long loginId, Long menuId, MenuComment comment) {
+    public void createMenuComment(Long loginId, Long menuId, MenuCommentRequest request) {
         Member member = memberService.findMemberById(loginId);
         Menu menu = menuService.findMenuById(menuId);
         existMenuComment(loginId, menuId);
 
-        menuCommentRepository.save(MenuComment.of(comment.getContent(), member, menu));
+        menuCommentRepository.save(request.toEntity(member, menu));
     }
 
     @Transactional
-    public Long updateMenuComment(Long loginId, Long commentId, MenuComment comment) {
+    public Long updateMenuComment(Long loginId, Long commentId, MenuCommentRequest request) {
         Member member = memberService.findMemberById(loginId);
         MenuComment menuComment = findMenuCommentById(commentId);
-        menuComment.update(comment);
+        menuComment.update(request.getContent());
 
         return menuComment.getMenu().getId();
     }
@@ -48,10 +49,10 @@ public class MenuCommentService {
         return menuId;
     }
 
-    private MenuComment findMenuCommentById(Long commentId) {
-        // TODO: ErrorCode 수정
+    public MenuComment findMenuCommentById(Long commentId) {
+
         return menuCommentRepository.findById(commentId)
-                .orElseThrow(() -> new CustomException(INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
     }
     private void existMenuComment(Long memberId, Long menuId) {
         // TODO: ErrorCode 수정

@@ -4,11 +4,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.global.base.BaseEntity;
 
 import javax.persistence.*;
-
-import java.awt.*;
 
 import static javax.persistence.FetchType.*;
 
@@ -38,14 +37,6 @@ public class MenuComment extends BaseEntity {
         this.content = content;
         this.member = member;
         this.menu = menu;
-    }
-
-    public static MenuComment of(String content, Member member, Menu menu) {
-        return MenuComment.builder()
-                .content(content)
-                .member(member)
-                .menu(menu)
-                .build();
     }
 
     public void update(String content) {
