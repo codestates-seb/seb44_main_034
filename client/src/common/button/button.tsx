@@ -12,7 +12,8 @@ export type ButtonType = {
   hoverable?: boolean;
   backgroundcolor?: string;
 };
-export const ConfirmBtn = styled.div`
+//수정 필요함
+export const ConfirmBtn = styled.button`
   width: 4vw;
   min-width: 100px;
   height: 1vh;

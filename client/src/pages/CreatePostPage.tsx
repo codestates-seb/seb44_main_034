@@ -1,14 +1,25 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+import { useRecoilState } from 'recoil';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 // import { CiCoffeeBean } from "react-icons/ci";
 import { ConfirmBtn } from '../common/button/button';
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
+import { PostItemAtom } from '../recoil/postState';
 
 const CreatePostPage = () => {
+  const [disabled, setDisabled] = useState(false);
+  const [postData, setPostData] = useRecoilState(PostItemAtom);
+
+  const submitPost = () {
+    setDisabled(true);
+    setPostData(postData);
+  }
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList) {
@@ -49,7 +60,7 @@ const CreatePostPage = () => {
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <SunEditor height='300px' />
           <S.BtnWrap>
-            <ConfirmBtn>출간하기</ConfirmBtn>
+            <ConfirmBtn type='submit' onClick={()=>{submitPost}} disabled={disabled}>출간하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(
