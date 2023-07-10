@@ -2,19 +2,21 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import axios from 'axios';
 
 const S = {
   Container: styled.div`
-    height: 700px;
-    width: 500px;
+    margin-top: 20px;
+    height: 500px;
+    width: 400px;
     @media screen and (max-width: 500px) {
       height: 350px;
-      width: 250px;
+      width: 300px;
     }
   `,
   MainBox: styled.div`
     height: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     @media screen and (max-width: 500px) {
       height: 25px;
       margin-bottom: 25px;
@@ -24,24 +26,26 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 600px;
-    width: 500px;
+    height: 500px;
+    width: 400px;
     border-radius: 20px;
-    background-color: ${COLOR_1.sand};
+    border: solid 1px #cfcfcf;
+    background-color: ${COLOR_1.ivory};
     @media screen and (max-width: 500px) {
-      height: 375px;
-      width: 250px;
+      height: 320px;
+      width: 300px;
     }
   `,
   SubMiniBox: styled.div`
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 550px;
-    width: 250px;
+    height: 400px;
+    width: 350px;
+    margin-top: 10px;
     @media screen and (max-width: 500px) {
       height: 375px;
-      width: 150px;
+      width: 250px;
     }
   `,
   MainTitle: styled.div`
@@ -54,7 +58,7 @@ const S = {
   `,
   SubTitle: styled.label`
     height: 20px;
-    margin-top: 20px;
+    margin-top: 5px;
     margin-bottom: 5px;
     font-size: ${FONT_SIZE_1.normal_3};
     @media screen and (max-width: 500px) {
@@ -64,6 +68,7 @@ const S = {
   `,
   InputInformation: styled.p`
     height: 10px;
+    color: ${COLOR_1.light_red};
     font-size: ${FONT_SIZE_1.small_2};
     @media screen and (max-width: 500px) {
       font-size: 5px;
@@ -71,13 +76,14 @@ const S = {
   `,
   DarkSandBtn: styled.button`
     height: 50px;
-    width: 250px;
+    width: 350px;
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
     font-size: 20px;
     margin-bottom: 40px;
+    border: solid 1px #cfcfcf;
     cursor: pointer;
 
     &:hover {
@@ -87,8 +93,8 @@ const S = {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
     @media screen and (max-width: 500px) {
-      height: 25px;
-      width: 150px;
+      height: 35px;
+      width: 250px;
       border-radius: 7px;
       border: none;
       background-color: dark_sand;
@@ -98,28 +104,28 @@ const S = {
     }
   `,
   InputBox: styled.input`
-    height: 50px;
-    width: 250px;
-    border-radius: 15px;
+    height: 60px;
+    width: 350px;
+    border-radius: 5px;
     border: solid 1px #a5a5a5;
-    background-color: ${COLOR_1.green};
+    background-color: ${COLOR_1.white};
     cursor: pointer;
 
     &:hover {
-      background-color: #c6cbb2;
+      background-color: #efefef;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
     @media screen and (max-width: 500px) {
-      height: 25px;
-      width: 150px;
+      height: 20px;
+      width: 250px;
     }
   `,
 };
 
-const UserSignup = () => {
-  const [id, setId] = useState<string>('');
+const UserSignupBox = () => {
+  const [email, setEmail] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
@@ -137,11 +143,12 @@ const UserSignup = () => {
 
   const onChangeId = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentId = event.target.value;
-    setId(currentId);
-    const idRegExp = /^[a-zA-z0-9]{4,12}$/;
+    setEmail(currentId);
+    const idRegExp =
+      /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
 
     if (!idRegExp.test(currentId)) {
-      setIdMessage('4-12사이 대소문자 또는 숫자만 입력해 주세요!');
+      setIdMessage('이메일 형식에 맞게 작성해주세요');
       setIsId(false);
     } else {
       setIdMessage('사용가능한 아이디 입니다.');
@@ -183,11 +190,33 @@ const UserSignup = () => {
     const currentPasswordConfirm = event.target.value;
     setPasswordConfirm(currentPasswordConfirm);
     if (password !== currentPasswordConfirm) {
-      setPasswordConfirmMessage('떼잉~ 비밀번호가 똑같지 않아요!');
+      setPasswordConfirmMessage('비밀번호가 일치하지 않습니다');
       setIsPasswordConfirm(false);
     } else {
-      setPasswordConfirmMessage('똑같은 비밀번호를 입력했습니다.');
+      setPasswordConfirmMessage('');
       setIsPasswordConfirm(true);
+    }
+  };
+  const register = () => {
+    if (isId && isname && isPassword && isPasswordConfirm) {
+      axios
+        .post('http://43.201.232.213:8080/members', {
+          email: email,
+          password: password,
+          displayName: displayName,
+        })
+        .then((response) => {
+          // Handle success.
+          console.log('Well done!');
+          console.log('User profile', response);
+          alert('가입이 완료되었습니디.');
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log('An error occurred:', error.response);
+        });
+    } else {
+      alert('공백없이 입력바랍니다.');
     }
   };
   return (
@@ -197,8 +226,12 @@ const UserSignup = () => {
       </S.MainBox>
       <S.SubBox>
         <S.SubMiniBox>
-          <S.SubTitle htmlFor='id'>아이디</S.SubTitle>
-          <S.InputBox id='id' value={id} onChange={onChangeId}></S.InputBox>
+          <S.SubTitle htmlFor='email'>이메일</S.SubTitle>
+          <S.InputBox
+            id='email'
+            value={email}
+            onChange={onChangeId}
+          ></S.InputBox>
           <S.InputInformation>{idMessage}</S.InputInformation>
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
@@ -224,10 +257,16 @@ const UserSignup = () => {
           ></S.InputBox>
           <S.InputInformation>{passwordConfirmMessage}</S.InputInformation>
         </S.SubMiniBox>
-        <S.DarkSandBtn>회원가입</S.DarkSandBtn>
+        <S.DarkSandBtn
+          onClick={() => {
+            register();
+          }}
+        >
+          회원가입
+        </S.DarkSandBtn>
       </S.SubBox>
     </S.Container>
   );
 };
 
-export default UserSignup;
+export default UserSignupBox;

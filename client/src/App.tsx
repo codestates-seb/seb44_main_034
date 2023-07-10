@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
 import './App.css';
 import { RecoilRoot } from 'recoil';
-import Styled, { styled } from 'styled-components';
+import { styled } from 'styled-components';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import Main from './pages/Main';
@@ -20,23 +21,23 @@ import EditUserMyPage from './pages/EditUserMyPage';
 import PostPage from './pages/PostPage';
 import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
-import CreateInformationCafe from './pages/CreateInformationCafe';
-import CreateMenuCafe from './pages/CreateMenuCafe';
 import AllPostPage from './pages/AllPostPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
-
+import AddCafeMenuPage from './pages/AddCafeMenuPage';
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
   min-height: 700px;
+  height: 100vh;
   width: 100vw;
   @media screen and (max-width: 500px) {
+    height: 100vh;
     min-height: 400px;
-    width: 100vw;
   }
 `;
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -57,9 +58,9 @@ function App() {
             <Route path='/cafepage/:id' element={<CafePage />} />
             <Route
               path='/cafepage/create/information'
-              element={<CreateInformationCafe />}
+              element={<AddCafeInfoPage />}
             />
-            <Route path='/cafepage/create/menu' element={<CreateMenuCafe />} />
+            <Route path='/cafepage/create/menu' element={<AddCafeMenuPage />} />
             <Route
               path='/cafepage/edit/information/:id'
               element={<EditInformationCafe />}

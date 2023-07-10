@@ -16,6 +16,7 @@ const S = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
   `,
   ButtonDiv: styled.div`
     display: flex;

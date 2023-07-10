@@ -1,5 +1,11 @@
+import UserSignupBox from '../components/usersignupbox/UserSignupBox';
+
 const UserSignup = () => {
-  return <>메인</>;
+  return (
+    <>
+      <UserSignupBox></UserSignupBox>
+    </>
+  );
 };
 
 export default UserSignup;

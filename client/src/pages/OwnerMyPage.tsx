@@ -1,5 +1,7 @@
+import OwnerMyPageBox from '../components/ownermypagebox/OwnerMyPageBox';
+
 const OwnerMyPage = () => {
-  return <>메인</>;
+  return <OwnerMyPageBox></OwnerMyPageBox>;
 };
 
 export default OwnerMyPage;
