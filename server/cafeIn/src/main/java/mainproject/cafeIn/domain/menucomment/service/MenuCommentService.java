@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.menucomment.service;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.menu.service.MenuService;
 import mainproject.cafeIn.domain.menucomment.dto.request.MenuCommentRequest;
@@ -9,6 +10,8 @@ import mainproject.cafeIn.domain.menucomment.repository.MenuCommentRepository;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static mainproject.cafeIn.global.exception.ErrorCode.COMMENT_NOT_FOUND;
 import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
@@ -25,7 +28,10 @@ public class MenuCommentService {
     public void createMenuComment(Long loginId, Long menuId, MenuCommentRequest request) {
         Member member = memberService.findMemberById(loginId);
         Menu menu = menuService.findMenuById(menuId);
-        existMenuComment(loginId, menuId);
+        Optional<Long> commentId = findMenuCommentByMemberIdAndMenuId(loginId, menuId);
+        if (commentId.isPresent()) {
+            menuCommentRepository.deleteById(commentId.get());
+        }
 
         menuCommentRepository.save(request.toEntity(member, menu));
     }
@@ -54,10 +60,9 @@ public class MenuCommentService {
         return menuCommentRepository.findById(commentId)
                 .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
     }
-    private void existMenuComment(Long memberId, Long menuId) {
-        // TODO: ErrorCode 수정
-        if (menuCommentRepository.existsMenuCommentByMemberIdAndMenuId(memberId, menuId)) {
-            throw new CustomException(INTERNAL_SERVER_ERROR);
-        }
+
+    private Optional<Long> findMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId) {
+
+        return menuCommentRepository.findMenuCommentByMemberIdAndMenuId(memberId, menuId);
     }
 }
