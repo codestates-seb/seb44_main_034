@@ -84,7 +84,7 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 
         boolean hasNext = false;
 
-        if(results.size() > pageable.getPageSize()) {
+        if (results.size() > pageable.getPageSize()) {
             hasNext = true;
             results.remove(pageable.getPageSize());
         }
