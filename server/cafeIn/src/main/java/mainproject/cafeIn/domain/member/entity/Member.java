@@ -76,4 +76,8 @@ public class Member extends BaseEntity {
 
         this.image = image;
     }
+
+    public void deleteStatus(MemberStatus status) {
+        this.status = status;
+    }
 }
