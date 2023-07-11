@@ -3,25 +3,16 @@ import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../common';
 
 type PlusBtnProps = {
   text: string;
-<<<<<<< HEAD
   handleEvent: ()=>void;
 }
 
 const PlusBtn = ({text, handleEvent}:PlusBtnProps) => {
-
   return (
   <S.PlusBtn onClick={() => {handleEvent}} >
     {text}
   </S.PlusBtn>
   )
 }
-=======
-};
-
-const PlusBtn = ({ text }: PlusBtnProps) => {
-  return <S.PlusBtn>{text}</S.PlusBtn>;
-};
->>>>>>> 82c568867669164b408661c49ea4aaa982860958
 
 const S = {
   PlusBtn: styled.button`
