@@ -8,7 +8,6 @@ import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.global.base.BaseEntity;
 import mainproject.cafeIn.global.exception.CustomException;
-import mainproject.cafeIn.global.exception.ErrorCode;
 import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
@@ -19,8 +18,8 @@ import java.util.regex.Pattern;
 
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
-import static mainproject.cafeIn.global.exception.ErrorCode.*;
 import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
+import static mainproject.cafeIn.global.exception.ErrorCode.NONE_AUTHORIZATION_TOKEN;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
