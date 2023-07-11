@@ -9,6 +9,7 @@ export const COLOR_1: {
   black: string;
   white: string;
   light_red: string;
+  light_gray: string;
 } = {
   green: '#CED5B2',
   light_green: '#EAEDCC',
@@ -20,6 +21,7 @@ export const COLOR_1: {
   black: '#000000',
   white: '#FFFFFF',
   light_red: '#FF7171',
+  light_gray: '#cfcfcf',
 };
 export const FONT_SIZE_1: {
   normal_1: string;

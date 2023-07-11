@@ -1,5 +1,5 @@
-import {useState, useEffect} from 'react';
 import { useRecoilState } from 'recoil';
+import { useState, useEffect } from 'react';
 import MoodTag from '../../common/tags/MoodTag';
 import { tagName } from '../../common/tagName';
 import { PostItemAtom } from '../../recoil/postState';

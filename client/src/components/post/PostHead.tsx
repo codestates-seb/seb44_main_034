@@ -6,7 +6,7 @@ import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
 
 type AddPostProps = {
   cafeName: string;
-}
+};
 
 const S ={
   CafeNameWrap:styled.div`
@@ -48,17 +48,18 @@ const PostHead = ({cafeName}:AddPostProps) => {
   return(
     <>
       <S.CafeNameWrap>
-        <S.CafeName>
-          {cafeName}
-        </S.CafeName>
+        <S.CafeName>{cafeName}</S.CafeName>
       </S.CafeNameWrap>
       <S.TitleWrap>
-        <S.Title placeholder='제목을 입력해주세요.' onChange={(event:any)=>{handleTitle(event)}} />
+        <S.Title
+          placeholder='제목을 입력해주세요.'
+          onChange={(event: any) => {
+            handleTitle(event);
+          }}
+        />
       </S.TitleWrap>
     </>
-  )
-
-}
-
+  );
+};
 
 export default PostHead;
