@@ -1,5 +1,7 @@
+import EditOwnerMyPageBox from '../components/editownermypagebox/editownermypagebox';
+
 const EditOwnerMyPage = () => {
-  return <>로그인</>;
+  return <EditOwnerMyPageBox></EditOwnerMyPageBox>;
 };
 
 export default EditOwnerMyPage;

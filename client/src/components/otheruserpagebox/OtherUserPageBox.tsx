@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import profileimg from '../../assets/profileimg.svg';
-import coffeeshop from '../../assets/coffeeshop.svg';
 import { useState } from 'react';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import profileimg from '../../assets/profileimg.svg';
+import coffeeshop from '../../assets/coffeeshop.svg';
+import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
@@ -15,21 +15,23 @@ const S = {
   `,
   TopBox: styled.div`
     display: flex;
+    justify-content: center;
+    width: 65vw;
     margin-top: 30px;
-  `,
-  TopSubBox: styled.div`
-    width: 33vw;
   `,
   MiddleBox: styled.div`
     display: flex;
     justify-content: center;
     margin-top: 30px;
     height: 25vh;
+    @media screen and (max-width: 500px) {
+      height: 15vh;
+    }
   `,
   BottomBox: styled.div`
     display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
+    justify-content: center;
+    margin-top: 5vh;
   `,
   EditBtn: styled.div`
     width: 12vw;
@@ -69,28 +71,31 @@ const S = {
     height: 25vh;
     width: 30vw;
     @media screen and (max-width: 800px) {
-      height: 20vh;
+      height: 15vh;
     }
   `,
   AllProfileBoxRight: styled.div`
     display: flex;
+    flex-direction: column;
     height: 25vh;
     width: 30vw;
     border-radius: 10px;
     background-color: ${COLOR_1.light_green};
     @media screen and (max-width: 800px) {
       font-size: ${FONT_SIZE_1.small_1};
-      height: 20vh;
+      height: 15vh;
     }
   `,
   TitleInformaitonBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    width: 15vw;
   `,
   TitleInformaiton: styled.div`
-    width: 10vw;
+    display: flex;
+    justify-content: center;
+    width: 15vw;
     margin-top: 5px;
   `,
   InformaitonBox: styled.div`
@@ -98,10 +103,16 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20vw;
+    width: 15vw;
+    font-weight: 200;
+  `,
+  SubInformaitonBox: styled.div`
+    display: flex;
+    justify-content: center;
+    height: 130px;
   `,
   Informaiton: styled.div`
-    width: 25vw;
+    width: 15vw;
     margin-top: 5px;
   `,
   CafeImgBox: styled.div`
@@ -113,14 +124,15 @@ const S = {
     width: 18vw;
   `,
   SandBtn: styled.button`
-    height: 5vh;
-    width: 18vw;
-    border-radius: 15px;
     border: none;
-    background-color: ${COLOR_1.ivory};
     color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_1.big_1};
     cursor: pointer;
+    height: 5vh;
+    width: 18vw;
+    border-radius: 15px;
+    background-color: ${COLOR_1.ivory};
+    margin-bottom: 1vh;
     &:hover {
       background-color: #a57d52;
     }
@@ -129,90 +141,61 @@ const S = {
     }
     @media screen and (max-width: 800px) {
       font-size: ${FONT_SIZE_1.small_2};
+      height: 3vh;
     }
+  `,
+  FollowBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 30vw;
   `,
 };
 const OtherUserMyPageBox = () => {
-  const [bookmarkCafeFocus, setBookmarkCafeFocus] = useState<boolean>(true);
-  const [bookmarkPostFocus, setBookmarkPostFocus] = useState<boolean>(false);
-  const [myPostFocus, setMyPostFocus] = useState<boolean>(false);
-  const handleBookmarkCafeFocus = () => {
-    console.log('handler');
-    setBookmarkCafeFocus(true);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(false);
-  };
-  const handleBookmarkPostFocus = () => {
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(true);
-    setMyPostFocus(false);
-  };
-  const handleMyPostFocus = () => {
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(true);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const FollowingHandler = (): void => {
+    if (!isFollowing) {
+      setIsFollowing(true);
+    } else {
+      setIsFollowing(false);
+    }
   };
   return (
     <S.Container>
       <S.TopBox>
-        <S.TopSubBox></S.TopSubBox>
-        <S.TitleBox>마이페이지</S.TitleBox>
-        <S.TopSubBox>
-          <S.EditBtn>프로필 수정</S.EditBtn>
-        </S.TopSubBox>
+        <S.TitleBox>닉네임(CafeI)</S.TitleBox>
       </S.TopBox>
       <S.MiddleBox>
         <S.AllProfileBoxLeft>
           <S.ProfileImg src={profileimg}></S.ProfileImg>
         </S.AllProfileBoxLeft>
+
         <S.AllProfileBoxRight>
-          <S.TitleInformaitonBox>
-            <S.TitleInformaiton>이메일</S.TitleInformaiton>
-            <S.TitleInformaiton>닉네임</S.TitleInformaiton>
-            <S.TitleInformaiton>회원등급</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로워</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
-          </S.TitleInformaitonBox>
-          <S.InformaitonBox>
-            <S.Informaiton>cafein@cafein.com</S.Informaiton>
-            <S.Informaiton>카페인</S.Informaiton>
-            <S.Informaiton>에소프레소</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
-          </S.InformaitonBox>
+          <S.SubInformaitonBox>
+            <S.TitleInformaitonBox>
+              <S.TitleInformaiton>닉네임</S.TitleInformaiton>
+              <S.TitleInformaiton>회원등급</S.TitleInformaiton>
+            </S.TitleInformaitonBox>
+            <S.InformaitonBox>
+              <S.Informaiton>카페인</S.Informaiton>
+              <S.Informaiton>에소프레소</S.Informaiton>
+            </S.InformaitonBox>
+          </S.SubInformaitonBox>
+          <S.FollowBox>
+            <S.SandBtn
+              onClick={FollowingHandler}
+              style={{
+                backgroundColor: isFollowing
+                  ? `${COLOR_1.dark_sand}`
+                  : `${COLOR_1.ivory}`,
+              }}
+            >
+              팔로우하기
+            </S.SandBtn>
+          </S.FollowBox>
         </S.AllProfileBoxRight>
       </S.MiddleBox>
       <S.BottomBox>
-        <S.SandBtn
-          onClick={handleBookmarkCafeFocus}
-          style={{
-            backgroundColor: bookmarkCafeFocus
-              ? `${COLOR_1.dark_sand}`
-              : `${COLOR_1.ivory}`,
-          }}
-        >
-          북마크한 카페
-        </S.SandBtn>
-        <S.SandBtn
-          onClick={handleBookmarkPostFocus}
-          style={{
-            backgroundColor: bookmarkPostFocus
-              ? `${COLOR_1.dark_sand}`
-              : `${COLOR_1.ivory}`,
-          }}
-        >
-          북마크한 포스트
-        </S.SandBtn>
-        <S.SandBtn
-          onClick={handleMyPostFocus}
-          style={{
-            backgroundColor: myPostFocus
-              ? `${COLOR_1.dark_sand}`
-              : `${COLOR_1.ivory}`,
-          }}
-        >
-          작성한 포스트
-        </S.SandBtn>
+        <S.SandBtn>작성한 포스트</S.SandBtn>
       </S.BottomBox>
 
       <S.CafeImgBox>

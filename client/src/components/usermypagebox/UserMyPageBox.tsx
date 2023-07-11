@@ -1,14 +1,20 @@
-import styled from 'styled-components';
-import profileimg from '../../assets/profileimg.svg';
-import coffeeshop from '../../assets/coffeeshop.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import { data as dataAll } from '../../mockData/cafePost.json';
+import { CafePostList } from '../../types/type';
+import PostThumbnail from '../../common/posting/PostThumbnail';
+import FollowerModal from '../followermodal/FollowerModal';
+import FollowingModal from '../followingmodal/FollowingModal';
+import profileimg from '../../assets/profileimg.svg';
+import styled from 'styled-components';
+// import { useNavigate } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
-    height: 90vh;
+    min-height: 90vh;
     width: 65vw;
     @media screen and (max-width: 500px) {
       width: 70vw;
@@ -94,6 +100,24 @@ const S = {
     width: 10vw;
     margin-top: 5px;
   `,
+  FollowerInformaiton: styled.div`
+    width: 10vw;
+    margin-top: 5px;
+    cursor: pointer;
+    color: ${COLOR_1.black};
+    &:hover {
+      color: ${COLOR_1.light_red};
+    }
+  `,
+  FollowingInformaiton: styled.div`
+    width: 10vw;
+    margin-top: 5px;
+    cursor: pointer;
+    color: ${COLOR_1.black};
+    &:hover {
+      color: ${COLOR_1.light_red};
+    }
+  `,
   InformaitonBox: styled.div`
     display: flex;
     flex-direction: column;
@@ -132,8 +156,88 @@ const S = {
       font-size: ${FONT_SIZE_1.small_2};
     }
   `,
+  ContainerA: styled.div`
+    display: block;
+    padding: 20px;
+    > ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0;
+      > li {
+        margin: 20px;
+        @media screen and (max-width: 500px) {
+          margin: 10px;
+        }
+      }
+    }
+  `,
+  PostStart: styled.div`
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    border-bottom: 1px solid ${COLOR_1.dark_brown};
+    @media screen and (max-width: 500px) {
+      font-size: ${FONT_SIZE_1.big_1};
+      margin: 10px;
+      padding: 2px;
+      height: 45px;
+      border-bottom: 1px solid rgba(72, 50, 25, 0.5);
+    }
+    > span {
+      margin-top: 10px;
+      color: ${COLOR_1.black};
+      font-size: ${FONT_SIZE_1.big_4};
+      @media screen and (max-width: 500px) {
+        font-size: ${FONT_SIZE_1.big_2};
+      }
+    }
+  `,
 };
+
 const UserMyPageBox = () => {
+  const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
+  const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
+
+  const openFollowerModal = () => {
+    if (!isFollowerOpen) {
+      setFollowerIsOpen(true);
+      setFollowingIsOpen(false);
+    } else {
+      setFollowerIsOpen(false);
+    }
+  };
+  const openFollowingModal = () => {
+    if (!isFollowingOpen) {
+      setFollowingIsOpen(true);
+      setFollowerIsOpen(false);
+    } else {
+      setFollowingIsOpen(false);
+    }
+  };
+
+  // const replace = useNavigate();
+  useEffect(() => {
+    axios
+      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log('success');
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle error.
+
+        console.log('An error occurred:', error.response);
+        // replace('/');
+      });
+  });
   const [bookmarkCafeFocus, setBookmarkCafeFocus] = useState<boolean>(true);
   const [bookmarkPostFocus, setBookmarkPostFocus] = useState<boolean>(false);
   const [myPostFocus, setMyPostFocus] = useState<boolean>(false);
@@ -153,6 +257,7 @@ const UserMyPageBox = () => {
     setBookmarkPostFocus(false);
     setMyPostFocus(true);
   };
+  const data = dataAll.post;
   return (
     <S.Container>
       <S.TopBox>
@@ -174,8 +279,18 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>이메일</S.TitleInformaiton>
             <S.TitleInformaiton>닉네임</S.TitleInformaiton>
             <S.TitleInformaiton>회원등급</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로워</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
+            <div>
+              <S.FollowerInformaiton onClick={openFollowerModal}>
+                팔로워
+              </S.FollowerInformaiton>
+              {isFollowerOpen ? <FollowerModal /> : null}
+            </div>
+            <div>
+              <S.FollowingInformaiton onClick={openFollowingModal}>
+                팔로잉
+              </S.FollowingInformaiton>
+              {isFollowingOpen ? <FollowingModal /> : null}
+            </div>
           </S.TitleInformaitonBox>
           <S.InformaitonBox>
             <S.Informaiton>cafein@cafein.com</S.Informaiton>
@@ -220,9 +335,19 @@ const UserMyPageBox = () => {
       </S.BottomBox>
 
       <S.CafeImgBox>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
+        <S.ContainerA>
+          <ul>
+            {data.map((el: CafePostList) => (
+              <li key={el.postId}>
+                <PostThumbnail
+                  image={el.image}
+                  title={el.title}
+                  author={el.author}
+                />
+              </li>
+            ))}
+          </ul>
+        </S.ContainerA>
       </S.CafeImgBox>
     </S.Container>
   );
