@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import MoodTag from "../common/tags/MoodTag.tsx";
+import { DgText } from "../common/Row.component.tsx";
 
 const Main = () => {
   useEffect(() => {
@@ -8,7 +10,16 @@ const Main = () => {
     console.log(authorization);
     console.log(refresh);
   });
-  return <>메인</>;
+  return (<div>
+    메ddd인
+  <MoodTag
+  id={'123123123'}
+  text={'123sa'}
+  handleEvent={()=> console.log(1)}
+  />
+
+    <DgText type={'maximum_30_bold'}>asdasdas</DgText>
+  </div>);
 };
 
 export default Main;

@@ -1,25 +1,63 @@
-import CafeMenuForm from '../components/cafe/CafeMenuForm';
+import CafeMenuForm, { FormValues } from "../components/cafe/CafeMenuForm";
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
 import { ConfirmBtn } from '../common/button/button';
-const AddCafeMenuPage = () => {
-  const types = [
-    { name: '시그니처' },
-    { name: '커피' },
-    { name: '논커피' },
-    { name: '디저트' },
-  ];
+import { FormProvider, useForm } from "react-hook-form";
 
+type FormData = {
+  signature: {
+    name: string;
+    price: number;
+    Mtype: string;
+  }[];
+  coffee: {
+    name: string;
+    price: number;
+    Mtype: string;
+  }[];
+  noCoffee: {
+    name: string;
+    price: number;
+    Mtype: string;
+  }[];
+  desert: {
+    name: string;
+    price: number;
+    Mtype: string;
+  }[];
+}
+
+const types = [
+  { name: '시그니처', value: 'signature' },
+  { name: '커피', value: 'coffee' },
+  { name: '논커피', value: 'noCoffee' },
+  { name: '디저트', value: 'desert' },
+];
+
+const defaultValues = {
+  signature:[],
+  coffee:[],
+  noCoffee:[],
+  desert:[]
+}
+const AddCafeMenuPage = () => {
+
+  const methods = useForm<FormData>({
+    defaultValues,
+    mode: 'onBlur',
+  });
   return (
     <S.Container>
+      <FormProvider {...methods}>
       <S.MenuTitle>Menu</S.MenuTitle>
       {types.map((item, index) => (
-        <CafeMenuForm key={index} type={item.name} />
+        <CafeMenuForm key={index} type={item.value} />
       ))}
       <S.ButtonDiv>
-        <S.Submitbut>메뉴등록</S.Submitbut>
-        <S.Submitbut>나가기</S.Submitbut>
+        <ConfirmBtn>메뉴등록</ConfirmBtn>
+        <ConfirmBtn>나가기</ConfirmBtn>
       </S.ButtonDiv>
+      </FormProvider>
     </S.Container>
   );
 };

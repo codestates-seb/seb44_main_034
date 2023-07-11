@@ -3,6 +3,7 @@ import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
+import { Controller, useForm } from "react-hook-form";
 
 const S = {
   Container: styled.div`
@@ -124,7 +125,27 @@ const S = {
   `,
 };
 
+// state, error, submit,
+
+type FormData = {
+  name: string;
+  displayName: string;
+  password: string;
+  passwordConfirm: string;
+}
+
+const defaultValues = {
+  name: '',
+  displayName:'',
+  password: '',
+  passwordConfirm:'',
+}
+
 const UserSignupBox = () => {
+  const {control,handleSubmit,trigger,watch } = useForm<FormData>({
+    mode:'onChange',
+    defaultValues
+  })
   const [email, setEmail] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -219,6 +240,7 @@ const UserSignupBox = () => {
       alert('공백없이 입력바랍니다.');
     }
   };
+
   return (
     <S.Container>
       <S.MainBox>
@@ -226,13 +248,32 @@ const UserSignupBox = () => {
       </S.MainBox>
       <S.SubBox>
         <S.SubMiniBox>
-          <S.SubTitle htmlFor='email'>이메일</S.SubTitle>
-          <S.InputBox
-            id='email'
-            value={email}
-            onChange={onChangeId}
-          ></S.InputBox>
-          <S.InputInformation>{idMessage}</S.InputInformation>
+          <Controller
+            name={'name'}
+            control={control}
+            rules={{
+              required: true,
+//               validate:(value)=> {
+//                 const rxg = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+// console.log(value)
+//               return  '이메일 형식에 맞게 작성해주세요';
+//               }
+            }}
+            render={({field,fieldState:{error}})=> (
+              <>
+                <S.SubTitle htmlFor='email'>이메일</S.SubTitle>
+                <S.InputBox
+                  id='email'
+                  value={field.value}
+                  onChange={(e:any)=> {
+                    field.onChange(e.target.value);
+                  }}
+                ></S.InputBox>
+                {error?.message ? <S.InputInformation>{error?.message }</S.InputInformation> : null}
+              </>
+            )}
+          />
+
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
             id='displayName'

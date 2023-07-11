@@ -1,8 +1,11 @@
-import { useForm, useFieldArray } from 'react-hook-form';
+import { useForm, useFieldArray, useFormContext } from "react-hook-form";
 import { styled } from 'styled-components';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
 import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
+
+
+
 export type FormValues = {
   menu: {
     name: string;
@@ -11,22 +14,14 @@ export type FormValues = {
   }[];
 };
 
+
 function CafeMenuForm({ type }: { type: string }) {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: {
-      menu: [{ name: '아메리카노', price: 3000, Mtype: type }],
-    },
-    mode: 'onBlur',
-  });
+const {control} = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    name: 'menu',
+    name: 'signature',
     control,
   });
+
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };

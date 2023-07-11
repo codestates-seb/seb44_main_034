@@ -4,7 +4,7 @@ import styled from 'styled-components';
 type MoodTagProps = {
   text: string;
   id: string;
-  handleEvent(e:any): void;
+  handleEvent: (e:any)=> void;
 }
 
 const MoodTag = ({text, id, handleEvent}:MoodTagProps) => {

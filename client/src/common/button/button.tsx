@@ -12,7 +12,7 @@ export type ButtonType = {
   hoverable?: boolean;
   backgroundcolor?: string;
 };
-export const ConfirmBtn = styled.button`
+export const ConfirmBtn = styled.button<{theme:'main'|'sub'}>`
   width: 4vw;
   min-width: 100px;
   height: 4vh;
@@ -38,3 +38,16 @@ export const ConfirmBtn = styled.button`
     cursor: pointer;
   }
 `;
+
+const Button = ({text,onClick,theme}:{text:string, onClick:()=> void; theme:'main'| 'sub'})=> {
+  return (
+    <ConfirmBtn onClick={onClick}
+    type={'button'}
+                theme={theme}
+    >
+      {text}
+    </ConfirmBtn>
+  )
+};
+
+export default Button;

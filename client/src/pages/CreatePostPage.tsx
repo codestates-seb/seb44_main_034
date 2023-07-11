@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 // import { CiCoffeeBean } from "react-icons/ci";
-import { ConfirmBtn } from '../common/button/button';
+import Button, { ConfirmBtn } from '../common/button/button';
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
 
@@ -47,8 +47,13 @@ const CreatePostPage = () => {
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <S.TextInput type='text'></S.TextInput>
           <S.BtnWrap>
-            <ConfirmBtn>출간하기</ConfirmBtn>
+            <Button
+              theme={'main'}
+              onClick={()=>console.log(1)}
+              text={'출간하기'}
+            />
             <ConfirmBtn
+              type={'button'}
               onClick={() => {
                 confirm(
                   '지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?'

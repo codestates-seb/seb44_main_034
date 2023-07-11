@@ -8,7 +8,7 @@ const PostMood = () => {
   const [tag, setTag] = useState<string[]>([]);
   const [tagCount, setTagCount] = useState(0);
   const handleEvent = (e: any): void => {
-    if (e.target.checked && tagCount >= 3) {
+    if (e.target.checked && tag.length === 3) {
       e.preventDefault();
       alert('태그를 3개 이하로 선택하세요!');
       return;
@@ -23,6 +23,7 @@ const PostMood = () => {
       setTag(tag.filter((el) => el !== e.target.value));
     }
   };
+
   useEffect(() => {
     if (tagCount >= 4) {
       alert('태그를 3개 이하로 선택하세요!');
@@ -48,6 +49,7 @@ const PostMood = () => {
     </>
   );
 };
+
 const S = {
   MoodAskWrap: styled.div`
     text-align: left;
