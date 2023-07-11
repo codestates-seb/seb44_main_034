@@ -8,7 +8,7 @@ import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
-public interface CustomFollowRepository {
+public interface CustomMemberRepository {
 
     List<Follow> findByFollowing(Long id, Member member);
 

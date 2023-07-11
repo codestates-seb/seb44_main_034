@@ -7,6 +7,7 @@ import mainproject.cafeIn.domain.member.entity.enums.MemberGrade;
 public class UserPageParam {
 
     private String displayName;
+    private String image;
     private MemberGrade grade;
     private boolean isFollowing;
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.member.entity.enums.MemberGrade;
 import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
+import mainproject.cafeIn.domain.post.entity.Post;
 import mainproject.cafeIn.global.base.BaseEntity;
 
 import javax.persistence.*;
@@ -48,6 +49,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "followingId", cascade = CascadeType.REMOVE)
     private List<Follow> followings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.REMOVE)
+    private List<Post> posts = new ArrayList<>();
 
 
     @Builder

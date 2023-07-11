@@ -12,7 +12,7 @@ import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
 
 import mainproject.cafeIn.domain.member.entity.Follow;
 import mainproject.cafeIn.domain.member.entity.Member;
-import mainproject.cafeIn.domain.member.repository.CustomFollowRepository;
+import mainproject.cafeIn.domain.member.repository.CustomMemberRepository;
 import org.springframework.data.domain.*;
 
 
@@ -24,7 +24,7 @@ import static mainproject.cafeIn.domain.member.entity.enums.MemberStatus.MEMBER_
 
 
 @RequiredArgsConstructor
-public class CustomFollowRepositoryImpl implements CustomFollowRepository {
+public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -81,7 +81,7 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
         return follow.id.lt(cursorId);
     }
 
-    private Slice<SearchFollow> checkLastPage(List<SearchFollow> results, Pageable pageable) {
+    private <T> Slice<T> checkLastPage(List<T> results, Pageable pageable) {
 
         boolean hasNext = false;
 

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
 import mainproject.cafeIn.domain.member.dto.reponse.SliceResponse;
+import mainproject.cafeIn.domain.member.dto.reponse.UserPageDetails;
 import mainproject.cafeIn.domain.member.dto.request.MemberDto;
 import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
@@ -58,9 +59,13 @@ public class MemberController {
 
     @GetMapping("/{member-id}")
     @ResponseStatus(OK)
-    public ApplicationResponse otherInfo() {
+    public ApplicationResponse otherInfo(@PathVariable("member-id") long memberId,
+                                         @RequestParam(value = "id") long cursorId,
+                                         @PageableDefault(size = 2) Pageable pageable) {
 
-        return new ApplicationResponse<>();
+        UserPageDetails response = memberService.userPage(memberId, cursorId, pageable);
+
+        return new ApplicationResponse<>(response);
     }
 
     @PostMapping("/{member-id}/follow")
@@ -84,7 +89,7 @@ public class MemberController {
 
     @GetMapping("/my-page/following")
     @ResponseStatus(OK)
-    public ApplicationResponse followingMembers(@RequestParam Long cursorId,@PageableDefault(size = 2) Pageable pageable){
+    public ApplicationResponse followingMembers(@RequestParam(value = "id") long cursorId,@PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followingList(id, cursorId, pageable);
@@ -93,7 +98,7 @@ public class MemberController {
 
     @GetMapping("/my-page/follower")
     @ResponseStatus(OK)
-    public ApplicationResponse followerMembers(@RequestParam Long cursorId,@PageableDefault(size = 2) Pageable pageable){
+    public ApplicationResponse followerMembers(@RequestParam(value = "id") long cursorId,@PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followerList(id, cursorId, pageable);
