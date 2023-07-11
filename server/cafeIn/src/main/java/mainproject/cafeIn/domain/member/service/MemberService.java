@@ -1,7 +1,8 @@
 package mainproject.cafeIn.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import mainproject.cafeIn.domain.member.dto.reponse.FollowResponseDto;
+import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
+import mainproject.cafeIn.domain.member.dto.reponse.SliceResponse;
 import mainproject.cafeIn.domain.member.dto.request.MemberDto;
 import mainproject.cafeIn.domain.member.entity.Follow;
 import mainproject.cafeIn.domain.member.entity.Member;
@@ -13,8 +14,10 @@ import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +31,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
+    private String bucket;
 
 
     public Member signUp(Member member) {
@@ -52,12 +56,13 @@ public class MemberService {
         Member member = checkDisplayName(patch, findmember);
 
         Optional.ofNullable(patch.getPassword()).ifPresent(password -> member.updatePassword(password));
-        Optional.ofNullable(patch.getImage()).ifPresent(image -> member.updateImage(image));
+//        Optional.ofNullable(patch.getImage()).ifPresent(image -> member.updateImage(image));
 
         memberRepository.save(member);
 
 
     }
+
 
     public void myPageMember() {
 
@@ -68,7 +73,7 @@ public class MemberService {
 
         Member findFollowingMember = findById(memberId);
         Member findMember = findById(id);
-        List<Follow> follows = followingList(id, findFollowingMember);
+        List<Follow> follows = checkfollowing(id, findFollowingMember);
         if (follows.isEmpty()) {
             followRepository.save(Follow.builder()
                     .followingId(findFollowingMember)
@@ -93,17 +98,26 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public void followings(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followingList(long id, long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
-        Slice<FollowResponseDto> following = followRepository.findByFollowingList(id, cursorId,pageable);
+        Slice<SearchFollow> following = followRepository.findByFollowingList(id, cursorId,pageable);
+        List<SearchFollow> followings = following.getContent();
+        boolean hasNext = following.hasNext();
+        int size = pageable.getPageSize();
 
+        return new SliceResponse<>(followings,hasNext,size);
     }
 
-    public void followers(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followerList(long id, long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
-        Slice<FollowResponseDto> follower = followRepository.findByFollowerList(id, cursorId, pageable);
+        Slice<SearchFollow> follower = followRepository.findByFollowerList(id, cursorId, pageable);
+        List<SearchFollow> followers = follower.getContent();
+        boolean hasNext = follower.hasNext();
+        int size = pageable.getPageSize();
+
+        return new SliceResponse<>(followers, hasNext,size);
 
     }
 
@@ -147,7 +161,7 @@ public class MemberService {
 
     }
 
-    private List<Follow> followingList(Long id, Member followingMember) {
+    private List<Follow> checkfollowing(Long id, Member followingMember) {
 
         return followRepository.findByFollowing(id, followingMember);
     }

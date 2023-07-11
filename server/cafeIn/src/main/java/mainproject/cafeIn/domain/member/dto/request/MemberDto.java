@@ -40,7 +40,7 @@ public class MemberDto {
     @Getter
     public static class Patch {
 
-        @NotBlank(message = "닉네임을 입력해주세요.")
+
         @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
         private String displayName;
 
@@ -48,7 +48,6 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{8,15}$", message = "비밀번호는 8~15자리여야합니다.")
         private String password;
 
-        private String image;
 
 
     }

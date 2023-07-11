@@ -1,16 +1,15 @@
 package mainproject.cafeIn.domain.member.dto.reponse;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class BookMarkCafeResponseDto {
+public class MyPagePostList {
 
-    private long cafeId;
-    private String cafeName;
+    private long postId;
     private String image;
-    private String address;
-    private float rating;
-
+    private String title;
+    private String author;
 }

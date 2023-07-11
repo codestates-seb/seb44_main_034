@@ -2,13 +2,14 @@ package mainproject.cafeIn.domain.member.repository.implementation;
 
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.impl.JPAQuery;
+
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 
-import mainproject.cafeIn.domain.member.dto.reponse.FollowResponseDto;
-import mainproject.cafeIn.domain.member.dto.reponse.QFollowResponseDto;
+import mainproject.cafeIn.domain.member.dto.reponse.QSearchFollow;
+import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
+
 import mainproject.cafeIn.domain.member.entity.Follow;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.CustomFollowRepository;
@@ -40,10 +41,10 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 
     //내가 팔로우한 사람들
     @Override
-    public Slice<FollowResponseDto> findByFollowingList(Long id, Long cursorId,Pageable pageable) {
+    public Slice<SearchFollow> findByFollowingList(Long id, Long cursorId,Pageable pageable) {
 
-        List<FollowResponseDto> followings = queryFactory
-                .select(new QFollowResponseDto(follow.id,member.displayName,member.image))
+        List<SearchFollow> followings = queryFactory
+                .select(new QSearchFollow(follow.id,member.displayName,member.image))
                 .from(member)
                 .leftJoin(follow.followingId, member)
                 .where(follow.followerId.member.id.eq(id), member.status.eq(MEMBER_ACTIVE),ltCursorId(cursorId))
@@ -57,10 +58,10 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
 
     //나를 팔로우하는사람들
     @Override
-    public Slice<FollowResponseDto> findByFollowerList(Long id, Long cursorId,Pageable pageable) {
+    public Slice<SearchFollow> findByFollowerList(Long id, Long cursorId,Pageable pageable) {
 
-        List<FollowResponseDto> followers = queryFactory
-                .select(new QFollowResponseDto(follow.id,member.displayName,member.image))
+        List<SearchFollow> followers = queryFactory
+                .select(new QSearchFollow(follow.id,member.displayName,member.image))
                 .from(member)
                 .leftJoin(follow.followerId, member)
                 .where(follow.followingId.member.id.eq(id), member.status.eq(MEMBER_ACTIVE), ltCursorId(cursorId))
@@ -80,7 +81,7 @@ public class CustomFollowRepositoryImpl implements CustomFollowRepository {
         return follow.id.lt(cursorId);
     }
 
-    private Slice<FollowResponseDto> checkLastPage(List<FollowResponseDto> results, Pageable pageable) {
+    private Slice<SearchFollow> checkLastPage(List<SearchFollow> results, Pageable pageable) {
 
         boolean hasNext = false;
 

@@ -5,14 +5,14 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
-public class FollowResponseDto {
+public class SearchFollow {
 
     private long id;
     private String displayName;
     private String image;
 
     @QueryProjection
-    public FollowResponseDto(long id, String displayName, String image) {
+    public SearchFollow(long id, String displayName, String image) {
         this.id = id;
         this.displayName = displayName;
         this.image = image;
