@@ -1,30 +1,30 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { FacilityType } from '../../recoil/recoil';
-import { CafeType } from '../../recoil/recoil';
+import { useRecoilState } from 'recoil';
+import { FacilityType, CafeType, AllcafeState } from '../../recoil/recoil';
 import { ConfirmBtn } from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2 } from '../../common/common';
-// import { BiImageAdd } from 'react-icons/bi';
-
+import { BiImageAdd } from 'react-icons/bi';
+import UploadImg from './UploadImg';
+const facilityName = [
+  '24시간 운영여부',
+  '콘센트 유무',
+  '주차공간',
+  '동물 출입 가능 여부',
+  '디저트 판매 여부',
+];
 const CafeInfo = () => {
+  const [cafes, setCafes] = useRecoilState(AllcafeState);
   const [facility, setFacility] = useState<FacilityType[]>([
-    { name: 'isOpenAllTime', title: '24시간 운영여부', checked: false },
-    {
-      name: 'isChargingAvailable',
-      title: '콘센트 유무',
-      checked: false,
-    },
-    { name: 'hasParking', title: '주차공간', checked: false },
-    {
-      name: 'isPetFriendly',
-      title: '동물 출입 가능 여부',
-      checked: false,
-    },
-    { name: 'hasDessert', title: '디저트 판매 여부', checked: false },
+    { name: 'isOpenAllTime', checked: false },
+    { name: 'isChargingAvailable', checked: false },
+    { name: 'hasParking', checked: false },
+    { name: 'isPetFriendly', checked: false },
+    { name: 'hasDessert', checked: false },
   ]);
 
-  const [tempCafeData, setTempCafeData] = useState<CafeType>({
+  const [CafeData, setCafeData] = useState<CafeType>({
     id: '',
     ownerId: '',
     name: '',
@@ -39,19 +39,14 @@ const CafeInfo = () => {
     post: [],
     menu: [],
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
-  // const [cafeImg, setCafeImg] = useState<string | ArrayBuffer | null>(null);
-
-  // const fileInput = useRef<HTMLInputElement>(null);
-  // const handleButtonClick = () => {
-  //   if (fileInput.current) {
-  //     fileInput.current.click();
-  //   }
-  // };
-  const filteredFacility = facility.map(({ name, checked }) => ({
-    name,
-    checked,
-  }));
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setImageFile(selectedFile);
+    }
+  };
 
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
@@ -66,29 +61,55 @@ const CafeInfo = () => {
   //   }
   // };
 
+  const saveCafe = (cafe: CafeType) => {
+    setCafes((prevCafes) => [...prevCafes, cafe]);
+  };
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setTempCafeData((prevCafeData) => ({
+    setCafeData((prevCafeData) => ({
       ...prevCafeData,
       [name]: value,
     }));
   };
-  tempCafeData.facility = filteredFacility;
+  /* 이미지를 전송하고 받은 Url로 tempdata 를 요청보내는게 맞는건지 */
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
+    if (imageFile) {
+      console.log(imageFile);
+      const formData = new FormData();
+      console.log(formData);
+      formData.append('image', imageFile);
+    }
 
     try {
-      const response = await axios.post(
+      const responseImg = await axios.post(
         'http://localhost:3001/cafes',
-        tempCafeData
+        FormData
       );
+      if (responseImg.status === 201) {
+        //이미지 업로드 성공일 때
+        const cafeDataWithImage = {
+          ...CafeData,
+          cafeImg: responseImg.data.imageUrl,
+        };
 
-      console.log(response.data);
+        const response = await axios.post(
+          'http://localhost:3001/cafes',
+          cafeDataWithImage
+        );
+        console.log(response.data.imageUrl);
+        console.log(response.data);
+        console.log(response.status);
+      } else {
+        throw new Error('Image upload failed');
+      }
     } catch (error) {
       console.error(error);
+      alert('Image upload failed');
     }
+    saveCafe(CafeData);
   };
 
   const handleClickCheckbox = (fchecked: boolean, item: FacilityType) => {
@@ -104,7 +125,7 @@ const CafeInfo = () => {
     });
 
     setFacility(updatedFacilities);
-    setTempCafeData((prevCafeData) => ({
+    setCafeData((prevCafeData) => ({
       ...prevCafeData,
       facility: updatedFacilities,
     }));
@@ -116,6 +137,7 @@ const CafeInfo = () => {
       <form onSubmit={handleSaveCafeInfo}>
         <S.MainDiv>
           <S.AddImageDiv>
+            <input type='file' onChange={handleFileChange} />
             {/* <input
               type='file'
               accept='image/*'
@@ -132,7 +154,7 @@ const CafeInfo = () => {
               type='text'
               name='name'
               placeholder='카페명을 입력해주세요'
-              value={tempCafeData.name}
+              value={CafeData.name}
               onChange={handleCafeInfoChange}
               required
             />
@@ -141,7 +163,7 @@ const CafeInfo = () => {
               <CafeBusinessHours
                 type='text'
                 placeholder='9:00'
-                value={tempCafeData.openTime}
+                value={CafeData.openTime}
                 name='openTime'
                 onChange={handleCafeInfoChange}
                 required
@@ -152,7 +174,7 @@ const CafeInfo = () => {
               <CafeBusinessHours
                 type='text'
                 placeholder='22:00'
-                value={tempCafeData.closeTime}
+                value={CafeData.closeTime}
                 name='closeTime'
                 onChange={handleCafeInfoChange}
                 required
@@ -162,7 +184,7 @@ const CafeInfo = () => {
               주소 :
               <CafeAddress
                 type='text'
-                value={tempCafeData.address}
+                value={CafeData.address}
                 name='address'
                 onChange={handleCafeInfoChange}
                 required
@@ -172,7 +194,7 @@ const CafeInfo = () => {
               연락처 :
               <CafeContact
                 type='text'
-                value={tempCafeData.contact}
+                value={CafeData.contact}
                 name='contact'
                 onChange={handleCafeInfoChange}
                 required
@@ -182,13 +204,13 @@ const CafeInfo = () => {
               공지사항
               <CafeNotice
                 type='text'
-                value={tempCafeData.notice}
+                value={CafeData.notice}
                 name='notice'
                 onChange={handleCafeInfoChange}
               />
             </S.CafeNoticeDiv>
             <S.CafeFacilityDiv>
-              {facility.map((item) => (
+              {facility.map((item, idx) => (
                 <S.CafeFacilitySpan key={item.name}>
                   <S.CafeFacility
                     key={item.name}
@@ -199,8 +221,7 @@ const CafeInfo = () => {
                       handleClickCheckbox(e.target.checked, item);
                     }}
                   />
-
-                  {item.title}
+                  {facilityName[idx]}
                 </S.CafeFacilitySpan>
               ))}
             </S.CafeFacilityDiv>
@@ -330,10 +351,10 @@ const S = {
     }
   `,
 };
-// const AddImage = styled(BiImageAdd)`
-//   width: 6vw;
-//   height: 6vh;
-// `;
+const AddImage = styled(BiImageAdd)`
+  width: 6vw;
+  height: 6vh;
+`;
 const CafeBusinessHours = styled(S.InputBase)`
   width: 20%;
   height: 90%;

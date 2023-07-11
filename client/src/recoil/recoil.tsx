@@ -17,7 +17,6 @@ export type CafeType = {
 };
 
 export type FacilityType = {
-  title?: string;
   name: string;
   checked: boolean;
 };
