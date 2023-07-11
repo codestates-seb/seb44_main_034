@@ -4,7 +4,9 @@ import mainproject.cafeIn.domain.menucomment.entity.MenuComment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.awt.*;
+import java.util.Optional;
 
 public interface MenuCommentRepository extends JpaRepository<MenuComment, Long>, MenuCommentRepositoryCustom {
-    boolean existsMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId);
+
+    Optional<Long> findMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId);
 }
