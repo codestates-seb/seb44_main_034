@@ -1,6 +1,4 @@
 import { useForm, useFieldArray } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
-import { CafeState } from '../../recoil/recoil';
 import { styled } from 'styled-components';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
@@ -31,10 +29,7 @@ function CafeMenuForm({ type }: { type: string }) {
   });
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    // setMenuState(menuState);
   };
-
-  // const [menuState, setMenuState] = useRecoilState(CafeState);
 
   return (
     <div>
