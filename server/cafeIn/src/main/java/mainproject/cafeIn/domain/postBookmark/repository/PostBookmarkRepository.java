@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PostBookmarkRepository extends JpaRepository<PostBookmark, Long> {
-    Optional<PostBookmark> findByMemberIdAndPostId(Long memberId, Long postId);
+    Optional<PostBookmark> findByMemberIdAndPostPostId(Long memberId, Long postId);
 }

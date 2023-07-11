@@ -3,6 +3,8 @@ package mainproject.cafeIn.domain.post.service;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
+import mainproject.cafeIn.domain.member.entity.Member;
+import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -34,21 +36,23 @@ public class PostService {
     private final PostTagRepository postTagRepository;
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
+    private final MemberRepository memberRepository;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
-    public Long createPost(Long loginId, Long cafeId, PostRequest postRequest, MultipartFile multipartFile) {
+    public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
         // TODO: login user 검증
+        Member member = memberRepository.findMemberById(loginId);
         Cafe cafe = cafeService.findCafeById(cafeId);
-        Post post = postRequest.toEntity(cafe);
+        Post post = postRequest.toEntity(member, cafe);
         Long postId = postRepository.save(post).getPostId();
-        post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), postId, cafe));
+        post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
         return postId;
     }
 
     // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
-    public Long updatePost(Long loginId, Long postId, PostRequest postRequest, MultipartFile multipartFile) {
+    public Long updatePost(Long loginId, Long postId, PostRequest postRequest) {
         // TODO: login user 검증
         Post post = findPostById(postId);
         updatePostTags(postId, postRequest, post);
@@ -72,12 +76,13 @@ public class PostService {
     public PostDetailResponse findPost(Long loginId, Long postId) {
         Boolean isBookmarked = false;
         if (loginId != null) {
-            isBookmarked = postBookmarkRepository.findByMemberIdAndPostId(loginId, postId)
+            isBookmarked = postBookmarkRepository.findByMemberIdAndPostPostId(loginId, postId)
                     .map(postBookmark -> true)
                     .orElse(false);
         }
         Post post = findPostById(postId);
         List<String> tagNames = postTagService.getTagNames(postId);
+
         PostDetailResponse response = new PostDetailResponse(
                 post.getPostId(),
                 post.getCafe().getId(),
@@ -91,6 +96,7 @@ public class PostService {
                 post.getUpdatedAt(),
                 tagNames,
                 isBookmarked);
+
         return response;
     }
 
@@ -102,8 +108,8 @@ public class PostService {
                 .map(post -> new PostResponse(
                         post.getPostId(),
                         post.getMember().getDisplayName(),
-                        post.getImage(),
-                        post.getTitle()))
+                        post.getTitle(),
+                        post.getImage()))
                 .collect(Collectors.toList());
         return new MultiPostResponse<>(posts, postPage);
     }
@@ -122,7 +128,7 @@ public class PostService {
                 List<PostTag> postTags = optionalPostTags.get();
                 postTagRepository.deleteInBatch(postTags);
             }
-            List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags(), postId, post.getCafe());
+            postTagService.createPostTag(postRequest.getTags(), post, post.getCafe());
         }
     }
 }
