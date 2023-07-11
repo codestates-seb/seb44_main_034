@@ -1,17 +1,27 @@
+import { Link } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import {data as dataAll} from '../../mockData/cafePost.json'
+import { PostItemAtom } from '../../recoil/postState';
+import { CafePostList } from '../../types/type';
+import { PostData } from '../../types/type';
+import PostThumbnail from '../../common/posting/PostThumbnail';
+import PlusBtn from "../../common/posting/plusBtn";
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import {data as dataAll} from '../../mockData/cafePost.json'
-import PostThumbnail from '../../common/posting/PostThumbnail';
-import { CafePostList } from '../../types/type';
-import PlusBtn from "../../common/posting/plusBtn";
 
 const PostingList = () => {
   const data= dataAll.post;
+  const setPostData = useSetRecoilState<PostData>(PostItemAtom);
+
+  const handleBtnCafeName = ():void => {
+    setPostData((prev)=>({...prev, cafeName:'카페이름모름'})); //카페 이름과 id를 추가하여야 함.
+  }
+
   return (
     <S.Container>
       <S.PostStart>
         <span>POST</span>
-        <PlusBtn text={'+'}/>
+        <Link to ='/postpage/create' ><PlusBtn text={'+'} handleEvent={handleBtnCafeName} /></Link>
       </S.PostStart>
         <ul>
           {data.map((el:CafePostList)=> <li key={el.postId}><PostThumbnail image={el.image} title={el.title} author={el.author} /></li>)}

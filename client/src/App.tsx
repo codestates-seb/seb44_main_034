@@ -66,7 +66,8 @@ function App() {
             />
             <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
             <Route path='/postpage/:id' element={<PostPage />} />
-            <Route path='/postpage/create' element={<CreatePostPage />} />
+            <Route path='/postpage/create' element={<CreatePostPage
+             />} />
             <Route path='/postpage/edit/:id' element={<EditPostPage />} />
             <Route path='/allpostpage' element={<AllPostPage />} />
           </Routes>

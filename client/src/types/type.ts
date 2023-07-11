@@ -6,17 +6,20 @@ export interface CafePostList {
 }
 
 export interface PostData {
+  postId?:number|string;
   cafeId: number|string;
+  cafeName:string;
   title: string;
   createdAt: string;
   updatedAt: string;
   authorId: number|string;
   author: string;
   image: string|File;
-  body: string;
+  content: string;
+  starRating: number|null;
   isBookmarked: boolean;
-  tag?:[];
-  comment: PostComment[];
+  tag?:string[];
+  comment?: PostComment[];
 }
 
 export interface PostComment {

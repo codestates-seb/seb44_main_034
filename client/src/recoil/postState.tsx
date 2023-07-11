@@ -2,17 +2,19 @@ import { atom } from 'recoil';
 import { PostData } from '../types/type';
 
 
-export const postItemAtom = atom<PostData>({
-  key:'',
+export const PostItemAtom = atom<PostData>({
+  key:'postItemAtom',
   default:{
     cafeId: '',
+    cafeName: '',
     title: '',
     createdAt: '',
     updatedAt: '',
     authorId: '',
     author: '',
     image: '',
-    body: '',
+    content: '',
+    starRating: null,
     isBookmarked: false,
     tag:[],
     comment: []

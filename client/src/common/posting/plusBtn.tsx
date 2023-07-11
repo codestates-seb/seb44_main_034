@@ -3,12 +3,13 @@ import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from "../common";
 
 type PlusBtnProps = {
   text: string;
+  handleEvent: ()=>void;
 }
 
-const PlusBtn = ({text}:PlusBtnProps) => {
+const PlusBtn = ({text, handleEvent}:PlusBtnProps) => {
 
   return (
-  <S.PlusBtn>
+  <S.PlusBtn onClick={() => {handleEvent}} >
     {text}
   </S.PlusBtn>
   )
