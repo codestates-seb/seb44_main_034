@@ -1,4 +1,5 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 export type CafeType = {
   id: string;
@@ -56,4 +57,15 @@ export const CafeState = atom<CafeType>({
     post: [],
     menu: [],
   },
+});
+const { persistAtom } = recoilPersist({
+  key: 'recoil-persist',
+  storage: localStorage,
+  converter: JSON,
+});
+
+export const LoginState = atom<boolean>({
+  key: 'LoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
 });

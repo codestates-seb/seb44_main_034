@@ -1,44 +1,63 @@
-import styled from 'styled-components';
-import logocafein from '../../assets/logocafein.svg';
 import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import profileimg from '../../assets/profileimg.svg';
+import { LoginState } from '../../recoil/recoil';
+import { useRecoilValue } from 'recoil';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import { FONT_WEIGHT } from '../../common/common';
 import ProfileModal from '../profilemodal/ProfileModal';
+import profileimg from '../../assets/profileimg.svg';
+import Logo from '../../assets/Logo.svg';
+import styled from 'styled-components';
 
 const S = {
-  Container: styled.div`
-    display: flex;
+  ALlContioner: styled.div`
+    justify-content: center;
     height: 90px;
     width: 100vw;
-    background-color: ${COLOR_1.light_green};
-    border-radius: 0px 0px 5px 5px;
-    box-shadow: 0px 3px 3px 0px;
+
+    @media screen and (max-width: 500px) {
+      height: 62px;
+    }
+  `,
+
+  Container: styled.div`
+    display: flex;
+    position: fixed;
+    display: flex;
+    height: 80px;
+    width: 100vw;
+    background-color: white;
+    box-shadow: 0px 1px 1px 0px #82c8a0;
     @media screen and (max-width: 500px) {
       height: 60px;
     }
   `,
   LogoBox: styled.div`
-    width: 20vw;
+    width: 15vw;
   `,
   LogoImg: styled.img`
-    height: 100px;
-    width: 100px;
+    height: 80px;
+    width: 230px;
     cursor: pointer;
     @media screen and (max-width: 500px) {
-      height: 70px;
-      width: 70px;
+      height: 60px;
+      width: 60px;
     }
   `,
   MiddleBox: styled.div`
     display: flex;
 
-    width: 70vw;
+    width: 65vw;
+    @media screen and (max-width: 900px) {
+      width: 50vw;
+    }
+    @media screen and (max-width: 700px) {
+      width: 45vw;
+    }
   `,
   ListBtn: styled.button`
-    height: 100px;
+    height: 80px;
     width: 150px;
     font-size: ${FONT_SIZE_1.big_3};
     font-weight: ${FONT_WEIGHT.weight_800};
@@ -49,38 +68,42 @@ const S = {
     &:hover {
       color: ${COLOR_1.brown};
     }
+    @media screen and (max-width: 900px) {
+      font-size: ${FONT_SIZE_1.big_3};
+      height: 80px;
+      width: 100px;
+    }
     @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_1.normal_2};
+      font-size: ${FONT_SIZE_1.big_1};
       height: 60px;
       width: 80px;
     }
   `,
   UserBox: styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
-    width: 20vw;
+    width: 220px;
+    @media screen and (max-width: 800px) {
+      width: 200px;
+    }
+    @media screen and (max-width: 500px) {
+      width: 180px;
+      height: 65px;
+    }
   `,
   UserBtn: styled.div`
-    position: relative;
-    display: inline-block;
     font-size: ${FONT_SIZE_1.normal_3};
     height: 30px;
-    width: 10vw;
-    color: white;
+    width: 100px;
+    color: #82c8a0;
     margin: 20px 10px 25px;
-    border-radius: 6px;
+    border-radius: 10px;
+    border: solid 1px #82c8a0;
     text-align: center;
-    transition: top 0.01s linear;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-    background-color: #82c8a0;
-    box-shadow: 0 0 0 1px #82c8a0 inset,
-      0 0 0 2px rgba(255, 255, 255, 0.15) inset,
-      0 2px 0 0 rgba(126, 194, 155, 0.7), 0 2px 0 1px rgba(0, 0, 0, 0.4),
-      0 2px 2px 1px rgba(0, 0, 0, 0.5);
-    margin-left: 10px;
     &:hover {
       background-color: #80c49d;
+      color: white;
     }
     &:active {
       top: 4px;
@@ -88,8 +111,9 @@ const S = {
         0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 0 0 1px rgba(0, 0, 0, 0.4);
     }
     @media screen and (max-width: 700px) {
-      font-size: ${FONT_SIZE_1.small_2};
-      height: 20px;
+      font-size: ${FONT_SIZE_1.normal_1};
+      height: 24px;
+      width: 70px;
     }
   `,
   ProfileImg: styled.img`
@@ -102,20 +126,11 @@ const S = {
     }
   `,
   Box: styled.div`
-    width: 5vw;
+    width: 4vw;
   `,
 };
 
 const Header = () => {
-  const [isLogin, setIsLogin] = useState<boolean>(true);
-  useEffect(() => {
-    if (isLogin) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  });
-
   const [isOpen, setIsOpen] = useState(false);
   const ModalHandler = (): void => {
     if (!isOpen) {
@@ -127,8 +142,11 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -139,39 +157,47 @@ const Header = () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
-  return (
-    <S.Container>
-      <S.LogoBox>
-        <Link to='/'>
-          <S.LogoImg src={logocafein} />
-        </Link>
-      </S.LogoBox>
-      <S.MiddleBox>
-        <Link to='/AllPostPage'>
-        <S.ListBtn>Post</S.ListBtn>
-        </Link>
-        <S.ListBtn>Cafe</S.ListBtn>
-      </S.MiddleBox>
-      <S.UserBox ref={dropdownRef}>
-        {!true ? (
-          <>
-            <Link to='/Login'>
-              <S.UserBtn>로그인</S.UserBtn>
-            </Link>
-            <Link to='/SignupSelect'>
-              <S.UserBtn>회원가입</S.UserBtn>
-            </Link>
-          </>
-        ) : (
-          <>
-            <S.ProfileImg src={profileimg} onClick={ModalHandler} />
+  const login1 = useRecoilValue(LoginState);
 
-            {isOpen ? <ProfileModal></ProfileModal> : null}
-          </>
-        )}
-      </S.UserBox>
-      <S.Box></S.Box>
-    </S.Container>
+  return (
+    <header>
+      <S.ALlContioner>
+        <S.Container>
+          <S.LogoBox>
+            <Link to='/'>
+              <S.LogoImg src={Logo} />
+            </Link>
+          </S.LogoBox>
+          <nav>
+            <S.MiddleBox>
+              <Link to='/AllPostPage'>
+                <S.ListBtn>Post</S.ListBtn>
+              </Link>
+              <S.ListBtn>Cafe</S.ListBtn>
+            </S.MiddleBox>
+          </nav>
+          <S.UserBox ref={dropdownRef}>
+            {!login1 ? (
+              <>
+                <Link to='/login'>
+                  <S.UserBtn>로그인</S.UserBtn>
+                </Link>
+                <Link to='/SignupSelect'>
+                  <S.UserBtn>회원가입</S.UserBtn>
+                </Link>
+              </>
+            ) : (
+              <>
+                <S.ProfileImg src={profileimg} onClick={ModalHandler} />
+
+                {isOpen ? <ProfileModal></ProfileModal> : null}
+              </>
+            )}
+          </S.UserBox>
+          <S.Box></S.Box>
+        </S.Container>
+      </S.ALlContioner>
+    </header>
   );
 };
 
