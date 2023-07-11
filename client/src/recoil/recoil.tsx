@@ -1,25 +1,24 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom } from 'recoil';
 
 export type CafeType = {
   id: string;
   ownerId: string;
   name: string;
-  adress: string;
+  address: string;
   contact: string;
-  notice: string;
+  notice?: string;
   cafeImg: File | string;
   rating: string;
   openTime: string;
   closeTime: string;
   facility: FacilityType[];
-  post: PostType[];
-  menu: MenuType[];
+  post?: PostType[];
+  menu?: MenuType[];
 };
 
 export type FacilityType = {
-  id: string;
   name: string;
-  value: boolean;
+  checked: boolean;
 };
 
 export type PostType = {
@@ -39,13 +38,18 @@ export type CommentType = {
   content: string;
 };
 // 카페 정보를 담는 atom
-export const CafeState = atom<CafeType>({
+export const AllcafeState = atom<CafeType[]>({
+  key: 'AllcafeState',
+  default: [],
+});
+
+export const cafeState = atom<CafeType>({
   key: 'cafeState',
   default: {
     id: '',
     ownerId: '',
     name: '',
-    adress: '',
+    address: '',
     contact: '',
     notice: '',
     cafeImg: '',
