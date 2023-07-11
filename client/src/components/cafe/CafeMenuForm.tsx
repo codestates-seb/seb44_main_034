@@ -15,12 +15,16 @@ export type FormValues = {
 };
 
 
-function CafeMenuForm({ type }: { type: string }) {
-const {control} = useFormContext();
+function CafeMenuForm({ type,name }: { type: string;name:string }) {
+const {control,register,formState:{errors}} = useFormContext();
   const { fields, append, remove } = useFieldArray({
-    name: 'signature',
+    name: type,
     control,
   });
+  // index =0  === signature
+  // index = 1 === coffee
+  // index = 2 === noCoffee
+  // index = 3 === desert
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -29,7 +33,7 @@ const {control} = useFormContext();
   return (
     <div>
       <S.MainDiv>
-        <S.CafeTypeName>{type}</S.CafeTypeName>
+        <S.CafeTypeName>{name}</S.CafeTypeName>
 
         {/* <form> */}
         {fields.map((field, index) => {

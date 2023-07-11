@@ -8,26 +8,22 @@ type FormData = {
   signature: {
     name: string;
     price: number;
-    Mtype: string;
   }[];
   coffee: {
     name: string;
     price: number;
-    Mtype: string;
   }[];
   noCoffee: {
     name: string;
     price: number;
-    Mtype: string;
   }[];
   desert: {
     name: string;
     price: number;
-    Mtype: string;
   }[];
 }
 
-const types = [
+const menus = [
   { name: '시그니처', value: 'signature' },
   { name: '커피', value: 'coffee' },
   { name: '논커피', value: 'noCoffee' },
@@ -35,10 +31,10 @@ const types = [
 ];
 
 const defaultValues = {
-  signature:[],
-  coffee:[],
-  noCoffee:[],
-  desert:[]
+  signature: [{ name:'아이스 아메리카노',price:5000},{name:'아이스 카페라떼',price:5500}],
+  coffee: [{ name:'아이스 아메리카노', price:5000}],
+  noCoffee: [],
+  desert: [{ name:'빵',price:10000}]
 }
 const AddCafeMenuPage = () => {
 
@@ -46,15 +42,29 @@ const AddCafeMenuPage = () => {
     defaultValues,
     mode: 'onBlur',
   });
+  const {handleSubmit}=methods;
+
+  const submit = (data)=> {
+    console.log(data);
+    // {
+    //   signature:[{name:'아이스 아메리카노',price:5000, menuType:'signature'},{name:'아이스 카페라떼',price:5500}],
+    //   coffee:[{name:'아이스 아메리카노',price:5000}],
+    //   noCoffee:[],
+    //   desert:[{name:'빵',price:10000}]
+    // }
+
+
+  };
+
   return (
     <S.Container>
       <FormProvider {...methods}>
       <S.MenuTitle>Menu</S.MenuTitle>
-      {types.map((item, index) => (
-        <CafeMenuForm key={index} type={item.value} />
+      {menus.map((item, index) => (
+        <CafeMenuForm key={index} type={item.value} name={item.name} />
       ))}
       <S.ButtonDiv>
-        <ConfirmBtn>메뉴등록</ConfirmBtn>
+        <ConfirmBtn type={'button'} onClick={()=> handleSubmit(submit)()}>메뉴등록</ConfirmBtn>
         <ConfirmBtn>나가기</ConfirmBtn>
       </S.ButtonDiv>
       </FormProvider>
