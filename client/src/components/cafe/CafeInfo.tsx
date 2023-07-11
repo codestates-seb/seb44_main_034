@@ -5,8 +5,8 @@ import { FacilityType, CafeType, AllcafeState } from '../../recoil/recoil';
 import { ConfirmBtn } from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2 } from '../../common/common';
-import { BiImageAdd } from 'react-icons/bi';
-import UploadImg from './UploadImg';
+// import { BiImageAdd } from 'react-icons/bi';
+
 const facilityName = [
   '24시간 운영여부',
   '콘센트 유무',
@@ -110,6 +110,7 @@ const CafeInfo = () => {
       alert('Image upload failed');
     }
     saveCafe(CafeData);
+    console.log(cafes);
   };
 
   const handleClickCheckbox = (fchecked: boolean, item: FacilityType) => {
@@ -351,10 +352,10 @@ const S = {
     }
   `,
 };
-const AddImage = styled(BiImageAdd)`
-  width: 6vw;
-  height: 6vh;
-`;
+// const AddImage = styled(BiImageAdd)`
+//   width: 6vw;
+//   height: 6vh;
+// `;
 const CafeBusinessHours = styled(S.InputBase)`
   width: 20%;
   height: 90%;
