@@ -1,4 +1,4 @@
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { COLOR_1 } from '../common';
 import { FONT_SIZE_2 } from '../common';
 
@@ -12,14 +12,17 @@ export type ButtonType = {
   hoverable?: boolean;
   backgroundcolor?: string;
 };
+<<<<<<< HEAD
 //수정 필요함
+=======
+>>>>>>> 82c568867669164b408661c49ea4aaa982860958
 export const ConfirmBtn = styled.button`
   width: 4vw;
   min-width: 100px;
-  height: 1vh;
+  height: 4vh;
   padding: 1%;
   margin: 2%;
-  /* border: 2px solid ${COLOR_1.green}; */
+  border: none;
   border-radius: 20px;
   font-size: ${FONT_SIZE_2.normal_3};
   color: ${COLOR_1.dark_brown};
@@ -39,25 +42,3 @@ export const ConfirmBtn = styled.button`
     cursor: pointer;
   }
 `;
-
-// export const Button = {
-//   Primary: styled.button<ButtonType>`
-//     width: ${(props) => props.width || '16px'};
-//     height: ${(props) => props.height || '16px'};
-//     font-size: ${(props) => props.fontSize || '16px'};
-//     padding: ${(props) => props.padding || '10px 20px'};
-//     border-radius: ${(props) => props.borderRadius || '4px'};
-//     color: ${(props) => props.color || 'black'};
-//     background-color: transparent;
-//     border: 2px solid ${(props) => props.color || 'black'};
-//     cursor: pointer;
-//     ${(props) =>
-//       props.hoverable &&
-//       css`
-//         &:hover {
-//           background-color: ${(props) => props.color || 'black'};
-//           color: white;
-//         }
-//       `}
-//   `,
-// };
