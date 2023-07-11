@@ -6,6 +6,8 @@ import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
 import mainproject.cafeIn.domain.cafe.dto.response.GetCafesResponse;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
+import mainproject.cafeIn.domain.owner.entity.Owner;
+import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,10 +23,11 @@ import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 @Transactional(readOnly = true)
 public class CafeService {
     private final CafeRepository cafeRepository;
+    private final OwnerService ownerService;
 
     @Transactional
     public Long createCafe(Long loginId, CafeInfoRequest cafeInfoRequest, MultipartFile multipartFile) {
-        // Owner owner = ownerService.findOwnerById(loginId);
+        Owner owner = ownerService.findVerifiedOwner(loginId);
         Cafe cafe = cafeInfoRequest.toEntity(owner);
 
         // TODO: 이미지 업로드, 저장
@@ -34,8 +37,8 @@ public class CafeService {
 
     @Transactional
     public void updateCafe(Long loginId, Long cafeId, CafeInfoRequest cafeInfoRequest, MultipartFile multipartFile) {
-        // TODO: login user 검증
         Cafe cafe = findCafeById(cafeId);
+        cafe.validateOwner(loginId);
         cafe.updateCafe(cafeInfoRequest.toEntity());
 
         // TODO: 이미지 수정
@@ -43,9 +46,9 @@ public class CafeService {
 
     @Transactional
     public void deleteCafe(Long loginId, Long cafeId, String password) {
-        // TODO: login user 검증
         // TODO: password 검증
         Cafe cafe = findCafeById(cafeId);
+        cafe.validateOwner(loginId);
         cafeRepository.delete(cafe);
     }
 

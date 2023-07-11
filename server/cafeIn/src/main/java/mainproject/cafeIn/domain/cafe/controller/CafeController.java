@@ -7,6 +7,7 @@ import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
 import mainproject.cafeIn.domain.cafe.dto.response.GetCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.GetCafesResponse;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
+import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,7 @@ public class CafeController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
                                                 @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
-        // TODO: 로그인 정보 가져오는 로직 적용
-        Long loginId = 1L;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = cafeService.createCafe(loginId, request, multipartFile);
 
         return new ApplicationResponse<>(cafeId);
@@ -38,8 +38,7 @@ public class CafeController {
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
                                           @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
-        // TODO: 로그인 정보 가져오는 로직 적용
-        Long loginId = 1L;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         cafeService.updateCafe(loginId, cafeId, request, multipartFile);
 
         return new ApplicationResponse();
@@ -58,8 +57,7 @@ public class CafeController {
     @ResponseStatus(HttpStatus.OK)
     public ApplicationResponse deleteCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestBody String password) {
-        // TODO: 로그인 정보 가져오는 로직 적용
-        Long loginId = 1L;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         cafeService.deleteCafe(loginId, cafeId, password);
 
         return new ApplicationResponse();

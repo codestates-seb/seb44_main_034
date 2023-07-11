@@ -1,24 +1,27 @@
 package mainproject.cafeIn.domain.cafe.entity;
 
-import lombok.*;
-import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.menu.entity.Menu;
+import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.global.base.BaseEntity;
 import mainproject.cafeIn.global.exception.CustomException;
+import mainproject.cafeIn.global.exception.ErrorCode;
 import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static javax.persistence.CascadeType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.FetchType.LAZY;
+import static mainproject.cafeIn.global.exception.ErrorCode.*;
 import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
-import static org.hibernate.annotations.OnDeleteAction.*;
+import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -130,5 +133,11 @@ public class Cafe extends BaseEntity {
         if (matcher.find()) {
             return matcher.group(1);
         } else throw new CustomException(INTERNAL_SERVER_ERROR);
+    }
+
+    public void validateOwner(Long ownerId) {
+        if (!owner.getOwnerId().equals(ownerId)) {
+            throw new CustomException(NONE_AUTHORIZATION_TOKEN);
+        }
     }
 }

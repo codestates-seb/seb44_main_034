@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CafeDetailResponse {
+    private Long ownerId;
     private Long cafeId;
     private String name;
     private String address;
@@ -23,7 +24,8 @@ public class CafeDetailResponse {
     private boolean hasDessert;
 
     @QueryProjection
-    public CafeDetailResponse(Long cafeId, String name, String address, double latitude, double longitude, String contact, String notice, String image, float rating, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert) {
+    public CafeDetailResponse(Long ownerId, Long cafeId, String name, String address, double latitude, double longitude, String contact, String notice, String image, float rating, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert) {
+        this.ownerId = ownerId;
         this.cafeId = cafeId;
         this.name = name;
         this.address = address;
