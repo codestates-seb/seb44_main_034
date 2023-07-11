@@ -38,8 +38,11 @@ const S = {
   `,
   LogoImg: styled.img`
     height: 80px;
-    width: 230px;
+    width: 150px;
     cursor: pointer;
+    @media screen and (max-width: 800px) {
+      width: 100px;
+    }
     @media screen and (max-width: 500px) {
       height: 60px;
       width: 60px;
@@ -49,6 +52,9 @@ const S = {
     display: flex;
 
     width: 65vw;
+    @media screen and (max-width: 1200px) {
+      width: 60vw;
+    }
     @media screen and (max-width: 900px) {
       width: 50vw;
     }
