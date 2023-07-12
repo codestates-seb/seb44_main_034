@@ -13,6 +13,7 @@
     "@react-oauth/google": "^0.11.0",
     "@tanstack/react-query": "^4.29.19",
     "axios": "^1.4.0",
+    "esbuild-darwin-arm64": "^0.15.18",
     "react": "^18.2.0",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
@@ -20,10 +21,10 @@
     "react-icons": "^4.10.1",
     "react-router-dom": "^6.14.1",
     "recoil": "^0.7.7",
-    "suneditor": "^2.45.1",
-    "suneditor-react": "^3.6.1",
     "recoil-persist": "^5.1.0",
-    "styled-components": "^6.0.2"
+    "styled-components": "^6.0.2",
+    "suneditor": "^2.45.1",
+    "suneditor-react": "^3.6.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
