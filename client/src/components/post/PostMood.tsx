@@ -28,12 +28,14 @@ TagWrap:styled.div`
 
 const PostMood = () => {
   const [tag, setTag] = useState<string[]>([]);
-  const [tagCount, setTagCount] = useState(0);
+  // const [tagCount, setTagCount] = useState(0);
 
   const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
 
   const saveTag = () => {
     setPostData((current)=>({...current, tag:tag})); //리코일: PostItemAtom에 선택된 태그 담기
+    //삭제
+    setTag(tag)
   }
   const onClickEvent = (e:any):void => {
     // if (e.target.checked && tagCount >= 3) {

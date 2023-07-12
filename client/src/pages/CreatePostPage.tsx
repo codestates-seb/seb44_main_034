@@ -14,9 +14,9 @@ import { ConfirmBtn } from '../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 
-type PostDataProps = {
-  postData: PostData;
-};
+// type PostDataProps = {
+//   postData: PostData;
+// };
 
 const S = {
   Container: styled.div`
@@ -111,13 +111,11 @@ const CreatePostPage = () => {
 
   const createPostMutation = useMutation({
     mutationFn: createPost,
-    onSuccess: (data, variables, context)=>{
+    onSuccess: (data, context)=>{
       console.log(context);
       console.log(data);
-    },
-    onMutate: variables => {
-      return 'success!';
     }
+
   })
 
 // in the component
@@ -135,8 +133,8 @@ const CreatePostPage = () => {
   // const saveImageMutation = useMutation((formData: FormData)=> saveImage(formData), {})
   // const { mutate } = saveImageMutation;
 
-  const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
-
+  // const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
+  const {cafeName} =postData;
   // const postDataToSand:PostDataProps = {
   //   cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
   // }
