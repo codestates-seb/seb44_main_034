@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.PageCafeRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
+import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.GetCafeDetailResponse;
-import mainproject.cafeIn.domain.cafe.dto.response.GetCafesResponse;
 import mainproject.cafeIn.domain.cafe.service.CafeBookmarkService;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,12 +67,23 @@ public class CafeController {
         return new ApplicationResponse<>();
     }
 
-    // 카페 리스트 조회
+    // 카페 리스트 조회 (정렬 X)
     @GetMapping
     @ResponseStatus(OK)
-    public ApplicationResponse<List<GetCafesResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
-                                                                PageCafeRequest pageCafeRequest) {
-        List<GetCafesResponse> response = cafeService.searchCafesByFilterCondition(searchCafeFilterCondition, pageCafeRequest.of());
+    public ApplicationResponse<List<CafeResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
+                                                            PageCafeRequest pageCafeRequest) {
+        List<CafeResponse> response = cafeService.searchCafesByFilterCondition(searchCafeFilterCondition, pageCafeRequest.of());
+
+        return new ApplicationResponse<>(response);
+    }
+
+    // 카페 리스트 조회 (정렬 O)
+    @GetMapping("/orders")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<CafeResponse>> getCafesWithOrder(SearchCafeFilterCondition searchCafeFilterCondition,
+                                                                     PageCafeRequest pageCafeRequest,
+                                                                     String order) {
+        List<CafeResponse> response = cafeService.searchCafesByFilterConditionAndOrder(searchCafeFilterCondition, pageCafeRequest.of(), order);
 
         return new ApplicationResponse<>(response);
     }

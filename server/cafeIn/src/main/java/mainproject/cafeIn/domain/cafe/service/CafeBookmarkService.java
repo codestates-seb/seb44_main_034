@@ -5,6 +5,7 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.entity.CafeBookmark;
 import mainproject.cafeIn.domain.cafe.repository.CafeBookmarkRepository;
 import mainproject.cafeIn.domain.member.entity.Member;
+import mainproject.cafeIn.domain.member.service.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class CafeBookmarkService {
     @Transactional
     public void bookmarkCafe(Long cafeId, Long loginId) {
         Cafe cafe = cafeService.findCafeById(cafeId);
-        Member member = memberService.findMemberById(loginId);
+        Member member = memberService.findById(loginId);
 
         Optional<Long> cafeBookmarkId = cafeBookmarkRepository.findCafeBookmarkByCafeIdAndMemberId(cafeId, loginId);
         if (cafeBookmarkId.isPresent()) {

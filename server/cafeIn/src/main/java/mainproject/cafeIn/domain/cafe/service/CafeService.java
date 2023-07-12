@@ -3,12 +3,14 @@ package mainproject.cafeIn.domain.cafe.service;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
-import mainproject.cafeIn.domain.cafe.dto.response.GetCafesResponse;
+import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.exception.CustomException;
+import mainproject.cafeIn.global.exception.ErrorCode;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static mainproject.cafeIn.global.exception.ErrorCode.*;
 import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 
 @Service
@@ -52,9 +55,25 @@ public class CafeService {
         cafeRepository.delete(cafe);
     }
 
-    public List<GetCafesResponse> searchCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+    public List<CafeResponse> searchCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
 
         return cafeRepository.findCafesByFilterCondition(searchCafeFilterCondition, pageable);
+    }
+
+    public List<CafeResponse> searchCafesByFilterConditionAndOrder(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable, String order) {
+
+        List<CafeResponse> result;
+        if (order.equals("countBookmark")) {
+            result = cafeRepository.findCafesByFilterConditionOrderByCountBookmark(searchCafeFilterCondition, pageable);
+        } else if (order.equals("rating")) {
+            result = cafeRepository.findCafesByFilterConditionOrderByRating(searchCafeFilterCondition, pageable);
+        } else if (order.equals("countPost")) {
+            result = cafeRepository.findCafesByFilterConditionOrderByCountPost(searchCafeFilterCondition, pageable);
+        } else if (order.equals("createdAt")) {
+            result = cafeRepository.findCafesByFilterConditionOrderByCreatedAt(searchCafeFilterCondition, pageable);
+        } else throw new CustomException(REQUEST_VALIDATION_FAIL);
+
+        return result;
     }
 
     public Cafe findCafeById(Long cafeId) {

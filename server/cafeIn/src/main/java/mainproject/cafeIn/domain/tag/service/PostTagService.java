@@ -18,12 +18,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class PostTagService {
-    private final PostService postService;
     private final TagRepository tagRepository;
     private final PostTagRepository postTagRepository;
 
-    public List<PostTag> createPostTag(List<String> tags, Long postId, Cafe cafe) {
-        Post post = postService.findPostById(postId);
+    public List<PostTag> createPostTag(List<String> tags, Post post, Cafe cafe) {
         List<PostTag> postTags = tags.stream()
                 .map(name -> PostTag.builder()
                         .tag(tagRepository.findByName(name))

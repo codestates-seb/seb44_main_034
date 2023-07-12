@@ -1,7 +1,9 @@
-package mainproject.cafeIn.domain.postBookmark.entity;
+package mainproject.cafeIn.domain.postbookmark.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.post.entity.Post;
 
@@ -9,6 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostBookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

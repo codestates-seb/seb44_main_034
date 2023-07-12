@@ -25,27 +25,29 @@ public class MenuService {
     private final CafeService cafeService;
 
     @Transactional
-    public void createMenu(Long loginId, Long cafeId, List<MenuRequest> menuRequests) {
-        // TODO: login user 검증
+    public void createMenu(Long loginId, Long cafeId, MenuRequest menuRequest) {
         Cafe cafe = cafeService.findCafeById(cafeId);
-        List<Menu> menus = menuRequestToMenu(menuRequests, cafe);
+        cafe.validateOwner(loginId);
+        Menu menu = menuRequest.toEntity(cafe);
 
-        for (Menu menu : menus) {
-            menuRepository.save(menu);
-        }
+        menuRepository.save(menu);
     }
 
     @Transactional
     public void updateMenu(Long loginId, Long menuId, MenuRequest menuRequest) {
-        // TODO: login user 검증
         Menu menu = findMenuById(menuId);
+        Cafe cafe = menu.getCafe();
+        cafe.validateOwner(loginId);
+
         menu.updateMenu(menuRequest.toEntity());
     }
 
     @Transactional
     public void deleteMenu(Long loginId, Long menuId) {
-        // TODO: login user 검증
         Menu menu = findMenuById(menuId);
+        Cafe cafe = menu.getCafe();
+        cafe.validateOwner(loginId);
+
         menuRepository.delete(menu);
     }
 
@@ -55,11 +57,9 @@ public class MenuService {
         return menuRepository.getMenu(menuId);
     }
 
-    private List<Menu> menuRequestToMenu(List<MenuRequest> menuRequests, Cafe cafe) {
+    public List<List<MenuResponse>> getMenus() {
 
-        return menuRequests.stream()
-                .map(menu -> menu.toEntity(cafe))
-                .collect(Collectors.toList());
+        return menuRepository.getMenus();
     }
 
     public Menu findMenuById(Long menuId) {

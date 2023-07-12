@@ -28,35 +28,40 @@ public class Menu {
     @Column(name = "menu_id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "menu_name")
+    @Column(name = "menu_name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Integer price;
 
     @Enumerated(STRING)
-    @Column(name = "menu_type")
+    @Column(name = "menu_type", nullable = false)
     private MenuType menuType;
+
+    @Column(name = "sequence", nullable = false)
+    private Integer sequence;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
     @OnDelete(action = CASCADE)
-    @OneToMany(cascade = PERSIST)
+    @OneToMany(mappedBy = "menu", cascade = PERSIST)
     private List<MenuComment> menuComments = new ArrayList<>();
 
     @Builder
-    public Menu(String name, Integer price, MenuType menuType, Cafe cafe) {
+    public Menu(String name, Integer price, MenuType menuType, Integer sequence, Cafe cafe) {
         this.name = name;
         this.price = price;
         this.menuType = menuType;
+        this.sequence = sequence;
         this.cafe = cafe;
     }
 
     public void updateMenu(Menu menu) {
-        this.name = menu.getName();
-        this.price = menu.getPrice();
-        this.menuType = menu.getMenuType();
+        this.name = menu.name;
+        this.price = menu.price;
+        this.menuType = menu.menuType;
+        this.sequence = menu.sequence;
     }
 }
