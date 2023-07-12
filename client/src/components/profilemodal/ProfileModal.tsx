@@ -11,11 +11,11 @@ const S = {
     height: 200px;
     width: 200px;
     margin-bottom: 287px;
-    margin-right: 157px;
+    right: 0;
     border-radius: 8px;
     border-style: solid;
     border-color: ${COLOR_1.dark_brown};
-    background-color: ${COLOR_1.light_green};
+    background-color: ${COLOR_1.white};
   `,
   TopBox: styled.div`
     text-align: center;
@@ -40,6 +40,8 @@ const S = {
     text-align: center;
     background-color: ${COLOR_1.green};
     border-radius: 0px 0px 0px 6px;
+    border-top: solid 1px ${COLOR_1.dark_brown};
+    border-right: solid 1px ${COLOR_1.dark_brown};
     &:hover {
       background-color: #bfcdbf;
     }
@@ -49,10 +51,11 @@ const S = {
   `,
   ModalRightBox: styled.div`
     height: 30px;
-    width: 100px;
+    width: 99px;
     text-align: center;
     background-color: ${COLOR_1.green};
     border-radius: 0px 0px 6px 0px;
+    border-top: solid 1px ${COLOR_1.dark_brown};
     &:hover {
       background-color: #bfcdbf;
     }
