@@ -56,7 +56,7 @@ public class MenuController {
     @ResponseStatus(OK)
     public ApplicationResponse<GetMenuDetailResponse> getMenu(@PathVariable("menu-id") Long menuId) {
         MenuResponse menuResponse = menuService.getMenu(menuId);
-        List<MenuCommentResponse> commentsResponse = menuCommentService.getComments(menuId);
+        List<MenuCommentResponse> commentsResponse = menuCommentService.getMenuComments(menuId);
         GetMenuDetailResponse response = new GetMenuDetailResponse(menuResponse, commentsResponse);
 
         return new ApplicationResponse<>(response);
