@@ -5,7 +5,7 @@ import { RecoilRoot } from 'recoil';
 import { styled } from 'styled-components';
 import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
-import Footer from './components/footer/Footer';
+// import Footer from './components/footer/Footer';
 import Main from './pages/Main';
 import SignupSelect from './pages/SignupSelect';
 import UserSignup from './pages/UserSignup';
@@ -29,7 +29,6 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  text-align: center;
   margin: 0 auto;
   width: 100%;
   min-width: 320px;
@@ -65,8 +64,7 @@ function App() {
             />
             <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
             <Route path='/postpage/:id' element={<PostPage />} />
-            <Route path='/postpage/create' element={<CreatePostPage
-             />} />
+            <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:id' element={<EditPostPage />} />
             <Route path='/allpostpage' element={<AllPostPage />} />
           </Routes>
