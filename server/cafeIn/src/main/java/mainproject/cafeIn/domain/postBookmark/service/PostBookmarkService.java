@@ -28,7 +28,11 @@ public class PostBookmarkService {
             postBookmarkRepository.delete(postBookmark);
         } else {
             Optional<Post> post = postRepository.findById(postId);
+<<<<<<< HEAD:server/cafeIn/src/main/java/mainproject/cafeIn/domain/postBookmark/service/PostBookmarkService.java
             Member member = memberService.findById(loginId);
+=======
+            Member member = memberRepository.findMemberById(loginId);
+>>>>>>> ba25f6ab53917302a53b76abb08b5a1ff3f08c3b:server/cafeIn/src/main/java/mainproject/cafeIn/domain/postbookmark/service/PostBookmarkService.java
             // 북마크가 존재하지 않는 경우 => 북마크 등록
             PostBookmark postBookmark = PostBookmark.builder()
                     .member(member)
