@@ -3,11 +3,14 @@ package mainproject.cafeIn.domain.cafe.service;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
+import mainproject.cafeIn.domain.cafe.dto.response.CafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
+import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
+import mainproject.cafeIn.domain.tag.service.TagService;
 import mainproject.cafeIn.global.exception.CustomException;
 import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +30,7 @@ import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 public class CafeService {
     private final CafeRepository cafeRepository;
     private final OwnerService ownerService;
+    private final MemberService memberService;
 
     @Transactional
     public Long createCafe(Long loginId, CafeInfoRequest cafeInfoRequest, MultipartFile multipartFile) {
@@ -53,6 +57,12 @@ public class CafeService {
         Cafe cafe = findCafeById(cafeId);
         cafe.validateOwner(loginId);
         cafeRepository.delete(cafe);
+    }
+
+    public CafeDetailResponse getCafe(Long cafeId) {
+        findCafeById(cafeId);
+
+        return cafeRepository.getCafe(cafeId);
     }
 
     public List<CafeResponse> searchCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
