@@ -124,14 +124,14 @@ public class Cafe extends BaseEntity {
     }
 
     private String extractAreaFromAddress(String address) {
-        String pattern = "\\b(\\w+구)\\b";
-        Pattern regex = Pattern.compile(pattern);
-        Matcher matcher = regex.matcher(address);
+        // TODO: 주소 추출 로직 수정
+        String[] splitAddress = address.split(" ");
 
-        // TODO: ErrorCode 수정
-        if (matcher.find()) {
-            return matcher.group(1);
-        } else throw new CustomException(INTERNAL_SERVER_ERROR);
+        if (splitAddress.length < 1) {
+            throw new CustomException(INTERNAL_SERVER_ERROR);
+        } else {
+            return splitAddress[1];
+        }
     }
 
     public void validateOwner(Long ownerId) {
