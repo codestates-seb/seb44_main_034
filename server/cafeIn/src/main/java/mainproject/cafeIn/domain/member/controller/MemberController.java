@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.util.Objects;
@@ -30,9 +31,9 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(CREATED)
-    public ApplicationResponse<Objects> signUpMember(@Valid @RequestBody MemberDto.Post post) {
+    public ApplicationResponse<Objects> signUpMember(@Valid @RequestBody MemberDto.Post post, HttpServletRequest request) {
 
-        memberService.signUp(post.toEntity());
+        memberService.signUp(post.toEntity(), request.getRequestURI());
         return new ApplicationResponse<>();
     }
 

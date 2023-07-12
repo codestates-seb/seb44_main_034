@@ -15,12 +15,14 @@ public class MenuRequest {
     private Integer price;
 
     private MenuType menuType;
+    private Integer sequence;
 
     public Menu toEntity() {
         return Menu.builder()
                 .name(name)
                 .price(price)
                 .menuType(menuType)
+                .sequence(sequence)
                 .build();
     }
 
@@ -29,6 +31,7 @@ public class MenuRequest {
                 .name(name)
                 .price(price)
                 .menuType(menuType)
+                .sequence(sequence)
                 .cafe(cafe)
                 .build();
     }

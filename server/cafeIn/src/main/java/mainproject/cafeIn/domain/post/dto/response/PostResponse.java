@@ -1,15 +1,23 @@
 package mainproject.cafeIn.domain.post.dto.response;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostResponse {
     private Long postId;
-    private String image;
     private String title;
     private String author;
+    private String image;
+    // TODO: 이미지 업로드 시 내용 추가
 
-    public PostResponse(Long postId, String image, String title, String author) {
+
+    public PostResponse(Long postId, String title, String author, String image) {
         this.postId = postId;
-        this.image = image;
         this.title = title;
         this.author = author;
+        this.image = image;
     }
 }

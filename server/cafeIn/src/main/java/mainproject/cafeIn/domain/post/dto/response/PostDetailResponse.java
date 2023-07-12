@@ -1,11 +1,16 @@
 package mainproject.cafeIn.domain.post.dto.response;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.comment.entity.Comment;
 import mainproject.cafeIn.domain.tag.entity.PostTag;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostDetailResponse {
     private Long postId;
     private Long cafeId;
@@ -19,8 +24,7 @@ public class PostDetailResponse {
     private LocalDateTime updatedAt;
     private List<String> tagNames;
     private Boolean isBookmarked;
-
-    // 기능 미완성
+    // TODO: comment 기능 완성시 추가
     // private List<Comment> comments;
 
 

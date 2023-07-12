@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.comment.entity.Comment;
 import mainproject.cafeIn.domain.member.entity.Member;
+import mainproject.cafeIn.domain.postbookmark.entity.PostBookmark;
 import mainproject.cafeIn.domain.tag.entity.PostTag;
 import mainproject.cafeIn.global.base.BaseEntity;
-import net.bytebuddy.agent.builder.AgentBuilder;
-import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 import java.util.List;
@@ -46,22 +45,29 @@ public class Post extends BaseEntity {
     private Member member;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<PostBookmark> postBookmark;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostTag> postTags;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
     @Builder
-    public Post(String title, String content, int starRating, String image, Cafe cafe, Member member, List<PostTag> postTags, List<Comment> comments) {
+    public Post(Long postId, String title, String content, int starRating, String image, Cafe cafe, Member member, List<PostBookmark> postBookmark, List<PostTag> postTags, List<Comment> comments) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.starRating = starRating;
         this.image = image;
         this.cafe = cafe;
         this.member = member;
+        this.postBookmark = postBookmark;
         this.postTags = postTags;
         this.comments = comments;
     }
+
+
 
     public void updatePostWithTags(List<PostTag> postTags) {
         this.postTags = postTags;
