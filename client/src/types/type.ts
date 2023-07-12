@@ -4,8 +4,6 @@ export interface CafePostList {
   title: string;
   author: string;
 }
-<<<<<<< HEAD
-
 export interface PostData {
   postId?:number|string;
   cafeId: number|string;
@@ -30,5 +28,3 @@ export interface PostComment {
   createdAt: string;
   updatedAt: string;
 }
-=======
->>>>>>> 0786aaab0a688de7266f1243da3f9a272caeb1ff

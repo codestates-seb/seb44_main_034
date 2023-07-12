@@ -1,6 +1,6 @@
 import { useState } from 'react';
-// import { useMutation } from '@tanstack/react-query';
-// import axios from 'axios';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -13,6 +13,10 @@ import { BiSolidCoffeeBean } from 'react-icons/bi';
 import { ConfirmBtn } from '../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
+
+type PostDataProps = {
+  postData: PostData;
+};
 
 const S = {
   Container: styled.div`
@@ -89,6 +93,37 @@ const CreatePostPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
 
+  // const mutation = useMutation(
+  //   (postData:PostDataProps) => {
+  //     return axios.post('http://localhost3001/cafePost', postData),
+  //     {
+  //       onSuccess: () => {
+  //         // refetch the comments list for our blog post
+  //         // queryClient.invalidateQueries(['posts', id, 'comments'])
+  //         console.log(mutation.data);
+  //       },
+  //   }
+  // )
+
+//api
+
+  const createPost = (post:PostData) => axios.post('http://localhost:3001/cafepost', post);
+
+  const createPostMutation = useMutation({
+    mutationFn: createPost,
+    onSuccess: (data, variables, context)=>{
+      console.log(context);
+      console.log(data);
+    },
+    onMutate: variables => {
+      return 'success!';
+    }
+  })
+
+// in the component
+
+
+
   // const {data, isLoading, mutate, mutateAsync } = useMutation(mutationFn, options);
 
 
@@ -102,15 +137,17 @@ const CreatePostPage = () => {
 
   const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
 
-  const postDataToSand:PostData = {
-    cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
-  }
+  // const postDataToSand:PostDataProps = {
+  //   cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
+  // }
 
   const submitPost = (e: React.FormEvent<HTMLFormElement>) => {
+    // console.log('clicked');
     e.preventDefault();
     setDisabled(true);
-    setPostData(postDataToSand);
-    console.log(postData);
+    // setPostData(postData);
+    // console.log(postData);
+    createPostMutation.mutate(postData);
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,7 +201,7 @@ const CreatePostPage = () => {
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <SunEditor height='300px' />
           <S.BtnWrap>
-            <ConfirmBtn type='submit' disabled={disabled}>출간하기</ConfirmBtn>
+            <ConfirmBtn type='button' disabled={disabled} onClick={(e:any)=>{submitPost(e)}} >출간하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(
