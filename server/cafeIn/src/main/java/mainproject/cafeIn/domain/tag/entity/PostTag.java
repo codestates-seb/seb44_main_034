@@ -34,23 +34,10 @@ public class PostTag {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-//    @Builder
-//    public PostTag(Tag tag) {
-//        this.tag = tag;
-//    }
-
     @Builder
     public PostTag(Post post, Cafe cafe, Tag tag) {
         this.tag = tag;
         this.cafe = cafe;
         this.post = post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public void setCafe(Cafe cafe) {
-        this.cafe = cafe;
     }
 }
