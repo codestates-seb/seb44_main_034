@@ -44,6 +44,9 @@ public class Member extends BaseEntity {
     @Column(length = 30, nullable = false)
     private MemberGrade grade;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<String> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "followerId", cascade = CascadeType.REMOVE)
     private List<Follow> followers = new ArrayList<>();
 
@@ -55,7 +58,7 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String displayName, String email, String password, String image, MemberStatus status, MemberGrade grade) {
+    public Member(String displayName, String email, String password, String image, MemberStatus status, MemberGrade grade, List<String> roles) {
 
         this.displayName = displayName;
         this.email = email;
@@ -63,6 +66,7 @@ public class Member extends BaseEntity {
         this.image = image;
         this.status = status;
         this.grade = grade;
+        this.roles = roles;
 
     }
 

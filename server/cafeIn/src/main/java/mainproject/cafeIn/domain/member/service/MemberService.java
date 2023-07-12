@@ -12,9 +12,11 @@ import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
 
 import mainproject.cafeIn.domain.member.repository.FollowRepository;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
+import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,20 +32,26 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
     private String bucket;
 
 
-    public Member signUp(Member member) {
+    public Member signUp(Member member, String uri) {
 
         verifyExistsEmail(member.getEmail());
         verifyExistsDisplayName(member.getDisplayName());
 
+        String encryptedPassword = passwordEncoder.encode(member.getPassword());
+        List<String> roles = authorityUtils.createRoles(uri);
+
         return memberRepository.save(Member.builder()
                 .email(member.getEmail())
                 .displayName(member.getDisplayName())
-                .password(member.getPassword())
+                .password(encryptedPassword)
                 .status(MemberStatus.MEMBER_ACTIVE)
                 .grade(MemberGrade.GRADE_GREEN_BEAN)
+                .roles(roles)
                 .build());
     }
 
@@ -151,6 +159,13 @@ public class MemberService {
             throw new CustomException(MEMBER_NOT_FOUND);
         }
         return member;
+    }
+
+    public Member findByEmail(String email) {
+
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
+
     }
 
     private Member checkDisplayName(MemberDto.Patch patch, Member member) {
