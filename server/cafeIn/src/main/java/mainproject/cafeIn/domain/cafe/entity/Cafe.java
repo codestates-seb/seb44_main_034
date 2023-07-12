@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
 import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
+import static mainproject.cafeIn.global.exception.ErrorCode.NONE_AUTHORIZATION_TOKEN;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
@@ -131,5 +132,11 @@ public class Cafe extends BaseEntity {
         if (matcher.find()) {
             return matcher.group(1);
         } else throw new CustomException(INTERNAL_SERVER_ERROR);
+    }
+
+    public void validateOwner(Long ownerId) {
+        if (!owner.getOwnerId().equals(ownerId)) {
+            throw new CustomException(NONE_AUTHORIZATION_TOKEN);
+        }
     }
 }
