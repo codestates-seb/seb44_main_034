@@ -4,6 +4,7 @@ import './App.css';
 import { RecoilRoot } from 'recoil';
 import { styled } from 'styled-components';
 import Header from './components/header/Header';
+import Nav from './components/nav/Nav';
 import Footer from './components/footer/Footer';
 import Main from './pages/Main';
 import SignupSelect from './pages/SignupSelect';
@@ -70,7 +71,7 @@ function App() {
             <Route path='/allpostpage' element={<AllPostPage />} />
           </Routes>
         </Container>
-        <Footer />
+        <Nav />
       </RecoilRoot>
     </QueryClientProvider>
   );
