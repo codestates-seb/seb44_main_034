@@ -1,6 +1,6 @@
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { styled } from 'styled-components';
-import { COLOR_1 } from '../../common/common';
+import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
 import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
 export type FormValues = {
@@ -100,34 +100,35 @@ const S = {
     padding: 0% 3%;
     border-radius: 15px;
     background-color: ${COLOR_1.light_green};
-    font-size: ${FONT_SIZE_2.normal_3};
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_2.normal_2};
+    font-size: ${FONT_SIZE_1.normal_2};
+    @media screen and (max-width: 767px) {
+      font-size: ${FONT_SIZE_1.normal_1};
     }
   `,
   FormDiv: styled.div`
     padding: 1%;
-    font-size: ${FONT_SIZE_2.normal_2};
+    font-size: ${FONT_SIZE_1.normal_1};
     border-bottom: 2px dotted ${COLOR_1.green};
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_2.normal_1};
+    @media screen and (max-width: 767px) {
+      font-size: ${FONT_SIZE_2.normal_2};
     }
   `,
   MenuInput: styled.input`
-    width: 15vw;
-    height: 4vh;
+    width: 150px;
+    height: 30px;
     margin: 1%;
     outline: none;
     border: 2px solid ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_2.normal_2};
+    font-size: ${FONT_SIZE_1.normal_1};
     &:hover {
       outline: auto;
       outline-color: ${COLOR_1.dark_sand};
     }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
+      width: 30%;
       font-size: ${FONT_SIZE_2.normal_1};
     }
   `,
@@ -138,7 +139,7 @@ const S = {
     &:hover {
       cursor: pointer;
     }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       width: 15px;
       height: 15px;
     }
@@ -151,29 +152,12 @@ const S = {
     &:hover {
       cursor: pointer;
     }
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       width: 15px;
       height: 15px;
     }
   `,
-  SaveBtn: styled.button`
-    min-width: 40px;
-    width: 5vw;
-    height: 3vh;
-    font-size: ${FONT_SIZE_2.small_1};
-    border-radius: 15px;
-    border: none;
-    background-color: ${COLOR_1.sand};
-    box-shadow: 2px 2px 4px ${COLOR_1.dark_brown};
-    &:active {
-      transform: translateY(2px);
-    }
-    &:hover {
-      cursor: pointer;
-      background-color: ${COLOR_1.brown};
-      color: white;
-    }
-  `,
+
   BtnDiv: styled.div`
     display: flex;
     justify-content: space-between;

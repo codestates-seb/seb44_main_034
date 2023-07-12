@@ -2,7 +2,7 @@ import axios from 'axios';
 import CafeMenuForm from '../components/cafe/CafeMenuForm';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
-import { ConfirmBtn } from '../common/button/button';
+import { ConfirmBtn, CancelButton } from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
 
 type FormData = {
@@ -86,7 +86,7 @@ const AddCafeMenuPage = () => {
             메뉴등록
           </S.Submitbut>
 
-          <ConfirmBtn>나가기</ConfirmBtn>
+          <CancelButton>나가기</CancelButton>
         </S.ButtonDiv>
       </FormProvider>
     </S.Container>
@@ -94,13 +94,18 @@ const AddCafeMenuPage = () => {
 };
 const S = {
   Container: styled.div`
-    width: 60vw;
+    width: 600px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     /* align-items: center; */
+    @media screen and (max-width: 767px) {
+      justify-content: center;
+      width: 80%;
+    }
   `,
   MenuTitle: styled.div`
+    text-align: center;
     font-size: ${FONT_SIZE_2.big_2};
     padding: 2%;
   `,
@@ -109,12 +114,11 @@ const S = {
     justify-content: end;
     margin-top: 2%;
 
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       justify-content: center;
     }
   `,
   Submitbut: styled(ConfirmBtn)`
-    height: 2vw;
     margin-bottom: 10%;
   `,
 };
