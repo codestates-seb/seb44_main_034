@@ -1,6 +1,9 @@
 package mainproject.cafeIn.domain.cafe.dto.response;
 
 import lombok.Getter;
+import mainproject.cafeIn.domain.tag.entity.Tag;
+
+import java.util.List;
 
 @Getter
 public class GetCafesResponse {
