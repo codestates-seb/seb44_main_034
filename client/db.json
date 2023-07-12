@@ -1,45 +1,6 @@
 {
   "cafes": [],
   "images": [],
-  "menu": [
-    [
-      {
-        "name": "아이스 아메리카노",
-        "price": 5000,
-        "menuType": "SIGNATURE"
-      },
-      {
-        "name": "아이스 아메리카노",
-        "price": 5000,
-        "menuType": "COFFEE"
-      },
-      {
-        "name": "아이스티",
-        "price": 5500,
-        "menuType": "NONCOFFEE"
-      },
-      {
-        "name": "빵",
-        "price": 10000,
-        "menuType": "DESERT"
-      }
-    ],
-    [
-      {
-        "name": "아이스 아메리카노",
-        "price": 5000,
-        "menuType": "COFFEE"
-      },
-      {
-        "name": "아이스티",
-        "price": 5500,
-        "menuType": "NONCOFFEE"
-      },
-      {
-        "name": "빵",
-        "price": 10000,
-        "menuType": "DESERT"
-      }
-    ]
-  ]
+  "menu":[],
+  "cafepost": []
 }

@@ -1,4 +1,4 @@
-import EditOwnerMyPageBox from '../components/editownermypagebox/editownermypagebox';
+import EditOwnerMyPageBox from '../components/editownermypagebox/EditOwnerMyPageBox';
 
 const EditOwnerMyPage = () => {
   return <EditOwnerMyPageBox></EditOwnerMyPageBox>;
