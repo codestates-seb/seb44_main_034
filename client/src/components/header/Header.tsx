@@ -5,22 +5,32 @@ import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
+    width: 100%;
+    height: 70px;
+    margin: 0;
     display: flex;
     justify-content: center;
-    position: fixed;
-    width: 100vw;
-    height: 70px;
-    background-color: #ffffff;
-    box-shadow: 0px 1px 3px 0px #676767;
-    border-top: solid 1px ${COLOR_1.green};
-    top: 0;
+    >div{
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      width: 100%;
+      height: 70px;
+      background-color: #ffffff;
+      box-shadow: 0px 1px 3px 0px #676767;
+      border-top: solid 1px ${COLOR_1.green};
+      top: 0;
+    }
   `,
-  LogoBox: styled.img`
+  LogoBox: styled.div`
+    max-width:1200px;
     display: flex;
     justify-content: center;
     align-items: center;
+  >img{
     height: 70px;
     width: 200px;
+    }
   `,
 };
 
@@ -28,9 +38,13 @@ const Header = () => {
   return (
     <header>
       <S.Container>
+        <div>
         <Link to='/'>
-          <S.LogoBox src={Logo} />
+          <S.LogoBox>
+            <img src={Logo} />
+          </S.LogoBox>
         </Link>
+        </div>
       </S.Container>
     </header>
   );

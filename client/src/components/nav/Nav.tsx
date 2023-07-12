@@ -13,20 +13,29 @@ import styled from 'styled-components';
 
 const S = {
   BackContainer: styled.div`
+    width: 100%;
+    height: 80px;
+    margin: 0;
+    @media screen and (min-width: 769px) {
+      width: 768px;
+    }
+  >div {
     display: flex;
     justify-content: center;
     position: fixed;
-    width: 100vw;
+    width: 100%;
     background-color: #f9f9f9;
     border-top: solid 1px ${COLOR_1.green};
     bottom: 0;
+  }
   `,
   Container: styled.div`
+    max-width:1200px;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80px;
-    width: 100vw;
+    width: 100%;
     @media screen and (min-width: 769px) {
       width: 768px;
     }
@@ -100,6 +109,7 @@ const Nav = () => {
   return (
     <nav>
       <S.BackContainer>
+        <div>
         <S.Container>
           <S.NavBox onClick={mainHandler}>
             <S.Iconbox>
@@ -128,6 +138,7 @@ const Nav = () => {
             {isOpen ? <ProfileModal /> : null}
           </S.NavBox>
         </S.Container>
+        </div>
       </S.BackContainer>
     </nav>
   );
