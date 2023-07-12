@@ -12,6 +12,7 @@ export type ButtonType = {
   hoverable?: boolean;
   backgroundcolor?: string;
 };
+
 export const ConfirmBtn = styled.button`
   width: 4vw;
   min-width: 100px;

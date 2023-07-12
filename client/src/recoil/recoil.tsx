@@ -24,6 +24,10 @@ export type FacilityType = {
 
 export type PostType = {
   //포스트 타입에 관해 작성
+  postId: string;
+  image: File | string;
+  title: string;
+  author: string;
 };
 
 export type MenuType = {

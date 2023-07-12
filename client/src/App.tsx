@@ -1,11 +1,11 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { RecoilRoot } from 'recoil';
 import { styled } from 'styled-components';
 import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
-import Footer from './components/footer/Footer';
+// import Footer from './components/footer/Footer';
 import Main from './pages/Main';
 import SignupSelect from './pages/SignupSelect';
 import UserSignup from './pages/UserSignup';
@@ -29,7 +29,6 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  text-align: center;
   margin: 0 auto;
   width: 100%;
   min-width: 320px;
