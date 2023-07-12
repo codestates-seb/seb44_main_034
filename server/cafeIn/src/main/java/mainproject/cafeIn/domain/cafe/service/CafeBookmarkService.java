@@ -31,4 +31,16 @@ public class CafeBookmarkService {
             cafeBookmarkRepository.save(CafeBookmark.of(cafe, member));
         }
     }
+
+    public boolean isBookmarked(Long cafeId, Long loginId) {
+        Cafe cafe = cafeService.findCafeById(cafeId);
+        Member member = memberService.findById(loginId);
+
+        Optional<Long> cafeBookmarkId = cafeBookmarkRepository.findCafeBookmarkByCafeIdAndMemberId(cafeId, loginId);
+        if (cafeBookmarkId.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
