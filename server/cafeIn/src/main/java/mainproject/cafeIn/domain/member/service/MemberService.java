@@ -143,7 +143,7 @@ public class MemberService {
         }
     }
 
-    private Member findById(long id) {
+    public Member findById(long id) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
