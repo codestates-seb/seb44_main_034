@@ -28,11 +28,11 @@ const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  min-height: 700px;
-  width: 100vw;
-  @media screen and (max-width: 500px) {
-    min-height: 400px;
-  }
+  text-align: center;
+  margin: 0 auto;
+  width: 100%;
+  min-width: 320px;
+  max-width: 768px;
 `;
 
 function App() {
