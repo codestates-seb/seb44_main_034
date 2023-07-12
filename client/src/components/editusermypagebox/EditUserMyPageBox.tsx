@@ -263,7 +263,7 @@ const EditUserMyPageBox = () => {
     }
   };
   const deleteAccout = () => {
-    const result = window.confirm('정말 계정을 삭제하시겠습니까? 정말로요?');
+    const result = window.confirm('정말 계정을 삭제하시겠습니까?');
     if (result) {
       axios
         .delete(`http://43.201.232.213:8080/members`)
@@ -313,7 +313,7 @@ const EditUserMyPageBox = () => {
             onChange={onChangeName}
           ></S.InputBox>
           <S.InputInformation>{displayNameMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
+          <S.SubTitle htmlFor='password'>비밀번호 변경</S.SubTitle>
           <S.InputBox
             id='password'
             type='password'
@@ -321,7 +321,7 @@ const EditUserMyPageBox = () => {
             onChange={onChangePassword}
           ></S.InputBox>
           <S.InputInformation>{passwordMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 확인</S.SubTitle>
+          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 변경 확인</S.SubTitle>
           <S.InputBox
             id='passwordConfirm'
             type='password'
