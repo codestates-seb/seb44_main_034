@@ -46,7 +46,7 @@ public class Menu {
     private Cafe cafe;
 
     @OnDelete(action = CASCADE)
-    @OneToMany(cascade = PERSIST)
+    @OneToMany(mappedBy = "menu", cascade = PERSIST)
     private List<MenuComment> menuComments = new ArrayList<>();
 
     @Builder

@@ -5,6 +5,10 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
+<<<<<<< HEAD
+=======
+import mainproject.cafeIn.domain.member.service.MemberService;
+>>>>>>> 85e8565b48a05c047f3501792feea82dec81e212
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -36,12 +40,20 @@ public class PostService {
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
     private final MemberRepository memberRepository;
+<<<<<<< HEAD
+=======
+    private final MemberService memberService;
+>>>>>>> 85e8565b48a05c047f3501792feea82dec81e212
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
     public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
         // TODO: login user 검증
+<<<<<<< HEAD
         Member member = memberRepository.findMemberById(loginId);
+=======
+        Member member = memberService.findById(loginId);
+>>>>>>> 85e8565b48a05c047f3501792feea82dec81e212
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
         Long postId = postRepository.save(post).getPostId();

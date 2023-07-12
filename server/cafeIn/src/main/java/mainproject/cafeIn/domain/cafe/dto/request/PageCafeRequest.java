@@ -11,13 +11,6 @@ public class PageCafeRequest {
 
     private int page;
     private int size;
-    private String sort;
-
-    public PageCafeRequest(int page, int size, String sort) {
-        setPage(page);
-        setSize(size);
-        setSort(sort);
-    }
 
     public PageCafeRequest(int page, int size) {
         setPage(page);
@@ -32,12 +25,8 @@ public class PageCafeRequest {
         this.size = size > MAX_SIZE ? DEFAULT_SIZE : size;
     }
 
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
     public PageRequest of() {
 
-        return sort == "" ? PageRequest.of(page - 1, size) : PageRequest.of(page - 1, size, Sort.by(sort).descending());
+        return PageRequest.of(page - 1, size);
     }
 }
