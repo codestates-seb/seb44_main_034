@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.member.entity.enums.MemberGrade;
 import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
 import mainproject.cafeIn.domain.post.entity.Post;
-import mainproject.cafeIn.domain.postBookmark.entity.PostBookmark;
+import mainproject.cafeIn.domain.postbookmark.entity.PostBookmark;
 import mainproject.cafeIn.global.base.BaseEntity;
 
 import javax.persistence.*;
@@ -79,17 +79,34 @@ public class Member extends BaseEntity {
     }
 
     public void updatePassword(String password) {
-
         this.password = password;
-
     }
 
     public void updateImage(String image) {
-
         this.image = image;
     }
 
     public void deleteStatus(MemberStatus status) {
         this.status = status;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
