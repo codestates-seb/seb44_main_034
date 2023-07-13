@@ -11,6 +11,7 @@ public enum ErrorCode {
     REQUEST_VALIDATION_FAIL(HttpStatus.BAD_REQUEST, "잘못된 요청 값입니다."),
     NOT_AUTHOR(HttpStatus.BAD_REQUEST, "작성자가 아닙니다."),
     PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    INVALID_ADDRESS(HttpStatus.BAD_REQUEST, "올바르지 않은 주소입니다."),
 
     // 401
     NONE_AUTHORIZATION_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),

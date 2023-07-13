@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface MenuCommentRepository extends JpaRepository<MenuComment, Long>, MenuCommentRepositoryCustom {
 
-    Optional<Long> findMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId);
+    Optional<MenuComment> findByMemberIdAndMenuId(Long memberId, Long menuId);
 }

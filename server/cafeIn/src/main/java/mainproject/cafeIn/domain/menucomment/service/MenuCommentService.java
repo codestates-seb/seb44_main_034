@@ -31,12 +31,13 @@ public class MenuCommentService {
     public void createMenuComment(Long loginId, Long menuId, MenuCommentRequest request) {
         Member member = memberService.findById(loginId);
         Menu menu = menuService.findMenuById(menuId);
-        Optional<Long> commentId = findMenuCommentByMemberIdAndMenuId(loginId, menuId);
-        if (commentId.isPresent()) {
-            menuCommentRepository.deleteById(commentId.get());
-        }
 
-        menuCommentRepository.save(request.toEntity(member, menu));
+        Optional<MenuComment> menuComment = findMenuCommentByMemberIdAndMenuId(loginId, menuId);
+        if (menuComment.isPresent()) {
+            menuComment.get().update(request.getContent());
+        } else {
+            menuCommentRepository.save(request.toEntity(member, menu));
+        }
     }
 
     @Transactional
@@ -64,9 +65,9 @@ public class MenuCommentService {
                 .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
     }
 
-    private Optional<Long> findMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId) {
+    private Optional<MenuComment> findMenuCommentByMemberIdAndMenuId(Long memberId, Long menuId) {
 
-        return menuCommentRepository.findMenuCommentByMemberIdAndMenuId(memberId, menuId);
+        return menuCommentRepository.findByMemberIdAndMenuId(memberId, menuId);
     }
 
     public List<MenuCommentResponse> getMenuComments(Long menuId) {

@@ -24,23 +24,11 @@ public class CafeBookmarkService {
         Cafe cafe = cafeService.findCafeById(cafeId);
         Member member = memberService.findById(loginId);
 
-        Optional<Long> cafeBookmarkId = cafeBookmarkRepository.findCafeBookmarkByCafeIdAndMemberId(cafeId, loginId);
-        if (cafeBookmarkId.isPresent()) {
-            cafeBookmarkRepository.deleteById(cafeBookmarkId.get());
+        Optional<CafeBookmark> cafeBookmark = cafeBookmarkRepository.findByCafeIdAndMemberId(cafeId, loginId);
+        if (cafeBookmark.isPresent()) {
+            cafeBookmarkRepository.delete(cafeBookmark.get());
         } else {
             cafeBookmarkRepository.save(CafeBookmark.of(cafe, member));
-        }
-    }
-
-    public boolean isBookmarked(Long cafeId, Long loginId) {
-        Cafe cafe = cafeService.findCafeById(cafeId);
-        Member member = memberService.findById(loginId);
-
-        Optional<Long> cafeBookmarkId = cafeBookmarkRepository.findCafeBookmarkByCafeIdAndMemberId(cafeId, loginId);
-        if (cafeBookmarkId.isPresent()) {
-            return true;
-        } else {
-            return false;
         }
     }
 }

@@ -64,13 +64,12 @@ public class CafeController {
     public ApplicationResponse<GetCafeDetailResponse> getCafe(@PathVariable("cafe-id") Long cafeId) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
 
-        CafeDetailResponse cafeDetail = cafeService.getCafe(cafeId);
+        CafeDetailResponse cafeDetail = cafeService.getCafe(cafeId, loginId);
         List<List<MenuResponse>> menus = menuService.getMenus(cafeId);
         List<PostResponse> posts = postService.getPosts(cafeId);
         List<TagResponse> tags = tagService.getTags(cafeId);
-        boolean isBookmarked = cafeBookmarkService.isBookmarked(cafeId, loginId);
 
-        return new ApplicationResponse<>(new GetCafeDetailResponse(cafeDetail, menus, posts, tags, isBookmarked));
+        return new ApplicationResponse<>(new GetCafeDetailResponse(cafeDetail, menus, posts, tags));
     }
 
     // 카페 삭제
