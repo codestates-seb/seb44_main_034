@@ -1,17 +1,19 @@
-import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
-import axios from 'axios';
+import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
-    height: 700px;
+    height: 800px;
     width: 400px;
     @media screen and (max-width: 500px) {
-      height: 450px;
+      height: 540px;
       width: 300px;
     }
   `,
@@ -26,6 +28,7 @@ const S = {
   SubBox: styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 600px;
     width: 400px;
@@ -125,6 +128,14 @@ const S = {
   ProfileImgBox: styled.div`
     display: flex;
     justify-content: center;
+    width: 150px;
+    @media screen and (max-width: 500px) {
+      width: 260px;
+    }
+  `,
+  AllProfileImgBox: styled.div`
+    display: flex;
+    justify-content: center;
     width: 350px;
     @media screen and (max-width: 500px) {
       width: 260px;
@@ -132,11 +143,30 @@ const S = {
   `,
   ProfileImg: styled.img`
     height: 150px;
+    width: 150px;
+    border-radius: 75px;
+    border: solid 2px ${COLOR_1.dark_brown};
     @media screen and (max-width: 500px) {
       height: 80px;
     }
   `,
-  DeleteBtn: styled.button``,
+  DeleteBtn: styled.button`
+    width: 60px;
+    height: 35px;
+    margin-top: 55px;
+    margin-left: 17px;
+    color: gray;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(49, 114, 220, 0.05);
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 3px #aedcff;
+    }
+  `,
 };
 
 const EditUserMyPageBox = () => {
@@ -144,23 +174,33 @@ const EditUserMyPageBox = () => {
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
-  const [idMessage, setIdMessage] = useState<string>('');
   const [displayNameMessage, setDisplayNameMessage] = useState<string>('');
   const [passwordMessage, setPasswordMessage] = useState<string>('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] =
     useState<string>('');
 
-  const [isId, setIsId] = useState<boolean>(false);
   const [isname, setIsName] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
-
+  const [image, setImage] = useState<Blob | MediaSource | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const handlerImageClick = () => {
+    inputRef.current?.click();
+  };
+  const handlerImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+    } else {
+      setImage(null);
+    }
+  };
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentName = event.target.value;
     setDisplayName(currentName);
 
-    if (currentName.length < 2 || currentName.length > 5) {
-      setDisplayNameMessage('닉네임은 2글자 이상 5글자 이하로 입력해주세요!');
+    if (currentName.length < 2 || currentName.length > 10) {
+      setDisplayNameMessage('닉네임은 2글자 이상 10글자 이하로 입력해주세요!');
       setIsName(false);
     } else {
       setDisplayNameMessage('사용가능한 닉네임 입니다.');
@@ -197,17 +237,22 @@ const EditUserMyPageBox = () => {
     }
   };
   const register = () => {
-    if (isId && isname && isPassword && isPasswordConfirm) {
+    if (isname && isPassword && isPasswordConfirm) {
       axios
-        .post('http://43.201.232.213:8080/members', {
+        .patch('http://43.201.232.213:8080/members', {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
           password: password,
           displayName: displayName,
+          image: image,
         })
         .then((response) => {
           // Handle success.
           console.log('Well done!');
           console.log('User profile', response);
-          alert('가입이 완료되었습니디.');
+          alert('정보가 수정되었습니다.');
         })
         .catch((error) => {
           // Handle error.
@@ -217,6 +262,28 @@ const EditUserMyPageBox = () => {
       alert('공백없이 입력바랍니다.');
     }
   };
+  const deleteAccout = () => {
+    const result = window.confirm('정말 계정을 삭제하시겠습니까?');
+    if (result) {
+      axios
+        .delete(`http://43.201.232.213:8080/members`)
+        .then((response) => {
+          // Handle success.
+          console.log(response);
+          localStorage.removeItem('recoil-persist');
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.replace('/');
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log('An error occurred:', error.response);
+        });
+    } else {
+      // 취소 버튼이 눌렸을 때의 동작
+      console.log('Cancelled');
+    }
+  };
   return (
     <S.Container>
       <S.MainBox>
@@ -224,9 +291,21 @@ const EditUserMyPageBox = () => {
       </S.MainBox>
       <S.SubBox>
         <S.SubMiniBox>
-          <S.ProfileImgBox>
-            <S.ProfileImg src={profileimg}></S.ProfileImg>
-          </S.ProfileImgBox>
+          <S.AllProfileImgBox>
+            <S.ProfileImgBox onClick={handlerImageClick}>
+              {image ? (
+                <S.ProfileImg src={URL.createObjectURL(image)} alt='' />
+              ) : (
+                <S.ProfileImg src={profileimg} alt='' />
+              )}
+              <input
+                type='file'
+                ref={inputRef}
+                style={{ display: 'none' }}
+                onChange={handlerImageChange}
+              />
+            </S.ProfileImgBox>
+          </S.AllProfileImgBox>
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
             id='displayName'
@@ -234,7 +313,7 @@ const EditUserMyPageBox = () => {
             onChange={onChangeName}
           ></S.InputBox>
           <S.InputInformation>{displayNameMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
+          <S.SubTitle htmlFor='password'>비밀번호 변경</S.SubTitle>
           <S.InputBox
             id='password'
             type='password'
@@ -242,7 +321,7 @@ const EditUserMyPageBox = () => {
             onChange={onChangePassword}
           ></S.InputBox>
           <S.InputInformation>{passwordMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 확인</S.SubTitle>
+          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 변경 확인</S.SubTitle>
           <S.InputBox
             id='passwordConfirm'
             type='password'
@@ -259,6 +338,7 @@ const EditUserMyPageBox = () => {
           수정완료
         </S.DarkSandBtn>
       </S.SubBox>
+      <S.DeleteBtn onClick={deleteAccout}>탈퇴하기</S.DeleteBtn>
     </S.Container>
   );
 };

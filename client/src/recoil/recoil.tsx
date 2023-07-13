@@ -1,29 +1,33 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 
 export type CafeType = {
   id: string;
   ownerId: string;
   name: string;
-  adress: string;
+  address: string;
   contact: string;
-  notice: string;
+  notice?: string;
   cafeImg: File | string;
   rating: string;
   openTime: string;
   closeTime: string;
   facility: FacilityType[];
-  post: PostType[];
-  menu: MenuType[];
+  post?: PostType[];
+  menu?: MenuType[];
 };
 
 export type FacilityType = {
-  id: string;
   name: string;
-  value: boolean;
+  checked: boolean;
 };
 
 export type PostType = {
   //포스트 타입에 관해 작성
+  postId: string;
+  image: File | string;
+  title: string;
+  author: string;
 };
 
 export type MenuType = {
@@ -39,13 +43,18 @@ export type CommentType = {
   content: string;
 };
 // 카페 정보를 담는 atom
-export const CafeState = atom<CafeType>({
+export const AllcafeState = atom<CafeType[]>({
+  key: 'AllcafeState',
+  default: [],
+});
+
+export const cafeState = atom<CafeType>({
   key: 'cafeState',
   default: {
     id: '',
     ownerId: '',
     name: '',
-    adress: '',
+    address: '',
     contact: '',
     notice: '',
     cafeImg: '',
@@ -56,4 +65,15 @@ export const CafeState = atom<CafeType>({
     post: [],
     menu: [],
   },
+});
+const { persistAtom } = recoilPersist({
+  key: 'recoil-persist',
+  storage: localStorage,
+  converter: JSON,
+});
+
+export const LoginState = atom<boolean>({
+  key: 'LoginState',
+  default: false,
+  effects_UNSTABLE: [persistAtom],
 });

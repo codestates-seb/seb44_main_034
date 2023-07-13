@@ -1,8 +1,8 @@
-import styled from 'styled-components';
 import { useState } from 'react';
+import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import axios from 'axios';
+import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
@@ -160,8 +160,8 @@ const UserSignupBox = () => {
     const currentName = event.target.value;
     setDisplayName(currentName);
 
-    if (currentName.length < 2 || currentName.length > 5) {
-      setDisplayNameMessage('닉네임은 2글자 이상 5글자 이하로 입력해주세요!');
+    if (currentName.length < 2 || currentName.length > 10) {
+      setDisplayNameMessage('닉네임은 2글자 이상 10글자 이하로 입력해주세요!');
       setIsName(false);
     } else {
       setDisplayNameMessage('사용가능한 닉네임 입니다.');

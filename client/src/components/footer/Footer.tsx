@@ -1,17 +1,18 @@
-import styled from 'styled-components';
-import logocafein from '../../assets/logocafein.svg';
-import logonaver from '../../assets/logonaver.png';
-import logoinstargram from '../../assets/logoinstargram.svg';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import Logo from '../../assets/Logo.svg';
+import logonaver from '../../assets/logonaver.png';
+import logoinstargram from '../../assets/logoinstargram.svg';
+import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
     display: flex;
     flex-direction: row;
-    height: 250px;
+    height: 200px;
     width: 100vw;
-    background-color: ${COLOR_1.sand};
+    border-top: solid 1px ${COLOR_1.light_gray};
+    background-color: #f7f7f7;
     padding: 0;
     margin: 0;
     @media screen and (max-width: 500px) {
@@ -23,11 +24,11 @@ const S = {
     flex-direction: column;
     text-align: left;
     height: 200px;
-    width: 65vw;
+    width: 70vw;
     margin-left: 10vw;
   `,
   LogoBox: styled.img`
-    height: 150px;
+    height: 100px;
     width: 150px;
     @media screen and (max-width: 500px) {
       height: 75px;
@@ -35,8 +36,8 @@ const S = {
     }
   `,
   LogoNaverBox: styled.img`
-    height: 50px;
-    width: 50px;
+    height: 40px;
+    width: 40px;
     margin-top: 8px;
     cursor: pointer;
     @media screen and (max-width: 500px) {
@@ -46,8 +47,8 @@ const S = {
     }
   `,
   LogoInstarBox: styled.img`
-    height: 67px;
-    width: 67px;
+    height: 56px;
+    width: 56px;
     cursor: pointer;
     @media screen and (max-width: 500px) {
       height: 42px;
@@ -80,24 +81,26 @@ const S = {
 
 const Footer: React.FC = () => {
   return (
-    <S.Container>
-      <S.MainBox>
-        <S.LogoBox src={logocafein} />
-        <S.ProjectTitle>카페인 서치 웹사이트</S.ProjectTitle>
-        <S.ProjectInformation>
-          서울특별시 서초구 서초동 서초대로 396
-        </S.ProjectInformation>
-        <S.ProjectInformation>프로젝트 팀:CafeIn</S.ProjectInformation>
-        <S.ProjectInformation>
-          github:codestats_seb/seb44_main_034 | 사업 및 제휴문의:
-          cafeinplus@zmail.com
-        </S.ProjectInformation>
-      </S.MainBox>
-      <S.LinkBox>
-        <S.LogoNaverBox src={logonaver}></S.LogoNaverBox>
-        <S.LogoInstarBox src={logoinstargram}></S.LogoInstarBox>
-      </S.LinkBox>
-    </S.Container>
+    <footer>
+      <S.Container>
+        <S.MainBox>
+          <S.LogoBox src={Logo} />
+          <S.ProjectTitle>CafeIn</S.ProjectTitle>
+          <S.ProjectInformation>
+            서울특별시 서초구 서초동 서초대로 396
+          </S.ProjectInformation>
+          <S.ProjectInformation>프로젝트 팀:CafeIn</S.ProjectInformation>
+          <S.ProjectInformation>
+            github:codestats_seb/seb44_main_034 | 사업 및 제휴문의:
+            cafeinplus@zmail.com
+          </S.ProjectInformation>
+        </S.MainBox>
+        <S.LinkBox>
+          <S.LogoNaverBox src={logonaver}></S.LogoNaverBox>
+          <S.LogoInstarBox src={logoinstargram}></S.LogoInstarBox>
+        </S.LinkBox>
+      </S.Container>
+    </footer>
   );
 };
 

@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from "../common";
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../common';
 
 type PlusBtnProps = {
   text: string;
+  handleEvent: ()=>void;
 }
 
-const PlusBtn = ({text}:PlusBtnProps) => {
-
+const PlusBtn = ({text, handleEvent}:PlusBtnProps) => {
   return (
-  <S.PlusBtn>
+  <S.PlusBtn onClick={() => {handleEvent}} >
     {text}
   </S.PlusBtn>
   )
@@ -26,12 +26,11 @@ const S = {
     border-radius: 50%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     @media screen and (max-width: 500px) {
-    width: 40px;
-    height: 40px;
-    font-size: ${FONT_SIZE_1.big_2};
-  }
-  `
-
-}
+      width: 40px;
+      height: 40px;
+      font-size: ${FONT_SIZE_1.big_2};
+    }
+  `,
+};
 
 export default PlusBtn;

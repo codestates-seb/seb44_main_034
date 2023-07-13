@@ -1,9 +1,11 @@
-import styled from 'styled-components';
-import profileimg from '../../assets/profileimg.svg';
-import coffeeshop from '../../assets/coffeeshop.svg';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import coffeeshop from '../../assets/coffeeshop.svg';
+import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
@@ -147,15 +149,39 @@ const S = {
       width: 23vw;
     }
   `,
+  DeletBtn: styled.button``,
 };
 const OwnerMyPageBox = () => {
+  const replace = useNavigate();
+  useEffect(() => {
+    axios
+      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log('success');
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // Handle error.
+
+        console.log('An error occurred:', error.response);
+        replace('/');
+      });
+  });
   return (
     <S.Container>
       <S.TopBox>
         <S.TopSubBox></S.TopSubBox>
-        <S.TitleBox>마이페이지</S.TitleBox>
+        <S.TitleBox>사업자 마이페이지</S.TitleBox>
         <S.TopSubBox>
-          <S.EditBtn>프로필 수정</S.EditBtn>
+          <Link to='edit/:id'>
+            <S.EditBtn>프로필 수정</S.EditBtn>
+          </Link>
         </S.TopSubBox>
       </S.TopBox>
       <S.MiddleBox>
@@ -165,13 +191,11 @@ const OwnerMyPageBox = () => {
             <S.TitleInformaiton>닉네임</S.TitleInformaiton>
             <S.TitleInformaiton>회원등급</S.TitleInformaiton>
             <S.TitleInformaiton>팔로워</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox>
             <S.Informaiton>cafein@cafein.com</S.Informaiton>
             <S.Informaiton>카페인</S.Informaiton>
             <S.Informaiton>에소프레소</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
             <S.Informaiton>100</S.Informaiton>
           </S.InformaitonBox>
         </S.AllProfileBoxRight>

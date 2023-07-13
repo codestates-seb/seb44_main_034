@@ -2,15 +2,18 @@ import { useState } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
+    display: flex;
+    flex-direction: column;
     margin-top: 20px;
-    height: 500px;
+    height: 800px;
     width: 400px;
     @media screen and (max-width: 500px) {
-      height: 350px;
+      height: 540px;
       width: 300px;
     }
   `,
@@ -26,13 +29,13 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 500px;
+    height: 600px;
     width: 400px;
     border-radius: 20px;
-    border: solid 1px ${COLOR_1.light_gray};
+    border: solid 1px #cfcfcf;
     background-color: ${COLOR_1.ivory};
     @media screen and (max-width: 500px) {
-      height: 320px;
+      height: 350px;
       width: 300px;
     }
   `,
@@ -40,11 +43,11 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 400px;
+    height: 500px;
     width: 350px;
     margin-top: 10px;
     @media screen and (max-width: 500px) {
-      height: 375px;
+      height: 300px;
       width: 250px;
     }
   `,
@@ -81,10 +84,10 @@ const S = {
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
-    font-size: 20px;
+    font-size: ${FONT_SIZE_1.big_2};
     margin-bottom: 40px;
     cursor: pointer;
-
+    border: solid 1px #cfcfcf;
     &:hover {
       background-color: #a57d52;
     }
@@ -98,7 +101,7 @@ const S = {
       border: none;
       background-color: dark_sand;
       color: white;
-      font-size: 10px;
+      font-size: ${FONT_SIZE_1.normal_2};
       margin-bottom: 20px;
     }
   `,
@@ -121,39 +124,52 @@ const S = {
       width: 250px;
     }
   `,
+  ProfileImgBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    @media screen and (max-width: 500px) {
+      width: 260px;
+    }
+  `,
+  ProfileImg: styled.img`
+    height: 150px;
+    @media screen and (max-width: 500px) {
+      height: 80px;
+    }
+  `,
+  DeleteBtn: styled.button`
+    width: 60px;
+    height: 35px;
+    margin-top: 55px;
+    margin-left: 17px;
+    color: gray;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba(49, 114, 220, 0.05);
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 3px #aedcff;
+    }
+  `,
 };
 
-const OwnerSignupBox = () => {
-  const [email, setEmail] = useState<string>('');
+const EditOwnerMyPageBox = () => {
   const [displayName, setDisplayName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
 
-  const [idMessage, setIdMessage] = useState<string>('');
   const [displayNameMessage, setDisplayNameMessage] = useState<string>('');
   const [passwordMessage, setPasswordMessage] = useState<string>('');
   const [passwordConfirmMessage, setPasswordConfirmMessage] =
     useState<string>('');
 
-  const [isId, setIsId] = useState<boolean>(false);
   const [isname, setIsName] = useState<boolean>(false);
   const [isPassword, setIsPassword] = useState<boolean>(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false);
-
-  const onChangeId = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const currentId = event.target.value;
-    setEmail(currentId);
-    const idRegExp =
-      /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-
-    if (!idRegExp.test(currentId)) {
-      setIdMessage('이메일 형식에 맞게 작성해주세요');
-      setIsId(false);
-    } else {
-      setIdMessage('사용가능한 아이디 입니다.');
-      setIsId(true);
-    }
-  };
 
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     const currentName = event.target.value;
@@ -189,18 +205,17 @@ const OwnerSignupBox = () => {
     const currentPasswordConfirm = event.target.value;
     setPasswordConfirm(currentPasswordConfirm);
     if (password !== currentPasswordConfirm) {
-      setPasswordConfirmMessage('떼잉~ 비밀번호가 똑같지 않아요!');
+      setPasswordConfirmMessage('비밀번호가 일치하지 않습니다');
       setIsPasswordConfirm(false);
     } else {
-      setPasswordConfirmMessage('똑같은 비밀번호를 입력했습니다.');
+      setPasswordConfirmMessage('');
       setIsPasswordConfirm(true);
     }
   };
   const register = () => {
-    if (isId && isname && isPassword && isPasswordConfirm) {
+    if (isname && isPassword && isPasswordConfirm) {
       axios
-        .post('https://c1da-58-237-124-214.ngrok-free.app/api/owners/sign-up', {
-          email: email,
+        .post('http://43.201.232.213:8080/members', {
           password: password,
           displayName: displayName,
         })
@@ -208,30 +223,48 @@ const OwnerSignupBox = () => {
           // Handle success.
           console.log('Well done!');
           console.log('User profile', response);
-          alert('가입이 완료되었습니디.');
+          alert('수정완료 되었습니다.');
         })
         .catch((error) => {
           // Handle error.
           console.log('An error occurred:', error.response);
         });
     } else {
-      alert('틀린곳이 있나 확인랍니다.');
+      alert('공백없이 입력바랍니다.');
+    }
+  };
+  const deleteAccout = () => {
+    const result = window.confirm('정말 계정을 삭제하시겠습니까? 정말로요?');
+    if (result) {
+      axios
+        .delete(`http://43.201.232.213:8080/members`)
+        .then((response) => {
+          // Handle success.
+          console.log(response);
+          localStorage.removeItem('recoil-persist');
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          window.location.replace('/');
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log('An error occurred:', error.response);
+        });
+    } else {
+      // 취소 버튼이 눌렸을 때의 동작
+      console.log('Cancelled');
     }
   };
   return (
     <S.Container>
       <S.MainBox>
-        <S.MainTitle>사업자 회원가입</S.MainTitle>
+        <S.MainTitle>사업자 회원 정보 수정하기</S.MainTitle>
       </S.MainBox>
       <S.SubBox>
         <S.SubMiniBox>
-          <S.SubTitle htmlFor='email'>아이디</S.SubTitle>
-          <S.InputBox
-            id='email'
-            value={email}
-            onChange={onChangeId}
-          ></S.InputBox>
-          <S.InputInformation>{idMessage}</S.InputInformation>
+          <S.ProfileImgBox>
+            <S.ProfileImg src={profileimg}></S.ProfileImg>
+          </S.ProfileImgBox>
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
             id='displayName'
@@ -239,7 +272,7 @@ const OwnerSignupBox = () => {
             onChange={onChangeName}
           ></S.InputBox>
           <S.InputInformation>{displayNameMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
+          <S.SubTitle htmlFor='password'>비밀번호 변경</S.SubTitle>
           <S.InputBox
             id='password'
             type='password'
@@ -247,7 +280,7 @@ const OwnerSignupBox = () => {
             onChange={onChangePassword}
           ></S.InputBox>
           <S.InputInformation>{passwordMessage}</S.InputInformation>
-          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 확인</S.SubTitle>
+          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 변경 확인</S.SubTitle>
           <S.InputBox
             id='passwordConfirm'
             type='password'
@@ -261,11 +294,18 @@ const OwnerSignupBox = () => {
             register();
           }}
         >
-          회원가입
+          수정완료
         </S.DarkSandBtn>
       </S.SubBox>
+      <S.DeleteBtn
+        onClick={() => {
+          deleteAccout();
+        }}
+      >
+        탈퇴하기
+      </S.DeleteBtn>
     </S.Container>
   );
 };
 
-export default OwnerSignupBox;
+export default EditOwnerMyPageBox;
