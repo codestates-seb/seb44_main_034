@@ -1,23 +1,21 @@
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
-import { LoginState } from '../../recoil/recoil';
-import { useRecoilState } from 'recoil';
 import axios from 'axios';
-import GoogleLoginButton from '../googleoauth/GoogleOauth';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 400px;
+    height: 160px;
     width: 90vw;
     border-radius: 20px;
     background-color: #fafafa;
+    margin-top: 5px;
     box-shadow: 1px 1px 3px 1px gray;
     @media screen and (min-width: 550px) {
       width: 500px;
@@ -27,7 +25,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 250px;
+    height: 150px;
     width: 80vw;
     margin-top: 10px;
     @media screen and (min-width: 550px) {
@@ -52,21 +50,21 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  SubmitInput: styled.input`
+  DeleleInput: styled.input`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
     border: none;
-    background-color: ${COLOR_1.green};
+    background-color: #ff9587;
     color: black;
     font-size: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
-    border: solid 1px #cfcfcf;
+    border: solid 1px #ffffff;
     cursor: pointer;
 
     &:hover {
-      background-color: #a4c6a4;
+      background-color: #fd5050;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
@@ -95,68 +93,38 @@ const S = {
     }
   `,
 };
+
 interface FormValue {
-  username: string;
   password: string;
 }
 
-const LoginBox = () => {
-  const [isLogin, setIsLogin] = useRecoilState(LoginState);
-  const replace = useNavigate();
-  useEffect(() => {
-    if (isLogin) {
-      replace('/');
-    }
-  });
+const DeleteAccountBox = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>();
-
   const onSubmit: SubmitHandler<FormValue> = (data) =>
     axios
-      .post('https://c1da-58-237-124-214.ngrok-free.app/api/users/log-in', {
+      .delete(`http://43.201.232.213:8080/members`, {
         data,
       })
       .then((response) => {
         // Handle success.
-        console.log('Login successful!');
         console.log(response);
-        console.log(response.headers.role);
-        localStorage.setItem('access_token', response.headers.authorization);
-        localStorage.setItem('refresh_token', response.headers.refresh);
-        localStorage.setItem('role_token', response.headers.role);
-        setIsLogin(true);
+        localStorage.removeItem('recoil-persist');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.replace('/');
       })
       .catch((error) => {
         // Handle error.
         console.log('An error occurred:', error.response);
       });
-
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.SubMiniBox>
-          <S.SubTitle htmlFor='email'>이메일</S.SubTitle>
-          <S.InputBox
-            id='email'
-            type='text'
-            placeholder='이메일을 입력하세요'
-            {...register('username', {
-              required: '이메일은 필수 입력입니다.',
-              pattern: {
-                value:
-                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                message: '이메일 형식에 맞지 않습니다.',
-              },
-            })}
-          />
-          {errors.username ? (
-            <S.InputInformation>{errors.username.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
             id='password'
@@ -178,18 +146,17 @@ const LoginBox = () => {
                   '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
               },
             })}
-          ></S.InputBox>
+          />
           {errors.password ? (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
+          <S.DeleleInput type='submit' value='탈퇴하기' />
         </S.SubMiniBox>
-        <S.SubmitInput type='submit' value='로그인' />
       </form>
-      <GoogleLoginButton />
     </S.Container>
   );
 };
 
-export default LoginBox;
+export default DeleteAccountBox;

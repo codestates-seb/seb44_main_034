@@ -1,8 +1,9 @@
-// import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { COLOR_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
+import { LoginState } from '../../recoil/recoil';
 
 const S = {
   Container: styled.div`
@@ -72,20 +73,22 @@ const S = {
 };
 
 const ProfileModal = () => {
-  // useEffect(() => {
-  //   if (localStorage.getItem('access_token') === 'owner') {
-  //     setLoginDistinction(true);
-  //   } else {
-  //     setLoginDistinction(false);
-  //   }
-  // });
+  const [loginDistinction, setLoginDistinction] = useState<boolean>(false);
+  useEffect(() => {
+    if (localStorage.getItem('rloe_token') === 'owner') {
+      setLoginDistinction(true);
+    } else {
+      setLoginDistinction(false);
+    }
+  });
 
-  // const resetHandler = () => {
-  //   localStorage.removeItem('recoil-persist');
-  //   localStorage.removeItem('access_token');
-  //   localStorage.removeItem('refresh_token');
-  //   window.location.replace('/');
-  // };
+  const LogoutHandler = () => {
+    localStorage.removeItem('recoil-persist');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('role_token');
+    window.location.replace('/');
+  };
   return (
     <S.Container>
       <S.IconBox></S.IconBox>
@@ -93,14 +96,31 @@ const ProfileModal = () => {
         <S.ProfileImg src={profileimg}></S.ProfileImg>
         <S.DisplayName>안녕하세요! 카페인입니다!</S.DisplayName>
       </S.TopBox>
-      <S.ButtonBox>
-        <Link to='/login'>
-          <S.ModalLeftBox>로그인</S.ModalLeftBox>
-        </Link>
-        <Link to='/signupselect'>
-          <S.ModalRightBox>회원가입</S.ModalRightBox>
-        </Link>
-      </S.ButtonBox>
+
+      {!LoginState ? (
+        <S.ButtonBox>
+          <Link to='/login'>
+            <S.ModalLeftBox>로그인</S.ModalLeftBox>
+          </Link>
+          <Link to='/signupselect'>
+            <S.ModalRightBox>회원가입</S.ModalRightBox>
+          </Link>
+        </S.ButtonBox>
+      ) : !loginDistinction ? (
+        <S.ButtonBox>
+          <Link to='/usermy'>
+            <S.ModalLeftBox>마이페이지</S.ModalLeftBox>
+          </Link>
+          <S.ModalRightBox>로그아웃</S.ModalRightBox>
+        </S.ButtonBox>
+      ) : (
+        <S.ButtonBox>
+          <Link to='/ownermy'>
+            <S.ModalLeftBox>마이페이지</S.ModalLeftBox>
+          </Link>
+          <S.ModalRightBox onClick={LogoutHandler}>로그아웃</S.ModalRightBox>
+        </S.ButtonBox>
+      )}
     </S.Container>
   );
 };

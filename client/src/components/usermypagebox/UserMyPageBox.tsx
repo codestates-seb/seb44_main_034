@@ -1,93 +1,102 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import { data as dataAll } from '../../mockData/cafePost.json';
-import { CafePostList } from '../../types/type';
-import PostThumbnail from '../../common/posting/PostThumbnail';
 import FollowerModal from '../followermodal/FollowerModal';
 import FollowingModal from '../followingmodal/FollowingModal';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
-    min-height: 90vh;
-    width: 65vw;
-    @media screen and (max-width: 500px) {
-      width: 70vw;
+    min-height: 100vh;
+    width: 90vw;
+    @media screen and (min-width: 768px) {
+      width: 700px;
     }
-  `,
-  TopBox: styled.div`
-    display: flex;
-    margin-top: 30px;
-  `,
-  TopSubBox: styled.div`
-    width: 33vw;
   `,
   MiddleBox: styled.div`
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    height: 25vh;
-  `,
-  BottomBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-  `,
-  EditBtn: styled.div`
-    width: 12vw;
-    border-radius: 5px;
-    margin-left: 10vw;
-    color: ${COLOR_1.dark_sand};
-    background-color: ${COLOR_1.ivory};
-    cursor: pointer;
-    &:hover {
-      background-color: #a57d52;
-    }
-    &:active {
-      box-shadow: 0px 0px 1px 5px #e1e1e1;
-    }
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_2};
-    }
-  `,
-  TitleBox: styled.div`
-    width: 33vw;
-    font-size: ${FONT_SIZE_1.big_2};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.normal_2};
-    }
-  `,
-  ProfileImg: styled.img`
-    width: 14vw;
-    @media screen and (max-width: 500px) {
-      width: 20vw;
-    }
-  `,
-  AllProfileBoxLeft: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 25vh;
-    width: 30vw;
-    @media screen and (max-width: 800px) {
-      height: 20vh;
+    height: 400px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      flex-direction: row;
+      width: 700px;
     }
   `,
-  AllProfileBoxRight: styled.div`
+  BottomBox: styled.div`
     display: flex;
-    height: 25vh;
-    width: 30vw;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 700px;
+    }
+  `,
+  EditButtonBox: styled.div`
+    display: flex;
+    justify-content: right;
+    height: 60px;
+    width: 90vw;
+    border-bottom: solid 1px ${COLOR_1.light_gray};
+    @media screen and (min-width: 786px) {
+      width: 700px;
+    }
+  `,
+  EditButton: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: ${COLOR_1.dark_sand};
+    background-color: ${COLOR_1.ivory};
+    border: solid 1px ${COLOR_1.dark_brown};
+    cursor: pointer;
+    &:hover {
+      background-color: #a57d52;
+      color: white;
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 5px #e1e1e1;
+      color: white;
+    }
+  `,
+  ProfileImg: styled.img`
+    width: 150px;
+    @media screen and (min-width: 786px) {
+      width: 200px;
+    }
+  `,
+  ProfileImgBox: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 350px;
+    }
+  `,
+  ProfileListBox: styled.div`
+    display: flex;
+    height: 200px;
+    width: 90vw;
     border-radius: 10px;
-    background-color: ${COLOR_1.light_green};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_1};
-      height: 20vh;
+    background-color: ${COLOR_1.white};
+    border: solid 2px ${COLOR_1.green};
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
   TitleInformaitonBox: styled.div`
@@ -95,10 +104,18 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 20vw;
+    @media screen and (min-width: 786px) {
+      width: 80px;
+    }
   `,
   TitleInformaiton: styled.div`
-    width: 10vw;
+    width: 20vw;
     margin-top: 5px;
+    text-align: center;
+    @media screen and (min-width: 786px) {
+      width: 60px;
+    }
   `,
   FollowerInformaiton: styled.div`
     width: 10vw;
@@ -123,28 +140,28 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20vw;
+    width: 70vw;
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   Informaiton: styled.div`
-    width: 25vw;
+    text-align: center;
+    width: 70vw;
     margin-top: 5px;
-  `,
-  CafeImgBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-  `,
-  CafeImg: styled.img`
-    margin-top: 15px;
-    width: 18vw;
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   SandBtn: styled.button`
     height: 5vh;
-    width: 18vw;
+    width: 27vw;
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.ivory};
     color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_1.big_1};
+    font-size: ${FONT_SIZE_1.small_2};
+    border: solid 1px ${COLOR_1.dark_brown};
     cursor: pointer;
     &:hover {
       background-color: #a57d52;
@@ -152,46 +169,9 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_2};
-    }
-  `,
-  ContainerA: styled.div`
-    display: block;
-    padding: 20px;
-    > ul {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: wrap;
-      padding: 0;
-      > li {
-        margin: 20px;
-        @media screen and (max-width: 500px) {
-          margin: 10px;
-        }
-      }
-    }
-  `,
-  PostStart: styled.div`
-    display: flex;
-    justify-content: space-between;
-    height: 60px;
-    border-bottom: 1px solid ${COLOR_1.dark_brown};
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_1.big_1};
-      margin: 10px;
-      padding: 2px;
-      height: 45px;
-      border-bottom: 1px solid rgba(72, 50, 25, 0.5);
-    }
-    > span {
-      margin-top: 10px;
-      color: ${COLOR_1.black};
-      font-size: ${FONT_SIZE_1.big_4};
-      @media screen and (max-width: 500px) {
-        font-size: ${FONT_SIZE_1.big_2};
-      }
+    @media screen and (min-width: 786px) {
+      font-size: ${FONT_SIZE_1.normal_2};
+      width: 200px;
     }
   `,
 };
@@ -260,47 +240,34 @@ const UserMyPageBox = () => {
   const data = dataAll.post;
   return (
     <S.Container>
-      <S.TopBox>
-        <S.TopSubBox></S.TopSubBox>
-
-        <S.TitleBox>마이페이지</S.TitleBox>
-        <S.TopSubBox>
-          <Link to='/usermypage/edit/:id'>
-            <S.EditBtn>프로필 수정</S.EditBtn>
-          </Link>
-        </S.TopSubBox>
-      </S.TopBox>
       <S.MiddleBox>
-        <S.AllProfileBoxLeft>
+        <S.ProfileImgBox>
           <S.ProfileImg src={profileimg}></S.ProfileImg>
-        </S.AllProfileBoxLeft>
-        <S.AllProfileBoxRight>
+        </S.ProfileImgBox>
+        <S.ProfileListBox>
           <S.TitleInformaitonBox>
             <S.TitleInformaiton>이메일</S.TitleInformaiton>
             <S.TitleInformaiton>닉네임</S.TitleInformaiton>
             <S.TitleInformaiton>회원등급</S.TitleInformaiton>
-            <div>
-              <S.FollowerInformaiton onClick={openFollowerModal}>
-                팔로워
-              </S.FollowerInformaiton>
-              {isFollowerOpen ? <FollowerModal /> : null}
-            </div>
-            <div>
-              <S.FollowingInformaiton onClick={openFollowingModal}>
-                팔로잉
-              </S.FollowingInformaiton>
-              {isFollowingOpen ? <FollowingModal /> : null}
-            </div>
+            <S.TitleInformaiton>팔로워</S.TitleInformaiton>
+            <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox>
             <S.Informaiton>cafein@cafein.com</S.Informaiton>
             <S.Informaiton>카페인</S.Informaiton>
             <S.Informaiton>에소프레소</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
+            <S.Informaiton onClick={openFollowerModal}>100</S.Informaiton>
+            {isFollowerOpen ? <FollowerModal /> : null}
+            <S.Informaiton onClick={openFollowingModal}>100</S.Informaiton>
+            {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>
-        </S.AllProfileBoxRight>
+        </S.ProfileListBox>
       </S.MiddleBox>
+      <S.EditButtonBox>
+        <Link to='/usermy/edit/:id'>
+          <S.EditButton>내 정보 수정하기</S.EditButton>
+        </Link>
+      </S.EditButtonBox>
       <S.BottomBox>
         <S.SandBtn
           onClick={handleBookmarkCafeFocus}
@@ -333,22 +300,6 @@ const UserMyPageBox = () => {
           작성한 포스트
         </S.SandBtn>
       </S.BottomBox>
-
-      <S.CafeImgBox>
-        <S.ContainerA>
-          <ul>
-            {data.map((el: CafePostList) => (
-              <li key={el.postId}>
-                <PostThumbnail
-                  image={el.image}
-                  title={el.title}
-                  author={el.author}
-                />
-              </li>
-            ))}
-          </ul>
-        </S.ContainerA>
-      </S.CafeImgBox>
     </S.Container>
   );
 };
