@@ -132,4 +132,9 @@ public class PostService {
             postTagService.createPostTag(postRequest.getTags(), post, post.getCafe());
         }
     }
+
+    public List<PostResponse> getPosts(Long cafeId) {
+
+        return postRepository.getPosts(cafeId);
+    }
 }

@@ -64,9 +64,9 @@ public class MenuService {
         return menuRepository.getMenu(menuId);
     }
 
-    public List<List<MenuResponse>> getMenus() {
+    public List<List<MenuResponse>> getMenus(Long cafeId) {
 
-        return menuRepository.getMenus();
+        return menuRepository.getMenus(cafeId);
     }
 
     public Menu findMenuById(Long menuId) {

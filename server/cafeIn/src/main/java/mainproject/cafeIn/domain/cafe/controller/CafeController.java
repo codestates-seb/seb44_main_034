@@ -4,10 +4,17 @@ import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.PageCafeRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
+import mainproject.cafeIn.domain.cafe.dto.response.CafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.GetCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.service.CafeBookmarkService;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
+import mainproject.cafeIn.domain.menu.dto.response.MenuResponse;
+import mainproject.cafeIn.domain.menu.service.MenuService;
+import mainproject.cafeIn.domain.post.dto.response.PostResponse;
+import mainproject.cafeIn.domain.post.service.PostService;
+import mainproject.cafeIn.domain.tag.dto.TagResponse;
+import mainproject.cafeIn.domain.tag.service.TagService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +31,9 @@ import static org.springframework.http.HttpStatus.OK;
 public class CafeController {
     private final CafeService cafeService;
     private final CafeBookmarkService cafeBookmarkService;
+    private final MenuService menuService;
+    private final TagService tagService;
+    private final PostService postService;
 
     // 카페 등록
     @PostMapping
@@ -52,8 +62,15 @@ public class CafeController {
     @GetMapping("/{cafe-id}")
     @ResponseStatus(OK)
     public ApplicationResponse<GetCafeDetailResponse> getCafe(@PathVariable("cafe-id") Long cafeId) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
 
-        return new ApplicationResponse<>();
+        CafeDetailResponse cafeDetail = cafeService.getCafe(cafeId);
+        List<List<MenuResponse>> menus = menuService.getMenus(cafeId);
+        List<PostResponse> posts = postService.getPosts(cafeId);
+        List<TagResponse> tags = tagService.getTags(cafeId);
+        boolean isBookmarked = cafeBookmarkService.isBookmarked(cafeId, loginId);
+
+        return new ApplicationResponse<>(new GetCafeDetailResponse(cafeDetail, menus, posts, tags, isBookmarked));
     }
 
     // 카페 삭제

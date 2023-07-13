@@ -32,17 +32,17 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
     }
 
     @Override
-    public List<List<MenuResponse>> getMenus() {
+    public List<List<MenuResponse>> getMenus(Long cafeId) {
         List<List<MenuResponse>> menuList = new ArrayList<>();
-        menuList.add(getCoffees());
-        menuList.add(getNonCoffees());
-        menuList.add(getDesserts());
-        menuList.add(getSignatures());
+        menuList.add(getCoffees(cafeId));
+        menuList.add(getNonCoffees(cafeId));
+        menuList.add(getDesserts(cafeId));
+        menuList.add(getSignatures(cafeId));
 
         return menuList;
     }
 
-    private List<MenuResponse> getCoffees() {
+    private List<MenuResponse> getCoffees(Long cafeId) {
         return queryFactory
                 .select(new QMenuResponse(
                         menu.id,
@@ -51,12 +51,13 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                         menu.menuType
                 ))
                 .from(menu)
-                .where(menu.menuType.eq(MenuType.COFFEE))
+                .where(menu.menuType.eq(MenuType.COFFEE),
+                        menu.cafe.id.eq(cafeId))
                 .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
-    private List<MenuResponse> getNonCoffees() {
+    private List<MenuResponse> getNonCoffees(Long cafeId) {
         return queryFactory
                 .select(new QMenuResponse(
                         menu.id,
@@ -65,12 +66,13 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                         menu.menuType
                 ))
                 .from(menu)
-                .where(menu.menuType.eq(MenuType.NON_COFFEE))
+                .where(menu.menuType.eq(MenuType.NON_COFFEE),
+                        menu.cafe.id.eq(cafeId))
                 .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
-    private List<MenuResponse> getDesserts() {
+    private List<MenuResponse> getDesserts(Long cafeId) {
         return queryFactory
                 .select(new QMenuResponse(
                         menu.id,
@@ -79,12 +81,13 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                         menu.menuType
                 ))
                 .from(menu)
-                .where(menu.menuType.eq(MenuType.DESSERT))
+                .where(menu.menuType.eq(MenuType.DESSERT),
+                        menu.cafe.id.eq(cafeId))
                 .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
-    private List<MenuResponse> getSignatures() {
+    private List<MenuResponse> getSignatures(Long cafeId) {
         return queryFactory
                 .select(new QMenuResponse(
                         menu.id,
@@ -93,7 +96,8 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                         menu.menuType
                 ))
                 .from(menu)
-                .where(menu.menuType.eq(MenuType.SIGNATURE))
+                .where(menu.menuType.eq(MenuType.SIGNATURE),
+                        menu.cafe.id.eq(cafeId))
                 .orderBy(menu.sequence.asc())
                 .fetch();
     }

@@ -9,7 +9,9 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
+import mainproject.cafeIn.domain.cafe.dto.response.CafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
+import mainproject.cafeIn.domain.cafe.dto.response.QCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeResponse;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepositoryCustom;
 import mainproject.cafeIn.domain.tag.dto.QTagResponse;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
+import static mainproject.cafeIn.domain.owner.entity.QOwner.owner;
 import static mainproject.cafeIn.domain.post.entity.QPost.post;
 import static mainproject.cafeIn.domain.tag.entity.QPostTag.postTag;
 import static mainproject.cafeIn.domain.tag.entity.QTag.tag;
@@ -30,6 +33,33 @@ import static mainproject.cafeIn.domain.tag.entity.QTag.tag;
 @RequiredArgsConstructor
 public class CafeRepositoryImpl implements CafeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public CafeDetailResponse getCafe(Long cafeId) {
+        return queryFactory.select(new QCafeDetailResponse(
+                        cafe.owner.ownerId,
+                        cafe.id,
+                        cafe.name,
+                        cafe.address,
+                        cafe.latitude,
+                        cafe.longitude,
+                        cafe.contact,
+                        cafe.notice,
+                        cafe.image,
+                        cafe.rating,
+                        cafe.openTime,
+                        cafe.closeTime,
+                        cafe.isOpenAllTime,
+                        cafe.isChargingAvailable,
+                        cafe.hasParking,
+                        cafe.isPetFriendly,
+                        cafe.hasDessert
+                ))
+                .from(cafe)
+                .where(cafe.id.eq(cafeId))
+                .leftJoin(cafe.owner, owner)
+                .fetchOne();
+    }
 
     @Override
     public List<CafeResponse> findCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
