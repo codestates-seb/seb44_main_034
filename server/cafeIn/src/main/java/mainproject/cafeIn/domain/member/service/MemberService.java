@@ -54,7 +54,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(MemberDto.Patch patch, long id) {
+    public void updateMember(MemberDto.Patch patch, Long id) {
 
         Member findmember = findById(id);
 
@@ -68,7 +68,7 @@ public class MemberService {
 
     }
 
-    public UpdateMember getMember(long id) {
+    public UpdateMember getMember(Long id) {
         Member findMember = findById(id);
 
 
@@ -78,7 +78,7 @@ public class MemberService {
     }
 
 
-    public MyPageDetails myPageMember(long id) {
+    public MyPageDetails myPageMember(Long id) {
 
         Member findMember = findById(id);
         long countFollower = followRepository.countByFollowingId(id);
@@ -94,7 +94,7 @@ public class MemberService {
         return memberInfo;
     }
 
-    public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(Long id, Long cursorId, Pageable pageable) {
 
         Slice<MyBookMarkCafeList> postList = memberRepository.findByBookMarkCafeList(id, cursorId, pageable);
         List<MyBookMarkCafeList> list = postList.getContent();
@@ -104,7 +104,7 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
-    public SliceResponse<MyPagePostList> myBookMarkPost(long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<MyPagePostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
 
         Slice<MyPagePostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
@@ -116,7 +116,7 @@ public class MemberService {
 
 
 
-    public UserPageDetails userPage(long id, long memberId) {
+    public UserPageDetails userPage(Long id, Long memberId) {
 
         Member userMember = findById(memberId);
         Member findMember = findById(id);
@@ -132,7 +132,7 @@ public class MemberService {
 
     }
 
-    public SliceResponse<MyPagePostList> postList(long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<MyPagePostList> postList(Long id, Long cursorId, Pageable pageable) {
 
         Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
@@ -143,7 +143,7 @@ public class MemberService {
 
     }
     @Transactional
-    public void followMember(long id, long memberId) {
+    public void followMember(Long id, Long memberId) {
 
         Member findFollowingMember = findById(memberId);
         Member findMember = findById(id);
@@ -160,7 +160,7 @@ public class MemberService {
 
     }
 
-    public Member signOut(long id, String password) {
+    public Member signOut(Long id, String password) {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
@@ -172,7 +172,7 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public SliceResponse<SearchFollow> followingList(long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followingList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> following = memberRepository.findByFollowingList(id, cursorId,pageable);
@@ -183,7 +183,7 @@ public class MemberService {
         return new SliceResponse<>(followings,hasNext,size);
     }
 
-    public SliceResponse<SearchFollow> followerList(long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followerList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> follower = memberRepository.findByFollowerList(id, cursorId, pageable);
@@ -211,7 +211,7 @@ public class MemberService {
         }
     }
 
-    public Member findById(long id) {
+    public Member findById(Long id) {
 
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));

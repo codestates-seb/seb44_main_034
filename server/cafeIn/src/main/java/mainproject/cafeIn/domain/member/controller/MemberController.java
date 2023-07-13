@@ -52,7 +52,7 @@ public class MemberController {
     @ResponseStatus(OK)
     public ApplicationResponse getMember() {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         UpdateMember response = memberService.getMember(id);
 
 
@@ -63,7 +63,7 @@ public class MemberController {
     @ResponseStatus(OK)
     public ApplicationResponse myInfo() {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         MyPageDetails response = memberService.myPageMember(id);
 
         return new ApplicationResponse<>(response);
@@ -74,7 +74,7 @@ public class MemberController {
     public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<MyBookMarkCafeList> response = memberService.myBookMarkCafe(id, cursorId, pageable);
 
         return new ApplicationResponse<>(response);
@@ -85,7 +85,7 @@ public class MemberController {
     public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<MyPagePostList> response = memberService.myBookMarkPost(id, cursorId, pageable);
 
         return new ApplicationResponse<>(response);
@@ -96,7 +96,7 @@ public class MemberController {
     public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "id", required = false) Long cursorId,
                                       @PageableDefault(size = 3) Pageable pageable) {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<MyPagePostList> response = memberService.postList(id, cursorId, pageable);
 
         return new ApplicationResponse<>(response);
@@ -126,7 +126,7 @@ public class MemberController {
     @ResponseStatus(OK)
     public ApplicationResponse memberFollow(@PathVariable("member-id") long memberId) {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.followMember(id, memberId);
         return new ApplicationResponse<>();
     }
@@ -135,7 +135,7 @@ public class MemberController {
     @ResponseStatus(OK)
     public ApplicationResponse signOutMember(@RequestBody MemberDto.checkPassword password) {
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.signOut(id, password.getPassword());
 
         return new ApplicationResponse<>();
@@ -146,7 +146,7 @@ public class MemberController {
     public ApplicationResponse<SliceResponse<SearchFollow>> followingMembers(@RequestParam(value = "id", required = false) Long cursorId,
                                                 @PageableDefault(size = 2) Pageable pageable){
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followingList(id, cursorId, pageable);
         return new ApplicationResponse<>(response);
     }
@@ -156,7 +156,7 @@ public class MemberController {
     public ApplicationResponse<SliceResponse<SearchFollow>> followerMembers(@RequestParam(value = "id", required = false) Long cursorId,
                                                @PageableDefault(size = 2) Pageable pageable){
 
-        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followerList(id, cursorId, pageable);
         return new ApplicationResponse<>(response);
     }
