@@ -11,11 +11,11 @@ public class MyPageDetails {
     private String displayName;
     private String image;
     private MemberGrade grade;
-    private long countFollower;
-    private long countFollowing;
+    private Long countFollower;
+    private Long countFollowing;
 
     @Builder
-    public MyPageDetails(String email, String displayName, String image, MemberGrade grade, long countFollower, long countFollowing) {
+    public MyPageDetails(String email, String displayName, String image, MemberGrade grade, Long countFollower, Long countFollowing) {
         this.email = email;
         this.displayName = displayName;
         this.image = image;

@@ -81,8 +81,8 @@ public class MemberService {
     public MyPageDetails myPageMember(Long id) {
 
         Member findMember = findById(id);
-        long countFollower = followRepository.countByFollowingId(id);
-        long countFollowing = followRepository.countByFollowerId(id);
+        Long countFollower = followRepository.countByFollowingId(id);
+        Long countFollowing = followRepository.countByFollowerId(id);
 
         MyPageDetails memberInfo = MyPageDetails.builder()
                 .email(findMember.getEmail())
