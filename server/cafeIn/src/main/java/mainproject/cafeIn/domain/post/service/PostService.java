@@ -5,7 +5,6 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
-import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -37,13 +36,14 @@ public class PostService {
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
     public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
-        // TODO: login user 검증
-        Member member = memberService.findById(loginId);
+        // 충돌 해결
+        verifyMember(loginId);
+        Member member = memberRepository.findById(loginId).get();
+
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
         Long postId = postRepository.save(post).getPostId();
@@ -54,19 +54,17 @@ public class PostService {
     // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
     public Long updatePost(Long loginId, Long postId, PostRequest postRequest) {
-        // TODO: login user 검증
+        verifyMember(loginId);
         Post post = findPostById(postId);
         updatePostTags(postId, postRequest, post);
         post.updatePost(postRequest.toEntity());
-        // TODO: 이미지 수정
         return postId;
     }
 
     // 게시물 삭제
     @Transactional
-    public Long deletePost(Long loginId, Long postId, String password) {
-        // TODO: login user 검증
-        // TODO: password 검증
+    public Long deletePost(Long loginId, Long postId) {
+        verifyMember(loginId);
         Post post = findPostById(postId);
         Long cafeId = post.getCafe().getId();
         postRepository.delete(post);
@@ -136,5 +134,13 @@ public class PostService {
     public List<PostResponse> getPosts(Long cafeId) {
 
         return postRepository.getPosts(cafeId);
+    }
+
+    public void verifyMember(Long memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+
+        if (!optionalMember.isPresent()) {
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
     }
 }
