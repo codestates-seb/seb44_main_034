@@ -6,7 +6,7 @@ export interface CafePostList {
 }
 
 export interface PostData {
-  postId?:number|string;
+  postId:number;
   cafeId: number|string;
   cafeName:string;
   title: string;

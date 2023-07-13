@@ -16,5 +16,8 @@ export const postPage = {
     (postId:string)=> axios.get(`${baseURL}/${postId}`),
   post:
     (data:PostData)=>axios.post(`${baseURL}/cafeId`, data),
-
+  put:
+    (data:PostData, postId:string)=>axios.put(`${baseURL}/api/posts/${postId}`, data),
+  delete:
+    (postId:number)=> axios.delete(`${baseURL}/api/posts/${postId}`)
 }
