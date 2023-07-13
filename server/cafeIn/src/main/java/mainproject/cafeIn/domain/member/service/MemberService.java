@@ -55,19 +55,17 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(MemberDto.Patch patch, Long id, MultipartFile file) {
+    public void updateMember(MemberDto.Patch patch, Long id) {
 
         Member findmember = findById(id);
 
         Member member = checkDisplayName(patch, findmember);
 
-        if(patch.getPassword() != null ) {
+        if (patch.getPassword() != null ) {
             String pass = patch.getPassword();
             String encryptedPassword = passwordEncoder.encode(pass);
             member.updatePassword(encryptedPassword);
         }
-
-//        Optional.ofNullable(patch.getImage()).ifPresent(image -> member.updateImage(image));
 
         memberRepository.save(member);
 
@@ -83,7 +81,7 @@ public class MemberService {
                 .image(findMember.getImage()).build();
     }
 
-
+    @Transactional
     public MyPageDetails myPageMember(Long id) {
 
         Member findMember = findById(id);
@@ -100,6 +98,7 @@ public class MemberService {
         return memberInfo;
     }
 
+    @Transactional
     public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
@@ -111,6 +110,7 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
+    @Transactional
     public SliceResponse<MyPagePostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
@@ -122,8 +122,7 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
-
-
+    @Transactional
     public UserPageDetails userPage(Long id, Long memberId) {
 
         Member userMember = findById(memberId);
@@ -140,6 +139,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public SliceResponse<MyPagePostList> postList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
@@ -181,6 +181,7 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
+    @Transactional
     public SliceResponse<SearchFollow> followingList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
@@ -192,6 +193,7 @@ public class MemberService {
         return new SliceResponse<>(followings,hasNext,size);
     }
 
+    @Transactional
     public SliceResponse<SearchFollow> followerList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);

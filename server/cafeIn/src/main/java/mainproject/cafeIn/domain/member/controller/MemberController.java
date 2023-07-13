@@ -39,10 +39,10 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "file", required = false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "profile-image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
-        memberService.updateMember(patch,id, file);
+        memberService.updateMember(patch,id);
 
 
         return new ApplicationResponse();
