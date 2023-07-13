@@ -40,8 +40,10 @@ public class PostService {
     // 게시물 생성(+ PostTag 생성)
     @Transactional
     public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
+        // 충돌 해결
         verifyMember(loginId);
         Member member = memberRepository.findById(loginId).get();
+
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
         Long postId = postRepository.save(post).getPostId();
