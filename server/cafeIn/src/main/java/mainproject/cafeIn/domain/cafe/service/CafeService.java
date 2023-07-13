@@ -10,10 +10,7 @@ import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
-import mainproject.cafeIn.domain.tag.service.TagService;
 import mainproject.cafeIn.global.exception.CustomException;
-import mainproject.cafeIn.global.exception.ErrorCode;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,22 +62,22 @@ public class CafeService {
         return cafeRepository.getCafe(cafeId);
     }
 
-    public List<CafeResponse> searchCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+    public List<CafeResponse> searchCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
 
-        return cafeRepository.findCafesByFilterCondition(searchCafeFilterCondition, pageable);
+        return cafeRepository.findCafesByFilterCondition(loginId, searchCafeFilterCondition, pageable);
     }
 
-    public List<CafeResponse> searchCafesByFilterConditionAndOrder(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable, String order) {
+    public List<CafeResponse> searchCafesByFilterConditionAndOrder(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable, String order) {
 
         List<CafeResponse> result;
         if (order.equals("countBookmark")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCountBookmark(searchCafeFilterCondition, pageable);
+            result = cafeRepository.findCafesByFilterConditionOrderByCountBookmark(loginId, searchCafeFilterCondition, pageable);
         } else if (order.equals("rating")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByRating(searchCafeFilterCondition, pageable);
+            result = cafeRepository.findCafesByFilterConditionOrderByRating(loginId, searchCafeFilterCondition, pageable);
         } else if (order.equals("countPost")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCountPost(searchCafeFilterCondition, pageable);
+            result = cafeRepository.findCafesByFilterConditionOrderByCountPost(loginId, searchCafeFilterCondition, pageable);
         } else if (order.equals("createdAt")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCreatedAt(searchCafeFilterCondition, pageable);
+            result = cafeRepository.findCafesByFilterConditionOrderByCreatedAt(loginId, searchCafeFilterCondition, pageable);
         } else throw new CustomException(REQUEST_VALIDATION_FAIL);
 
         return result;

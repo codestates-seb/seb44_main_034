@@ -43,7 +43,7 @@ public class PostService {
     @Transactional
     public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
         // TODO: login user 검증
-        Member member = memberRepository.findMemberById(loginId);
+        Member member = memberService.findById(loginId);
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
         Long postId = postRepository.save(post).getPostId();
