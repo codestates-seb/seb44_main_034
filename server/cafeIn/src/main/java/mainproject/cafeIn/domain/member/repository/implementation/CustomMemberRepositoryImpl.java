@@ -42,6 +42,38 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .fetch();
     }
 
+    //내가 팔로우하고 있는 사람들 수
+    @Override
+    public Long countByFollowers(Long id) {
+
+        QMember m = new QMember("m");
+
+        return queryFactory
+                .selectFrom(m)
+                .innerJoin(m.followers, follow)
+                .innerJoin(follow.followingId, member)
+                .where(m.id.eq(id), member.status.eq(MEMBER_ACTIVE))
+                .fetch()
+                .stream()
+                .count();
+    }
+
+    //나를 팔로우 하는 사람들 수
+    @Override
+    public Long countByFollowings(Long id) {
+
+        QMember m = new QMember("m");
+
+        return queryFactory
+                .selectFrom(m)
+                .innerJoin(m.followings, follow)
+                .innerJoin(follow.followerId, member)
+                .where(m.id.eq(id), member.status.eq(MEMBER_ACTIVE))
+                .fetch()
+                .stream()
+                .count();
+    }
+
 
     //내가 팔로우한 사람들
     @Override
@@ -120,13 +152,13 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating))
                 .from(member)
                 .innerJoin(member.cafeBookmarks, cafeBookmark)
-                .innerJoin(cafeBookmark.cafe, cafe).fetchJoin()
+                .innerJoin(cafeBookmark.cafe, cafe)
                 .where(member.id.eq(id), cafeBookMarkLtCursorId(cursorId))
-                .orderBy(post.postId.desc())
+                .orderBy(cafeBookmark.id.desc())
                 .limit(pageable.getPageSize()+1)
                 .fetch();
 
-        return null;//checkLastPage(cafeList, pageable);
+        return checkLastPage(cafeList, pageable);
     }
     private BooleanExpression followLtCursorId(Long cursorId) {
         if(cursorId == null) {
@@ -153,7 +185,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
         if(cursorId == null) {
             return null;
         }
-        return cafe.id.lt(cursorId);
+        return cafeBookmark.id.lt(cursorId);
     }
 
     private <T> Slice<T> checkLastPage(List<T> results, Pageable pageable) {
