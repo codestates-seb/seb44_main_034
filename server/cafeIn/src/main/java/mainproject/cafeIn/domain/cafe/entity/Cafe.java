@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.owner.entity.Owner;
+import mainproject.cafeIn.domain.post.entity.Post;
 import mainproject.cafeIn.global.base.BaseEntity;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.hibernate.annotations.OnDelete;
@@ -13,8 +14,6 @@ import org.hibernate.annotations.OnDelete;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
@@ -87,6 +86,14 @@ public class Cafe extends BaseEntity {
     @OnDelete(action = CASCADE)
     @OneToMany(mappedBy = "cafe", cascade = PERSIST)
     private List<Menu> menus = new ArrayList<>();
+
+    @OnDelete(action = CASCADE)
+    @OneToMany(mappedBy = "cafe", cascade = PERSIST)
+    private List<Post> posts = new ArrayList<>();
+
+    @OnDelete(action = CASCADE)
+    @OneToMany(mappedBy = "cafe", cascade = PERSIST)
+    private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
     @Builder
     public Cafe(String name, String address, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {

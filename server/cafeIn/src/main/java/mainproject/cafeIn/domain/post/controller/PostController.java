@@ -6,6 +6,7 @@ import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
 import mainproject.cafeIn.domain.post.service.PostService;
 import mainproject.cafeIn.domain.postbookmark.service.PostBookmarkService;
+import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class PostController {
                                                 @RequestPart(value = "dto") PostRequest request,
                                                 @RequestPart(value = "postImage", required = false) MultipartFile multipartFile) {
 
-        long loginId = 1;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         // TODO: 이미지 업로드 기능 추가 시 multipartFile 추가
         Long postId = postService.createPost(loginId, cafeId, request);
 
@@ -40,7 +41,7 @@ public class PostController {
                                                 @RequestPart(value = "dto") PostRequest request,
                                                 @RequestPart(value = "postImage", required = false) MultipartFile multipartFile) {
 
-        long loginId = 1;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         // TODO: 이미지 업로드 기능 추가 시 multipartFile 추가
         postService.updatePost(loginId, postId, request);
 
@@ -52,8 +53,11 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     public ApplicationResponse<PostDetailResponse> getPost(@PathVariable("post-id") Long postId) {
 
-        // TODO : 로그인인 경우 로그인 아이디 변수에 입력, 비로그인 상태에선 로그인 아이디값을 null로 변경
-        long loginId = 1;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        // 로그인이 되어 있지 않은 경우
+        if (loginId == -1L) {
+            loginId = null;
+        }
         PostDetailResponse response = postService.findPost(loginId, postId);
 
         return new ApplicationResponse<>(response);
@@ -73,11 +77,10 @@ public class PostController {
     // 게시물 삭제
     @DeleteMapping("/{post-id}")
     @ResponseStatus(HttpStatus.OK)
-    public ApplicationResponse<Long> deletePost(@PathVariable("post-id") Long postId,
-                                                @RequestBody String password) {
+    public ApplicationResponse<Long> deletePost(@PathVariable("post-id") Long postId) {
 
-        long loginId = 1;
-        Long cafeId = postService.deletePost(loginId, postId, password);
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        Long cafeId = postService.deletePost(loginId, postId);
 
         return new ApplicationResponse<>(cafeId);
     }
@@ -87,7 +90,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApplicationResponse createPostBookmark(@PathVariable("post-id") Long postId) {
 
-        long loginId = 1;
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         postBookmarkService.createPostBookmark(loginId, postId);
 
         return new ApplicationResponse();

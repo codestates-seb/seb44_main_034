@@ -26,9 +26,9 @@ public class MenuController {
     @PostMapping("/{cafe-id}")
     @ResponseStatus(CREATED)
     public ApplicationResponse createMenu(@PathVariable("cafe-id") Long cafeId,
-                                          @RequestBody MenuRequest menuRequest) {
+                                          @RequestBody List<MenuRequest> menuRequests) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        menuService.createMenu(loginId, cafeId, menuRequest);
+        menuService.createMenu(loginId, cafeId, menuRequests);
 
         return new ApplicationResponse<>();
     }

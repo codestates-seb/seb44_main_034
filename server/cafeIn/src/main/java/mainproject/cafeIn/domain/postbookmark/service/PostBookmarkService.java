@@ -17,7 +17,6 @@ import java.util.Optional;
 public class PostBookmarkService {
     private final PostBookmarkRepository postBookmarkRepository;
     private final PostRepository postRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     public void createPostBookmark(Long loginId, Long postId) {
