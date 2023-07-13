@@ -7,5 +7,5 @@ import java.util.List;
 public interface MenuRepositoryCustom {
     MenuResponse getMenu(Long menuId);
 
-    List<List<MenuResponse>> getMenus();
+    List<List<MenuResponse>> getMenus(Long cafeId);
 }

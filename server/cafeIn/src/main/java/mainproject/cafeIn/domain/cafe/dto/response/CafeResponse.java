@@ -2,6 +2,10 @@ package mainproject.cafeIn.domain.cafe.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import mainproject.cafeIn.domain.tag.dto.TagResponse;
+import mainproject.cafeIn.domain.tag.entity.Tag;
+
+import java.util.List;
 
 @Getter
 public class CafeResponse {

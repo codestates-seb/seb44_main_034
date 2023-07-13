@@ -8,3 +8,4 @@ import java.util.Optional;
 public interface PostBookmarkRepository extends JpaRepository<PostBookmark, Long> {
     Optional<PostBookmark> findByMemberIdAndPostPostId(Long memberId, Long postId);
 }
+

@@ -5,6 +5,7 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
+import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -36,6 +37,7 @@ public class PostService {
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
@@ -129,5 +131,10 @@ public class PostService {
             }
             postTagService.createPostTag(postRequest.getTags(), post, post.getCafe());
         }
+    }
+
+    public List<PostResponse> getPosts(Long cafeId) {
+
+        return postRepository.getPosts(cafeId);
     }
 }
