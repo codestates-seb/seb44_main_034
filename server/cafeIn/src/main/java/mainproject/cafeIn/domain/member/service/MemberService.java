@@ -68,6 +68,15 @@ public class MemberService {
 
     }
 
+    public UpdateMember getMember(long id) {
+        Member findMember = findById(id);
+
+
+        return UpdateMember.builder()
+                .displayName(findMember.getDisplayName())
+                .image(findMember.getImage()).build();
+    }
+
 
     public MyPageDetails myPageMember(long id) {
 

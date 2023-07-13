@@ -48,7 +48,18 @@ public class MemberController {
         return new ApplicationResponse();
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/get-update")
+    @ResponseStatus(OK)
+    public ApplicationResponse getMember() {
+
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        UpdateMember response = memberService.getMember(id);
+
+
+        return new ApplicationResponse(response);
+    }
+
+    @GetMapping("/my-page")
     @ResponseStatus(OK)
     public ApplicationResponse myInfo() {
 
@@ -58,7 +69,7 @@ public class MemberController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/mybookmark/cafe")
+    @GetMapping("/my-page/bookmarked-cafe")
     @ResponseStatus(OK)
     public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
@@ -69,7 +80,7 @@ public class MemberController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/mybookmark/post")
+    @GetMapping("/my-page/bookmarked-post")
     @ResponseStatus(OK)
     public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
@@ -80,7 +91,7 @@ public class MemberController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/mypost")
+    @GetMapping("/my-page/my-post")
     @ResponseStatus(OK)
     public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "id", required = false) Long cursorId,
                                       @PageableDefault(size = 3) Pageable pageable) {
