@@ -3,13 +3,12 @@ import styled from 'styled-components';
 
 type MoodTagProps = {
   text: string;
-  id: string;
 }
 
-const MoodTagPost = ({text, id}:MoodTagProps) => {
+const MoodTagPost = ({text}:MoodTagProps) => {
 
   return (
-    <S.MoodTag id={id}>
+    <S.MoodTag>
       {text}
     </S.MoodTag>
     
