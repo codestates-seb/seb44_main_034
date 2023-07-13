@@ -38,9 +38,6 @@ public class Menu {
     @Column(name = "menu_type", nullable = false)
     private MenuType menuType;
 
-    @Column(name = "sequence", nullable = false)
-    private Integer sequence;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
@@ -50,11 +47,10 @@ public class Menu {
     private List<MenuComment> menuComments = new ArrayList<>();
 
     @Builder
-    public Menu(String name, Integer price, MenuType menuType, Integer sequence, Cafe cafe) {
+    public Menu(String name, Integer price, MenuType menuType, Cafe cafe) {
         this.name = name;
         this.price = price;
         this.menuType = menuType;
-        this.sequence = sequence;
         this.cafe = cafe;
     }
 
@@ -62,6 +58,5 @@ public class Menu {
         this.name = menu.name;
         this.price = menu.price;
         this.menuType = menu.menuType;
-        this.sequence = menu.sequence;
     }
 }

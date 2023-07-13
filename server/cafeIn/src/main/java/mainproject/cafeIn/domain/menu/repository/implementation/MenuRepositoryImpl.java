@@ -53,7 +53,6 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                 .from(menu)
                 .where(menu.menuType.eq(MenuType.COFFEE),
                         menu.cafe.id.eq(cafeId))
-                .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
@@ -68,7 +67,6 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                 .from(menu)
                 .where(menu.menuType.eq(MenuType.NON_COFFEE),
                         menu.cafe.id.eq(cafeId))
-                .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
@@ -83,7 +81,6 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                 .from(menu)
                 .where(menu.menuType.eq(MenuType.DESSERT),
                         menu.cafe.id.eq(cafeId))
-                .orderBy(menu.sequence.asc())
                 .fetch();
     }
 
@@ -98,7 +95,6 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                 .from(menu)
                 .where(menu.menuType.eq(MenuType.SIGNATURE),
                         menu.cafe.id.eq(cafeId))
-                .orderBy(menu.sequence.asc())
                 .fetch();
     }
 }

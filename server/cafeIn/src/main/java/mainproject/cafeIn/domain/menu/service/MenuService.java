@@ -8,7 +8,6 @@ import mainproject.cafeIn.domain.menu.dto.response.MenuResponse;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.menu.repository.MenuRepository;
 import mainproject.cafeIn.global.exception.CustomException;
-import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +24,14 @@ public class MenuService {
     private final CafeService cafeService;
 
     @Transactional
-    public void createMenu(Long loginId, Long cafeId, MenuRequest menuRequest) {
+    public void createMenu(Long loginId, Long cafeId, List<MenuRequest> menuRequests) {
         Cafe cafe = cafeService.findCafeById(cafeId);
         cafe.validateOwner(loginId);
-        Menu menu = menuRequest.toEntity(cafe);
 
-        menuRepository.save(menu);
+        List<Menu> menus = menuRequestToMenu(menuRequests, cafe);
+        for (Menu menu : menus) {
+            menuRepository.save(menu);
+        }
     }
 
     @Transactional
@@ -49,6 +50,12 @@ public class MenuService {
         cafe.validateOwner(loginId);
 
         menuRepository.delete(menu);
+    }
+
+    private List<Menu> menuRequestToMenu(List<MenuRequest> menuRequests, Cafe cafe) {
+        return menuRequests.stream()
+                .map(menuRequest -> menuRequest.toEntity(cafe))
+                .collect(Collectors.toList());
     }
 
     public MenuResponse getMenu(Long menuId) {
