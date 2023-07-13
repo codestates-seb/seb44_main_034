@@ -85,7 +85,7 @@ public class MemberService {
         return memberInfo;
     }
 
-    public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(long id, Long cursorId, Pageable pageable) {
 
         Slice<MyBookMarkCafeList> postList = memberRepository.findByBookMarkCafeList(id, cursorId, pageable);
         List<MyBookMarkCafeList> list = postList.getContent();
@@ -95,7 +95,7 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
-    public SliceResponse<MyPagePostList> myBookMarkPost(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<MyPagePostList> myBookMarkPost(long id, Long cursorId, Pageable pageable) {
 
         Slice<MyPagePostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
@@ -123,7 +123,7 @@ public class MemberService {
 
     }
 
-    public SliceResponse<MyPagePostList> postList(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<MyPagePostList> postList(long id, Long cursorId, Pageable pageable) {
 
         Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
@@ -163,7 +163,7 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public SliceResponse<SearchFollow> followingList(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followingList(long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> following = memberRepository.findByFollowingList(id, cursorId,pageable);
@@ -174,7 +174,7 @@ public class MemberService {
         return new SliceResponse<>(followings,hasNext,size);
     }
 
-    public SliceResponse<SearchFollow> followerList(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followerList(long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> follower = memberRepository.findByFollowerList(id, cursorId, pageable);

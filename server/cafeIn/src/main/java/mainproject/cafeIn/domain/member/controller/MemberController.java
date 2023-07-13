@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RestController
 @Validated
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "file", required=false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "file", required = false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.updateMember(patch,id);
@@ -58,9 +58,9 @@ public class MemberController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/mybookmarkc")
+    @GetMapping("/mybookmark/cafe")
     @ResponseStatus(OK)
-    public ApplicationResponse myBookMarkCafe(@RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -69,9 +69,9 @@ public class MemberController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/mybookmarkp")
+    @GetMapping("/mybookmark/post")
     @ResponseStatus(OK)
-    public ApplicationResponse myBookMarkPost(@RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -82,7 +82,7 @@ public class MemberController {
 
     @GetMapping("/mypost")
     @ResponseStatus(OK)
-    public ApplicationResponse myPost(@RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "id", required = false) Long cursorId,
                                       @PageableDefault(size = 3) Pageable pageable) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -101,8 +101,8 @@ public class MemberController {
     }
     @GetMapping("/{member-id}/post")
     @ResponseStatus(OK)
-    public ApplicationResponse otherPost(@PathVariable("member-id") long memberId,
-                                         @RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<MyPagePostList>> otherPost(@PathVariable("member-id") Long memberId,
+                                         @RequestParam(value = "id", required = false) Long cursorId,
                                          @PageableDefault(size = 3) Pageable pageable) {
 
 
@@ -132,7 +132,7 @@ public class MemberController {
 
     @GetMapping("/my-page/following")
     @ResponseStatus(OK)
-    public ApplicationResponse followingMembers(@RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<SearchFollow>> followingMembers(@RequestParam(value = "id", required = false) Long cursorId,
                                                 @PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -142,7 +142,7 @@ public class MemberController {
 
     @GetMapping("/my-page/follower")
     @ResponseStatus(OK)
-    public ApplicationResponse followerMembers(@RequestParam(value = "id") long cursorId,
+    public ApplicationResponse<SliceResponse<SearchFollow>> followerMembers(@RequestParam(value = "id", required = false) Long cursorId,
                                                @PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
