@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LoginState } from '../../recoil/recoil';
-import { useRecoilValue } from 'recoil';
 import { COLOR_1 } from '../../common/common';
 import { BiHome } from 'react-icons/bi';
 import { BsFilePost } from 'react-icons/bs';
@@ -87,24 +85,24 @@ const Nav = () => {
       setIsOpen(false);
     }
   };
-  // const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   const handleOutsideClick = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
-  //   document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleOutsideClick);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <nav>
@@ -130,7 +128,7 @@ const Nav = () => {
               </S.Iconbox>
               <S.IconTextBox>카페</S.IconTextBox>
             </S.NavBox>
-            <S.NavBox onClick={modalHandler}>
+            <S.NavBox onClick={modalHandler} ref={dropdownRef}>
               <S.Iconbox>
                 <FiUser size='40' />
               </S.Iconbox>

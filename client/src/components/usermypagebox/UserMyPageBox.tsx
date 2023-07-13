@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
-    min-height: 100vh;
     width: 90vw;
     @media screen and (min-width: 768px) {
       width: 700px;
@@ -53,8 +52,8 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
-    width: 160px;
+    height: 30px;
+    width: 140px;
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 20px;
@@ -95,6 +94,7 @@ const S = {
     border-radius: 10px;
     background-color: ${COLOR_1.white};
     border: solid 2px ${COLOR_1.green};
+    box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
     @media screen and (min-width: 786px) {
       width: 350px;
     }
@@ -118,21 +118,29 @@ const S = {
     }
   `,
   FollowerInformaiton: styled.div`
-    width: 10vw;
+    width: 60vw;
     margin-top: 5px;
+    text-align: center;
     cursor: pointer;
     color: ${COLOR_1.black};
     &:hover {
       color: ${COLOR_1.light_red};
     }
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   FollowingInformaiton: styled.div`
-    width: 10vw;
+    width: 60vw;
     margin-top: 5px;
+    text-align: center;
     cursor: pointer;
     color: ${COLOR_1.black};
     &:hover {
       color: ${COLOR_1.light_red};
+    }
+    @media screen and (min-width: 786px) {
+      width: 270px;
     }
   `,
   InformaitonBox: styled.div`
@@ -140,27 +148,29 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70vw;
+    width: 60vw;
     @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
   Informaiton: styled.div`
     text-align: center;
-    width: 70vw;
+    width: 60vw;
     margin-top: 5px;
+    color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
   SandBtn: styled.button`
     height: 5vh;
-    width: 27vw;
-    border-radius: 15px;
+    width: 29vw;
+    border-radius: 3px;
     border: none;
     background-color: ${COLOR_1.ivory};
     color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_1.small_2};
+    font-size: ${FONT_SIZE_1.small_3};
+    font-weight: bold;
     border: solid 1px ${COLOR_1.dark_brown};
     cursor: pointer;
     &:hover {
@@ -196,7 +206,24 @@ const UserMyPageBox = () => {
       setFollowingIsOpen(false);
     }
   };
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const followModalhandler = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setFollowerIsOpen(false);
+        setFollowingIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', followModalhandler);
+
+    return () => {
+      document.removeEventListener('mousedown', followModalhandler);
+    };
+  }, []);
   // const replace = useNavigate();
   useEffect(() => {
     axios
@@ -252,13 +279,17 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>팔로워</S.TitleInformaiton>
             <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
-          <S.InformaitonBox>
+          <S.InformaitonBox ref={dropdownRef}>
             <S.Informaiton>cafein@cafein.com</S.Informaiton>
             <S.Informaiton>카페인</S.Informaiton>
             <S.Informaiton>에소프레소</S.Informaiton>
-            <S.Informaiton onClick={openFollowerModal}>100</S.Informaiton>
+            <S.FollowerInformaiton onClick={openFollowerModal}>
+              100
+            </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
-            <S.Informaiton onClick={openFollowingModal}>100</S.Informaiton>
+            <S.FollowingInformaiton onClick={openFollowingModal}>
+              100
+            </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>
         </S.ProfileListBox>

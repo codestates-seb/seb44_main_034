@@ -6,6 +6,7 @@ import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const S = {
   AllContainer: styled.div`
@@ -305,7 +306,9 @@ const EditUserMyPageBox = () => {
           </S.SubMiniBox>
           <S.SubmitInput type='submit' value='수정완료' />
         </form>
-        <S.ExitButton>나가기</S.ExitButton>
+        <Link to='/usermy'>
+          <S.ExitButton>나가기</S.ExitButton>
+        </Link>
       </S.Container>
       <S.DeleteButton onClick={openHandler}>탈퇴하기</S.DeleteButton>
       {isOpen ? <DeleteAccountBox /> : ''}

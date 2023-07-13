@@ -52,14 +52,15 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  SubmitInput: styled.input`
+  Submitbutton: styled.button`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.green};
     color: black;
-    font-size: 15px;
+    font-size: ${FONT_SIZE_1.big_1};
+    font-weight: 700;
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 1px #cfcfcf;
@@ -185,7 +186,7 @@ const LoginBox = () => {
             <S.InputInformation>{null}</S.InputInformation>
           )}
         </S.SubMiniBox>
-        <S.SubmitInput type='submit' value='로그인' />
+        <S.Submitbutton type='submit'>로그인</S.Submitbutton>
       </form>
       <GoogleLoginButton />
     </S.Container>

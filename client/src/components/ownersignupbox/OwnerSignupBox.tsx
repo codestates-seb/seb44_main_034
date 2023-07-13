@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import GoogleLoginButton from '../googleoauth/GoogleOauth';
-import { COLOR_1 } from '../../common/common';
+import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
 
@@ -48,14 +48,15 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  SubmitInput: styled.input`
+  SubmitButton: styled.button`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.green};
     color: black;
-    font-size: 15px;
+    font-size: ${FONT_SIZE_1.big_1};
+    font-weight: ${FONT_WEIGHT.weight_500};
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 1px #cfcfcf;
@@ -93,7 +94,7 @@ const S = {
 };
 interface FormValue {
   email: string;
-  nickName: string;
+  displayName: string;
   password: string;
   passwordConfirm: string;
 }
@@ -145,12 +146,12 @@ const OwnerSignupBox = () => {
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
-          <S.SubTitle htmlFor='nickName'>닉네임</S.SubTitle>
+          <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
-            id='nickName'
+            id='displayName'
             type='text'
             placeholder='닉네임을 입력하세요'
-            {...register('nickName', {
+            {...register('displayName', {
               required: '닉네임은 필수 입력입니다',
               minLength: {
                 value: 2,
@@ -158,8 +159,10 @@ const OwnerSignupBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.nickName ? (
-            <S.InputInformation>{errors.nickName.message}</S.InputInformation>
+          {errors.displayName ? (
+            <S.InputInformation>
+              {errors.displayName.message}
+            </S.InputInformation>
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
@@ -213,7 +216,7 @@ const OwnerSignupBox = () => {
             <S.InputInformation>{null}</S.InputInformation>
           )}
         </S.SubMiniBox>
-        <S.SubmitInput type='submit' value='사업자 회원가입' />
+        <S.SubmitButton type='submit'>사업자 회원가입</S.SubmitButton>
       </form>
       <GoogleLoginButton />
     </S.Container>

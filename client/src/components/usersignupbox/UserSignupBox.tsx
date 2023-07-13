@@ -93,7 +93,7 @@ const S = {
 };
 interface FormValue {
   email: string;
-  nickName: string;
+  displayName: string;
   password: string;
   passwordConfirm: string;
 }
@@ -145,12 +145,12 @@ const OwnerSignupBox = () => {
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
-          <S.SubTitle htmlFor='nickName'>닉네임</S.SubTitle>
+          <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
-            id='nickName'
+            id='displayName'
             type='text'
             placeholder='닉네임을 입력하세요'
-            {...register('nickName', {
+            {...register('displayName', {
               required: '닉네임은 필수 입력입니다',
               minLength: {
                 value: 2,
@@ -158,8 +158,10 @@ const OwnerSignupBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.nickName ? (
-            <S.InputInformation>{errors.nickName.message}</S.InputInformation>
+          {errors.displayName ? (
+            <S.InputInformation>
+              {errors.displayName.message}
+            </S.InputInformation>
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}

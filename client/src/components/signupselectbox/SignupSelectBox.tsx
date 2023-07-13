@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../../common/common';
 import clienticon from '../../assets/clienticon.svg';
 import ownericon from '../../assets/ownericon.svg';
 import styled from 'styled-components';
@@ -80,6 +80,7 @@ const S = {
     }
   `,
   SubExplain: styled.div`
+    text-align: center;
     height: 50px;
     width: 25vw;
     font-size: ${FONT_SIZE_1.small_2};
@@ -95,14 +96,14 @@ const S = {
     }
   `,
   DarkSandBtn: styled.button`
-    width: 25vw;
-    height: 25px;
+    width: 26vw;
+    height: 30px;
     font-size: ${FONT_SIZE_1.small_2};
+    font-weight: ${FONT_WEIGHT.weight_800};
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
-    font-size: ${FONT_SIZE_1.small_1};
     border: solid 1px #cfcfcf;
     cursor: pointer;
 
