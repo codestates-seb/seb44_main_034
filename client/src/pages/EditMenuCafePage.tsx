@@ -1,32 +1,11 @@
 import axios from 'axios';
-import CafeMenuForm from '../components/cafe/CafeMenuForm';
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
 import { ConfirmBtn, CancelButton } from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
-
-export type FormData = {
-  signature: {
-    name: string;
-    price: number;
-    menuType: string;
-  }[];
-  coffee: {
-    name: string;
-    price: number;
-    menuType: string;
-  }[];
-  nonCoffee: {
-    name: string;
-    price: number;
-    menuType: string;
-  }[];
-  desert: {
-    name: string;
-    price: number;
-    menuType: string;
-  }[];
-};
+import EditMenuForm from '../components/cafe/EditMenuForm';
+import { FormData } from './AddCafeMenuPage';
 
 const menus = [
   { name: '시그니처', value: 'signature', menuType: 'SIGNATURE' },
@@ -35,15 +14,16 @@ const menus = [
   { name: '디저트', value: 'desert', menuType: 'DESERT' },
 ];
 
-const defaultValues = {
-  signature: [
-    { name: '아이스 아메리카노', price: 5000, menuType: 'SIGNATURE' },
-  ],
-  coffee: [{ name: '아이스 아메리카노', price: 5000, menuType: 'COFFEE' }],
-  nonCoffee: [{ name: '아이스티', price: 5500, menuType: 'NONCOFFEE' }],
-  desert: [{ name: '빵', price: 10000, menuType: 'DESERT' }],
+const defaultValues = {};
+const convertedData: FormData = {
+  signature: [],
+  coffee: [],
+  nonCoffee: [],
+  desert: [],
 };
-const AddCafeMenuPage = () => {
+//cafeid를 받아서 불러야됨
+const cafeId = 1;
+const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
   const methods = useForm<FormData>({
     defaultValues,
@@ -51,23 +31,44 @@ const AddCafeMenuPage = () => {
   });
   const { handleSubmit } = methods;
 
-  // const onSubmit = async () => {
-  //   // async request which may result error
-  //   try {
-  //     // await fetch()
-  //   } catch (e) {
-  //     // handle your error
-  //   }
-  // }
-  // const cafeId = 1; ${cafeId}
-  const Onsubmit = async (data: FormData) => {
-    const mergedArray = Object.values(data).flat();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/menus/${cafeId}`
+        );
+        const fetchedData = response.data;
+        fetchedData.forEach((item: any, index: number) => {
+          const menuId = index; // menuId 할당
+          item.menuId = menuId; // 각 데이터 항목에 menuId 속성 추가
+          if (item.menuType === 'SIGNATURE') {
+            convertedData.signature.push(item);
+          } else if (item.menuType === 'COFFEE') {
+            convertedData.coffee.push(item);
+          } else if (item.menuType === 'NONCOFFEE') {
+            convertedData.nonCoffee.push(item);
+          } else if (item.menuType === 'DESERT') {
+            convertedData.desert.push(item);
+          }
+        });
+        // 데이터를 가져와서 defaultValues에 할당
+        console.log(convertedData);
+        methods.reset(convertedData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-    console.log(mergedArray);
+    fetchData();
+  }, []);
+
+  const Onsubmit = async (data: FormData) => {
+    const mergedMenus = Object.values(data).flat();
+
     try {
       const response = await axios.post(
-        `http://localhost:3001/menus`,
-        mergedArray
+        `http://localhost:3001/menus/`,
+        mergedMenus
       );
       console.log(response.data);
     } catch (error) {
@@ -79,7 +80,7 @@ const AddCafeMenuPage = () => {
       <FormProvider {...methods}>
         <S.MenuTitle>Menu</S.MenuTitle>
         {menus.map((item, index) => (
-          <CafeMenuForm key={index} type={item.value} name={item.name} />
+          <EditMenuForm key={index} type={item.value} name={item.name} />
         ))}
         <S.ButtonDiv>
           <S.Submitbut type={'button'} onClick={() => handleSubmit(Onsubmit)()}>
@@ -122,4 +123,4 @@ const S = {
     margin-bottom: 10%;
   `,
 };
-export default AddCafeMenuPage;
+export default EditMenuCafe;
