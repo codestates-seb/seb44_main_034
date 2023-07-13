@@ -24,7 +24,7 @@ public class MenuCommentRepositoryImpl implements MenuCommentRepositoryCustom {
                         member.displayName
                 ))
                 .from(menuComment)
-                .innerJoin(menuComment.member, member).fetchJoin()
+                .innerJoin(menuComment.member, member)
                 .where(menuComment.menu.id.eq(menuId))
                 .fetch();
     }

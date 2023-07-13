@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
+import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.owner.entity.QOwner.owner;
 
 

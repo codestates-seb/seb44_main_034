@@ -17,8 +17,7 @@ import java.util.List;
 
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
-import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
-import static mainproject.cafeIn.global.exception.ErrorCode.NONE_AUTHORIZATION_TOKEN;
+import static mainproject.cafeIn.global.exception.ErrorCode.*;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
@@ -117,17 +116,17 @@ public class Cafe extends BaseEntity {
     }
 
     public void updateCafe(Cafe cafe) {
-        this.name = cafe.getName();
-        this.address = cafe.getAddress();
-        this.contact = cafe.getContact();
-        this.notice = cafe.getNotice();
-        this.openTime = cafe.getOpenTime();
-        this.closeTime = cafe.getCloseTime();
-        this.isOpenAllTime = cafe.isOpenAllTime();
-        this.isChargingAvailable = cafe.isChargingAvailable();
-        this.hasParking = cafe.isHasParking();
-        this.isPetFriendly = cafe.isPetFriendly();
-        this.hasDessert = cafe.isHasDessert();
+        this.name = cafe.name;
+        this.address = cafe.address;
+        this.contact = cafe.contact;
+        this.notice = cafe.notice;
+        this.openTime = cafe.openTime;
+        this.closeTime = cafe.closeTime;
+        this.isOpenAllTime = cafe.isOpenAllTime;
+        this.isChargingAvailable = cafe.isChargingAvailable;
+        this.hasParking = cafe.hasParking;
+        this.isPetFriendly = cafe.isPetFriendly;
+        this.hasDessert = cafe.hasDessert;
     }
 
     private String extractAreaFromAddress(String address) {
@@ -135,7 +134,7 @@ public class Cafe extends BaseEntity {
         String[] splitAddress = address.split(" ");
 
         if (splitAddress.length < 1) {
-            throw new CustomException(INTERNAL_SERVER_ERROR);
+            throw new CustomException(INVALID_ADDRESS);
         } else {
             return splitAddress[1];
         }

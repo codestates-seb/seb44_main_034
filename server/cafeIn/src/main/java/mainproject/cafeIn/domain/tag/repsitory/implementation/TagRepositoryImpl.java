@@ -4,12 +4,12 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.tag.dto.QTagResponse;
 import mainproject.cafeIn.domain.tag.dto.TagResponse;
-import mainproject.cafeIn.domain.tag.entity.QPostTag;
 import mainproject.cafeIn.domain.tag.repsitory.TagRepositoryCustom;
 
 import java.util.List;
 
-import static mainproject.cafeIn.domain.tag.entity.QPostTag.*;
+import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
+import static mainproject.cafeIn.domain.tag.entity.QPostTag.postTag;
 import static mainproject.cafeIn.domain.tag.entity.QTag.tag;
 
 @RequiredArgsConstructor
@@ -21,11 +21,12 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
     public List<TagResponse> getTags(Long cafeId) {
         return queryFactory
                 .select(new QTagResponse(
-                        tag.tagId,
-                        tag.name
+                        postTag.tag.tagId,
+                        postTag.tag.name
                 ))
-                .from(tag)
-                .innerJoin(postTag.tag, tag).fetchJoin()
+                .from(postTag)
+                .innerJoin(postTag.cafe, cafe)
+                .innerJoin(postTag.tag, tag)
                 .where(postTag.cafe.id.eq(cafeId))
                 .fetch();
     }

@@ -25,7 +25,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 ))
                 .from(post)
                 .where(post.cafe.id.eq(cafeId))
-                .innerJoin(post.member, member).fetchJoin()
+                .innerJoin(post.member, member)
                 .fetch();
     }
 }

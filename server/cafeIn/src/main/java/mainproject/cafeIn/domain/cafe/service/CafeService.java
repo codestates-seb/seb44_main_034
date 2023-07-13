@@ -56,10 +56,10 @@ public class CafeService {
         cafeRepository.delete(cafe);
     }
 
-    public CafeDetailResponse getCafe(Long cafeId) {
+    public CafeDetailResponse getCafe(Long cafeId, Long loginId) {
         findCafeById(cafeId);
 
-        return cafeRepository.getCafe(cafeId);
+        return cafeRepository.getCafe(cafeId, loginId);
     }
 
     public List<CafeResponse> searchCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
@@ -69,6 +69,7 @@ public class CafeService {
 
     public List<CafeResponse> searchCafesByFilterConditionAndOrder(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable, String order) {
 
+        // TODO: 동적 정렬 구현
         List<CafeResponse> result;
         if (order.equals("countBookmark")) {
             result = cafeRepository.findCafesByFilterConditionOrderByCountBookmark(loginId, searchCafeFilterCondition, pageable);

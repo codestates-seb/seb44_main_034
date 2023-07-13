@@ -1,23 +1,28 @@
 package mainproject.cafeIn.domain.cafe.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class SearchCafeFilterCondition {
     private String shortAddress;
-    private boolean isOpenAllTime;
 
-    private boolean isChargingAvailable;
+    @JsonProperty("isOpenAllTime")
+    private Boolean isOpenAllTime;
 
-    private boolean hasParking;
+    @JsonProperty("isChargingAvailable")
+    private Boolean isChargingAvailable;
 
-    private boolean isPetFriendly;
+    private Boolean hasParking;
 
-    private boolean hasDessert;
+    @JsonProperty("isPetFriendly")
+    private Boolean isPetFriendly;
+
+    private Boolean hasDessert;
 
     @Builder
-    public SearchCafeFilterCondition(String shortAddress, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert) {
+    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert) {
         this.shortAddress = shortAddress;
         this.isOpenAllTime = isOpenAllTime;
         this.isChargingAvailable = isChargingAvailable;

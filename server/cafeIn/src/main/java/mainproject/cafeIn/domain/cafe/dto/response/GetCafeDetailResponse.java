@@ -13,13 +13,11 @@ public class GetCafeDetailResponse {
     private List<List<MenuResponse>> menus;
     private List<PostResponse> posts;
     private List<TagResponse> tags;
-    private boolean isBookmarked;
 
-    public GetCafeDetailResponse(CafeDetailResponse cafeDetail, List<List<MenuResponse>> menus, List<PostResponse> posts, List<TagResponse> tags, boolean isBookmarked) {
+    public GetCafeDetailResponse(CafeDetailResponse cafeDetail, List<List<MenuResponse>> menus, List<PostResponse> posts, List<TagResponse> tags) {
         this.cafeDetail = cafeDetail;
         this.menus = menus;
         this.posts = posts;
         this.tags = tags;
-        this.isBookmarked = isBookmarked;
     }
 }

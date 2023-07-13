@@ -7,6 +7,7 @@ import mainproject.cafeIn.domain.menu.dto.response.MenuResponse;
 import mainproject.cafeIn.domain.menu.service.MenuService;
 import mainproject.cafeIn.domain.menucomment.dto.response.MenuCommentResponse;
 import mainproject.cafeIn.domain.menucomment.service.MenuCommentService;
+import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.web.bind.annotation.*;
@@ -60,5 +61,13 @@ public class MenuController {
         GetMenuDetailResponse response = new GetMenuDetailResponse(menuResponse, commentsResponse);
 
         return new ApplicationResponse<>(response);
+    }
+
+    @GetMapping("/{cafe-id}/edit-menu")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<List<MenuResponse>>> getMenus(@PathVariable("cafe-id") Long cafeId) {
+        List<List<MenuResponse>> menus = menuService.getMenus(cafeId);
+
+        return new ApplicationResponse<>(menus);
     }
 }

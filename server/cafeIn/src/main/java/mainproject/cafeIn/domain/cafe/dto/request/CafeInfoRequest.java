@@ -1,5 +1,6 @@
 package mainproject.cafeIn.domain.cafe.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,12 +32,15 @@ public class CafeInfoRequest {
 
     private String closeTime;
 
+    @JsonProperty("isOpenAllTime")
     private boolean isOpenAllTime;
 
+    @JsonProperty("isChargingAvailable")
     private boolean isChargingAvailable;
 
     private boolean hasParking;
 
+    @JsonProperty("isPetFriendly")
     private boolean isPetFriendly;
 
     private boolean hasDessert;
