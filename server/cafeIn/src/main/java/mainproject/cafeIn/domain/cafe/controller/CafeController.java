@@ -89,7 +89,8 @@ public class CafeController {
     @ResponseStatus(OK)
     public ApplicationResponse<List<CafeResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
                                                             PageCafeRequest pageCafeRequest) {
-        List<CafeResponse> response = cafeService.searchCafesByFilterCondition(searchCafeFilterCondition, pageCafeRequest.of());
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> response = cafeService.searchCafesByFilterCondition(loginId, searchCafeFilterCondition, pageCafeRequest.of());
 
         return new ApplicationResponse<>(response);
     }
@@ -100,7 +101,8 @@ public class CafeController {
     public ApplicationResponse<List<CafeResponse>> getCafesWithOrder(SearchCafeFilterCondition searchCafeFilterCondition,
                                                                      PageCafeRequest pageCafeRequest,
                                                                      String order) {
-        List<CafeResponse> response = cafeService.searchCafesByFilterConditionAndOrder(searchCafeFilterCondition, pageCafeRequest.of(), order);
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> response = cafeService.searchCafesByFilterConditionAndOrder(loginId, searchCafeFilterCondition, pageCafeRequest.of(), order);
 
         return new ApplicationResponse<>(response);
     }

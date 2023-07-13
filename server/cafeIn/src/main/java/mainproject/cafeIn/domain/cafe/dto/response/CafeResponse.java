@@ -13,14 +13,22 @@ public class CafeResponse {
     private String name;
     private String address;
     private float rating;
+    private double latitude;
+    private double longitude;
     private String image;
+    private boolean isBookmarked;
+    private Integer countPost;
 
     @QueryProjection
-    public CafeResponse(Long cafeId, String name, String address, float rating, String image) {
+    public CafeResponse(Long cafeId, String name, String address, float rating, double latitude, double longitude, String image, boolean isBookmarked, Integer countPost) {
         this.cafeId = cafeId;
         this.name = name;
         this.address = address;
         this.rating = rating;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.image = image;
+        this.isBookmarked = isBookmarked;
+        this.countPost = countPost;
     }
 }

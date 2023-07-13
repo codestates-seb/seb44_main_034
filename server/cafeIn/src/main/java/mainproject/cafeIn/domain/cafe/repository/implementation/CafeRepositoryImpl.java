@@ -62,16 +62,16 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     @Override
-    public List<CafeResponse> findCafesByFilterCondition(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(searchCafeFilterCondition)
+    public List<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+        return getCafes(loginId, searchCafeFilterCondition)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
     }
 
     @Override
-    public List<CafeResponse> findCafesByFilterConditionOrderByCreatedAt(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(searchCafeFilterCondition)
+    public List<CafeResponse> findCafesByFilterConditionOrderByCreatedAt(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+        return getCafes(loginId, searchCafeFilterCondition)
                 .orderBy(cafe.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -79,18 +79,17 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     @Override
-    public List<CafeResponse> findCafesByFilterConditionOrderByCountBookmark(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(searchCafeFilterCondition)
-                .leftJoin(cafe, cafeBookmark.cafe)
-                .orderBy(cafeBookmark.count().desc())
+    public List<CafeResponse> findCafesByFilterConditionOrderByCountBookmark(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+        return getCafes(loginId, searchCafeFilterCondition)
+                .orderBy(cafe.cafeBookmarks.size().desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
     }
 
     @Override
-    public List<CafeResponse> findCafesByFilterConditionOrderByRating(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(searchCafeFilterCondition)
+    public List<CafeResponse> findCafesByFilterConditionOrderByRating(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+        return getCafes(loginId, searchCafeFilterCondition)
                 .orderBy(cafe.rating.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -98,23 +97,26 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     @Override
-    public List<CafeResponse> findCafesByFilterConditionOrderByCountPost(SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(searchCafeFilterCondition)
-                .leftJoin(cafe, post.cafe)
-                .orderBy(post.count().desc())
+    public List<CafeResponse> findCafesByFilterConditionOrderByCountPost(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+        return getCafes(loginId, searchCafeFilterCondition)
+                .orderBy(cafe.posts.size().desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
     }
 
-    private JPAQuery<CafeResponse> getCafes(SearchCafeFilterCondition searchCafeFilterCondition) {
+    private JPAQuery<CafeResponse> getCafes(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition) {
         return queryFactory
                 .select(new QCafeResponse(
                         cafe.id,
                         cafe.name,
                         cafe.address,
                         cafe.rating,
-                        cafe.image
+                        cafe.latitude,
+                        cafe.longitude,
+                        cafe.image,
+                        ExpressionUtils.anyOf(cafe.cafeBookmarks.any().member.id.eq(loginId)),
+                        cafe.posts.size()
                 ))
                 .from(cafe)
                 .leftJoin(postTag.cafe, cafe)
