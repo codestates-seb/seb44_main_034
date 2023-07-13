@@ -53,9 +53,14 @@ public class OwnerService {
         return ownerRepository.getOwnerDetailResponse(ownerId);
     }
 
-    public Owner deleteOwner(long ownerId) {
+    public Owner deleteOwner(long ownerId, String password) {
         Owner findOwner = findVerifiedOwner(ownerId);
-        findOwner.setOwnerStatus(OwnerStatus.OWNER_QUIT);
+
+        if (findOwner.getPassword().equals(password)) {
+            findOwner.setOwnerStatus(OwnerStatus.OWNER_QUIT);
+        } else {
+            throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH);
+        }
 
         return ownerRepository.save(findOwner);
     }

@@ -31,12 +31,13 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
         return queryFactory
                 .select(new QOwnerCafeResponse(
                         cafe.name,
-                        cafe.count(), // TODO countBookmakred
+                        cafeBookmark.count(), // TODO countBookmakred
                         cafe.image))
                 .from(owner)
                 .join(owner.cafes, cafe)
+                .leftJoin(cafe.cafeBookmarks, cafeBookmark)
                 .where(owner.ownerId.eq(ownerId))
-                .groupBy(cafe.owner) // TODO bookmark
+                .groupBy(cafe) // TODO bookmark
                 .fetch();
     }
 
