@@ -21,7 +21,7 @@ import EditUserMyPage from './pages/EditUserMyPage';
 import PostPage from './pages/PostPage';
 import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
-import AllPostPage from './pages/AllPostPage';
+import AllPostsPage from './pages/AllPostsPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 import AddCafeMenuPage from './pages/AddCafeMenuPage';
@@ -66,7 +66,7 @@ function App() {
             <Route path='/postpage/:postId' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:id' element={<EditPostPage />} />
-            <Route path='/allpostpage' element={<AllPostPage />} />
+            <Route path='/allpostspage' element={<AllPostsPage />} />
           </Routes>
         </Container>
         <Nav />

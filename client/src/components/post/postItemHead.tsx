@@ -4,12 +4,11 @@ import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import PostDate from './PostDate';
-import { postPage } from '../../api/postApi';
 import { PostData } from '../../types/type';
 import { PostItemAtom } from '../../recoil/postState';
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
-import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
+import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
 
 type PostItemProps = {
   postData: PostData;

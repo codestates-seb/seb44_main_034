@@ -1,12 +1,11 @@
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2, FONT_WEIGHT } from '../common/common';
-import PostItemHead from '../components/post/postItemHead.tsx';
-import MoodTagPost from '../common/tags/MoodTagPost.tsx';
-import PostItem from '../components/post/postItemHead.tsx';
-import { data } from '../mockData/post.json';
-import { PostData } from '../types/type.ts';
-import StarRating from '../components/starRating.tsx';
+import PostItemHead from '../components/post/postItemHead';
+import MoodTagPost from '../common/tags/MoodTagPost';
+import { data } from '../mockData/post.json'
+import { PostData } from '../types/type';
+import StarRating from '../components/starRating';
 
 const PostPage = () => {
   const postId=useParams();

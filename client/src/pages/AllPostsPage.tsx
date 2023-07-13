@@ -1,9 +1,13 @@
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
-import { data as dataAll } from '../mockData/cafePost.json';
+// import { data as dataAll } from '../mockData/cafePost.json';
 import PostThumbnail from '../common/posting/PostThumbnail';
 import { CafePostList } from '../types/type';
+import { getAllPosts } from '../api/postApi';
+import PageButton from '../components/pageButton';
 
 const S = {
   Container: styled.div`
@@ -46,9 +50,33 @@ const S = {
   `,
 };
 
-const ALlPostPage = () => {
-  const data = dataAll.post;
+const AllPostsPage = () => {
+  // const data = dataAll.post;
+
+  const [page, setPage] = useState(1)
+  const {
+    isLoading,
+    isError,
+    // error,
+    data,
+    // isFetching,
+    isPreviousData,
+  } = useQuery(['/allposts', page], () =>
+    getAllPosts(page), {
+      keepPreviousData: true
+    }
+  )
+
+  if (isLoading) return <p>Loading...</p>
+
+  if (isError) return <p>Error</p>
+
+  const lastPage = () => setPage(data.totalpages);
+  const firstPage = () => setPage(1);
+  const pagesArray = Array(data.totalpages).fill(null).map((_, i) => i+1);
+
   return (
+    <>
     <S.Container>
       <S.PostStart>
         <span>POST</span>
@@ -67,7 +95,17 @@ const ALlPostPage = () => {
         ))}
       </ul>
     </S.Container>
+    <nav>
+      <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
+        {`<<`}
+      </button>
+      {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
+      <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
+        {`>>`}
+      </button>
+    </nav>
+  </>
   );
 };
 
-export default ALlPostPage;
+export default AllPostsPage;
