@@ -17,6 +17,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class MemberService {
     private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
-    private String bucket;
+
 
 
     public Member signUp(Member member, String uri) {
@@ -60,8 +61,11 @@ public class MemberService {
 
         Member member = checkDisplayName(patch, findmember);
 
-        Optional.ofNullable(patch.getPassword()).ifPresent(password -> member.updatePassword(password));
-//        Optional.ofNullable(patch.getImage()).ifPresent(image -> member.updateImage(image));
+        if (patch.getPassword() != null ) {
+            String pass = patch.getPassword();
+            String encryptedPassword = passwordEncoder.encode(pass);
+            member.updatePassword(encryptedPassword);
+        }
 
         memberRepository.save(member);
 
@@ -77,25 +81,27 @@ public class MemberService {
                 .image(findMember.getImage()).build();
     }
 
-
+    @Transactional
     public MyPageDetails myPageMember(Long id) {
 
         Member findMember = findById(id);
-        Long countFollower = followRepository.countByFollowingId(id);
-        Long countFollowing = followRepository.countByFollowerId(id);
+        Long follower = memberRepository.countByFollowings(id);
+        Long following = memberRepository.countByFollowers(id);
 
         MyPageDetails memberInfo = MyPageDetails.builder()
                 .email(findMember.getEmail())
                 .displayName(findMember.getDisplayName())
                 .grade(findMember.getGrade())
-                .image(findMember.getEmail())
-                .countFollower(countFollower)
-                .countFollowing(countFollowing).build();
+                .image(findMember.getImage())
+                .countFollower(follower)
+                .countFollowing(following).build();
         return memberInfo;
     }
 
+    @Transactional
     public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(Long id, Long cursorId, Pageable pageable) {
 
+        Member findMember = findById(id);
         Slice<MyBookMarkCafeList> postList = memberRepository.findByBookMarkCafeList(id, cursorId, pageable);
         List<MyBookMarkCafeList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -104,8 +110,10 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
+    @Transactional
     public SliceResponse<MyPagePostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
 
+        Member findMember = findById(id);
         Slice<MyPagePostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -114,8 +122,7 @@ public class MemberService {
         return new SliceResponse<>(list, hasNext, size);
     }
 
-
-
+    @Transactional
     public UserPageDetails userPage(Long id, Long memberId) {
 
         Member userMember = findById(memberId);
@@ -132,8 +139,10 @@ public class MemberService {
 
     }
 
+    @Transactional
     public SliceResponse<MyPagePostList> postList(Long id, Long cursorId, Pageable pageable) {
 
+        Member findMember = findById(id);
         Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -172,6 +181,7 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
+    @Transactional
     public SliceResponse<SearchFollow> followingList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
@@ -183,6 +193,7 @@ public class MemberService {
         return new SliceResponse<>(followings,hasNext,size);
     }
 
+    @Transactional
     public SliceResponse<SearchFollow> followerList(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);

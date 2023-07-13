@@ -24,4 +24,8 @@ public interface CustomMemberRepository {
 
     Slice<MyBookMarkCafeList> findByBookMarkCafeList(Long id, Long cursorId, Pageable pageable);
 
+    Long countByFollowers(Long id);
+
+    Long countByFollowings(Long id);
+
 }
