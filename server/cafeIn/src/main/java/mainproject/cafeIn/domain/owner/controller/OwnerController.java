@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.owner.controller;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.owner.dto.request.OwnerCheckPasswordDto;
 import mainproject.cafeIn.domain.owner.dto.request.OwnerPatchDto;
 import mainproject.cafeIn.domain.owner.dto.request.OwnerPostDto;
 import mainproject.cafeIn.domain.owner.dto.response.OwnerDetailResponse;
@@ -52,9 +53,9 @@ public class OwnerController {
 
     @DeleteMapping("/sign-out")
     @ResponseStatus(HttpStatus.OK)
-    public ApplicationResponse deleteOwner(HttpServletRequest request) {
+    public ApplicationResponse deleteOwner(@RequestBody OwnerCheckPasswordDto requestBody) {
         long ownerId = JwtParseInterceptor.getAuthenticatedUserId();
-        Owner owner = ownerService.deleteOwner(ownerId);
+        Owner owner = ownerService.deleteOwner(ownerId, requestBody.getPassword());
 
         return new ApplicationResponse();
     }
