@@ -19,6 +19,7 @@ import org.springframework.data.domain.*;
 import java.util.List;
 
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
+import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.member.entity.QFollow.follow;
 import static mainproject.cafeIn.domain.member.entity.QMember.member;
 import static mainproject.cafeIn.domain.member.entity.enums.MemberStatus.MEMBER_ACTIVE;
@@ -115,15 +116,15 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     public Slice<MyBookMarkCafeList> findByBookMarkCafeList(Long id, Long cursorId, Pageable pageable) {
 
 
-//        List<MyBookMarkCafeList> cafeList = queryFactory
-//                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating))
-//                .from(member)
-//                .innerJoin(member.cafeBookmark, cafeBookmark)
-//                .innerJoin(cafeBookmark.cafe, cafe).fetchJoin()
-//                .where(member.id.eq(id), cafeBookMarkLtCursorId(cursorId))
-//                .orderBy(post.postId.desc())
-//                .limit(pageable.getPageSize()+1)
-//                .fetch();
+        List<MyBookMarkCafeList> cafeList = queryFactory
+                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating))
+                .from(member)
+                .innerJoin(member.cafeBookmarks, cafeBookmark)
+                .innerJoin(cafeBookmark.cafe, cafe).fetchJoin()
+                .where(member.id.eq(id), cafeBookMarkLtCursorId(cursorId))
+                .orderBy(post.postId.desc())
+                .limit(pageable.getPageSize()+1)
+                .fetch();
 
         return null;//checkLastPage(cafeList, pageable);
     }

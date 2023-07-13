@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.cafe.entity.CafeBookmark;
 import mainproject.cafeIn.domain.member.entity.enums.MemberGrade;
 import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
 import mainproject.cafeIn.domain.post.entity.Post;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "members")
 public class Member extends BaseEntity {
 
     @Id
@@ -59,6 +61,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<PostBookmark> postBookmarks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
 
     @Builder

@@ -154,7 +154,7 @@ public class MemberService {
     public Member signOut(long id, String password) {
 
         Member findMember = findById(id);
-        if (findMember.getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
             findMember.deleteStatus(MEMBER_QUIT);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
