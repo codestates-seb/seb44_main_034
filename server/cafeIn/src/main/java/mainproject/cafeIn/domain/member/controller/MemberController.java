@@ -2,9 +2,7 @@ package mainproject.cafeIn.domain.member.controller;
 
 import lombok.RequiredArgsConstructor;
 
-import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
-import mainproject.cafeIn.domain.member.dto.reponse.SliceResponse;
-import mainproject.cafeIn.domain.member.dto.reponse.UserPageDetails;
+import mainproject.cafeIn.domain.member.dto.reponse.*;
 import mainproject.cafeIn.domain.member.dto.request.MemberDto;
 import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
@@ -18,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import java.net.URI;
 import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -27,7 +24,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RestController
 @Validated
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 public class MemberController {
 
     private final MemberService memberService;
@@ -42,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "file", required=false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "file", required = false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.updateMember(patch,id);
@@ -51,20 +48,76 @@ public class MemberController {
         return new ApplicationResponse();
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/get-update")
+    @ResponseStatus(OK)
+    public ApplicationResponse getMember() {
+
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        UpdateMember response = memberService.getMember(id);
+
+
+        return new ApplicationResponse(response);
+    }
+
+    @GetMapping("/my-page")
     @ResponseStatus(OK)
     public ApplicationResponse myInfo() {
 
-        return new ApplicationResponse<>();
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        MyPageDetails response = memberService.myPageMember(id);
+
+        return new ApplicationResponse<>(response);
+    }
+
+    @GetMapping("/my-page/bookmarked-cafe")
+    @ResponseStatus(OK)
+    public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "id", required = false) Long cursorId,
+                                              @PageableDefault(size = 3) Pageable pageable) {
+
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        SliceResponse<MyBookMarkCafeList> response = memberService.myBookMarkCafe(id, cursorId, pageable);
+
+        return new ApplicationResponse<>(response);
+    }
+
+    @GetMapping("/my-page/bookmarked-post")
+    @ResponseStatus(OK)
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
+                                              @PageableDefault(size = 3) Pageable pageable) {
+
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        SliceResponse<MyPagePostList> response = memberService.myBookMarkPost(id, cursorId, pageable);
+
+        return new ApplicationResponse<>(response);
+    }
+
+    @GetMapping("/my-page/my-post")
+    @ResponseStatus(OK)
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "id", required = false) Long cursorId,
+                                      @PageableDefault(size = 3) Pageable pageable) {
+
+        long id = JwtParseInterceptor.getAuthenticatedUserId();
+        SliceResponse<MyPagePostList> response = memberService.postList(id, cursorId, pageable);
+
+        return new ApplicationResponse<>(response);
     }
 
     @GetMapping("/{member-id}")
     @ResponseStatus(OK)
-    public ApplicationResponse otherInfo(@PathVariable("member-id") long memberId,
-                                         @RequestParam(value = "id") long cursorId,
-                                         @PageableDefault(size = 2) Pageable pageable) {
+    public ApplicationResponse otherInfo(@PathVariable("member-id") long memberId) {
+        Long id = JwtParseInterceptor.getAuthenticatedUserId();
+        UserPageDetails response = memberService.userPage(id, memberId);
 
-        UserPageDetails response = memberService.userPage(memberId, cursorId, pageable);
+        return new ApplicationResponse<>(response);
+    }
+    @GetMapping("/{member-id}/post")
+    @ResponseStatus(OK)
+    public ApplicationResponse<SliceResponse<MyPagePostList>> otherPost(@PathVariable("member-id") Long memberId,
+                                         @RequestParam(value = "id", required = false) Long cursorId,
+                                         @PageableDefault(size = 3) Pageable pageable) {
+
+
+        SliceResponse<MyPagePostList> response = memberService.postList(memberId, cursorId, pageable);
 
         return new ApplicationResponse<>(response);
     }
@@ -90,7 +143,8 @@ public class MemberController {
 
     @GetMapping("/my-page/following")
     @ResponseStatus(OK)
-    public ApplicationResponse followingMembers(@RequestParam(value = "id") long cursorId,@PageableDefault(size = 2) Pageable pageable){
+    public ApplicationResponse<SliceResponse<SearchFollow>> followingMembers(@RequestParam(value = "id", required = false) Long cursorId,
+                                                @PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followingList(id, cursorId, pageable);
@@ -99,7 +153,8 @@ public class MemberController {
 
     @GetMapping("/my-page/follower")
     @ResponseStatus(OK)
-    public ApplicationResponse followerMembers(@RequestParam(value = "id") long cursorId,@PageableDefault(size = 2) Pageable pageable){
+    public ApplicationResponse<SliceResponse<SearchFollow>> followerMembers(@RequestParam(value = "id", required = false) Long cursorId,
+                                               @PageableDefault(size = 2) Pageable pageable){
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         SliceResponse<SearchFollow> response = memberService.followerList(id, cursorId, pageable);

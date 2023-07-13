@@ -1,9 +1,7 @@
 package mainproject.cafeIn.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
-import mainproject.cafeIn.domain.member.dto.reponse.SliceResponse;
-import mainproject.cafeIn.domain.member.dto.reponse.UserPageDetails;
+import mainproject.cafeIn.domain.member.dto.reponse.*;
 import mainproject.cafeIn.domain.member.dto.request.MemberDto;
 import mainproject.cafeIn.domain.member.entity.Follow;
 import mainproject.cafeIn.domain.member.entity.Member;
@@ -70,16 +68,78 @@ public class MemberService {
 
     }
 
+    public UpdateMember getMember(long id) {
+        Member findMember = findById(id);
 
-    public void myPageMember() {
+
+        return UpdateMember.builder()
+                .displayName(findMember.getDisplayName())
+                .image(findMember.getImage()).build();
+    }
+
+
+    public MyPageDetails myPageMember(long id) {
+
+        Member findMember = findById(id);
+        long countFollower = followRepository.countByFollowingId(id);
+        long countFollowing = followRepository.countByFollowerId(id);
+
+        MyPageDetails memberInfo = MyPageDetails.builder()
+                .email(findMember.getEmail())
+                .displayName(findMember.getDisplayName())
+                .grade(findMember.getGrade())
+                .image(findMember.getEmail())
+                .countFollower(countFollower)
+                .countFollowing(countFollowing).build();
+        return memberInfo;
+    }
+
+    public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(long id, Long cursorId, Pageable pageable) {
+
+        Slice<MyBookMarkCafeList> postList = memberRepository.findByBookMarkCafeList(id, cursorId, pageable);
+        List<MyBookMarkCafeList> list = postList.getContent();
+        boolean hasNext = postList.hasNext();
+        int size = pageable.getPageSize();
+
+        return new SliceResponse<>(list, hasNext, size);
+    }
+
+    public SliceResponse<MyPagePostList> myBookMarkPost(long id, Long cursorId, Pageable pageable) {
+
+        Slice<MyPagePostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
+        List<MyPagePostList> list = postList.getContent();
+        boolean hasNext = postList.hasNext();
+        int size = pageable.getPageSize();
+
+        return new SliceResponse<>(list, hasNext, size);
+    }
+
+
+
+    public UserPageDetails userPage(long id, long memberId) {
+
+        Member userMember = findById(memberId);
+        Member findMember = findById(id);
+        boolean isFollowing = checkfollowing(id, userMember).size() > 0;
+        UserPageDetails userInfo = UserPageDetails.builder()
+                .displayName(userMember.getDisplayName())
+                .image(userMember.getImage())
+                .grade(userMember.getGrade())
+                .isFollowing(isFollowing)
+                .build();
+
+        return userInfo;
 
     }
 
-    public UserPageDetails userPage(long memberId, long cursorId, Pageable pageable) {
+    public SliceResponse<MyPagePostList> postList(long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(memberId);
+        Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
+        List<MyPagePostList> list = postList.getContent();
+        boolean hasNext = postList.hasNext();
+        int size = pageable.getPageSize();
 
-        return null;
+        return new SliceResponse<>(list, hasNext, size);
 
     }
     @Transactional
@@ -103,7 +163,7 @@ public class MemberService {
     public Member signOut(long id, String password) {
 
         Member findMember = findById(id);
-        if (findMember.getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
             findMember.deleteStatus(MEMBER_QUIT);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
@@ -112,7 +172,7 @@ public class MemberService {
         return memberRepository.save(findMember);
     }
 
-    public SliceResponse<SearchFollow> followingList(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followingList(long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> following = memberRepository.findByFollowingList(id, cursorId,pageable);
@@ -123,7 +183,7 @@ public class MemberService {
         return new SliceResponse<>(followings,hasNext,size);
     }
 
-    public SliceResponse<SearchFollow> followerList(long id, long cursorId, Pageable pageable) {
+    public SliceResponse<SearchFollow> followerList(long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
         Slice<SearchFollow> follower = memberRepository.findByFollowerList(id, cursorId, pageable);
