@@ -3,6 +3,7 @@ package mainproject.cafeIn.global.auth.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.global.auth.dto.LoginDto;
 import mainproject.cafeIn.global.auth.jwt.JwtTokenizer;
@@ -39,23 +40,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        Owner owner = (Owner) authResult.getPrincipal();
-//        Member member = (Member) authResult.getPrincipal();
+        Object principal = authResult.getPrincipal();
 
-//        if (owner.getOwnerId() == null) {
-//            String accessToken = delegateMemberAccessToken(member);
-//            String refreshToken = delegateMemberRefreshToken(member);
-//        } else {
-//            String accessToken = delegateOwnerAccessToken(owner);
-//            String refreshToken = delegateOwnerRefreshToken(owner);
-//        }
+        if (principal instanceof Owner) {
+            Owner owner = (Owner) principal;
 
-        String accessToken = delegateOwnerAccessToken(owner);
-        String refreshToken = delegateOwnerRefreshToken(owner);
+            String accessToken = delegateOwnerAccessToken(owner);
+            String refreshToken = delegateOwnerRefreshToken(owner);
 
-        response.setHeader("Authorization", "Bearer " + accessToken);
-//        response.setHeader("Refresh", refreshToken);
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            response.setHeader("refreshToken", refreshToken);
+            response.setHeader("Role", "owner");
+        } else if (principal instanceof Member) {
+            Member member = (Member) principal;
 
+            String accessToken = delegateMemberAccessToken(member);
+            String refreshToken = delegateMemberRefreshToken(member);
+
+            response.setHeader("Authorization", "Bearer " + accessToken);
+            response.setHeader("refreshToken", refreshToken);
+            response.setHeader("Role", "member");
+        }
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 
@@ -87,6 +92,34 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         return refreshToken;
     }
-    // TODO delegateMemberAccessToken, delegateMemberRefreshToken 생성
+
+    private String delegateMemberAccessToken(Member member) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", member.getId());
+        claims.put("username", member.getEmail());
+        claims.put("roles", member.getRoles());
+
+        String subject = member.getEmail();
+
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+
+        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+        return accessToken;
+    }
+
+    private String delegateMemberRefreshToken(Member member) {
+        String subject = member.getEmail();
+
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+
+        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
+
+        return refreshToken;
+    }
 }
 
