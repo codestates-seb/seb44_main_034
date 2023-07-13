@@ -60,7 +60,7 @@ public class MemberService {
 
         Member member = checkDisplayName(patch, findmember);
 
-        Optional.ofNullable(patch.getPassword()).ifPresent(password -> member.updatePassword(password));
+        Optional.ofNullable(patch.getPassword()).ifPresent(password -> member.updatePassword(passwordEncoder.encode(password)));
 //        Optional.ofNullable(patch.getImage()).ifPresent(image -> member.updateImage(image));
 
         memberRepository.save(member);
