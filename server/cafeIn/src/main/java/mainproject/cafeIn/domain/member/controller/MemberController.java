@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "file", required = false) MultipartFile file, @Valid @RequestPart(value = "patch") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "profile-image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.updateMember(patch,id);
@@ -104,7 +104,7 @@ public class MemberController {
 
     @GetMapping("/{member-id}")
     @ResponseStatus(OK)
-    public ApplicationResponse otherInfo(@PathVariable("member-id") long memberId) {
+    public ApplicationResponse otherInfo(@PathVariable("member-id") Long memberId) {
         Long id = JwtParseInterceptor.getAuthenticatedUserId();
         UserPageDetails response = memberService.userPage(id, memberId);
 
