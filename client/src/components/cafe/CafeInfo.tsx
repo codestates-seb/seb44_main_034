@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { FacilityType, CafeType, AllcafeState } from '../../recoil/recoil';
 import { ConfirmBtn } from '../../common/button/button';
 import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_2 } from '../../common/common';
+import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 // import { BiImageAdd } from 'react-icons/bi';
 
 const facilityName = [
@@ -239,29 +239,31 @@ const CafeInfo = () => {
 };
 const S = {
   MainDiv: styled.div`
+    width: 768px;
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center;
-
     flex-direction: row;
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
+      width: 100%;
       flex-direction: column;
       justify-content: flex-start;
     }
   `,
   AddImageDiv: styled.div`
-    width: 35vw;
-    height: 55vh;
+    width: 300px;
+    height: 300px;
     border: 2px solid ${COLOR_1.black};
     margin-right: 2%;
     display: flex;
     justify-content: center;
     align-items: center;
-    @media screen and (max-width: 500px) {
-      width: 80vw;
-      height: 23vh;
+    @media screen and (max-width: 767px) {
+      width: 80%;
+      height: 180px;
       margin-top: 10%;
       margin-bottom: 5%;
+      margin-left: 2%;
     }
   `,
   ImageShow: styled.img`
@@ -270,13 +272,13 @@ const S = {
     margin: auto;
   `,
   AddCafeInfoDiv: styled.div`
-    width: 45vw;
-    height: 55vh;
+    width: 350px;
+    height: 300px;
     padding: 1%;
 
-    @media screen and (max-width: 500px) {
-      width: 80vw;
-      height: 50vh;
+    @media screen and (max-width: 767px) {
+      width: 80%;
+      height: 350px;
     }
   `,
   InputBase: styled.input`
@@ -289,21 +291,22 @@ const S = {
   `,
   CafeName: styled.input`
     width: 100%;
-    height: 18%;
+    height: 50px;
     outline: none;
     border: none;
     margin-bottom: 2%;
     &:hover {
       outline: auto;
     }
-    font-size: ${FONT_SIZE_2.big_2};
-    @media screen and (max-width: 500px) {
+    font-size: ${FONT_SIZE_2.big_1};
+    @media screen and (max-width: 767px) {
+      font-size: ${FONT_SIZE_1.big_2};
       height: 10%;
     }
   `,
   CafeInputLabel: styled.div`
     width: 100%;
-    height: 8%;
+    height: 10%;
     margin: 1%;
     color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_2.normal_3};
@@ -315,7 +318,8 @@ const S = {
     min-height: 20%;
     border: 5px solid ${COLOR_1.dark_sand};
     border-radius: 20px;
-    @media screen and (max-width: 500px) {
+    text-align: center;
+    @media screen and (max-width: 767px) {
       height: 10%;
     }
   `,
@@ -329,7 +333,7 @@ const S = {
     padding: 2%;
     color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_2.normal_2};
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       display: block;
       text-align: start;
     }
@@ -359,22 +363,26 @@ const S = {
 const CafeBusinessHours = styled(S.InputBase)`
   width: 20%;
   height: 90%;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 767px) {
     width: 30%;
-    height: 50%;
+    height: 80%;
   }
 `;
 const CafeAddress = styled(S.InputBase)`
   width: 80%;
   height: 90%;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 767px) {
     width: 80%;
-    height: 50%;
+    height: 80%;
   }
 `;
 const CafeContact = styled(S.InputBase)`
   width: 50%;
   height: 90%;
+  @media screen and (max-width: 767px) {
+    width: 60%;
+    height: 80%;
+  }
 `;
 const CafeNotice = styled(S.InputBase)`
   width: 90%;
@@ -382,8 +390,8 @@ const CafeNotice = styled(S.InputBase)`
   margin: 1%;
   display: block;
   margin: auto;
-  @media screen and (max-width: 500px) {
-    height: 50%;
+  @media screen and (max-width: 767px) {
+    height: 40%;
   }
 `;
 export default CafeInfo;
