@@ -47,11 +47,11 @@ function App() {
             <Route path='/signupselect' element={<SignupSelect />} />
             <Route path='/usersignup' element={<UserSignup />} />
             <Route path='/ownersignup' element={<OwnerSignup />} />
-            <Route path='/usermypage/' element={<UserMyPage />} />
-            <Route path='/ownermypage/' element={<OwnerMyPage />} />
-            <Route path='/otherusermypage/:id' element={<OtherUserMyPage />} />
-            <Route path='/usermypage/edit/:id' element={<EditUserMyPage />} />
-            <Route path='/ownermypage/edit/:id' element={<EditOwnerMyPage />} />
+            <Route path='/usermy/' element={<UserMyPage />} />
+            <Route path='/ownermy/' element={<OwnerMyPage />} />
+            <Route path='/otherusermy/:id' element={<OtherUserMyPage />} />
+            <Route path='/usermy/edit/:id' element={<EditUserMyPage />} />
+            <Route path='/ownermy/edit/:id' element={<EditOwnerMyPage />} />
             <Route path='/cafepage/:id' element={<CafePage />} />
             <Route
               path='/cafepage/create/information'

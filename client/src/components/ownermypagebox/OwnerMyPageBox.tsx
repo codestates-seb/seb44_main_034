@@ -1,99 +1,103 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
+import CafeFollowerModal from '../cafefollowermodal/CafeFollowerModal';
 import coffeeshop from '../../assets/coffeeshop.svg';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
-    height: 90vh;
-    width: 65vw;
-    @media screen and (max-width: 500px) {
-      width: 70vw;
+    width: 90vw;
+    margin-bottom: 10px;
+    @media screen and (min-width: 768px) {
+      width: 700px;
     }
-  `,
-  TopBox: styled.div`
-    display: flex;
-    margin-top: 30px;
-  `,
-  TopSubBox: styled.div`
-    width: 33vw;
   `,
   MiddleBox: styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 30px;
-    height: 25vh;
+    align-items: center;
+    height: 400px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      flex-direction: row;
+      width: 700px;
+    }
   `,
   BottomBox: styled.div`
     display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 700px;
+    }
   `,
-  EditBtn: styled.div`
-    width: 12vw;
-    border-radius: 5px;
-    margin-left: 10vw;
+  EditButtonBox: styled.div`
+    display: flex;
+    justify-content: right;
+    height: 60px;
+    width: 90vw;
+    border-bottom: solid 1px ${COLOR_1.light_gray};
+    @media screen and (min-width: 786px) {
+      width: 700px;
+    }
+  `,
+  EditButton: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    width: 140px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
     color: ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.ivory};
+    border: solid 1px ${COLOR_1.dark_brown};
     cursor: pointer;
     &:hover {
       background-color: #a57d52;
+      color: white;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
-    }
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_2};
-    }
-  `,
-  TitleBox: styled.div`
-    width: 33vw;
-    font-size: ${FONT_SIZE_1.big_2};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.normal_2};
+      color: white;
     }
   `,
   ProfileImg: styled.img`
-    width: 14vw;
-    @media screen and (max-width: 500px) {
-      width: 20vw;
+    width: 90vw;
+    height: 180px;
+    @media screen and (min-width: 786px) {
+      width: 200px;
     }
   `,
-  SubBottonBoxLeft: styled.div`
+  ProfileImgBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 40vh;
-    width: 32vw;
-    @media screen and (max-width: 900px) {
-      height: 20vh;
+    height: 200px;
+    width: 90vw;
+    margin-top: 10px;
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
-  SubBottonBoxRight: styled.div`
+  ProfileListBox: styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40vh;
-    width: 32vw;
-    @media screen and (max-width: 900px) {
-      height: 20vh;
-    }
-  `,
-  AllProfileBoxRight: styled.div`
-    display: flex;
-    height: 25vh;
-    width: 30vw;
+    height: 200px;
+    width: 90vw;
     border-radius: 10px;
-    background-color: ${COLOR_1.light_green};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_1};
-      height: 20vh;
+    background-color: ${COLOR_1.white};
+    border: solid 2px ${COLOR_1.green};
+    box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
   TitleInformaitonBox: styled.div`
@@ -101,42 +105,62 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 30vw;
+    @media screen and (min-width: 786px) {
+      width: 80px;
+    }
   `,
   TitleInformaiton: styled.div`
-    width: 10vw;
+    width: 30vw;
     margin-top: 5px;
+    text-align: center;
+    @media screen and (min-width: 786px) {
+      width: 60px;
+    }
+  `,
+  FollowerInformaiton: styled.div`
+    width: 60vw;
+    margin-top: 5px;
+    text-align: center;
+    cursor: pointer;
+    color: ${COLOR_1.black};
+    &:hover {
+      color: ${COLOR_1.light_red};
+    }
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   InformaitonBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20vw;
-  `,
-  Informaiton: styled.div`
-    width: 25vw;
-    margin-top: 5px;
-  `,
-  CafeImgBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-  `,
-  CafeImg: styled.img`
-    margin-top: 15px;
-    width: 300px;
-    @media screen and (max-width: 900px) {
-      width: 22vw;
+    width: 60vw;
+    @media screen and (min-width: 786px) {
+      width: 270px;
     }
   `,
-  SandBtn: styled.button`
-    height: 10vw;
-    width: 18vw;
+  Informaiton: styled.div`
+    text-align: center;
+    width: 60vw;
+    margin-top: 5px;
+    color: ${COLOR_1.brown};
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
+  `,
+  SandButton: styled.button`
+    height: 5vh;
+    width: 290px;
     border-radius: 15px;
     border: none;
+    margin-top: 10px;
     background-color: ${COLOR_1.ivory};
     color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_1.big_1};
-    margin-top: 10px;
+    font-size: ${FONT_SIZE_1.normal_2};
+    font-weight: bold;
+    border: solid 1px ${COLOR_1.dark_brown};
     cursor: pointer;
     &:hover {
       background-color: #a57d52;
@@ -144,76 +168,111 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (max-width: 900px) {
-      font-size: ${FONT_SIZE_1.small_2};
-      width: 23vw;
-    }
   `,
-  DeletBtn: styled.button``,
 };
-const OwnerMyPageBox = () => {
-  const replace = useNavigate();
+interface OwnerData {
+  email: string;
+  displayName: string;
+}
+
+interface CafeData {
+  cafeName: string;
+  countBookmarked: number;
+  image: File;
+}
+const UserMyPageBox = () => {
+  const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
+  const [ownerInfo, setOwnerInfo] = useState<OwnerData | undefined>();
+  const [cafeInfo, setCafeInfo] = useState<CafeData | undefined>();
+  const openFollowerModal = () => {
+    if (!isFollowerOpen) {
+      setFollowerIsOpen(true);
+    } else {
+      setFollowerIsOpen(false);
+    }
+  };
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const followModalhandler = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setFollowerIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', followModalhandler);
+
+    return () => {
+      document.removeEventListener('mousedown', followModalhandler);
+    };
+  }, []);
   useEffect(() => {
     axios
-      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      })
+      .get(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/my-page',
+        {
+          headers: {
+            // 'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('success');
         console.log(response.data);
+        setOwnerInfo(response.data.payload.ownerResponse);
+        setCafeInfo(response.data.payload.cafes[0]);
       })
       .catch((error) => {
         // Handle error.
 
         console.log('An error occurred:', error.response);
-        replace('/');
+        // replace('/');
       });
-  });
+  }, []);
   return (
     <S.Container>
-      <S.TopBox>
-        <S.TopSubBox></S.TopSubBox>
-        <S.TitleBox>사업자 마이페이지</S.TitleBox>
-        <S.TopSubBox>
-          <Link to='edit/:id'>
-            <S.EditBtn>프로필 수정</S.EditBtn>
-          </Link>
-        </S.TopSubBox>
-      </S.TopBox>
       <S.MiddleBox>
-        <S.AllProfileBoxRight>
+        <S.ProfileImgBox>
+          <S.ProfileImg src={coffeeshop}></S.ProfileImg>
+        </S.ProfileImgBox>
+        <S.ProfileListBox>
           <S.TitleInformaitonBox>
             <S.TitleInformaiton>이메일</S.TitleInformaiton>
             <S.TitleInformaiton>닉네임</S.TitleInformaiton>
-            <S.TitleInformaiton>회원등급</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로워</S.TitleInformaiton>
+            <S.TitleInformaiton>카페이름</S.TitleInformaiton>
+            <S.TitleInformaiton>카페팔로워</S.TitleInformaiton>
           </S.TitleInformaitonBox>
-          <S.InformaitonBox>
-            <S.Informaiton>cafein@cafein.com</S.Informaiton>
-            <S.Informaiton>카페인</S.Informaiton>
-            <S.Informaiton>에소프레소</S.Informaiton>
-            <S.Informaiton>100</S.Informaiton>
+          <S.InformaitonBox ref={dropdownRef}>
+            <S.Informaiton>{ownerInfo ? ownerInfo.email : '-'}</S.Informaiton>
+            <S.Informaiton>
+              {ownerInfo ? ownerInfo.displayName : '-'}
+            </S.Informaiton>
+            <S.Informaiton>{cafeInfo ? cafeInfo.cafeName : '-'}</S.Informaiton>
+            <S.FollowerInformaiton onClick={openFollowerModal}>
+              {cafeInfo ? cafeInfo.countBookmarked : '0'}
+            </S.FollowerInformaiton>
+            {isFollowerOpen ? <CafeFollowerModal /> : null}
           </S.InformaitonBox>
-        </S.AllProfileBoxRight>
+        </S.ProfileListBox>
       </S.MiddleBox>
+      <S.EditButtonBox>
+        <Link to='/ownermy/edit/:id'>
+          <S.EditButton>내 정보 수정하기</S.EditButton>
+        </Link>
+      </S.EditButtonBox>
       <S.BottomBox>
-        <S.SubBottonBoxLeft>
-          <S.SandBtn>내 카페 보기</S.SandBtn>
-          <S.SandBtn>내 카페 등록하기</S.SandBtn>
-          <S.SandBtn>내 카페 수정하기</S.SandBtn>
-          <S.SandBtn>카페 메뉴 등록하기</S.SandBtn>
-          <S.SandBtn>카페 메뉴 수정하기</S.SandBtn>
-        </S.SubBottonBoxLeft>
-        <S.SubBottonBoxRight>
-          <S.CafeImg src={coffeeshop}></S.CafeImg>
-        </S.SubBottonBoxRight>
+        <S.SandButton>내 카페 보기</S.SandButton>
+        <S.SandButton>내 카페 등록하기</S.SandButton>
+        <S.SandButton>내 카페 수정하기</S.SandButton>
+        <S.SandButton>카페 메뉴 등록하기</S.SandButton>
+        <S.SandButton>카페 메뉴 수정하기</S.SandButton>
       </S.BottomBox>
     </S.Container>
   );
 };
 
-export default OwnerMyPageBox;
+export default UserMyPageBox;
