@@ -63,7 +63,7 @@ public class MenuController {
         return new ApplicationResponse<>(response);
     }
 
-    @GetMapping("/{cafe-id}/edit-menu")
+    @GetMapping("/{cafe-id}/edit")
     @ResponseStatus(OK)
     public ApplicationResponse<List<List<MenuResponse>>> getMenus(@PathVariable("cafe-id") Long cafeId) {
         List<List<MenuResponse>> menus = menuService.getMenus(cafeId);
