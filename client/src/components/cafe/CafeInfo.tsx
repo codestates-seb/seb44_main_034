@@ -5,7 +5,8 @@ import { ConfirmBtn, CancelButton } from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
-
+const Base_URL =
+  'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api';
 const facilityName = [
   '24시간 운영여부',
   '콘센트 유무',
@@ -39,9 +40,9 @@ const CafeInfo = () => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setImageFile(selectedFile);
+      console.log(imageFile);
     }
   };
-
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
 
@@ -74,47 +75,46 @@ const CafeInfo = () => {
     }
   };
 
-  /* 이미지를 전송하고 받은 Url로 tempdata 를 요청보내는게 맞는건지 */
+  /* 이미지를 전송하고 받은 Url로 Cafedata 를 요청보내는게 맞는건지 */
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    if (imageFile) {
-      console.log(imageFile);
-      const formData = new FormData();
-      console.log(formData);
-      formData.append('image', imageFile);
-    }
-
+    // if (imageFile) {
+    //   console.log(imageFile);
+    //   const formData = new FormData();
+    //   console.log(formData);
+    //   formData.append('image', imageFile);
+    // }
     try {
-      const responseImg = await axios.post(
-        'http://localhost:3001/cafes',
-        FormData
-      );
-      if (responseImg.status === 201) {
-        //이미지 업로드 성공일 때
-        const cafeDataWithImage = {
-          ...CafeData,
-          cafeImg: responseImg.data.imageUrl,
-        };
+      // const responseImg = await axios.post(
+      //   'http://localhost:3001/cafes',
+      //   FormData
+      // );
+      // if (responseImg.status === 201) {
+      //   //이미지 업로드 성공일 때
+      //   const cafeDataWithImage = {
+      //     ...CafeData,
+      //     cafeImg: responseImg.data.imageUrl,
+      //   };
 
-        const response = await axios.post(
-          'http://localhost:3001/cafes',
-          cafeDataWithImage
-        );
-        console.log(response.data.imageUrl);
-        console.log(response.data);
-        const cafeId = response.data.id;
-        alert(
-          '카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다'
-        );
-        navigate(`/menus/${cafeId}`);
-      } else {
-        throw new Error('Image upload failed');
-      }
+      const response = await axios.post(`${Base_URL}/cafes`, CafeData, {
+        headers: {
+          Authorization: localStorage.getItem('access_token'),
+        },
+      });
+      // console.log(response.data.imageUrl);
+      console.log(response.data);
+      const cafeId = response.data.id;
+      alert('카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다');
+      navigate(`${Base_URL}/menus/${cafeId}`);
+      // } else {
+      //   throw new Error('Image upload failed');
+      // }
+      console.log('성공');
     } catch (error) {
       console.error(error);
-      alert('Image upload failed');
+      // alert('Image upload failed');
     }
     // saveCafe(CafeData);
     // console.log(cafes);
