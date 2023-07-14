@@ -1,5 +1,6 @@
 package mainproject.cafeIn.domain.member.dto.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mainproject.cafeIn.domain.member.entity.Member;
 
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 
 public class MemberDto {
     @Getter
+    @AllArgsConstructor
     public static class Post {
 
         @NotBlank(message = "이메일을 입력해주세요.")
@@ -26,8 +28,7 @@ public class MemberDto {
         private String password;
 
 
-
-        public Member toEntity(){
+        public Member toEntity() {
             return Member.builder()
                     .email(email)
                     .displayName(displayName)
