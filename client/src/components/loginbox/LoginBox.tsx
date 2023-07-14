@@ -118,10 +118,13 @@ const LoginBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { username, password } = data;
     axios
-      .post('https://528e-58-237-124-214.ngrok-free.app/api/users/log-in', {
-        username: username,
-        password: password,
-      })
+      .post(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/users/log-in',
+        {
+          username: username,
+          password: password,
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('Login successful!');

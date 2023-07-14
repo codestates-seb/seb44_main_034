@@ -210,12 +210,15 @@ const UserMyPageBox = () => {
   }, []);
   useEffect(() => {
     axios
-      .get('https://528e-58-237-124-214.ngrok-free.app/api/owners/my-page', {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      })
+      .get(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/my-page',
+        {
+          headers: {
+            // 'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('success');

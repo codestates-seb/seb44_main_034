@@ -178,11 +178,14 @@ const OtherUserMyPageBox = () => {
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
   useEffect(() => {
     axios
-      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/member/1', {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-        },
-      })
+      .get(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/member/1',
+        {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+          },
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('success');

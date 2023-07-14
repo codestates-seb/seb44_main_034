@@ -190,14 +190,17 @@ const EditOwnerMyPageBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { displayName, password } = data;
     axios
-      .patch('https://528e-58-237-124-214.ngrok-free.app/api/owners/update', {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
-        },
-        displayName: displayName,
-        password: password,
-      })
+      .patch(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/update',
+        {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
+          displayName: displayName,
+          password: password,
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('Well done!');

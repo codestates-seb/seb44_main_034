@@ -113,11 +113,14 @@ const OwnerSignupBox = () => {
     const { email, displayName, password } = data;
     console.log(data);
     axios
-      .post('https://528e-58-237-124-214.ngrok-free.app/api/owners/sign-up', {
-        email: email,
-        displayName: displayName,
-        password: password,
-      })
+      .post(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/sign-up',
+        {
+          email: email,
+          displayName: displayName,
+          password: password,
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('Well done!');
