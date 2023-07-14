@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
+<<<<<<< HEAD
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
+=======
+>>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
 import { PostItemAtom } from '../recoil/postState';
@@ -28,21 +31,21 @@ const S = {
     > form {
       min-height: 1000px;
       @media screen and (max-width: 500px) {
-      min-height: 1100px;
-    }
+        min-height: 1100px;
+      }
       > div {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         min-height: 1000px;
         @media screen and (max-width: 500px) {
-      min-height: 1100px;
-      }
+          min-height: 1100px;
+        }
       }
     }
     @media screen and (max-width: 500px) {
       min-height: 1100px;
-  }
+    }
   `,
   MoodAskWrap: styled.div`
     text-align: left;
@@ -92,6 +95,7 @@ const S = {
 };
 
 const CreatePostPage = () => {
+<<<<<<< HEAD
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
   const resetPostItem = useResetRecoilState(PostItemAtom);
@@ -232,6 +236,9 @@ const CreatePostPage = () => {
       </form>
     </S.Container>
   );
+=======
+  return <S.Container></S.Container>;
+>>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
 };
 
 export default CreatePostPage;

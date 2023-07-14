@@ -1,148 +1,109 @@
 import { Link } from 'react-router-dom';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../../common/common';
 import clienticon from '../../assets/clienticon.svg';
 import ownericon from '../../assets/ownericon.svg';
 import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
-    height: 600px;
-    width: 500px;
     display: flex;
     flex-direction: column;
+    height: 400px;
+    width: 90vw;
     margin-top: 40px;
-    @media screen and (max-width: 800px) {
-      height: 80vh;
-      width: 70vw;
-    }
-    @media screen and (max-width: 500px) {
-      height: 300px;
-      width: 250px;
-      display: flex;
-      flex-direction: column;
+    @media screen and (min-width: 786px) {
+      width: 600px;
     }
   `,
 
   MainTitleBox: styled.div`
-    width: 500px;
-    height: 100px;
+    width: 90vw;
+    height: 50px;
     font-size: ${FONT_SIZE_1.big_6};
-    @media screen and (max-width: 500px) {
-      height: 50px;
-      width: 250px;
+    @media screen and (min-width: 786px) {
+      width: 600px;
     }
   `,
 
   SubBox: styled.div`
     display: flex;
-    width: 500px;
-    height: 500px;
-    @media screen and (max-width: 500px) {
-      height: 250px;
-      width: 250px;
-      display: flex;
+    width: 90vw;
+    height: 300px;
+    @media screen and (min-width: 786px) {
+      width: 600px;
     }
   `,
   MainTitle: styled.div`
     display: flex;
     justify-content: center;
-    font-size: ${FONT_SIZE_1.big_6};
+    font-size: ${FONT_SIZE_1.big_1};
+    width: 90vw;
     height: 30px;
-    width: 500px;
-    @media screen and (max-width: 800px) {
-      width: 70vw;
-    }
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_1.big_1};
-      width: 250px;
-      height: 15px;
+    @media screen and (min-width: 786px) {
+      width: 600px;
     }
   `,
   SubTitle: styled.div`
-    height: 100px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: ${FONT_SIZE_1.big_2};
-    @media screen and (max-width: 500px) {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: ${FONT_SIZE_1.normal_1};
-    }
+    font-size: ${FONT_SIZE_1.normal_1};
   `,
 
   UserSubContainer: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 450px;
-    width: 250px;
+    justify-content: center;
+    height: 300px;
+    width: 45vw;
     border-radius: 20px 0px 0px 20px;
     background-color: ${COLOR_1.ivory};
     font-size: 16px;
-    @media screen and (max-width: 800px) {
-      height: 60vh;
-      width: 35vw;
-    }
-    @media screen and (max-width: 500px) {
-      height: 250px;
-      width: 150px;
-      font-size: 10px;
+    @media screen and (min-width: 786px) {
+      width: 300px;
     }
   `,
   OwnerSubContainer: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 450px;
-    width: 250px;
+    justify-content: center;
+    height: 300px;
+    width: 45vw;
     border-radius: 0px 20px 20px 0px;
     background-color: ${COLOR_1.light_green};
-    @media screen and (max-width: 800px) {
-      height: 60vh;
-      width: 35vw;
-    }
-    @media screen and (max-width: 500px) {
-      height: 250px;
-      width: 150px;
-      font-size: 10px;
+    font-size: 16px;
+    @media screen and (min-width: 786px) {
+      width: 300px;
     }
   `,
   SubExplain: styled.div`
-    height: 70px;
-    width: 137px;
-    font-size: ${FONT_SIZE_1.normal_1};
-    @media screen and (max-width: 800px) {
-      height: 60px;
-    }
-    @media screen and (max-width: 500px) {
-      height: 50px;
-      width: 75px;
-      font-size: ${FONT_SIZE_1.small_2};
+    text-align: center;
+    height: 50px;
+    width: 25vw;
+    font-size: ${FONT_SIZE_1.small_2};
+    margin-top: 20px;
+    @media screen and (min-width: 786px) {
+      width: 150px;
     }
   `,
   ImgBox: styled.img`
-    width: 150px;
-    height: 170px;
-    @media screen and (max-width: 800px) {
-      height: 140px;
-      width: 120px;
-    }
-    @media screen and (max-width: 500px) {
-      height: 90px;
-      width: 75px;
+    height: 90px;
+    width: 25vw;
+    @media screen and (min-width: 786px) {
     }
   `,
   DarkSandBtn: styled.button`
-    width: 200px;
-    height: 50px;
+    width: 26vw;
+    height: 30px;
+    font-size: ${FONT_SIZE_1.small_2};
+    font-weight: ${FONT_WEIGHT.weight_800};
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.dark_sand};
     color: white;
-    font-size: ${FONT_SIZE_1.big_1};
     border: solid 1px #cfcfcf;
     cursor: pointer;
 
@@ -152,14 +113,9 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (max-width: 800px) {
-      width: 25vw;
-      font-size: ${FONT_SIZE_1.normal_2};
-    }
-    @media screen and (max-width: 500px) {
-      width: 100px;
-      height: 25px;
-      font-size: ${FONT_SIZE_1.small_2};
+    @media screen and (min-width: 786px) {
+      width: 150px;
+      font-size: ${FONT_SIZE_1.small_3};
     }
   `,
 };

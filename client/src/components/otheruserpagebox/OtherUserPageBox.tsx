@@ -1,208 +1,237 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
-import coffeeshop from '../../assets/coffeeshop.svg';
 import styled from 'styled-components';
 
 const S = {
   Container: styled.div`
-    height: 90vh;
-    width: 65vw;
-    @media screen and (max-width: 500px) {
-      width: 70vw;
+    min-height: 100vh;
+    width: 90vw;
+    @media screen and (min-width: 768px) {
+      width: 700px;
     }
-  `,
-  TopBox: styled.div`
-    display: flex;
-    justify-content: center;
-    width: 65vw;
-    margin-top: 30px;
   `,
   MiddleBox: styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top: 30px;
-    height: 25vh;
-    @media screen and (max-width: 500px) {
-      height: 15vh;
+    align-items: center;
+    height: 400px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      flex-direction: row;
+      width: 700px;
+    }
+  `,
+  MiddleTopBox: styled.div`
+    display: flex;
+    height: 150px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
   BottomBox: styled.div`
     display: flex;
     justify-content: center;
-    margin-top: 5vh;
-  `,
-  EditBtn: styled.div`
-    width: 12vw;
-    border-radius: 5px;
-    margin-left: 10vw;
-    color: ${COLOR_1.dark_sand};
-    background-color: ${COLOR_1.ivory};
-    cursor: pointer;
-    &:hover {
-      background-color: #a57d52;
-    }
-    &:active {
-      box-shadow: 0px 0px 1px 5px #e1e1e1;
-    }
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_2};
+    margin-top: 20px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 700px;
     }
   `,
-  TitleBox: styled.div`
-    width: 33vw;
-    font-size: ${FONT_SIZE_1.big_2};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.normal_2};
+  EditButtonBox: styled.div`
+    display: flex;
+    justify-content: right;
+    height: 60px;
+    width: 90vw;
+    border-bottom: solid 1px ${COLOR_1.light_gray};
+    @media screen and (min-width: 786px) {
+      width: 700px;
     }
   `,
   ProfileImg: styled.img`
-    width: 14vw;
-    @media screen and (max-width: 500px) {
-      width: 20vw;
+    width: 170px;
+    @media screen and (min-width: 786px) {
+      width: 200px;
     }
   `,
-  AllProfileBoxLeft: styled.div`
+  ProfileImgBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 25vh;
-    width: 30vw;
-    @media screen and (max-width: 800px) {
-      height: 15vh;
+    height: 200px;
+    width: 90vw;
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
-  AllProfileBoxRight: styled.div`
+  ProfileListBox: styled.div`
     display: flex;
     flex-direction: column;
-    height: 25vh;
-    width: 30vw;
+    align-items: center;
+    height: 200px;
+    width: 90vw;
     border-radius: 10px;
-    background-color: ${COLOR_1.light_green};
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_1};
-      height: 15vh;
+    background-color: ${COLOR_1.white};
+    border: solid 2px ${COLOR_1.green};
+    box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
+    @media screen and (min-width: 786px) {
+      width: 350px;
     }
   `,
   TitleInformaitonBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 15vw;
+    align-items: center;
+    width: 30vw;
+    @media screen and (min-width: 786px) {
+      width: 80px;
+    }
   `,
   TitleInformaiton: styled.div`
-    display: flex;
-    justify-content: center;
-    width: 15vw;
+    width: 30vw;
     margin-top: 5px;
+    text-align: center;
+    @media screen and (min-width: 786px) {
+      width: 60px;
+    }
   `,
   InformaitonBox: styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 15vw;
+    width: 70vw;
     font-weight: 200;
-  `,
-  SubInformaitonBox: styled.div`
-    display: flex;
-    justify-content: center;
-    height: 130px;
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   Informaiton: styled.div`
-    width: 15vw;
+    text-align: center;
+    width: 60vw;
     margin-top: 5px;
-  `,
-  CafeImgBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-  `,
-  CafeImg: styled.img`
-    margin-top: 15px;
-    width: 18vw;
+    color: ${COLOR_1.brown};
+    @media screen and (min-width: 786px) {
+      width: 270px;
+    }
   `,
   SandBtn: styled.button`
-    border: none;
-    color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_1.big_1};
-    cursor: pointer;
     height: 5vh;
-    width: 18vw;
-    border-radius: 15px;
+    width: 29vw;
+    border-radius: 3px;
+    border: none;
     background-color: ${COLOR_1.ivory};
-    margin-bottom: 1vh;
+    color: ${COLOR_1.dark_brown};
+    font-size: ${FONT_SIZE_1.small_3};
+    font-weight: bold;
+    border: solid 1px ${COLOR_1.dark_brown};
+    cursor: pointer;
     &:hover {
       background-color: #a57d52;
+      color: white;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (max-width: 800px) {
-      font-size: ${FONT_SIZE_1.small_2};
-      height: 3vh;
+    @media screen and (min-width: 786px) {
+      font-size: ${FONT_SIZE_1.normal_2};
+      width: 200px;
     }
   `,
-  FollowBox: styled.div`
+  FollowButton: styled.div`
     display: flex;
     justify-content: center;
-    width: 30vw;
+    align-items: center;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: ${COLOR_1.dark_sand};
+    background-color: ${COLOR_1.ivory};
+    border: solid 1px ${COLOR_1.dark_brown};
+    cursor: pointer;
+    &:hover {
+      background-color: #a57d52;
+      color: white;
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 5px #e1e1e1;
+      color: white;
+    }
   `,
 };
+
+interface UserData {
+  displayName?: string;
+  grade?: string;
+  image?: File;
+}
 const OtherUserMyPageBox = () => {
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const FollowingHandler = (): void => {
-    if (!isFollowing) {
-      setIsFollowing(true);
-    } else {
-      setIsFollowing(false);
-    }
-  };
+  // const replace = useNavigate();
+  const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
+  useEffect(() => {
+    axios
+      .get(
+        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/member/1',
+        {
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+          },
+        }
+      )
+      .then((response) => {
+        // Handle success.
+        console.log('success');
+        setMemberInfo(response.data.payload);
+      })
+      .catch((error) => {
+        // Handle error.
+
+        console.log('An error occurred:', error.response);
+        // replace('/');
+      });
+  }, []);
   return (
     <S.Container>
-      <S.TopBox>
-        <S.TitleBox>닉네임(CafeI)</S.TitleBox>
-      </S.TopBox>
       <S.MiddleBox>
-        <S.AllProfileBoxLeft>
-          <S.ProfileImg src={profileimg}></S.ProfileImg>
-        </S.AllProfileBoxLeft>
-
-        <S.AllProfileBoxRight>
-          <S.SubInformaitonBox>
+        <S.ProfileImgBox>
+          <S.ProfileImg
+            src={
+              memberInfo?.image
+                ? URL.createObjectURL(memberInfo.image)
+                : profileimg
+            }
+          ></S.ProfileImg>
+        </S.ProfileImgBox>
+        <S.ProfileListBox>
+          <S.MiddleTopBox>
             <S.TitleInformaitonBox>
               <S.TitleInformaiton>닉네임</S.TitleInformaiton>
               <S.TitleInformaiton>회원등급</S.TitleInformaiton>
             </S.TitleInformaitonBox>
             <S.InformaitonBox>
-              <S.Informaiton>카페인</S.Informaiton>
-              <S.Informaiton>에소프레소</S.Informaiton>
+              <S.Informaiton>
+                {memberInfo ? memberInfo.displayName : '-'}
+              </S.Informaiton>
+              <S.Informaiton>
+                {memberInfo ? memberInfo.grade : '-'}
+              </S.Informaiton>
             </S.InformaitonBox>
-          </S.SubInformaitonBox>
-          <S.FollowBox>
-            <S.SandBtn
-              onClick={FollowingHandler}
-              style={{
-                backgroundColor: isFollowing
-                  ? `${COLOR_1.dark_sand}`
-                  : `${COLOR_1.ivory}`,
-              }}
-            >
-              팔로우하기
-            </S.SandBtn>
-          </S.FollowBox>
-        </S.AllProfileBoxRight>
+          </S.MiddleTopBox>
+          <S.FollowButton>팔로워하기</S.FollowButton>
+        </S.ProfileListBox>
       </S.MiddleBox>
+      <S.EditButtonBox></S.EditButtonBox>
       <S.BottomBox>
         <S.SandBtn>작성한 포스트</S.SandBtn>
       </S.BottomBox>
-
-      <S.CafeImgBox>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
-        <S.CafeImg src={coffeeshop}></S.CafeImg>
-      </S.CafeImgBox>
     </S.Container>
   );
 };
