@@ -116,7 +116,13 @@ public class CafeController {
         return new ApplicationResponse<>();
     }
 
-    // 카페 정보 조회
+    // 카페 정보 조회 (수정용)
+    @GetMapping("/{cafe-id}/edit")
+    @ResponseStatus(OK)
+    public ApplicationResponse<CafeDetailResponse> getCafeForEdit(@PathVariable("cafe-id") Long cafeId) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        CafeDetailResponse cafeDetail = cafeService.getCafe(cafeId, loginId);
 
-
+        return new ApplicationResponse<>(cafeDetail);
+    }
 }

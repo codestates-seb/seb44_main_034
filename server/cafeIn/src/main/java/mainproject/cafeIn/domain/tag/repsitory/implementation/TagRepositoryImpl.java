@@ -20,12 +20,11 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
     @Override
     public List<TagResponse> getTags(Long cafeId) {
         return queryFactory
-                .select(new QTagResponse(
+                .selectDistinct(new QTagResponse(
                         postTag.tag.tagId,
                         postTag.tag.name
                 ))
                 .from(postTag)
-                .innerJoin(postTag.cafe, cafe)
                 .innerJoin(postTag.tag, tag)
                 .where(postTag.cafe.id.eq(cafeId))
                 .fetch();
