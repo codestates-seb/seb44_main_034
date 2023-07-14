@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { FacilityType, CafeType, AllcafeState } from '../../recoil/recoil';
-import { ConfirmBtn } from '../../common/button/button';
+import { useNavigate } from 'react-router-dom';
+import { ConfirmBtn, CancelButton } from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
-// import { BiImageAdd } from 'react-icons/bi';
+import { cafeType } from '../../recoil/recoil';
 
 const facilityName = [
   '24시간 운영여부',
@@ -15,29 +14,24 @@ const facilityName = [
   '디저트 판매 여부',
 ];
 const CafeInfo = () => {
-  const [cafes, setCafes] = useRecoilState(AllcafeState);
-  const [facility, setFacility] = useState<FacilityType[]>([
-    { name: 'isOpenAllTime', checked: false },
-    { name: 'isChargingAvailable', checked: false },
-    { name: 'hasParking', checked: false },
-    { name: 'isPetFriendly', checked: false },
-    { name: 'hasDessert', checked: false },
-  ]);
-
-  const [CafeData, setCafeData] = useState<CafeType>({
-    id: '',
-    ownerId: '',
+  // const [cafes, setCafes] = useRecoilState(AllcafeState);
+  const navigate = useNavigate();
+  const [CafeData, setCafeData] = useState<cafeType>({
+    id: 0,
+    ownerId: 0,
     name: '',
     address: '',
     contact: '',
     notice: '',
     cafeImg: '',
-    rating: '',
+    rating: 0,
     openTime: '',
     closeTime: '',
-    facility: [],
-    post: [],
-    menu: [],
+    isOpenAllTime: false,
+    isChargingAvailable: false,
+    hasParking: false,
+    isPetFriendly: false,
+    hasDessert: false,
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -61,16 +55,25 @@ const CafeInfo = () => {
   //   }
   // };
 
-  const saveCafe = (cafe: CafeType) => {
-    setCafes((prevCafes) => [...prevCafes, cafe]);
-  };
+  // const saveCafe = (cafe: CafeType) => {
+  //   setCafes((prevCafes) => [...prevCafes, cafe]);
+  // };
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setCafeData((prevCafeData) => ({
-      ...prevCafeData,
-      [name]: value,
-    }));
+    const { name, value, type, checked } = event.target;
+
+    if (type === 'checkbox') {
+      setCafeData((prevCafeData) => ({
+        ...prevCafeData,
+        [name]: checked,
+      }));
+    } else {
+      setCafeData((prevCafeData) => ({
+        ...prevCafeData,
+        [name]: value,
+      }));
+    }
   };
+
   /* 이미지를 전송하고 받은 Url로 tempdata 를 요청보내는게 맞는건지 */
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
@@ -101,7 +104,9 @@ const CafeInfo = () => {
         );
         console.log(response.data.imageUrl);
         console.log(response.data);
-        console.log(response.status);
+        alert(
+          '카페 정보 등록이 완료 되었으니 , 메뉴 등록 페이지로 이동해주세요'
+        );
       } else {
         throw new Error('Image upload failed');
       }
@@ -109,28 +114,8 @@ const CafeInfo = () => {
       console.error(error);
       alert('Image upload failed');
     }
-    saveCafe(CafeData);
-    console.log(cafes);
-  };
-
-  const handleClickCheckbox = (fchecked: boolean, item: FacilityType) => {
-    const updatedFacilities = facility.map((f) => {
-      if (f.name === item.name) {
-        return {
-          ...f,
-          checked: fchecked,
-        };
-      }
-
-      return f;
-    });
-
-    setFacility(updatedFacilities);
-    setCafeData((prevCafeData) => ({
-      ...prevCafeData,
-      facility: updatedFacilities,
-    }));
-    console.log(updatedFacilities);
+    // saveCafe(CafeData);
+    // console.log(cafes);
   };
 
   return (
@@ -211,27 +196,59 @@ const CafeInfo = () => {
               />
             </S.CafeNoticeDiv>
             <S.CafeFacilityDiv>
-              {facility.map((item, idx) => (
-                <S.CafeFacilitySpan key={item.name}>
-                  <S.CafeFacility
-                    key={item.name}
-                    type='checkbox'
-                    value={`${item.checked}`}
-                    name={`${item.name}`}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      handleClickCheckbox(e.target.checked, item);
-                    }}
-                  />
-                  {facilityName[idx]}
-                </S.CafeFacilitySpan>
-              ))}
+              <S.CafeFacilitySpan>
+                <S.CafeFacility
+                  type='checkbox'
+                  name='isOpenAllTime'
+                  onChange={handleCafeInfoChange}
+                />
+                {facilityName[0]}
+              </S.CafeFacilitySpan>
+              <S.CafeFacilitySpan>
+                <S.CafeFacility
+                  type='checkbox'
+                  name='isChargingAvailable'
+                  onChange={handleCafeInfoChange}
+                />
+                {facilityName[1]}
+              </S.CafeFacilitySpan>
+              <S.CafeFacilitySpan>
+                <S.CafeFacility
+                  type='checkbox'
+                  name='hasParking'
+                  onChange={handleCafeInfoChange}
+                />
+                {facilityName[2]}
+              </S.CafeFacilitySpan>
+              <S.CafeFacilitySpan>
+                <S.CafeFacility
+                  type='checkbox'
+                  name='isPetFriendly'
+                  onChange={handleCafeInfoChange}
+                />
+                {facilityName[3]}
+              </S.CafeFacilitySpan>
+              <S.CafeFacilitySpan>
+                <S.CafeFacility
+                  type='checkbox'
+                  name='hasDessert'
+                  onChange={handleCafeInfoChange}
+                />
+                {facilityName[4]}
+              </S.CafeFacilitySpan>
             </S.CafeFacilityDiv>
           </S.AddCafeInfoDiv>
         </S.MainDiv>
         <S.ButtonDiv>
           {/* <AddImage onClick={handleButtonClick} /> */}
-          <ConfirmBtn type='submit'>확인</ConfirmBtn>
-          <ConfirmBtn>나가기</ConfirmBtn>
+          <ConfirmBtn type='submit'>등록</ConfirmBtn>
+          <CancelButton
+            onClick={() => {
+              navigate('/');
+            }}
+          >
+            나가기
+          </CancelButton>
         </S.ButtonDiv>
       </form>
     </>

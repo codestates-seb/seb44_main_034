@@ -2,21 +2,39 @@ import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 
 export type CafeType = {
-  id: string;
-  ownerId: string;
+  id: number;
+  ownerId: number;
   name: string;
   address: string;
   contact: string;
   notice?: string;
   cafeImg: File | string;
-  rating: string;
+  rating: number;
   openTime: string;
   closeTime: string;
   facility: FacilityType[];
   post?: PostType[];
   menu?: MenuType[];
 };
-
+export type cafeType = {
+  id: number;
+  ownerId: number;
+  name: string;
+  address: string;
+  contact: string;
+  notice?: string;
+  cafeImg: File | string;
+  rating: number;
+  openTime: string;
+  closeTime: string;
+  isOpenAllTime: boolean;
+  isChargingAvailable: boolean;
+  hasParking: boolean;
+  isPetFriendly: boolean;
+  hasDessert: boolean;
+  post?: PostType[];
+  menu?: MenuType[];
+};
 export type FacilityType = {
   name: string;
   checked: boolean;
@@ -51,14 +69,14 @@ export const AllcafeState = atom<CafeType[]>({
 export const cafeState = atom<CafeType>({
   key: 'cafeState',
   default: {
-    id: '',
-    ownerId: '',
+    id: 0,
+    ownerId: 0,
     name: '',
     address: '',
     contact: '',
     notice: '',
     cafeImg: '',
-    rating: '',
+    rating: 0,
     openTime: '',
     closeTime: '',
     facility: [],
