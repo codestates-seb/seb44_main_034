@@ -154,6 +154,7 @@ public class MemberService {
     @Transactional
     public void followMember(Long id, Long memberId) {
 
+        if(id == memberId) throw new CustomException(REQUEST_VALIDATION_FAIL);
         Member findFollowingMember = findById(memberId);
         Member findMember = findById(id);
         List<Follow> follows = checkfollowing(id, findFollowingMember);
