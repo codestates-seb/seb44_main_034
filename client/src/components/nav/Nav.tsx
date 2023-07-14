@@ -77,7 +77,7 @@ const Nav = () => {
     replace('/');
   };
   const postHandler = () => {
-    replace('/allpostpage');
+    replace('/allpostspage');
   };
 
   const modalHandler = (): void => {

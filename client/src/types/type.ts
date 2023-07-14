@@ -6,7 +6,7 @@ export interface CafePostList {
 }
 
 export interface PostData {
-  postId:number;
+  postId?:number;
   cafeId: number|string;
   cafeName:string;
   title: string;
@@ -16,7 +16,7 @@ export interface PostData {
   author: string;
   image: string|File;
   content: string;
-  starRating: number|null;
+  starRating: number|undefined;
   isBookmarked: boolean;
   tag?:string[];
   comment?: PostComment[];

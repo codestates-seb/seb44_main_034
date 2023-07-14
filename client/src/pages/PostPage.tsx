@@ -1,14 +1,30 @@
 import { useParams } from 'react-router';
+import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2, FONT_WEIGHT } from '../common/common';
-import PostItemHead from '../components/post/postItemHead';
+import { getPostDetailAPI } from '../api/postApi';
+import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from '../common/common';
+import PostItemHead from '../components/post/PostItemHead';
 import MoodTagPost from '../common/tags/MoodTagPost';
-import { data } from '../mockData/post.json'
-import { PostData } from '../types/type';
+// import { data } from '../mockData/post.json'
+// import { PostData } from '../types/type';
 import StarRating from '../components/starRating';
 
 const PostPage = () => {
   const postId=useParams();
+
+  const { data, isLoading, isError } = useQuery(
+    ['getPostDetail', postId],
+    () => getPostDetailAPI.getPostDetail(postId.toString())
+  );
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
+  if (isError) {
+    return <>Error</>;;
+  }
+  
   const postData= data.post[0];
   const tagData= data.tag;
 

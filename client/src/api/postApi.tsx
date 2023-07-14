@@ -11,9 +11,20 @@ export const createBaseUrl = axios.create({
 })
 
 export const getAllPosts = async (pageParam = 1) => {
-  const res = await createBaseUrl.get(`api/posts?page=${pageParam}&size=8`)
+  const res = await createBaseUrl.get(`posts?page=${pageParam}&size=8`);
+  // const res = await createBaseUrl.get(`${baseURL}/posts/${Id}`);
+ 
   return res.data;
 }
+
+export const getPostDetailAPI = {
+
+  getPostDetail: async (postId: string) => {
+    const res = await axios.get(`${baseURL}/posts/${postId}`);
+    const { data } = res.data;
+    return data;
+  },
+};
 
 
 // export const cafePostList = {

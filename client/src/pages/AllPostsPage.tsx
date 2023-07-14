@@ -61,7 +61,7 @@ const AllPostsPage = () => {
     data,
     // isFetching,
     isPreviousData,
-  } = useQuery(['/allposts', page], () =>
+  } = useQuery(['getAllposts', page], () =>
     getAllPosts(page), {
       keepPreviousData: true
     }
@@ -94,8 +94,7 @@ const AllPostsPage = () => {
           </li>
         ))}
       </ul>
-    </S.Container>
-    <nav>
+      <nav>
       <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
         {`<<`}
       </button>
@@ -104,6 +103,7 @@ const AllPostsPage = () => {
         {`>>`}
       </button>
     </nav>
+    </S.Container>
   </>
   );
 };

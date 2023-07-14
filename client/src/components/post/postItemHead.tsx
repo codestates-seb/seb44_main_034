@@ -21,13 +21,22 @@ const PostItemHead = ({postData}:PostItemProps) => {
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
     setPostState(postData);
-    navigate(`/api/posts/${postId}`);
+    // navigate(`/api/posts/${postId}`);
+    navigate(`/postpage/edit/${postId}`);
+    console.log('clicked')
   }
   const handleDelete = () => {
     //if user Id와 지금 userId가 일치하면
     if (confirm('삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?')) {
       useMutation((postId) => {
-        return axios.delete(`/${postId}`).then((res) => {
+        return axios.delete(`/${postId}`, {
+          headers: {
+            Authorization: localStorage.getItem('access_token'),
+          },
+          data: { postId : postId}
+        }
+        
+        ).then((res) => {
           console.log(res);
           alert('삭제되었습니다.');
           navigate('/allpostpage');
@@ -71,7 +80,7 @@ const PostItemHead = ({postData}:PostItemProps) => {
           </div>
         </S.DateWrap>
         <S.EditWrap>
-        <S.Edit onClick={() => {handleEdit}}>
+        <S.Edit onClick={handleEdit}>
           수정
         </S.Edit>
         <S.Edit onClick={() => {handleDelete}}>

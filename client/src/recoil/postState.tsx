@@ -7,6 +7,7 @@ export const PostItemAtom = atom<PostData>({
   default:{
     cafeId: '',
     cafeName: '',
+    postId: undefined,
     title: '',
     createdAt: '',
     updatedAt: '',
@@ -14,7 +15,7 @@ export const PostItemAtom = atom<PostData>({
     author: '',
     image: '',
     content: '',
-    starRating: null,
+    starRating: 0,
     isBookmarked: false,
     tag:[],
     comment: []
