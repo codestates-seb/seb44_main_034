@@ -13,7 +13,7 @@ import OwnerSignup from './pages/OwnerSignup';
 import OwnerMyPage from './pages/OwnerMyPage';
 import UserMyPage from './pages/UserMyPage';
 import OtherUserMyPage from './pages/OtherUserMyPage';
-import EditInformationCafe from './pages/EditInformationCafe';
+import EditInformationCafePage from './pages/EditInformationCafePage';
 import EditMenuCafePage from './pages/EditMenuCafePage';
 import EditOwnerMyPage from './pages/EditOwnerMyPage';
 import EditPostPage from './pages/EditPostPage';
@@ -54,14 +54,11 @@ function App() {
             <Route path='/usermy/edit/:id' element={<EditUserMyPage />} />
             <Route path='/ownermy/edit/:id' element={<EditOwnerMyPage />} />
             <Route path='/cafepage/:id' element={<CafePage />} />
-            <Route
-              path='/cafepage/create/information'
-              element={<AddCafeInfoPage />}
-            />
-            <Route path='/cafepage/create/menu' element={<AddCafeMenuPage />} />
+            <Route path='/cafes/:id' element={<AddCafeInfoPage />} />
+            <Route path='/menus/:id' element={<AddCafeMenuPage />} />
             <Route
               path='/cafepage/edit/information/:id'
-              element={<EditInformationCafe />}
+              element={<EditInformationCafePage />}
             />
             <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
             <Route path='/postpage/:postId' element={<PostPage />} />

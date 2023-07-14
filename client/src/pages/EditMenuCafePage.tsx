@@ -35,7 +35,7 @@ const EditMenuCafe = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/menus/${cafeId}`
+          `http://localhost:3001/menus/${cafeId}` // edit 추가해야함
         );
         const fetchedData = response.data;
         fetchedData.forEach((item: any, index: number) => {
