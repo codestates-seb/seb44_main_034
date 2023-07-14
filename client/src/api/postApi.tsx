@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostData } from '../types/type';
+// import { PostData } from '../types/type';
 import { baseURL } from '../common/baseURL';
 
 export const postPageList = {
