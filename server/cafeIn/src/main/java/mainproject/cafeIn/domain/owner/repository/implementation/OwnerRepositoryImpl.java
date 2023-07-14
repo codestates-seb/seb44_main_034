@@ -1,13 +1,11 @@
 package mainproject.cafeIn.domain.owner.repository.implementation;
 
-import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
+import mainproject.cafeIn.domain.cafe.entity.QCafe;
 import mainproject.cafeIn.domain.owner.dto.response.*;
+import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.repository.OwnerRepositoryCustom;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -26,6 +24,15 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
         List<OwnerCafeResponse> ownerCafeResponses = getOwnerCafeResponse(ownerId);
 
         return new OwnerDetailResponse(ownerResponse, ownerCafeResponses);
+    }
+
+    @Override
+    public void deleteOwnerCafe(Owner owner) {
+        QCafe cafe = QCafe.cafe;
+        queryFactory
+                .delete(cafe)
+                .where(cafe.owner.eq(owner))
+                .execute();
     }
 
     private List<OwnerCafeResponse> getOwnerCafeResponse(long ownerId) {
@@ -51,5 +58,4 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
                 .where(owner.ownerId.eq(ownerId))
                 .fetchOne();
     }
-    // TODO countBookmakred 작성
 }

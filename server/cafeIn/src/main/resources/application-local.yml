@@ -28,6 +28,17 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${CLIENT_ID} # EC2 환경변수 설정하기
+            clientSecret: ${CLIENT_SECRET}  #EC2 환경변수 설정하기
+            scope:
+              - email
+              - profile
+
 logging.level:
   org.hibernate.SQL: debug
 

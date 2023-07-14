@@ -7,11 +7,11 @@ import mainproject.cafeIn.domain.cafe.dto.response.CafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
-import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 import static mainproject.cafeIn.global.exception.ErrorCode.*;
-import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 public class CafeService {
     private final CafeRepository cafeRepository;
     private final OwnerService ownerService;
-    private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long createCafe(Long loginId, CafeInfoRequest cafeInfoRequest, MultipartFile multipartFile) {
@@ -50,9 +49,13 @@ public class CafeService {
 
     @Transactional
     public void deleteCafe(Long loginId, Long cafeId, String password) {
-        // TODO: password 검증
         Cafe cafe = findCafeById(cafeId);
         cafe.validateOwner(loginId);
+        Owner owner = ownerService.findVerifiedOwner(loginId);
+        if (!passwordEncoder.matches(password, owner.getPassword())) {
+            throw new CustomException(PASSWORD_NOT_MATCH);
+        }
+
         cafeRepository.delete(cafe);
     }
 

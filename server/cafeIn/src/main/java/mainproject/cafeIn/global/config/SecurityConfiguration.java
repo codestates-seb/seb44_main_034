@@ -1,12 +1,11 @@
 package mainproject.cafeIn.global.config;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.member.repository.MemberRepository;
+import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.global.auth.filter.JwtAuthenticationFilter;
 import mainproject.cafeIn.global.auth.filter.JwtVerificationFilter;
-import mainproject.cafeIn.global.auth.handler.UserAccessDeniedHandler;
-import mainproject.cafeIn.global.auth.handler.UserAuthenticationEntryPoint;
-import mainproject.cafeIn.global.auth.handler.UserAuthenticationFailureHandler;
-import mainproject.cafeIn.global.auth.handler.UserAuthenticationSuccessHandler;
+import mainproject.cafeIn.global.auth.handler.*;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.auth.jwt.JwtTokenizer;
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
@@ -19,6 +18,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,8 +36,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final JwtUtils jwtUtils;
+    private final MemberRepository memberRepository;
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, MemberService memberService) throws Exception {
         http
                 .headers().frameOptions().sameOrigin() // 동일 출처 request만 허용
                 .and()
@@ -69,7 +70,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 //                        .antMatchers(HttpMethod.GET, "/*/menus/**").permitAll()
 //                        .antMatchers("/*/menus/**").hasRole("OWNER")
 //                        .anyRequest().hasRole("USER"));
-                        .anyRequest().permitAll());
+                        .anyRequest().permitAll())
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, memberRepository, memberService))
+                );
 
         return http.build();
     }
@@ -85,7 +89,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 HTTP 통신 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // HTTP Method 허용
         configuration.setAllowedHeaders(Arrays.asList("*")); // header에 모두 요청 가능
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh", "UserId")); // 헤더 노출 허용
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh", "Role")); // 헤더 노출 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 URL에 CORS 정책 적용
@@ -106,7 +110,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtUtils, authorityUtils);
 
             builder
-                    .addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtAuthenticationFilter, OAuth2LoginAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
         }
     }
