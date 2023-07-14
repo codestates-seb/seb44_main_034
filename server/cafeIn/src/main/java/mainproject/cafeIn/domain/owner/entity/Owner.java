@@ -33,7 +33,7 @@ public class Owner extends BaseEntity {
     @Column(name = "OWNER_STATUS", nullable = false)
     private OwnerStatus ownerStatus;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Cafe> cafes = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
