@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import { data as dataAll } from '../../mockData/cafePost.json';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
 
@@ -54,7 +53,7 @@ const S = {
     }
   `,
   ProfileImg: styled.img`
-    width: 150px;
+    width: 170px;
     @media screen and (min-width: 786px) {
       width: 200px;
     }
@@ -169,20 +168,25 @@ const S = {
   `,
 };
 
+interface UserData {
+  displayName?: string;
+  grade?: string;
+  image?: File;
+}
 const OtherUserMyPageBox = () => {
   // const replace = useNavigate();
+  const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
   useEffect(() => {
     axios
-      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
+      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/member/1', {
         headers: {
           'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
         },
       })
       .then((response) => {
         // Handle success.
         console.log('success');
-        console.log(response.data);
+        setMemberInfo(response.data.payload);
       })
       .catch((error) => {
         // Handle error.
@@ -190,13 +194,18 @@ const OtherUserMyPageBox = () => {
         console.log('An error occurred:', error.response);
         // replace('/');
       });
-  });
-  const data = dataAll.post;
+  }, []);
   return (
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg src={profileimg}></S.ProfileImg>
+          <S.ProfileImg
+            src={
+              memberInfo?.image
+                ? URL.createObjectURL(memberInfo.image)
+                : profileimg
+            }
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.MiddleTopBox>
@@ -205,8 +214,12 @@ const OtherUserMyPageBox = () => {
               <S.TitleInformaiton>회원등급</S.TitleInformaiton>
             </S.TitleInformaitonBox>
             <S.InformaitonBox>
-              <S.Informaiton>카페인</S.Informaiton>
-              <S.Informaiton>에소프레소</S.Informaiton>
+              <S.Informaiton>
+                {memberInfo ? memberInfo.displayName : '-'}
+              </S.Informaiton>
+              <S.Informaiton>
+                {memberInfo ? memberInfo.grade : '-'}
+              </S.Informaiton>
             </S.InformaitonBox>
           </S.MiddleTopBox>
           <S.FollowButton>팔로워하기</S.FollowButton>

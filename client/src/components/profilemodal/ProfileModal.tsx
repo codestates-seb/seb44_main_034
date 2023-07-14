@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import { COLOR_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
@@ -79,15 +80,18 @@ const S = {
 };
 
 const ProfileModal = () => {
-  const [loginDistinction, setLoginDistinction] = useState<boolean>(false);
+  const [loginDistinction, setLoginDistinction] = useState<boolean>(true);
+  const [role, setRole] = useState<string>('');
   useEffect(() => {
-    if (localStorage.getItem('rloe_token') === 'owner') {
-      setLoginDistinction(true);
-    } else {
+    if (localStorage.getItem('role_token') === 'owner') {
       setLoginDistinction(false);
+      setRole('사업자');
+    } else if (localStorage.getItem('role_token') === 'member') {
+      setLoginDistinction(true);
+      setRole('일반유저');
     }
   });
-
+  const login = useRecoilValue(LoginState);
   const LogoutHandler = () => {
     localStorage.removeItem('recoil-persist');
     localStorage.removeItem('access_token');
@@ -100,10 +104,9 @@ const ProfileModal = () => {
       <S.IconBox></S.IconBox>
       <S.TopBox>
         <S.ProfileImg src={profileimg}></S.ProfileImg>
-        <S.DisplayName>안녕하세요! 카페인입니다!</S.DisplayName>
+        <S.DisplayName>{role}</S.DisplayName>
       </S.TopBox>
-
-      {LoginState ? (
+      {!login ? (
         <S.ButtonBox>
           <Link to='/login'>
             <S.ModalLeftBox>로그인</S.ModalLeftBox>
@@ -117,7 +120,7 @@ const ProfileModal = () => {
           <Link to='/usermy'>
             <S.ModalLeftBox>마이페이지</S.ModalLeftBox>
           </Link>
-          <S.ModalRightBox>로그아웃</S.ModalRightBox>
+          <S.ModalRightBox onClick={LogoutHandler}>로그아웃</S.ModalRightBox>
         </S.ButtonBox>
       ) : (
         <S.ButtonBox>

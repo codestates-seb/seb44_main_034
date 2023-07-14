@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
-import { COLOR_1 } from '../../common/common';
+import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
 
 const S = {
@@ -50,7 +48,7 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  DeleleInput: styled.input`
+  DeleleButton: styled.button`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
@@ -58,6 +56,7 @@ const S = {
     background-color: #ff9587;
     color: black;
     font-size: 15px;
+    font-weight: ${FONT_WEIGHT.weight_600};
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 1px #ffffff;
@@ -106,8 +105,12 @@ const DeleteAccountBox = () => {
   } = useForm<FormValue>();
   const onSubmit: SubmitHandler<FormValue> = (data) =>
     axios
-      .delete(`http://43.201.232.213:8080/members`, {
+      .delete(`https://8a3d-58-237-124-214.ngrok-free.app/api/members`, {
         data,
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
       })
       .then((response) => {
         // Handle success.
@@ -152,7 +155,7 @@ const DeleteAccountBox = () => {
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
-          <S.DeleleInput type='submit' value='탈퇴하기' />
+          <S.DeleleButton type='submit'>탈퇴하기</S.DeleleButton>
         </S.SubMiniBox>
       </form>
     </S.Container>

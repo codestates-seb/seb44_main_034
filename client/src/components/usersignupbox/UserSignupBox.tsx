@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
 import GoogleLoginButton from '../googleoauth/GoogleOauth';
-import { COLOR_1 } from '../../common/common';
+import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
 
@@ -48,14 +48,15 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  SubmitInput: styled.input`
+  SubmitButton: styled.button`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.green};
     color: black;
-    font-size: 15px;
+    font-size: ${FONT_SIZE_1.normal_3};
+    font-weight: ${FONT_WEIGHT.weight_700};
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 1px #cfcfcf;
@@ -106,10 +107,14 @@ const OwnerSignupBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
 
-  const onSubmit: SubmitHandler<FormValue> = (data) =>
+  const onSubmit: SubmitHandler<FormValue> = (data) => {
+    const { email, displayName, password } = data;
+
     axios
-      .post('', {
-        data,
+      .post('https://528e-58-237-124-214.ngrok-free.app/api/members/sign-up', {
+        email: email,
+        displayName: displayName,
+        password: password,
       })
       .then((response) => {
         // Handle success.
@@ -121,7 +126,7 @@ const OwnerSignupBox = () => {
         // Handle error.
         console.log('An error occurred:', error.response);
       });
-
+  };
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -215,7 +220,7 @@ const OwnerSignupBox = () => {
             <S.InputInformation>{null}</S.InputInformation>
           )}
         </S.SubMiniBox>
-        <S.SubmitInput type='submit' value='개인 회원가입' />
+        <S.SubmitButton type='submit'>개인 회원가입</S.SubmitButton>
       </form>
       <GoogleLoginButton />
     </S.Container>

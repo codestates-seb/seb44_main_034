@@ -4,6 +4,7 @@ import GoogleLoginButton from '../googleoauth/GoogleOauth';
 import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
@@ -100,6 +101,7 @@ interface FormValue {
 }
 
 const OwnerSignupBox = () => {
+  const replace = useNavigate();
   const {
     register,
     handleSubmit,
@@ -107,22 +109,27 @@ const OwnerSignupBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
 
-  const onSubmit: SubmitHandler<FormValue> = (data) =>
+  const onSubmit: SubmitHandler<FormValue> = (data) => {
+    const { email, displayName, password } = data;
+    console.log(data);
     axios
-      .post('', {
-        data,
+      .post('https://528e-58-237-124-214.ngrok-free.app/api/owners/sign-up', {
+        email: email,
+        displayName: displayName,
+        password: password,
       })
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
         alert('가입이 완료되었습니디.');
+        replace('/login');
       })
       .catch((error) => {
         // Handle error.
         console.log('An error occurred:', error.response);
       });
-
+  };
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>

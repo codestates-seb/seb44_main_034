@@ -71,7 +71,7 @@ const S = {
     }
   `,
   ProfileImg: styled.img`
-    width: 150px;
+    width: 170px;
     @media screen and (min-width: 786px) {
       width: 200px;
     }
@@ -186,9 +186,37 @@ const S = {
   `,
 };
 
+interface UserData {
+  email?: string;
+  displayName?: string;
+  grade?: string;
+  countFollower?: number;
+  countFollowing?: number;
+  image?: File;
+}
 const UserMyPageBox = () => {
+  const [bookmarkCafeFocus, setBookmarkCafeFocus] = useState<boolean>(true);
+  const [bookmarkPostFocus, setBookmarkPostFocus] = useState<boolean>(false);
+  const [myPostFocus, setMyPostFocus] = useState<boolean>(false);
+  const handleBookmarkCafeFocus = () => {
+    console.log('handler');
+    setBookmarkCafeFocus(true);
+    setBookmarkPostFocus(false);
+    setMyPostFocus(false);
+  };
+  const handleBookmarkPostFocus = () => {
+    setBookmarkCafeFocus(false);
+    setBookmarkPostFocus(true);
+    setMyPostFocus(false);
+  };
+  const handleMyPostFocus = () => {
+    setBookmarkCafeFocus(false);
+    setBookmarkPostFocus(false);
+    setMyPostFocus(true);
+  };
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<UserData | undefined>();
 
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
@@ -227,7 +255,7 @@ const UserMyPageBox = () => {
   // const replace = useNavigate();
   useEffect(() => {
     axios
-      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
+      .get('https://528e-58-237-124-214.ngrok-free.app/api/members/my-page', {
         headers: {
           'ngrok-skip-browser-warning': 'true',
           Authorization: localStorage.getItem('access_token'),
@@ -236,7 +264,7 @@ const UserMyPageBox = () => {
       .then((response) => {
         // Handle success.
         console.log('success');
-        console.log(response.data);
+        setUserInfo(response.data.payload);
       })
       .catch((error) => {
         // Handle error.
@@ -244,32 +272,17 @@ const UserMyPageBox = () => {
         console.log('An error occurred:', error.response);
         // replace('/');
       });
-  });
-  const [bookmarkCafeFocus, setBookmarkCafeFocus] = useState<boolean>(true);
-  const [bookmarkPostFocus, setBookmarkPostFocus] = useState<boolean>(false);
-  const [myPostFocus, setMyPostFocus] = useState<boolean>(false);
-  const handleBookmarkCafeFocus = () => {
-    console.log('handler');
-    setBookmarkCafeFocus(true);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(false);
-  };
-  const handleBookmarkPostFocus = () => {
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(true);
-    setMyPostFocus(false);
-  };
-  const handleMyPostFocus = () => {
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(true);
-  };
-  const data = dataAll.post;
+  }, []);
+
   return (
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg src={profileimg}></S.ProfileImg>
+          <S.ProfileImg
+            src={
+              userInfo?.image ? URL.createObjectURL(userInfo.image) : profileimg
+            }
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>
@@ -280,15 +293,17 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox ref={dropdownRef}>
-            <S.Informaiton>cafein@cafein.com</S.Informaiton>
-            <S.Informaiton>카페인</S.Informaiton>
-            <S.Informaiton>에소프레소</S.Informaiton>
+            <S.Informaiton>{userInfo ? userInfo.email : ''}</S.Informaiton>
+            <S.Informaiton>
+              {userInfo ? userInfo.displayName : ''}
+            </S.Informaiton>
+            <S.Informaiton>{userInfo ? userInfo.grade : ''}</S.Informaiton>
             <S.FollowerInformaiton onClick={openFollowerModal}>
-              100
+              {userInfo ? userInfo.countFollower : ''}
             </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
             <S.FollowingInformaiton onClick={openFollowingModal}>
-              100
+              {userInfo ? userInfo.countFollower : ''}
             </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>

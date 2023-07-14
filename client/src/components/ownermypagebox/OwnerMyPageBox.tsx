@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import { data as dataAll } from '../../mockData/cafePost.json';
 import CafeFollowerModal from '../cafefollowermodal/CafeFollowerModal';
 import coffeeshop from '../../assets/coffeeshop.svg';
 import styled from 'styled-components';
@@ -106,13 +105,13 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20vw;
+    width: 30vw;
     @media screen and (min-width: 786px) {
       width: 80px;
     }
   `,
   TitleInformaiton: styled.div`
-    width: 20vw;
+    width: 30vw;
     margin-top: 5px;
     text-align: center;
     @media screen and (min-width: 786px) {
@@ -137,14 +136,14 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70vw;
+    width: 60vw;
     @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
   Informaiton: styled.div`
     text-align: center;
-    width: 70vw;
+    width: 60vw;
     margin-top: 5px;
     color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
@@ -171,9 +170,20 @@ const S = {
     }
   `,
 };
+interface OwnerData {
+  email: string;
+  displayName: string;
+}
 
+interface CafeData {
+  cafeName: string;
+  countBookmarked: number;
+  image: File;
+}
 const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
+  const [ownerInfo, setOwnerInfo] = useState<OwnerData | undefined>();
+  const [cafeInfo, setCafeInfo] = useState<CafeData | undefined>();
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
       setFollowerIsOpen(true);
@@ -198,10 +208,9 @@ const UserMyPageBox = () => {
       document.removeEventListener('mousedown', followModalhandler);
     };
   }, []);
-  // const replace = useNavigate();
   useEffect(() => {
     axios
-      .get('https://8a3d-58-237-124-214.ngrok-free.app/api/owners/my-page', {
+      .get('https://528e-58-237-124-214.ngrok-free.app/api/owners/my-page', {
         headers: {
           'ngrok-skip-browser-warning': 'true',
           Authorization: localStorage.getItem('access_token'),
@@ -211,6 +220,8 @@ const UserMyPageBox = () => {
         // Handle success.
         console.log('success');
         console.log(response.data);
+        setOwnerInfo(response.data.payload.ownerResponse);
+        setCafeInfo(response.data.payload.cafes[0]);
       })
       .catch((error) => {
         // Handle error.
@@ -218,8 +229,7 @@ const UserMyPageBox = () => {
         console.log('An error occurred:', error.response);
         // replace('/');
       });
-  });
-  const data = dataAll.post;
+  }, []);
   return (
     <S.Container>
       <S.MiddleBox>
@@ -230,15 +240,17 @@ const UserMyPageBox = () => {
           <S.TitleInformaitonBox>
             <S.TitleInformaiton>이메일</S.TitleInformaiton>
             <S.TitleInformaiton>닉네임</S.TitleInformaiton>
-            <S.TitleInformaiton>회원등급</S.TitleInformaiton>
-            <S.TitleInformaiton>팔로워</S.TitleInformaiton>
+            <S.TitleInformaiton>카페이름</S.TitleInformaiton>
+            <S.TitleInformaiton>카페팔로워</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox ref={dropdownRef}>
-            <S.Informaiton>cafein@cafein.com</S.Informaiton>
-            <S.Informaiton>카페인</S.Informaiton>
-            <S.Informaiton>에소프레소</S.Informaiton>
+            <S.Informaiton>{ownerInfo ? ownerInfo.email : '-'}</S.Informaiton>
+            <S.Informaiton>
+              {ownerInfo ? ownerInfo.displayName : '-'}
+            </S.Informaiton>
+            <S.Informaiton>{cafeInfo ? cafeInfo.cafeName : '-'}</S.Informaiton>
             <S.FollowerInformaiton onClick={openFollowerModal}>
-              100
+              {cafeInfo ? cafeInfo.countBookmarked : '0'}
             </S.FollowerInformaiton>
             {isFollowerOpen ? <CafeFollowerModal /> : null}
           </S.InformaitonBox>
