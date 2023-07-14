@@ -125,6 +125,8 @@ public class MemberService {
     @Transactional
     public UserPageDetails userPage(Long id, Long memberId) {
 
+        if(id == memberId) throw new CustomException(REQUEST_VALIDATION_FAIL);
+
         Member userMember = findById(memberId);
         Member findMember = findById(id);
         boolean isFollowing = checkfollowing(id, userMember).size() > 0;
