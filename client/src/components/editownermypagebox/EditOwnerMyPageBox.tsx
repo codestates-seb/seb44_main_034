@@ -5,7 +5,7 @@ import DeleteAccountBox from '../deleteaccoutbox/DeleteAccoutBox';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const S = {
   AllContainer: styled.div`
@@ -170,6 +170,7 @@ interface FormValue {
 }
 
 const EditOwnerMyPageBox = () => {
+  const replace = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openHandler = () => {
@@ -187,16 +188,22 @@ const EditOwnerMyPageBox = () => {
   } = useForm<FormValue>();
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log(data);
+    const { displayName, password } = data;
     axios
-      .post('', {
-        data,
+      .patch('https://528e-58-237-124-214.ngrok-free.app/api/owners/update', {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+        displayName: displayName,
+        password: password,
       })
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
-        alert('가입이 완료되었습니디.');
+        alert('수정이 완료되었습니디.');
+        replace('/ownermy');
       })
       .catch((error) => {
         // Handle error.
