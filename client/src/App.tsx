@@ -21,10 +21,11 @@ import EditUserMyPage from './pages/EditUserMyPage';
 import PostPage from './pages/PostPage';
 import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
-import AllPostPage from './pages/AllPostPage';
+import AllPostsPage from './pages/AllPostsPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 import AddCafeMenuPage from './pages/AddCafeMenuPage';
+import EditMenuCafe from './pages/EditMenuCafePage';
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -62,14 +63,16 @@ function App() {
               path='/cafepage/edit/information/:id'
               element={<EditInformationCafe />}
             />
+            <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
+            <Route path='/postpage/:postId' element={<PostPage />} />
             <Route
               path='/cafepage/edit/menu/:id'
               element={<EditMenuCafePage />}
             />
             <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
-            <Route path='/postpage/edit/:id' element={<EditPostPage />} />
-            <Route path='/allpostpage' element={<AllPostPage />} />
+            <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
+            <Route path='/allpostspage' element={<AllPostsPage />} />
           </Routes>
         </Container>
         <Nav />

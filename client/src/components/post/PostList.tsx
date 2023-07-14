@@ -50,7 +50,7 @@ const S = {
 }
 
 const PostingList = () => {
-  const data = dataAll.post;
+  const data= dataAll.post;
   const setPostData = useSetRecoilState<PostData>(PostItemAtom);
 
   const handleBtnCafeName = ():void => {
@@ -65,11 +65,13 @@ const PostingList = () => {
       <ul>
         {data.map((el: CafePostList) => (
           <li key={el.postId}>
+            <Link to={`postpage/${el.postId}`} >
             <PostThumbnail
               image={el.image}
               title={el.title}
               author={el.author}
             />
+            </Link>
           </li>
         ))}
       </ul>
