@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import mainproject.cafeIn.domain.comment.dto.response.CommentResponse;
 import mainproject.cafeIn.domain.comment.entity.Comment;
 import mainproject.cafeIn.domain.tag.entity.PostTag;
 
@@ -24,11 +25,10 @@ public class PostDetailResponse {
     private LocalDateTime updatedAt;
     private List<String> tagNames;
     private Boolean isBookmarked;
-    // TODO: comment 기능 완성시 추가
-    // private List<Comment> comments;
+    private List<CommentResponse> comments;
 
 
-    public PostDetailResponse(Long postId, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked) {
+    public PostDetailResponse(Long postId, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked, List<CommentResponse> comments) {
         this.postId = postId;
         this.cafeId = cafeId;
         this.cafeName = cafeName;
@@ -41,5 +41,6 @@ public class PostDetailResponse {
         this.updatedAt = updatedAt;
         this.tagNames = tagNames;
         this.isBookmarked = isBookmarked;
+        this.comments = comments;
     }
 }

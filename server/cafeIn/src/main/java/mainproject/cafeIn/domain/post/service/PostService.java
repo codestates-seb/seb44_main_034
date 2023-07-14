@@ -3,6 +3,10 @@ package mainproject.cafeIn.domain.post.service;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
+import mainproject.cafeIn.domain.comment.dto.response.CommentResponse;
+import mainproject.cafeIn.domain.comment.dto.response.ReplyResponse;
+import mainproject.cafeIn.domain.comment.repository.CommentRepository;
+import mainproject.cafeIn.domain.comment.service.CommentService;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
@@ -36,6 +40,7 @@ public class PostService {
     private final PostTagService postTagService;
     private final PostBookmarkRepository postBookmarkRepository;
     private final MemberRepository memberRepository;
+    private final CommentService commentService;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
@@ -81,6 +86,7 @@ public class PostService {
         }
         Post post = findPostById(postId);
         List<String> tagNames = postTagService.getTagNames(postId);
+        List<CommentResponse> commentList = commentService.findComments(postId);
 
         PostDetailResponse response = new PostDetailResponse(
                 post.getPostId(),
@@ -94,7 +100,8 @@ public class PostService {
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 tagNames,
-                isBookmarked);
+                isBookmarked,
+                commentList);
 
         return response;
     }
@@ -143,4 +150,10 @@ public class PostService {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
     }
+
+
+
+
+    // 댓글 리스트 기능
+
 }
