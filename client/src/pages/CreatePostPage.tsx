@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-<<<<<<< HEAD
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-=======
->>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
 import { PostItemAtom } from '../recoil/postState';
@@ -95,7 +92,7 @@ const S = {
 };
 
 const CreatePostPage = () => {
-<<<<<<< HEAD
+
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
   const resetPostItem = useResetRecoilState(PostItemAtom);
@@ -153,19 +150,19 @@ const CreatePostPage = () => {
     createPostMutation.mutate(postData);
   }
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const fileList = event.target.files;
-    // if (fileList) {
-      // 파일 처리 로직
-      // const formData = new FormData();
-      // console.log(fileList);
-      // mutate(formData, {
-      //   onSuccess: (data) => {
-      //     console.log(data);
-      //   }
-      // })
-    // }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // const fileList = event.target.files;
+  //   // if (fileList) {
+  //     // 파일 처리 로직
+  //     // const formData = new FormData();
+  //     // console.log(fileList);
+  //     // mutate(formData, {
+  //     //   onSuccess: (data) => {
+  //     //     console.log(data);
+  //     //   }
+  //     // })
+  //   // }
+  // };
 
   const handleContent = (contentValue:string) => {
     // let contentValue = e.target.value;
@@ -216,7 +213,7 @@ const CreatePostPage = () => {
             id='file-upload'
             type='file'
             accept='image/*'
-            onChange={handleFileChange}
+            // onChange={handleFileChange}
           ></S.AddImg>
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <SunEditor height='300px' onChange={handleContent} />
@@ -236,9 +233,5 @@ const CreatePostPage = () => {
       </form>
     </S.Container>
   );
-=======
-  return <S.Container></S.Container>;
->>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
-};
-
+}
 export default CreatePostPage;
