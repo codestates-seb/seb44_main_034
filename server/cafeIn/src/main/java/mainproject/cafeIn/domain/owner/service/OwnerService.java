@@ -10,16 +10,20 @@ import mainproject.cafeIn.global.exception.CustomException;
 import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OwnerService {
     private final OwnerRepository ownerRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
+
+    @Transactional
     public Owner createOwner(Owner owner, String uri) {
         verifyExistsEmail(owner.getEmail());
 
@@ -38,6 +42,7 @@ public class OwnerService {
         return ownerRepository.save(saveOwner);
     }
 
+    @Transactional
     public Owner updateOwner(Owner owner, long ownerId) {
         Owner findOwner = findVerifiedOwner(ownerId);
 
@@ -49,19 +54,21 @@ public class OwnerService {
         return ownerRepository.save(findOwner);
     }
 
+    @Transactional
     public OwnerDetailResponse findOwner(long ownerId) {
         return ownerRepository.getOwnerDetailResponse(ownerId);
     }
 
+    @Transactional
     public Owner deleteOwner(long ownerId, String password) {
         Owner findOwner = findVerifiedOwner(ownerId);
 
-        if (findOwner.getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, findOwner.getPassword())) {
             findOwner.setOwnerStatus(OwnerStatus.OWNER_QUIT);
+            ownerRepository.deleteOwnerCafe(findOwner);
         } else {
             throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH);
         }
-
         return ownerRepository.save(findOwner);
     }
 
