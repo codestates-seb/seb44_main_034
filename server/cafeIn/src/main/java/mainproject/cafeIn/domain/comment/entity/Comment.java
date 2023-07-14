@@ -37,7 +37,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
 
-    @OneToMany(mappedBy = "parentComment")
+    @OneToMany(mappedBy = "parentComment", cascade = CascadeType.REMOVE)
     private List<Comment> replies;
 
     @Builder
@@ -49,7 +49,13 @@ public class Comment extends BaseEntity {
         this.replies = replies;
     }
 
-    public void updateComment(Comment comment) {
-        this.content = comment.getContent();
+    public void updateComment(String content) {
+        this.content = content;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
+
+

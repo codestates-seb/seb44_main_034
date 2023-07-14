@@ -73,10 +73,6 @@ public class Post extends BaseEntity {
         this.postTags = postTags;
     }
 
-    public void updatePostWithComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public void updatePost(Post post) {
         this.title = post.getTitle();
         this.content = post.getContent();
