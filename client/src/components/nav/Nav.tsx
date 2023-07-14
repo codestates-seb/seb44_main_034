@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LoginState } from '../../recoil/recoil';
-import { useRecoilValue } from 'recoil';
 import { COLOR_1 } from '../../common/common';
 import { BiHome } from 'react-icons/bi';
 import { BsFilePost } from 'react-icons/bs';
@@ -19,18 +17,18 @@ const S = {
     @media screen and (min-width: 769px) {
       width: 768px;
     }
-  >div {
-    display: flex;
-    justify-content: center;
-    position: fixed;
-    width: 100%;
-    background-color: #f9f9f9;
-    border-top: solid 1px ${COLOR_1.green};
-    bottom: 0;
-  }
+    > div {
+      display: flex;
+      justify-content: center;
+      position: fixed;
+      width: 100%;
+      background-color: #f9f9f9;
+      border-top: solid 1px ${COLOR_1.green};
+      bottom: 0;
+    }
   `,
   Container: styled.div`
-    max-width:1200px;
+    max-width: 1200px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,7 +75,7 @@ const Nav = () => {
     replace('/');
   };
   const postHandler = () => {
-    replace('/allpostpage');
+    replace('/allpostspage');
   };
 
   const modalHandler = (): void => {
@@ -87,57 +85,57 @@ const Nav = () => {
       setIsOpen(false);
     }
   };
-  // const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // useEffect(() => {
-  //   const handleOutsideClick = (event: MouseEvent) => {
-  //     if (
-  //       dropdownRef.current &&
-  //       !dropdownRef.current.contains(event.target as Node)
-  //     ) {
-  //       setIsOpen(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
 
-  //   document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick);
 
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleOutsideClick);
-  //   };
-  // }, []);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <nav>
       <S.BackContainer>
         <div>
-        <S.Container>
-          <S.NavBox onClick={mainHandler}>
-            <S.Iconbox>
-              <BiHome size='40' />
-            </S.Iconbox>
-            <S.IconTextBox>홈</S.IconTextBox>
-          </S.NavBox>
-          <S.NavBox onClick={postHandler}>
-            <S.Iconbox>
-              <BsFilePost size='40' />
-            </S.Iconbox>
+          <S.Container>
+            <S.NavBox onClick={mainHandler}>
+              <S.Iconbox>
+                <BiHome size='40' />
+              </S.Iconbox>
+              <S.IconTextBox>홈</S.IconTextBox>
+            </S.NavBox>
+            <S.NavBox onClick={postHandler}>
+              <S.Iconbox>
+                <BsFilePost size='40' />
+              </S.Iconbox>
 
-            <S.IconTextBox>포스트</S.IconTextBox>
-          </S.NavBox>
-          <S.NavBox>
-            <S.Iconbox>
-              <IoCafeOutline size='40' />
-            </S.Iconbox>
-            <S.IconTextBox>카페</S.IconTextBox>
-          </S.NavBox>
-          <S.NavBox onClick={modalHandler}>
-            <S.Iconbox>
-              <FiUser size='40' />
-            </S.Iconbox>
-            <S.IconTextBox>마이홈</S.IconTextBox>
-            {isOpen ? <ProfileModal /> : null}
-          </S.NavBox>
-        </S.Container>
+              <S.IconTextBox>포스트</S.IconTextBox>
+            </S.NavBox>
+            <S.NavBox>
+              <S.Iconbox>
+                <IoCafeOutline size='40' />
+              </S.Iconbox>
+              <S.IconTextBox>카페</S.IconTextBox>
+            </S.NavBox>
+            <S.NavBox onClick={modalHandler} ref={dropdownRef}>
+              <S.Iconbox>
+                <FiUser size='40' />
+              </S.Iconbox>
+              <S.IconTextBox>마이홈</S.IconTextBox>
+              {isOpen ? <ProfileModal /> : null}
+            </S.NavBox>
+          </S.Container>
         </div>
       </S.BackContainer>
     </nav>

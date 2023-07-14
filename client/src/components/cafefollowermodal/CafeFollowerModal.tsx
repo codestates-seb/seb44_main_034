@@ -12,7 +12,7 @@ const S = {
     z-index: 1;
     position: absolute;
     border-radius: 10px;
-    margin-top: 400px;
+    margin-top: 370px;
     border: solid 1px ${COLOR_1.light_gray};
     background-color: ${COLOR_1.ivory};
   `,
@@ -46,7 +46,7 @@ const S = {
   `,
 };
 
-const FollowingModal = () => {
+const CafeFollowerModal = () => {
   return (
     <S.Container>
       <S.SubContainer>
@@ -54,11 +54,9 @@ const FollowingModal = () => {
           <S.UserImg src={profileimg}></S.UserImg>
           <S.UserName>나나</S.UserName>
         </S.UserBox>
-        {/* 로딩 표시
-      {isLoading && <div>Loading...</div>} */}
       </S.SubContainer>
     </S.Container>
   );
 };
 
-export default FollowingModal;
+export default CafeFollowerModal;

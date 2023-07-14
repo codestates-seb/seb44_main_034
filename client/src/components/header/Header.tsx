@@ -10,7 +10,7 @@ const S = {
     margin: 0;
     display: flex;
     justify-content: center;
-    >div{
+    > div {
       display: flex;
       justify-content: center;
       position: fixed;
@@ -23,13 +23,13 @@ const S = {
     }
   `,
   LogoBox: styled.div`
-    max-width:1200px;
+    max-width: 1200px;
     display: flex;
     justify-content: center;
     align-items: center;
-  >img{
-    height: 70px;
-    width: 200px;
+    > img {
+      height: 70px;
+      width: 200px;
     }
   `,
 };
@@ -39,11 +39,11 @@ const Header = () => {
     <header>
       <S.Container>
         <div>
-        <Link to='/'>
-          <S.LogoBox>
-            <img src={Logo} />
-          </S.LogoBox>
-        </Link>
+          <Link to='/'>
+            <S.LogoBox>
+              <img src={Logo} />
+            </S.LogoBox>
+          </Link>
         </div>
       </S.Container>
     </header>

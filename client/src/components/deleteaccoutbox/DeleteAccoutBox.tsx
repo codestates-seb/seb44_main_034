@@ -1,6 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import axios from 'axios';
-import GoogleLoginButton from '../googleoauth/GoogleOauth';
 import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
@@ -10,10 +9,11 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 520px;
+    height: 160px;
     width: 90vw;
     border-radius: 20px;
     background-color: #fafafa;
+    margin-top: 5px;
     box-shadow: 1px 1px 3px 1px gray;
     @media screen and (min-width: 550px) {
       width: 500px;
@@ -23,7 +23,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 370px;
+    height: 150px;
     width: 80vw;
     margin-top: 10px;
     @media screen and (min-width: 550px) {
@@ -48,22 +48,22 @@ const S = {
       font-size: ${FONT_SIZE_1.small_3};
     }
   `,
-  SubmitButton: styled.button`
+  DeleleButton: styled.button`
     height: 50px;
     width: 80vw;
     border-radius: 15px;
     border: none;
-    background-color: ${COLOR_1.green};
+    background-color: #ff9587;
     color: black;
-    font-size: ${FONT_SIZE_1.normal_3};
-    font-weight: ${FONT_WEIGHT.weight_700};
+    font-size: 15px;
+    font-weight: ${FONT_WEIGHT.weight_600};
     margin-top: 10px;
     margin-bottom: 10px;
-    border: solid 1px #cfcfcf;
+    border: solid 1px #ffffff;
     cursor: pointer;
 
     &:hover {
-      background-color: #a4c6a4;
+      background-color: #fd5050;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
@@ -92,87 +92,45 @@ const S = {
     }
   `,
 };
+
 interface FormValue {
-  email: string;
-  displayName: string;
   password: string;
-  passwordConfirm: string;
 }
 
-const OwnerSignupBox = () => {
+const DeleteAccountBox = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<FormValue>();
-
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    const { email, displayName, password } = data;
-
+  const onSubmit: SubmitHandler<FormValue> = (data) =>
     axios
-      .post(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/members/sign-up',
+      .delete(
+        `http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/members`,
         {
-          email: email,
-          displayName: displayName,
-          password: password,
+          data,
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
         }
       )
       .then((response) => {
         // Handle success.
-        console.log('Well done!');
-        console.log('User profile', response);
-        alert('가입이 완료되었습니디.');
+        console.log(response);
+        localStorage.removeItem('recoil-persist');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+        window.location.replace('/');
       })
       .catch((error) => {
         // Handle error.
         console.log('An error occurred:', error.response);
       });
-  };
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.SubMiniBox>
-          <S.SubTitle htmlFor='email'>이메일</S.SubTitle>
-          <S.InputBox
-            id='email'
-            type='text'
-            placeholder='이메일을 입력하세요'
-            {...register('email', {
-              required: '이메일은 필수 입력입니다.',
-              pattern: {
-                value:
-                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                message: '이메일 형식에 맞지 않습니다.',
-              },
-            })}
-          />
-          {errors.email ? (
-            <S.InputInformation>{errors.email.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
-          <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
-          <S.InputBox
-            id='displayName'
-            type='text'
-            placeholder='닉네임을 입력하세요'
-            {...register('displayName', {
-              required: '닉네임은 필수 입력입니다',
-              minLength: {
-                value: 2,
-                message: '2자이상 입력바랍니다',
-              },
-            })}
-          ></S.InputBox>
-          {errors.displayName ? (
-            <S.InputInformation>
-              {errors.displayName.message}
-            </S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
             id='password'
@@ -194,40 +152,17 @@ const OwnerSignupBox = () => {
                   '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
               },
             })}
-          ></S.InputBox>
+          />
           {errors.password ? (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
-          <S.SubTitle htmlFor='passwordConfirm'>비밀번호 확인</S.SubTitle>
-          <S.InputBox
-            id='passwordConfirm'
-            type='password'
-            placeholder='비밀번호를 입력하세요'
-            {...register('passwordConfirm', {
-              required: '비밀번호 확인은 필수 입력입니다.',
-              validate: {
-                matchesPreviousPassword: (value) => {
-                  const { password } = watch();
-                  return password === value || ' 비밀번호가 일치하지 않습니다.';
-                },
-              },
-            })}
-          ></S.InputBox>
-          {errors.passwordConfirm ? (
-            <S.InputInformation>
-              {errors.passwordConfirm.message}
-            </S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
+          <S.DeleleButton type='submit'>탈퇴하기</S.DeleleButton>
         </S.SubMiniBox>
-        <S.SubmitButton type='submit'>개인 회원가입</S.SubmitButton>
       </form>
-      <GoogleLoginButton />
     </S.Container>
   );
 };
 
-export default OwnerSignupBox;
+export default DeleteAccountBox;

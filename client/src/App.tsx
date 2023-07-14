@@ -21,10 +21,11 @@ import EditUserMyPage from './pages/EditUserMyPage';
 import PostPage from './pages/PostPage';
 import CafePage from './pages/CafePage';
 import CreatePostPage from './pages/CreatePostPage';
-import AllPostPage from './pages/AllPostPage';
+import AllPostsPage from './pages/AllPostsPage';
 import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 import AddCafeMenuPage from './pages/AddCafeMenuPage';
+import EditMenuCafe from './pages/EditMenuCafePage';
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -47,11 +48,11 @@ function App() {
             <Route path='/signupselect' element={<SignupSelect />} />
             <Route path='/usersignup' element={<UserSignup />} />
             <Route path='/ownersignup' element={<OwnerSignup />} />
-            <Route path='/usermypage/' element={<UserMyPage />} />
-            <Route path='/ownermypage/' element={<OwnerMyPage />} />
-            <Route path='/otherusermypage/:id' element={<OtherUserMyPage />} />
-            <Route path='/usermypage/edit/:id' element={<EditUserMyPage />} />
-            <Route path='/ownermypage/edit/:id' element={<EditOwnerMyPage />} />
+            <Route path='/usermy/' element={<UserMyPage />} />
+            <Route path='/ownermy/' element={<OwnerMyPage />} />
+            <Route path='/otherusermy/:id' element={<OtherUserMyPage />} />
+            <Route path='/usermy/edit/:id' element={<EditUserMyPage />} />
+            <Route path='/ownermy/edit/:id' element={<EditOwnerMyPage />} />
             <Route path='/cafepage/:id' element={<CafePage />} />
             <Route path='/cafes/:id' element={<AddCafeInfoPage />} />
             <Route path='/menus/:id' element={<AddCafeMenuPage />} />
@@ -59,14 +60,16 @@ function App() {
               path='/cafepage/edit/information/:id'
               element={<EditInformationCafePage />}
             />
+            <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
+            <Route path='/postpage/:postId' element={<PostPage />} />
             <Route
               path='/cafepage/edit/menu/:id'
               element={<EditMenuCafePage />}
             />
             <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
-            <Route path='/postpage/edit/:id' element={<EditPostPage />} />
-            <Route path='/allpostpage' element={<AllPostPage />} />
+            <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
+            <Route path='/allpostspage' element={<AllPostsPage />} />
           </Routes>
         </Container>
         <Nav />
