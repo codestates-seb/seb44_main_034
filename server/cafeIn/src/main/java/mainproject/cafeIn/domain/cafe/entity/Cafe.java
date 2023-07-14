@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.post.entity.Post;
+import mainproject.cafeIn.domain.tag.entity.PostTag;
 import mainproject.cafeIn.global.base.BaseEntity;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.hibernate.annotations.OnDelete;
@@ -93,6 +94,10 @@ public class Cafe extends BaseEntity {
     @OnDelete(action = CASCADE)
     @OneToMany(mappedBy = "cafe", cascade = PERSIST)
     private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
+
+    @OnDelete(action = CASCADE)
+    @OneToMany(mappedBy = "cafe", cascade = PERSIST)
+    private List<PostTag> postTags = new ArrayList<>();
 
     @Builder
     public Cafe(String name, String address, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {
