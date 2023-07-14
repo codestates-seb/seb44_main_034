@@ -53,7 +53,7 @@ function App() {
             <Route path='/usermypage/edit/:id' element={<EditUserMyPage />} />
             <Route path='/ownermypage/edit/:id' element={<EditOwnerMyPage />} />
             <Route path='/cafepage/:id' element={<CafePage />} />
-            <Route path='/cafes' element={<AddCafeInfoPage />} />
+            <Route path='/cafes/:id' element={<AddCafeInfoPage />} />
             <Route path='/menus/:id' element={<AddCafeMenuPage />} />
             <Route
               path='/cafepage/edit/information/:id'
