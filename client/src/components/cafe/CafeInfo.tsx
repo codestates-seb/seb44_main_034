@@ -104,9 +104,11 @@ const CafeInfo = () => {
         );
         console.log(response.data.imageUrl);
         console.log(response.data);
+        const cafeId = response.data.id;
         alert(
-          '카페 정보 등록이 완료 되었으니 , 메뉴 등록 페이지로 이동해주세요'
+          '카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다'
         );
+        navigate(`/menus/${cafeId}`);
       } else {
         throw new Error('Image upload failed');
       }

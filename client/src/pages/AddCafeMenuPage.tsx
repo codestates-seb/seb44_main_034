@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
 import { ConfirmBtn, CancelButton } from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
-
+const url = window.location.href;
 export type FormData = {
   signature: {
     name: string;
@@ -60,15 +60,14 @@ const AddCafeMenuPage = () => {
   //   }
   // }
   // const cafeId = 1; ${cafeId}
+
   const Onsubmit = async (data: FormData) => {
     const mergedArray = Object.values(data).flat();
 
     console.log(mergedArray);
     try {
-      const response = await axios.post(
-        `http://localhost:3001/menus`,
-        mergedArray
-      );
+      const response = await axios.post(url, mergedArray);
+      console.log(url);
       console.log(response.data);
     } catch (error) {
       console.error(error);
