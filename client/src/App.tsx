@@ -26,6 +26,7 @@ import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 import AddCafeMenuPage from './pages/AddCafeMenuPage';
 import EditMenuCafe from './pages/EditMenuCafePage';
+
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -37,6 +38,7 @@ const Container = styled.div`
 `;
 
 function App() {
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -73,6 +75,7 @@ function App() {
           </Routes>
         </Container>
         <Nav />
+
       </RecoilRoot>
     </QueryClientProvider>
   );

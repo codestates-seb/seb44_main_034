@@ -7,15 +7,15 @@ phases:
   build:
     commands:
       - echo Build Starting on `date`
-      - cd DeployServer
+      - cd server/cafeIn
       - chmod +x ./gradlew
       - ./gradlew build
   post_build:
     commands:
-      - echo $(basename ./cafeIn/build/libs/*.jar)
+      - echo $(basename ./server/cafeIn/build/libs/*.jar)
 artifacts:
   files:
-    - cafeIn/build/libs/*.jar
-    - cafeIn/scripts/**
-    - cafeIn/appspec.yml
+    - server/cafeIn/build/libs/*.jar
+    - server/cafeIn/scripts/**
+    - server/cafeIn/appspec.yml
   discard-paths: yes
