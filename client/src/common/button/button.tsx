@@ -2,17 +2,6 @@ import { styled } from 'styled-components';
 import { COLOR_1 } from '../common';
 import { FONT_SIZE_1 } from '../common';
 
-export type ButtonType = {
-  width?: string;
-  height?: string;
-  fontSize?: string;
-  padding?: string;
-  borderRadius?: string;
-  color?: string;
-  hoverable?: boolean;
-  backgroundcolor?: string;
-};
-
 export const ConfirmBtn = styled.button`
   width: 100px;
   min-width: 100px;
@@ -42,7 +31,7 @@ export const ConfirmBtn = styled.button`
 
 export const CancelButton = styled(ConfirmBtn)`
   width: 60px;
-  min-width: 60px;
+  min-width: 65px;
   font-size: ${FONT_SIZE_1.normal_1};
   background-color: ${COLOR_1.light_gray};
   box-shadow: 2px 4px 4px 2px gray;
@@ -54,3 +43,30 @@ export const CancelButton = styled(ConfirmBtn)`
     background-color: gray;
   }
 `;
+
+const Button = ({
+  text,
+  onClick,
+  theme,
+}: {
+  text: string;
+  onClick?: () => void;
+  theme: 'Confirm' | 'Cancel';
+}) => {
+  return (
+    <>
+      {theme === 'Confirm' && (
+        <ConfirmBtn onClick={onClick} type={'button'}>
+          {text}
+        </ConfirmBtn>
+      )}
+      {theme === 'Cancel' && (
+        <CancelButton onClick={onClick} type={'button'}>
+          {text}
+        </CancelButton>
+      )}
+    </>
+  );
+};
+
+export default Button;
