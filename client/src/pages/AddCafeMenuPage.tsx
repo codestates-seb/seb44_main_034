@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import CafeMenuForm from '../components/cafe/CafeMenuForm';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
-import { ConfirmBtn, CancelButton } from '../common/button/button';
+import Button from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
 const url = window.location.href;
 export type FormData = {
@@ -45,6 +46,7 @@ const defaultValues = {
 };
 const AddCafeMenuPage = () => {
   //methods에 useForm 리턴값을 넣어줌
+  const navigate = useNavigate();
   const methods = useForm<FormData>({
     defaultValues,
     mode: 'onBlur',
@@ -81,11 +83,19 @@ const AddCafeMenuPage = () => {
           <CafeMenuForm key={index} type={item.value} name={item.name} />
         ))}
         <S.ButtonDiv>
-          <S.Submitbut type={'button'} onClick={() => handleSubmit(Onsubmit)()}>
-            메뉴등록
-          </S.Submitbut>
+          <Button
+            text='메뉴 등록'
+            onClick={() => handleSubmit(Onsubmit)()}
+            theme='Confirm'
+          />
 
-          <CancelButton>나가기</CancelButton>
+          <Button
+            text='나가기'
+            onClick={() => {
+              navigate('/ownermy/');
+            }}
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </FormProvider>
     </S.Container>
@@ -116,9 +126,6 @@ const S = {
     @media screen and (max-width: 767px) {
       justify-content: center;
     }
-  `,
-  Submitbut: styled(ConfirmBtn)`
-    margin-bottom: 10%;
   `,
 };
 export default AddCafeMenuPage;

@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
-import { ConfirmBtn, CancelButton } from '../common/button/button';
+import Button from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
 import EditMenuForm from '../components/cafe/EditMenuForm';
 import { FormData } from './AddCafeMenuPage';
@@ -22,9 +23,10 @@ const convertedData: FormData = {
   desert: [],
 };
 //cafeid를 받아서 불러야됨
-const cafeId = 1;
+
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
+  const navigate = useNavigate();
   const methods = useForm<FormData>({
     defaultValues,
     mode: 'onBlur',
@@ -83,11 +85,20 @@ const EditMenuCafe = () => {
           <EditMenuForm key={index} type={item.value} name={item.name} />
         ))}
         <S.ButtonDiv>
-          <S.Submitbut type={'button'} onClick={() => handleSubmit(Onsubmit)()}>
-            메뉴등록
-          </S.Submitbut>
+          <Button
+            text='메뉴등록'
+            type={'button'}
+            onClick={() => handleSubmit(Onsubmit)()}
+            theme='Confirm'
+          />
 
-          <CancelButton>나가기</CancelButton>
+          <Button
+            text='나가기'
+            onClick={() => {
+              navigate('/ownermy');
+            }}
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </FormProvider>
     </S.Container>
@@ -118,9 +129,6 @@ const S = {
     @media screen and (max-width: 767px) {
       justify-content: center;
     }
-  `,
-  Submitbut: styled(ConfirmBtn)`
-    margin-bottom: 10%;
   `,
 };
 export default EditMenuCafe;

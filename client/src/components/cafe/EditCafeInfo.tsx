@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ConfirmBtn, CancelButton } from '../../common/button/button';
+import Button from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
@@ -259,14 +259,14 @@ const EditCafeInfo = () => {
         </S.MainDiv>
         <S.ButtonDiv>
           {/* <AddImage onClick={handleButtonClick} /> */}
-          <ConfirmBtn type='submit'>수정</ConfirmBtn>
-          <CancelButton
+          <Button text='수정' type='submit' theme='Confirm' />
+          <Button
+            text='나가기'
             onClick={() => {
-              navigate('/');
+              navigate('/ownermy');
             }}
-          >
-            나가기
-          </CancelButton>
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </form>
     </>

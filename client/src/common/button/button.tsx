@@ -48,20 +48,22 @@ const Button = ({
   text,
   onClick,
   theme,
+  type = 'button',
 }: {
   text: string;
   onClick?: () => void;
   theme: 'Confirm' | 'Cancel';
+  type?: 'submit' | 'button';
 }) => {
   return (
     <>
       {theme === 'Confirm' && (
-        <ConfirmBtn onClick={onClick} type={'button'}>
+        <ConfirmBtn onClick={onClick} type={type}>
           {text}
         </ConfirmBtn>
       )}
       {theme === 'Cancel' && (
-        <CancelButton onClick={onClick} type={'button'}>
+        <CancelButton onClick={onClick} type={type}>
           {text}
         </CancelButton>
       )}
