@@ -56,7 +56,8 @@ public class OwnerService {
 
     @Transactional
     public OwnerDetailResponse findOwner(long ownerId) {
-        return ownerRepository.getOwnerDetailResponse(ownerId);
+        Owner owner = findVerifiedOwner(ownerId);
+        return ownerRepository.getOwnerDetailResponse(owner.getOwnerId());
     }
 
     @Transactional
