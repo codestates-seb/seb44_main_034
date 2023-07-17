@@ -102,7 +102,7 @@ const CafeInfo = () => {
 
       const response = await axios.post(`${baseURL}/cafes`, data, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
           Authorization: localStorage.getItem('access_token'),
         },
       });
