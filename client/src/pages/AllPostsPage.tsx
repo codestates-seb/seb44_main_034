@@ -53,7 +53,7 @@ const S = {
 const AllPostsPage = () => {
   // const data = dataAll.post;
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const {
     isLoading,
     isError,
@@ -61,50 +61,55 @@ const AllPostsPage = () => {
     data,
     // isFetching,
     isPreviousData,
-  } = useQuery(['getAllposts', page], () =>
-    getAllPosts(page), {
-      keepPreviousData: true
-    }
-  )
+  } = useQuery(['getAllposts', page], () => getAllPosts(page), {
+    keepPreviousData: true,
+  });
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Error</p>
+  if (isError) return <p>Error</p>;
 
   const lastPage = () => setPage(data.totalpages);
   const firstPage = () => setPage(1);
-  const pagesArray = Array(data.totalpages).fill(null).map((_, i) => i+1);
+  const pagesArray = Array(data.totalpages)
+    .fill(null)
+    .map((_, i) => i + 1);
 
   return (
     <>
-    <S.Container>
-      <S.PostStart>
-        <span>POST</span>
-      </S.PostStart>
-      <ul>
-        {data.map((el: CafePostList) => (
-          <li key={el.postId}>
-            <Link to={`../postpage/${el.postId}`} >
-            <PostThumbnail
-              image={el.image}
-              title={el.title}
-              author={el.author}
-            />
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <nav>
-      <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
-        {`<<`}
-      </button>
-      {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
-      <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
-        {`>>`}
-      </button>
-    </nav>
-    </S.Container>
-  </>
+      <S.Container>
+        <S.PostStart>
+          <span>POST</span>
+        </S.PostStart>
+        <ul>
+          {data.map((el: CafePostList) => (
+            <li key={el.postId}>
+              <Link to={`../postpage/${el.postId}`}>
+                <PostThumbnail
+                  image={el.image}
+                  title={el.title}
+                  author={el.author}
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <nav>
+          <button onClick={firstPage} disabled={isPreviousData || page === 1}>
+            {`<<`}
+          </button>
+          {pagesArray.map((el) => (
+            <PageButton key={el} page={el} setPage={setPage} />
+          ))}
+          <button
+            onClick={lastPage}
+            disabled={isPreviousData || page === data.totalpages}
+          >
+            {`>>`}
+          </button>
+        </nav>
+      </S.Container>
+    </>
   );
 };
 

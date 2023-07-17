@@ -7,6 +7,7 @@ import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   AllContainer: styled.div`
@@ -199,14 +200,14 @@ const EditUserMyPageBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     console.log(data);
     axios
-      .post('', {
+      .post(`${baseURL}/members/update`, {
         data,
       })
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
-        alert('가입이 완료되었습니디.');
+        alert('수정이 완료되었습니디.');
       })
       .catch((error) => {
         // Handle error.

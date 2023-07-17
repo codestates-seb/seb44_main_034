@@ -1,4 +1,4 @@
-import OwnerSignupBox from '../components/ownersignupbox/OwnerSignupBox';
+import OwnerSignupBox from '../components/owners/OwnerSignupBox';
 
 const OwnerSignup = () => {
   return (

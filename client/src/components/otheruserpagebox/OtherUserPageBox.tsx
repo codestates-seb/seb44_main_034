@@ -3,6 +3,7 @@ import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
+import { baseURL } from '../../common/baseURL';
 import styled from 'styled-components';
 
 const S = {
@@ -97,6 +98,7 @@ const S = {
     width: 30vw;
     margin-top: 5px;
     text-align: center;
+    color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
       width: 60px;
     }
@@ -116,7 +118,7 @@ const S = {
     text-align: center;
     width: 60vw;
     margin-top: 5px;
-    color: ${COLOR_1.brown};
+    color: black;
     @media screen and (min-width: 786px) {
       width: 270px;
     }
@@ -176,16 +178,33 @@ interface UserData {
 const OtherUserMyPageBox = () => {
   // const replace = useNavigate();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
+  const followingHandler = () => {
+    axios
+      .post(`${baseURL}/members/1/follow`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log('success');
+        setMemberInfo(response.data.payload);
+      })
+      .catch((error) => {
+        // Handle error.
+
+        console.log('An error occurred:', error.response);
+        // replace('/');
+      });
+  };
   useEffect(() => {
     axios
-      .get(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/member/1',
-        {
-          headers: {
-            'ngrok-skip-browser-warning': 'true',
-          },
-        }
-      )
+      .get(`${baseURL}/api/member/1`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        },
+      })
       .then((response) => {
         // Handle success.
         console.log('success');
@@ -225,7 +244,7 @@ const OtherUserMyPageBox = () => {
               </S.Informaiton>
             </S.InformaitonBox>
           </S.MiddleTopBox>
-          <S.FollowButton>팔로워하기</S.FollowButton>
+          <S.FollowButton onClick={followingHandler}>팔로워하기</S.FollowButton>
         </S.ProfileListBox>
       </S.MiddleBox>
       <S.EditButtonBox></S.EditButtonBox>

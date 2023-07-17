@@ -1,4 +1,4 @@
-import UserMyPageBox from '../components/usermypagebox/UserMyPageBox';
+import UserMyPageBox from '../components/users/UserMyPageBox';
 
 const UserMyPage = () => {
   return <UserMyPageBox></UserMyPageBox>;

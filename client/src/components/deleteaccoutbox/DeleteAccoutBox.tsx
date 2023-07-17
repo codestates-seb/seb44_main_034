@@ -3,6 +3,7 @@ import axios from 'axios';
 import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   Container: styled.div`
@@ -103,30 +104,28 @@ const DeleteAccountBox = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>();
-  const onSubmit: SubmitHandler<FormValue> = (data) =>
+  const onSubmit: SubmitHandler<FormValue> = (data) => {
     axios
-      .delete(
-        `http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/members`,
-        {
-          data,
-          headers: {
-            'ngrok-skip-browser-warning': 'true',
-            Authorization: localStorage.getItem('access_token'),
-          },
-        }
-      )
+      .delete(`${baseURL}/owners/sign-out`, {
+        headers: {
+          Authorization: localStorage.getItem('access_token'),
+        },
+        data: data,
+      })
       .then((response) => {
         // Handle success.
         console.log(response);
         localStorage.removeItem('recoil-persist');
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
+        alert('탈퇴되었습니다!');
         window.location.replace('/');
       })
       .catch((error) => {
         // Handle error.
         console.log('An error occurred:', error.response);
       });
+  };
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
