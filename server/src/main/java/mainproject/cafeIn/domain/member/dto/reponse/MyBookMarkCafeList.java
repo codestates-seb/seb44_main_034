@@ -11,13 +11,15 @@ public class MyBookMarkCafeList {
     private String image;
     private String address;
     private float rating;
+    private long cafeBookMarkId;
 
     @QueryProjection
-    public MyBookMarkCafeList(long cafeId, String cafeName, String image, String address, float rating) {
+    public MyBookMarkCafeList(long cafeId, String cafeName, String image, String address, float rating, long cafeBookMarkId) {
         this.cafeId = cafeId;
         this.cafeName = cafeName;
         this.image = image;
         this.address = address;
         this.rating = rating;
+        this.cafeBookMarkId = cafeBookMarkId;
     }
 }
