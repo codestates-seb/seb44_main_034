@@ -6,16 +6,16 @@ public class MyBookMarkPostList {
 
     private long postId;
     private String title;
-    private String image;
     private String author;
+    private String image;
     private long postBookMarkId;
 
     @QueryProjection
-    public MyBookMarkPostList(long postId, String title, String image, String author, long postBookMarkId) {
+    public MyBookMarkPostList(long postId, String title, String author, String image, long postBookMarkId) {
         this.postId = postId;
-        this.image = title;
-        this.title = image;
+        this.title = title;
         this.author = author;
+        this.image = image;
         this.postBookMarkId = postBookMarkId;
     }
 }
