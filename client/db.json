@@ -1,6 +1,8 @@
 {
-  "cafes": [
+  "cafes": 
     {
+      "message": "성공적으로 요청을 불러왔습니다.",
+      "payload": {
         "cafeDetail": {
           "ownerId": 1,
           "cafeId": 1,
@@ -64,18 +66,6 @@
               "price": 5000,
               "menuType": "SIGNATURE"
             }
-            ,
-            {
-              "menuId": 7,
-              "name": "플랫화이트",
-              "price": 5000,
-              "menuType": "SIGNATURE"
-            },{
-              "menuId": 8,
-              "name": "플랫화이트",
-              "price": 5000,
-              "menuType": "SIGNATURE"
-            }
           ]
         ],
         "posts": [
@@ -102,9 +92,83 @@
         ],
         "bookmarked": false
       }
-    
-  ],
+    }
+  ,
   "images": [],
-  "menus":[],
-  "cafepost": []
+  "menus": [],
+  "cafepost": [],
+  "add": [
+    {
+      "dto": {
+        "name": "11",
+        "address": "111",
+        "contact": "1",
+        "notice": "11",
+        "cafeImg": "",
+        "rating": 0,
+        "openTime": "111",
+        "closeTime": "11",
+        "isOpenAllTime": true,
+        "isChargingAvailable": false,
+        "hasParking": false,
+        "isPetFriendly": false,
+        "hasDessert": false
+      },
+      "id": 1
+    },
+    {
+      "dto": {
+        "name": "11",
+        "address": "11",
+        "contact": "11",
+        "notice": "11",
+        "cafeImg": "",
+        "rating": 0,
+        "openTime": "11",
+        "closeTime": "11",
+        "isOpenAllTime": true,
+        "isChargingAvailable": true,
+        "hasParking": false,
+        "isPetFriendly": false,
+        "hasDessert": false
+      },
+      "id": 2
+    },
+    {
+      "dto": {
+        "name": "11",
+        "address": "1",
+        "contact": "111",
+        "notice": "11",
+        "cafeImg": "",
+        "rating": 0,
+        "openTime": "111",
+        "closeTime": "11",
+        "isOpenAllTime": true,
+        "isChargingAvailable": false,
+        "hasParking": false,
+        "isPetFriendly": false,
+        "hasDessert": false
+      },
+      "id": 3
+    },
+    {
+      "dto": {
+        "name": "111",
+        "address": "111",
+        "contact": "111",
+        "notice": "111",
+        "cafeImg": "",
+        "rating": 0,
+        "openTime": "11",
+        "closeTime": "111",
+        "isOpenAllTime": true,
+        "isChargingAvailable": false,
+        "hasParking": false,
+        "isPetFriendly": false,
+        "hasDessert": false
+      },
+      "id": 4
+    }
+  ]
 }

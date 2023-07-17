@@ -5,7 +5,8 @@ import { FONT_SIZE_1 } from '../../common/common';
 import CafeFollowerModal from '../cafefollowermodal/CafeFollowerModal';
 import coffeeshop from '../../assets/coffeeshop.svg';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   Container: styled.div`
@@ -176,6 +177,7 @@ interface OwnerData {
 }
 
 interface CafeData {
+  cafeId?: string;
   cafeName: string;
   countBookmarked: number;
   image: File;
@@ -184,6 +186,7 @@ const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [ownerInfo, setOwnerInfo] = useState<OwnerData | undefined>();
   const [cafeInfo, setCafeInfo] = useState<CafeData | undefined>();
+  const navigate = useNavigate();
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
       setFollowerIsOpen(true);
@@ -210,21 +213,19 @@ const UserMyPageBox = () => {
   }, []);
   useEffect(() => {
     axios
-      .get(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/my-page',
-        {
-          headers: {
-            // 'ngrok-skip-browser-warning': 'true',
-            Authorization: localStorage.getItem('access_token'),
-          },
-        }
-      )
+      .get(`${baseURL}/owners/my-page`, {
+        headers: {
+          // 'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
       .then((response) => {
         // Handle success.
         console.log('success');
         console.log(response.data);
         setOwnerInfo(response.data.payload.ownerResponse);
         setCafeInfo(response.data.payload.cafes[0]);
+        console.log(cafeInfo?.cafeId);
       })
       .catch((error) => {
         // Handle error.
@@ -266,10 +267,22 @@ const UserMyPageBox = () => {
       </S.EditButtonBox>
       <S.BottomBox>
         <S.SandButton>내 카페 보기</S.SandButton>
-        <S.SandButton>내 카페 등록하기</S.SandButton>
-        <S.SandButton>내 카페 수정하기</S.SandButton>
-        <S.SandButton>카페 메뉴 등록하기</S.SandButton>
-        <S.SandButton>카페 메뉴 수정하기</S.SandButton>
+        <S.SandButton onClick={() => navigate('/addcafes')}>
+          내 카페 등록하기
+        </S.SandButton>
+        <S.SandButton
+          onClick={() => navigate(`/cafe/edit/information/${cafeInfo?.cafeId}`)}
+        >
+          내 카페 수정하기
+        </S.SandButton>
+        <S.SandButton onClick={() => navigate(`/addmenus/${cafeInfo?.cafeId}`)}>
+          카페 메뉴 등록하기
+        </S.SandButton>
+        <S.SandButton
+          onClick={() => navigate(`/cafe/edit/menu/${cafeInfo?.cafeId}`)}
+        >
+          카페 메뉴 수정하기
+        </S.SandButton>
       </S.BottomBox>
     </S.Container>
   );

@@ -5,7 +5,7 @@ import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
 import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
 import { MdDriveFileRenameOutline } from 'react-icons/md';
-
+import { baseURL } from '../../common/baseURL';
 export type FormValues = {
   menu: {
     menuId?: number;
@@ -32,7 +32,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
     const parameterMenuId = updatedMenu.menuId;
     try {
       const response = await axios.patch(
-        `http://localhost:3001/menus/${parameterMenuId}`,
+        `${baseURL}/menus/${parameterMenuId}`,
         updatedMenu
       );
       console.log(menuId);
@@ -43,9 +43,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
   };
   const onDeleteMenu = async (menuId: number) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/menus/${menuId}`
-      );
+      const response = await axios.delete(`${baseURL}/menus/${menuId}`);
       console.log(response.data);
     } catch (error) {
       console.error(error);

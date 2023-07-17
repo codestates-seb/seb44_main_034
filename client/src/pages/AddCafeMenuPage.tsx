@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CafeMenuForm from '../components/cafe/CafeMenuForm';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
 import Button from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
-const url = window.location.href;
+import { baseURL } from '../common/baseURL';
+
 export type FormData = {
   signature: {
     name: string;
@@ -46,6 +47,7 @@ const defaultValues = {
 };
 const AddCafeMenuPage = () => {
   //methods에 useForm 리턴값을 넣어줌
+  const { id } = useParams();
   const navigate = useNavigate();
   const methods = useForm<FormData>({
     defaultValues,
@@ -68,8 +70,8 @@ const AddCafeMenuPage = () => {
 
     console.log(mergedArray);
     try {
-      const response = await axios.post(url, mergedArray);
-      console.log(url);
+      const response = await axios.post(`${baseURL}/menus/${id}`, mergedArray);
+
       console.log(response.data);
     } catch (error) {
       console.error(error);

@@ -17,13 +17,15 @@ export type CafeType = {
   menu?: MenuType[];
 };
 export type cafeType = {
-  id: number;
-  ownerId: number;
+  id?: number;
+  ownerId?: number;
   name: string;
   address: string;
   contact: string;
+  latitude?: number;
+  longitude?: number;
   notice?: string;
-  cafeImg: File | string;
+  cafeImg?: File | string;
   rating: number;
   openTime: string;
   closeTime: string;

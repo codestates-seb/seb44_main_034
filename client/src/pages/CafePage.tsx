@@ -17,10 +17,10 @@ const CafePage = () => {
     const fetchCafeData = async () => {
       //지금은 목업으로 해서 data[0]으로 했지만 추후 수정
       try {
-        const response = await axios.get('http://localhost:3000/cafes'); // 서버 API 엔드포인트에 맞게 수정
-        // const response = await axios.get(`${baseURL}/cafes/${id}`); 오너마이페이지에서 id받아올것
-        const data = response.data[0];
-
+        // const response = await axios.get('http://localhost:3000/cafes'); // 서버 API 엔드포인트에 맞게 수정
+        const response = await axios.get(`${baseURL}/cafes/${id}`);
+        const data = response.data.payload;
+        console.log(data);
         setCafeDetail(data.cafeDetail);
         setMenus(data.menus);
         console.log(data.menus);
