@@ -10,8 +10,4 @@ import java.util.List;
 public interface CafeRepositoryCustom {
     CafeDetailResponse getCafe(Long cafeId, Long loginId);
     List<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
-    List<CafeResponse> findCafesByFilterConditionOrderByCreatedAt(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
-    List<CafeResponse> findCafesByFilterConditionOrderByCountBookmark(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
-    List<CafeResponse> findCafesByFilterConditionOrderByRating(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
-    List<CafeResponse> findCafesByFilterConditionOrderByCountPost(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
 }

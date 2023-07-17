@@ -83,25 +83,13 @@ public class CafeController {
         return new ApplicationResponse<>();
     }
 
-    // 카페 리스트 조회 (정렬 X)
+    // 카페 리스트 조회
     @GetMapping
     @ResponseStatus(OK)
     public ApplicationResponse<List<CafeResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
                                                             PageCafeRequest pageCafeRequest) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         List<CafeResponse> response = cafeService.searchCafesByFilterCondition(loginId, searchCafeFilterCondition, pageCafeRequest.of());
-
-        return new ApplicationResponse<>(response);
-    }
-
-    // 카페 리스트 조회 (정렬 O)
-    @GetMapping("/orders")
-    @ResponseStatus(OK)
-    public ApplicationResponse<List<CafeResponse>> getCafesWithOrder(SearchCafeFilterCondition searchCafeFilterCondition,
-                                                                     PageCafeRequest pageCafeRequest,
-                                                                     String order) {
-        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        List<CafeResponse> response = cafeService.searchCafesByFilterConditionAndOrder(loginId, searchCafeFilterCondition, pageCafeRequest.of(), order);
 
         return new ApplicationResponse<>(response);
     }

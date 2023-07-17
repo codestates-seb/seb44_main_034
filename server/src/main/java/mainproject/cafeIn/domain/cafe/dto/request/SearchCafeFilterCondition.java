@@ -21,13 +21,16 @@ public class SearchCafeFilterCondition {
 
     private Boolean hasDessert;
 
+    private String sortType;
+
     @Builder
-    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert) {
+    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert, String sortType) {
         this.shortAddress = shortAddress;
         this.isOpenAllTime = isOpenAllTime;
         this.isChargingAvailable = isChargingAvailable;
         this.hasParking = hasParking;
         this.isPetFriendly = isPetFriendly;
         this.hasDessert = hasDessert;
+        this.sortType = sortType;
     }
 }
