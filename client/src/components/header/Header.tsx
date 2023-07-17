@@ -35,11 +35,14 @@ const S = {
 };
 
 const Header = () => {
+  const reloadHandler = () => {
+    window.location.reload();
+  };
   return (
     <header>
       <S.Container>
         <div>
-          <Link to='/'>
+          <Link to='/' onClick={reloadHandler}>
             <S.LogoBox>
               <img src={Logo} />
             </S.LogoBox>

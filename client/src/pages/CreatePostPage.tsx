@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-<<<<<<< HEAD
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-=======
->>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
 import { PostItemAtom } from '../recoil/postState';
@@ -95,7 +92,6 @@ const S = {
 };
 
 const CreatePostPage = () => {
-<<<<<<< HEAD
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
   const resetPostItem = useResetRecoilState(PostItemAtom);
@@ -111,22 +107,23 @@ const CreatePostPage = () => {
   //   }
   // )
 
-//api
+  //api
 
-  const createPost = (post:PostData) => axios.post(`${baseURL}/posts/${post.cafeId}`, post,
-   {headers: {Authorization:localStorage.getItem('access_token')}});
+  const createPost = (post: PostData) =>
+    axios.post(`${baseURL}/posts/${post.cafeId}`, post, {
+      headers: { Authorization: localStorage.getItem('access_token') },
+    });
 
   const createPostMutation = useMutation({
     mutationFn: createPost,
-    onSuccess: (data, context)=>{
+    onSuccess: (data, context) => {
       console.log(context);
       console.log(data);
       resetPostItem();
-    }
+    },
+  });
 
-  })
-
-// in the component
+  // in the component
 
   // const {data, isLoading, mutate, mutateAsync } = useMutation(mutationFn, options);
 
@@ -139,7 +136,7 @@ const CreatePostPage = () => {
   // const { mutate } = saveImageMutation;
 
   // const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
-  const {cafeName} =postData;
+  const { cafeName } = postData;
   // const postDataToSand:PostDataProps = {
   //   cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
   // }
@@ -151,31 +148,35 @@ const CreatePostPage = () => {
     // setPostData(postData);
     // console.log(postData);
     createPostMutation.mutate(postData);
-  }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // const fileList = event.target.files;
     // if (fileList) {
-      // 파일 처리 로직
-      // const formData = new FormData();
-      // console.log(fileList);
-      // mutate(formData, {
-      //   onSuccess: (data) => {
-      //     console.log(data);
-      //   }
-      // })
+    // 파일 처리 로직
+    // const formData = new FormData();
+    // console.log(fileList);
+    // mutate(formData, {
+    //   onSuccess: (data) => {
+    //     console.log(data);
+    //   }
+    // })
     // }
   };
 
-  const handleContent = (contentValue:string) => {
+  const handleContent = (contentValue: string) => {
     // let contentValue = e.target.value;
-    console.log(typeof(contentValue));
-    setPostData((current)=>({...current, content:contentValue})) //리코일: PostItemAtom에 변경된 내용 담기
-  }
+    console.log(typeof contentValue);
+    setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
+  };
 
   return (
     <S.Container>
-      <form onSubmit={()=>{submitPost}}>
+      <form
+        onSubmit={() => {
+          submitPost;
+        }}
+      >
         <div>
           <PostHead cafeName={cafeName} />
           <PostMood />
@@ -198,15 +199,17 @@ const CreatePostPage = () => {
                 // }
                 const rateValue = e?.target.value;
                 if (Number(rateValue) !== parseInt(rateValue)) {
-                  alert('1 이상 5 이하의 정수만 입력해주세요.')
+                  alert('1 이상 5 이하의 정수만 입력해주세요.');
                 }
                 if (parseInt(rateValue) > 5 || parseInt(rateValue) < 1) {
                   alert('1 이상 5 이하의 숫자를 입력해주세요.');
                 }
-                if (parseInt(rateValue)>=1 && parseInt(rateValue)<=5) {
-                  setPostData((current)=>({...current, starRating:parseInt(rateValue)}));
+                if (parseInt(rateValue) >= 1 && parseInt(rateValue) <= 5) {
+                  setPostData((current) => ({
+                    ...current,
+                    starRating: parseInt(rateValue),
+                  }));
                 }
-
               }}
             />
             {/*<CiCoffeeBean size={FONT_SIZE_1.big_5} color={COLOR_1.dark_brown}/> */}
@@ -221,7 +224,15 @@ const CreatePostPage = () => {
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <SunEditor height='300px' onChange={handleContent} />
           <S.BtnWrap>
-            <ConfirmBtn type='button' disabled={disabled} onClick={(e:any)=>{submitPost(e)}} >출간하기</ConfirmBtn>
+            <ConfirmBtn
+              type='button'
+              disabled={disabled}
+              onClick={(e: any) => {
+                submitPost(e);
+              }}
+            >
+              출간하기
+            </ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(
@@ -236,9 +247,7 @@ const CreatePostPage = () => {
       </form>
     </S.Container>
   );
-=======
   return <S.Container></S.Container>;
->>>>>>> e6d157f0d2b2a330c9e50cf9b5ad08b540174c2d
 };
 
 export default CreatePostPage;
