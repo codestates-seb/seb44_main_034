@@ -40,6 +40,7 @@ public class ReplyService {
     @Transactional
     public void updateReply(Long loginId, Long replyId, CommentRequest commentRequest) {
         verifyMember(loginId);
+        verifyReply(replyId);
         Comment reply = commentRepository.findById(replyId).get();
         reply.updateComment(commentRequest.getContent());
     }
@@ -48,6 +49,7 @@ public class ReplyService {
     @Transactional
     public void deleteReply(Long loginId, Long replyId) {
         verifyMember(loginId);
+        verifyReply(replyId);
         Comment reply = commentRepository.findById(replyId).get();
         commentRepository.delete(reply);
     }
@@ -58,6 +60,14 @@ public class ReplyService {
 
         if(!optionalMember.isPresent()) {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
+    public void verifyReply(Long replyId) {
+        Optional<Comment> optionalReply = commentRepository.findById(replyId);
+
+        if(!optionalReply.isPresent()) {
+            throw new CustomException(ErrorCode.COMMENT_NOT_FOUND);
         }
     }
 

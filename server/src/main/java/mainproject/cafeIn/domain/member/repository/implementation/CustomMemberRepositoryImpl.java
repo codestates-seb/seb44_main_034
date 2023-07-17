@@ -129,10 +129,10 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     }
 
     @Override
-    public Slice<MyPagePostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable) {
+    public Slice<MyBookMarkPostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable) {
 
-        List<MyPagePostList> postList = queryFactory
-                .select(new QMyPagePostList(post.postId, post.title, post.member.displayName, post.image, postBookmark.postBookmarkId))
+        List<MyBookMarkPostList> postList = queryFactory
+                .select(new QMyBookMarkPostList(post.postId, post.title, post.member.displayName, post.image, postBookmark.postBookmarkId))
                 .from(member)
                 .innerJoin(member.postBookmarks, postBookmark)
                 .innerJoin(postBookmark.post, post)
