@@ -39,9 +39,9 @@ public class CafeController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
-                                                @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
+                                                @RequestPart(value = "cafeImage", required = false) MultipartFile image) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        Long cafeId = cafeService.createCafe(loginId, request, multipartFile);
+        Long cafeId = cafeService.createCafe(loginId, request, image);
 
         return new ApplicationResponse<>(cafeId);
     }
@@ -51,9 +51,9 @@ public class CafeController {
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
-                                          @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
+                                          @RequestPart(value = "cafeImage", required = false) MultipartFile image) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        cafeService.updateCafe(loginId, cafeId, request, multipartFile);
+        cafeService.updateCafe(loginId, cafeId, request, image);
 
         return new ApplicationResponse<>();
     }

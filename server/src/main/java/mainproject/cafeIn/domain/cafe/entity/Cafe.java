@@ -1,9 +1,6 @@
 package mainproject.cafeIn.domain.cafe.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.post.entity.Post;
@@ -52,6 +49,7 @@ public class Cafe extends BaseEntity {
     @Column(name = "notice")
     private String notice;
 
+    @Setter
     @Column(name = "cafe_image")
     private String image;
 
