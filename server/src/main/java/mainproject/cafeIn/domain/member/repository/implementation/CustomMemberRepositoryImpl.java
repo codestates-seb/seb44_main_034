@@ -42,7 +42,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .fetch();
     }
 
-    //내가 팔로우하고 있는 사람들 수
+    //내가 팔로우하고 있는 사람수
     @Override
     public Long countByFollowers(Long id) {
 
@@ -58,7 +58,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .count();
     }
 
-    //나를 팔로우 하는 사람들 수
+    //나를 팔로우 하는 사람수
     @Override
     public Long countByFollowings(Long id) {
 
@@ -132,7 +132,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     public Slice<MyPagePostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable) {
 
         List<MyPagePostList> postList = queryFactory
-                .select(new QMyPagePostList(post.postId, post.title, post.member.displayName, post.image))
+                .select(new QMyPagePostList(post.postId, post.title, post.member.displayName, post.image, postBookmark.postBookmarkId))
                 .from(member)
                 .innerJoin(member.postBookmarks, postBookmark)
                 .innerJoin(postBookmark.post, post)
@@ -149,7 +149,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 
         List<MyBookMarkCafeList> cafeList = queryFactory
-                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating))
+                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating, cafeBookmark.id))
                 .from(member)
                 .innerJoin(member.cafeBookmarks, cafeBookmark)
                 .innerJoin(cafeBookmark.cafe, cafe)
