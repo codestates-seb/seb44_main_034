@@ -43,6 +43,7 @@ public class CommentService {
     @Transactional
     public void updateComment(Long loginId, Long commentId, CommentRequest commentRequest) {
         verifyMember(loginId);
+        verifyComment(commentId);
         Comment comment = commentRepository.findById(commentId).get();
         comment.updateComment(commentRequest.getContent());
     }
@@ -50,6 +51,7 @@ public class CommentService {
     // 댓글 삭제
     @Transactional
     public void deleteComment(Long loginId, Long commentId) {
+        verifyComment(commentId);
         verifyMember(loginId);
         Comment comment = commentRepository.findById(commentId).get();
         commentRepository.delete(comment);
@@ -63,6 +65,15 @@ public class CommentService {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
     }
+
+    public void verifyComment(Long commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+
+        if(!optionalComment.isPresent()) {
+            throw new CustomException(ErrorCode.COMMENT_NOT_FOUND);
+        }
+    }
+
 
     public List<CommentResponse> findComments(Long postId) {
         List<CommentResponse> commentList = commentRepository.findAllByPostPostId(postId)
