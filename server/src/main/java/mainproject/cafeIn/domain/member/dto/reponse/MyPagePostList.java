@@ -12,7 +12,7 @@ public class MyPagePostList {
     private String image;
     private String title;
     private String author;
-    private long bookMarkId;
+    private long postBookMarkId;
 
     @QueryProjection
     public MyPagePostList(long postId, String image, String title, String author) {
@@ -23,11 +23,11 @@ public class MyPagePostList {
     }
 
     @QueryProjection
-    public MyPagePostList(long postId, String image, String title, String author, long bookMarkId) {
+    public MyPagePostList(long postId, String image, String title, String author, long postBookMarkId) {
         this.postId = postId;
         this.image = image;
         this.title = title;
         this.author = author;
-        this.bookMarkId = bookMarkId;
+        this.postBookMarkId = postBookMarkId;
     }
 }

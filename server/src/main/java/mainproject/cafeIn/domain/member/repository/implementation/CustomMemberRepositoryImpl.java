@@ -42,7 +42,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .fetch();
     }
 
-    //내가 팔로우하고 있는 사람들 수
+    //내가 팔로우하고 있는 사람수
     @Override
     public Long countByFollowers(Long id) {
 
@@ -58,7 +58,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .count();
     }
 
-    //나를 팔로우 하는 사람들 수
+    //나를 팔로우 하는 사람수
     @Override
     public Long countByFollowings(Long id) {
 
