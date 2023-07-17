@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ConfirmBtn, CancelButton } from '../../common/button/button';
+import Button from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
-const Base_URL =
-  'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api';
+import { baseURL } from '../../common/baseURL';
 const facilityName = [
   '24시간 운영여부',
   '콘센트 유무',
@@ -18,14 +17,12 @@ const CafeInfo = () => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
   const [CafeData, setCafeData] = useState<cafeType>({
-    id: 0,
-    ownerId: 0,
     name: '',
     address: '',
     contact: '',
+    latitude: 1234.0,
+    longitude: 1234.0,
     notice: '',
-    cafeImg: '',
-    rating: 0,
     openTime: '',
     closeTime: '',
     isOpenAllTime: false,
@@ -34,14 +31,14 @@ const CafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setImageFile(selectedFile);
-      console.log(imageFile);
-    }
+    // const selectedFile = event.target.files?.[0];
+    // if (selectedFile) {
+    //   setImageFile(selectedFile);
+    //   console.log(imageFile);
+    // }
   };
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
@@ -80,6 +77,10 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
+    const data = {
+      dto: CafeData,
+    };
+
     // if (imageFile) {
     //   console.log(imageFile);
     //   const formData = new FormData();
@@ -98,16 +99,19 @@ const CafeInfo = () => {
       //     cafeImg: responseImg.data.imageUrl,
       //   };
 
-      const response = await axios.post(`${Base_URL}/cafes`, CafeData, {
+      const response = await axios.post(`${baseURL}/cafes`, data, {
         headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           Authorization: localStorage.getItem('access_token'),
         },
       });
+      // const response = await axios.post('http://localhost:3000/add', data);
       // console.log(response.data.imageUrl);
       console.log(response.data);
       const cafeId = response.data.id;
       alert('카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다');
-      navigate(`${Base_URL}/menus/${cafeId}`);
+      navigate(`/addmenus/${cafeId}`);
       // } else {
       //   throw new Error('Image upload failed');
       // }
@@ -243,14 +247,14 @@ const CafeInfo = () => {
         </S.MainDiv>
         <S.ButtonDiv>
           {/* <AddImage onClick={handleButtonClick} /> */}
-          <ConfirmBtn type='submit'>등록</ConfirmBtn>
-          <CancelButton
+          <Button type='submit' text='등록' theme='Confirm' />
+          <Button
+            text='나가기'
             onClick={() => {
-              navigate('/');
+              navigate('/ownermy/');
             }}
-          >
-            나가기
-          </CancelButton>
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </form>
     </>

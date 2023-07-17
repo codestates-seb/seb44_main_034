@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ConfirmBtn, CancelButton } from '../../common/button/button';
+import Button from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
@@ -19,13 +19,13 @@ const EditCafeInfo = () => {
   const navigate = useNavigate();
   const { cafeId } = useParams();
   const [editData, setEditData] = useState<cafeType>({
-    id: 0,
-    ownerId: 0,
     name: '',
     address: '',
     contact: '',
     notice: '',
     cafeImg: '',
+    latitude: 1234,
+    longitude: 1234,
     rating: 0,
     openTime: '',
     closeTime: '',
@@ -54,13 +54,12 @@ const EditCafeInfo = () => {
             },
           }
         );
-        setEditData(response.data);
+        setEditData(response.data.payload);
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-    console.log(editData);
   }, []);
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
@@ -99,12 +98,16 @@ const EditCafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    if (imageFile) {
-      console.log(imageFile);
-      const formData = new FormData();
-      console.log(formData);
-      formData.append('image', imageFile);
-    }
+    const data = {
+      dto: editData,
+    };
+    console.log(data);
+    // if (imageFile) {
+    //   console.log(imageFile);
+    //   const formData = new FormData();
+    //   console.log(formData);
+    //   formData.append('image', imageFile);
+    // }
 
     try {
       //   const responseImg = await axios.post(
@@ -118,14 +121,11 @@ const EditCafeInfo = () => {
       //       cafeImg: responseImg.data.imageUrl,
       //     };
 
-      const response = await axios.patch(
-        `${Base_URL}/cafes/${cafeId}`,
-        editData
-      );
+      const response = await axios.patch(`${Base_URL}/cafes/${cafeId}`, data);
       //   console.log(response.data.imageUrl);
       console.log(response.data);
       alert('카페 수정이 완료 되었습니다. 해당 카페 페이지로 이동합니다');
-      //   navigate(`/menus/${cafeId}`);
+      navigate(`/cafes/${cafeId}`);
       //   } else {
       //     throw new Error('Image upload failed');
       //   }
@@ -259,14 +259,14 @@ const EditCafeInfo = () => {
         </S.MainDiv>
         <S.ButtonDiv>
           {/* <AddImage onClick={handleButtonClick} /> */}
-          <ConfirmBtn type='submit'>수정</ConfirmBtn>
-          <CancelButton
+          <Button text='수정' type='submit' theme='Confirm' />
+          <Button
+            text='나가기'
             onClick={() => {
-              navigate('/');
+              navigate('/ownermy');
             }}
-          >
-            나가기
-          </CancelButton>
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </form>
     </>
