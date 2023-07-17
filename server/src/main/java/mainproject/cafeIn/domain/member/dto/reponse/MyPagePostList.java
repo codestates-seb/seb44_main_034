@@ -9,16 +9,16 @@ import lombok.Getter;
 public class MyPagePostList {
 
     private long postId;
-    private String image;
     private String title;
+    private String image;
     private String author;
 
 
     @QueryProjection
-    public MyPagePostList(long postId, String image, String title, String author) {
+    public MyPagePostList(long postId, String title, String image, String author) {
         this.postId = postId;
-        this.image = image;
-        this.title = title;
+        this.image = title;
+        this.title = image;
         this.author = author;
     }
 
