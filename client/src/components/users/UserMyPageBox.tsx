@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import { data as dataAll } from '../../mockData/cafePost.json';
-import FollowerModal from '../followermodal/FollowerModal';
-import FollowingModal from '../followingmodal/FollowingModal';
+import FollowerModal from '../modal/FollowerModal';
+import FollowingModal from '../modal/FollowingModal';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 // import { useNavigate } from 'react-router-dom';
 
 const S = {
@@ -113,6 +113,7 @@ const S = {
     width: 20vw;
     margin-top: 5px;
     text-align: center;
+    color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
       width: 60px;
     }
@@ -157,7 +158,7 @@ const S = {
     text-align: center;
     width: 60vw;
     margin-top: 5px;
-    color: ${COLOR_1.brown};
+    color: black;
     @media screen and (min-width: 786px) {
       width: 270px;
     }
@@ -255,15 +256,12 @@ const UserMyPageBox = () => {
   // const replace = useNavigate();
   useEffect(() => {
     axios
-      .get(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/members/my-page',
-        {
-          headers: {
-            'ngrok-skip-browser-warning': 'true',
-            Authorization: localStorage.getItem('access_token'),
-          },
-        }
-      )
+      .get(`${baseURL}/members/my-page`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
       .then((response) => {
         // Handle success.
         console.log('success');
@@ -296,17 +294,17 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox ref={dropdownRef}>
-            <S.Informaiton>{userInfo ? userInfo.email : ''}</S.Informaiton>
+            <S.Informaiton>{userInfo ? userInfo.email : '-'}</S.Informaiton>
             <S.Informaiton>
-              {userInfo ? userInfo.displayName : ''}
+              {userInfo ? userInfo.displayName : '-'}
             </S.Informaiton>
-            <S.Informaiton>{userInfo ? userInfo.grade : ''}</S.Informaiton>
+            <S.Informaiton>{userInfo ? userInfo.grade : '-'}</S.Informaiton>
             <S.FollowerInformaiton onClick={openFollowerModal}>
-              {userInfo ? userInfo.countFollower : ''}
+              {userInfo ? userInfo.countFollower : '0'}
             </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
             <S.FollowingInformaiton onClick={openFollowingModal}>
-              {userInfo ? userInfo.countFollower : ''}
+              {userInfo ? userInfo.countFollower : '0'}
             </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>

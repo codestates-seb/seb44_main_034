@@ -1,0 +1,69 @@
+{
+  "message": "성공적으로 요청을 불러왔습니다.",
+  "payload": {
+    "data": [
+      {
+        "id": 1,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 2,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 3,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 4,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 5,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 6,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 7,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 8,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 9,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 10,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 11,
+        "displayName": "edithayan",
+        "image": null
+      },
+      {
+        "id": 12,
+        "displayName": "edithayan",
+        "image": null
+      }
+    ],
+    "hasNext": false,
+    "pageSize": 2
+  }
+}

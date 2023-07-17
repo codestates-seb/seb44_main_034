@@ -1,4 +1,4 @@
-import UserSignupBox from '../components/usersignupbox/UserSignupBox';
+import UserSignupBox from '../components/users/UserSignupBox';
 
 const UserSignup = () => {
   return (

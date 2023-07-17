@@ -10,9 +10,9 @@ import { PostComment } from "../../types/type";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
-// type CommentData = {
-//   data : PostComment;
-// }
+type CommentData = {
+  comments : PostComment;
+}
 
 type InputData = {
   content: string;
@@ -91,7 +91,7 @@ const S = {
   `
 }
 
-const Comments = (cafeId:any) => {
+const Comments = ({comments}) => {
   const [commentsData, setCommentsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [commentsPerPage, setCommentsPerPage] = useState(10);

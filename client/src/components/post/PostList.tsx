@@ -5,7 +5,7 @@ import { PostCafeAtom } from '../../recoil/postState';
 import { CafePostList } from '../../types/type';
 import { PostCafeType } from '../../types/type';
 import PostThumbnail from '../../common/post/PostThumbnail';
-import PlusButton from '../../common/post/plusButton';
+import PlusButton from '../../common/post/PlusButton';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 

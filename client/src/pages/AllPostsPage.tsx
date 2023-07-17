@@ -53,7 +53,7 @@ const S = {
 const AllPostsPage = () => {
   // const data = dataAll.post;
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const {
     isLoading,
     isError,
@@ -61,19 +61,19 @@ const AllPostsPage = () => {
     data,
     // isFetching,
     isPreviousData,
-  } = useQuery(['getAllposts', page], () =>
-    getAllPosts(page), {
-      keepPreviousData: true
-    }
-  )
+  } = useQuery(['getAllposts', page], () => getAllPosts(page), {
+    keepPreviousData: true,
+  });
 
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>;
 
   if (isError) return <p>{error as string}</p>
 
   const lastPage = () => setPage(data.totalpages);
   const firstPage = () => setPage(1);
-  const pagesArray = Array(data.totalpages).fill(null).map((_, i) => i+1);
+  const pagesArray = Array(data.totalpages)
+    .fill(null)
+    .map((_, i) => i + 1);
 
   return (
     <>

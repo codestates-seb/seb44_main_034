@@ -6,6 +6,7 @@ import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   AllContainer: styled.div`
@@ -191,14 +192,16 @@ const EditOwnerMyPageBox = () => {
     const { displayName, password } = data;
     axios
       .patch(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/update',
+        `${baseURL}/owners/update`,
+        {
+          displayName: displayName,
+          password: password,
+        },
         {
           headers: {
             'ngrok-skip-browser-warning': 'true',
             Authorization: localStorage.getItem('access_token'),
           },
-          displayName: displayName,
-          password: password,
         }
       )
       .then((response) => {
@@ -222,7 +225,7 @@ const EditOwnerMyPageBox = () => {
             <S.InputBox
               id='displayName'
               type='text'
-              placeholder='닉네임을 입력하세요'
+              placeholder='변경할 닉네임을 입력하세요'
               {...register('displayName', {
                 required: '닉네임은 필수 입력입니다',
                 minLength: {
