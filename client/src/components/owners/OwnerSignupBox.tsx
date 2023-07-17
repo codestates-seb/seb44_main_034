@@ -1,9 +1,12 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 import axios from 'axios';
 import GoogleLoginButton from '../googleoauth/GoogleOauth';
 import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   Container: styled.div`
@@ -55,8 +58,8 @@ const S = {
     border: none;
     background-color: ${COLOR_1.green};
     color: black;
-    font-size: ${FONT_SIZE_1.normal_3};
-    font-weight: ${FONT_WEIGHT.weight_700};
+    font-size: ${FONT_SIZE_1.big_1};
+    font-weight: ${FONT_WEIGHT.weight_500};
     margin-top: 10px;
     margin-bottom: 10px;
     border: solid 1px #cfcfcf;
@@ -100,6 +103,8 @@ interface FormValue {
 }
 
 const OwnerSignupBox = () => {
+  const [posterror, setPostError] = useState<string>('');
+  const replace = useNavigate();
   const {
     register,
     handleSubmit,
@@ -109,25 +114,23 @@ const OwnerSignupBox = () => {
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { email, displayName, password } = data;
-
+    console.log(data);
     axios
-      .post(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/members/sign-up',
-        {
-          email: email,
-          displayName: displayName,
-          password: password,
-        }
-      )
+      .post(`${baseURL}/owners/sign-up`, {
+        email: email,
+        displayName: displayName,
+        password: password,
+      })
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
         alert('가입이 완료되었습니디.');
+        replace('/login');
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        setPostError(error.response.data.message);
       });
   };
   return (
@@ -222,8 +225,9 @@ const OwnerSignupBox = () => {
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
+          <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>
-        <S.SubmitButton type='submit'>개인 회원가입</S.SubmitButton>
+        <S.SubmitButton type='submit'>사업자 회원가입</S.SubmitButton>
       </form>
       <GoogleLoginButton />
     </S.Container>

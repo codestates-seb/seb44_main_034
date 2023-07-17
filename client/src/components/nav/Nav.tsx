@@ -1,18 +1,20 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR_1 } from '../../common/common';
-import { BiHome } from 'react-icons/bi';
+import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
+import { GoHome } from 'react-icons/go';
+import { GoHomeFill } from 'react-icons/go';
 import { BsFilePost } from 'react-icons/bs';
-import { IoCafeOutline } from 'react-icons/io5';
-import { FiUser } from 'react-icons/fi';
-import ProfileModal from '../profilemodal/ProfileModal';
+import { BsFilePostFill } from 'react-icons/bs';
+import { BiUser } from 'react-icons/Bi';
+import { BiSolidUser } from 'react-icons/Bi';
+import ProfileModal from '../modal/ProfileModal';
 
 import styled from 'styled-components';
 
 const S = {
   BackContainer: styled.div`
     width: 100%;
-    height: 80px;
+    height: 70px;
     margin: 0;
     @media screen and (min-width: 769px) {
       width: 768px;
@@ -32,19 +34,19 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80px;
+    height: 70px;
     width: 100%;
     @media screen and (min-width: 769px) {
       width: 768px;
     }
   `,
-  NavBox: styled.div`
+  NavButton: styled.button`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 25vw;
-    height: 80px;
+    width: 33vw;
+    height: 70px;
     background-color: #f9f9f9;
     border: none;
     cursor: pointer;
@@ -56,36 +58,47 @@ const S = {
     }
   `,
   Iconbox: styled.div`
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     text-align: center;
+    color: black;
   `,
   IconTextBox: styled.div`
     height: 20px;
     width: 50px;
     text-align: center;
+    color: black;
+    font-size: ${FONT_SIZE_1.normal_1};
   `,
 };
 
 const Nav = () => {
   const replace = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedButton, setSelectedButton] = useState('home');
+
+  const handleButtonClick = (buttonName: string) => {
+    setSelectedButton(buttonName);
+  };
 
   const mainHandler = () => {
+    handleButtonClick('home');
     replace('/');
   };
   const postHandler = () => {
-    replace('/allpostspage');
+    handleButtonClick('post');
+    replace('/allposts');
   };
 
   const modalHandler = (): void => {
+    handleButtonClick('my');
     if (!isOpen) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
     }
   };
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -109,32 +122,38 @@ const Nav = () => {
       <S.BackContainer>
         <div>
           <S.Container>
-            <S.NavBox onClick={mainHandler}>
+            <S.NavButton onClick={mainHandler}>
               <S.Iconbox>
-                <BiHome size='40' />
+                {selectedButton === 'home' ? (
+                  <GoHomeFill size='30' />
+                ) : (
+                  <GoHome size='30' />
+                )}
               </S.Iconbox>
               <S.IconTextBox>홈</S.IconTextBox>
-            </S.NavBox>
-            <S.NavBox onClick={postHandler}>
+            </S.NavButton>
+            <S.NavButton onClick={postHandler}>
               <S.Iconbox>
-                <BsFilePost size='40' />
+                {selectedButton === 'post' ? (
+                  <BsFilePostFill size='30' />
+                ) : (
+                  <BsFilePost size='30' />
+                )}
               </S.Iconbox>
 
               <S.IconTextBox>포스트</S.IconTextBox>
-            </S.NavBox>
-            <S.NavBox>
+            </S.NavButton>
+            <S.NavButton onClick={modalHandler} ref={dropdownRef}>
               <S.Iconbox>
-                <IoCafeOutline size='40' />
+                {selectedButton === 'my' ? (
+                  <BiSolidUser size='30' />
+                ) : (
+                  <BiUser size='30' />
+                )}
               </S.Iconbox>
-              <S.IconTextBox>카페</S.IconTextBox>
-            </S.NavBox>
-            <S.NavBox onClick={modalHandler} ref={dropdownRef}>
-              <S.Iconbox>
-                <FiUser size='40' />
-              </S.Iconbox>
-              <S.IconTextBox>마이홈</S.IconTextBox>
+              <S.IconTextBox>마이</S.IconTextBox>
               {isOpen ? <ProfileModal /> : null}
-            </S.NavBox>
+            </S.NavButton>
           </S.Container>
         </div>
       </S.BackContainer>

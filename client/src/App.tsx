@@ -69,7 +69,7 @@ function App() {
             <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
-            <Route path='/allpostspage' element={<AllPostsPage />} />
+            <Route path='/allposts' element={<AllPostsPage />} />
           </Routes>
         </Container>
         <Nav />

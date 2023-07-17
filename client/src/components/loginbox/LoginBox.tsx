@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { LoginState } from '../../recoil/recoil';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   Container: styled.div`
@@ -103,6 +104,7 @@ interface FormValue {
 
 const LoginBox = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  const [posterror, setPostError] = useState<string>('');
   const replace = useNavigate();
   useEffect(() => {
     if (isLogin) {
@@ -118,13 +120,10 @@ const LoginBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { username, password } = data;
     axios
-      .post(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/users/log-in',
-        {
-          username: username,
-          password: password,
-        }
-      )
+      .post(`${baseURL}/users/log-in`, {
+        username: username,
+        password: password,
+      })
       .then((response) => {
         // Handle success.
         console.log('Login successful!');
@@ -157,7 +156,8 @@ const LoginBox = () => {
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log(error.response);
+        setPostError('이메일또는 비밀번호가 맞지않습니다.');
       });
   };
   return (
@@ -210,6 +210,7 @@ const LoginBox = () => {
           ) : (
             <S.InputInformation>{null}</S.InputInformation>
           )}
+          <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>
         <S.Submitbutton type='submit'>로그인</S.Submitbutton>
       </form>

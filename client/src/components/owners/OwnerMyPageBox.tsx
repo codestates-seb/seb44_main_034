@@ -2,10 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
-import CafeFollowerModal from '../cafefollowermodal/CafeFollowerModal';
+import CafeFollowerModal from '../modal/CafeFollowerModal';
 import coffeeshop from '../../assets/coffeeshop.svg';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { baseURL } from '../../common/baseURL';
 
 const S = {
   Container: styled.div`
@@ -114,6 +115,7 @@ const S = {
     width: 30vw;
     margin-top: 5px;
     text-align: center;
+    color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
       width: 60px;
     }
@@ -145,7 +147,7 @@ const S = {
     text-align: center;
     width: 60vw;
     margin-top: 5px;
-    color: ${COLOR_1.brown};
+    color: black;
     @media screen and (min-width: 786px) {
       width: 270px;
     }
@@ -210,15 +212,12 @@ const UserMyPageBox = () => {
   }, []);
   useEffect(() => {
     axios
-      .get(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/owners/my-page',
-        {
-          headers: {
-            // 'ngrok-skip-browser-warning': 'true',
-            Authorization: localStorage.getItem('access_token'),
-          },
-        }
-      )
+      .get(`${baseURL}/owners/my-page`, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      })
       .then((response) => {
         // Handle success.
         console.log('success');
