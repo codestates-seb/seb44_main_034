@@ -26,7 +26,7 @@ export type cafeType = {
   longitude?: number;
   notice?: string;
   cafeImg?: File | string;
-  rating: number;
+  rating?: number;
   openTime: string;
   closeTime: string;
   isOpenAllTime: boolean;
