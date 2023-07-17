@@ -1,7 +1,9 @@
 package mainproject.cafeIn.domain.member.dto.reponse;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Getter;
 
+@Getter
 public class MyBookMarkPostList {
 
     private long postId;
