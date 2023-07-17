@@ -70,23 +70,6 @@ public class CafeService {
         return cafeRepository.findCafesByFilterCondition(loginId, searchCafeFilterCondition, pageable);
     }
 
-    public List<CafeResponse> searchCafesByFilterConditionAndOrder(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable, String order) {
-
-        // TODO: 동적 정렬 구현
-        List<CafeResponse> result;
-        if (order.equals("countBookmark")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCountBookmark(loginId, searchCafeFilterCondition, pageable);
-        } else if (order.equals("rating")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByRating(loginId, searchCafeFilterCondition, pageable);
-        } else if (order.equals("countPost")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCountPost(loginId, searchCafeFilterCondition, pageable);
-        } else if (order.equals("createdAt")) {
-            result = cafeRepository.findCafesByFilterConditionOrderByCreatedAt(loginId, searchCafeFilterCondition, pageable);
-        } else throw new CustomException(REQUEST_VALIDATION_FAIL);
-
-        return result;
-    }
-
     public Cafe findCafeById(Long cafeId) {
 
         return cafeRepository.findById(cafeId)
