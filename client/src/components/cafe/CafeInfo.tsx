@@ -31,14 +31,14 @@ const CafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setImageFile(selectedFile);
-      console.log(imageFile);
-    }
+    // const selectedFile = event.target.files?.[0];
+    // if (selectedFile) {
+    //   setImageFile(selectedFile);
+    //   console.log(imageFile);
+    // }
   };
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
@@ -80,6 +80,7 @@ const CafeInfo = () => {
     const data = {
       dto: CafeData,
     };
+
     // if (imageFile) {
     //   console.log(imageFile);
     //   const formData = new FormData();
@@ -101,6 +102,7 @@ const CafeInfo = () => {
       const response = await axios.post(`${baseURL}/cafes`, data, {
         headers: {
           'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
           Authorization: localStorage.getItem('access_token'),
         },
       });
