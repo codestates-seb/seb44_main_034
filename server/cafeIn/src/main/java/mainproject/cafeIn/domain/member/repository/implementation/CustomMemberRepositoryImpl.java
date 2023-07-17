@@ -132,7 +132,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     public Slice<MyPagePostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable) {
 
         List<MyPagePostList> postList = queryFactory
-                .select(new QMyPagePostList(post.postId, post.title, post.member.displayName, post.image))
+                .select(new QMyPagePostList(post.postId, post.title, post.member.displayName, post.image, postBookmark.postBookmarkId))
                 .from(member)
                 .innerJoin(member.postBookmarks, postBookmark)
                 .innerJoin(postBookmark.post, post)
@@ -149,7 +149,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 
         List<MyBookMarkCafeList> cafeList = queryFactory
-                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating))
+                .select(new QMyBookMarkCafeList(cafe.id, cafe.name, cafe.image, cafe.address,cafe.rating, cafeBookmark.id))
                 .from(member)
                 .innerJoin(member.cafeBookmarks, cafeBookmark)
                 .innerJoin(cafeBookmark.cafe, cafe)
