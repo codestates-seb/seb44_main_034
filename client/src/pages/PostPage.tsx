@@ -8,6 +8,7 @@ import MoodTagPost from '../common/tags/MoodTagPost';
 // import { data } from '../mockData/post.json'
 // import { PostData } from '../types/type';
 import StarRating from '../components/starRating';
+import Comments from '../components/comments/Comments';
 
 const PostPage = () => {
   const postId=useParams();
@@ -17,6 +18,15 @@ const PostPage = () => {
     () => getPostDetailAPI.getPostDetail(postId.toString())
   );
 
+  //   const { data, isLoading, isError } = useQuery(
+  //   ['getPostDetail'],
+  //   () => getPostDetailAPI.getPostDetail()
+  // );
+
+  // const { data, isLoading, isError } = useQuery(['getPost'], () => {
+  //   return fetch('http://localhost:3001/post').then(res => res.json());
+  // });
+
   if (isLoading) {
     return <>Loading...</>;
   }
@@ -25,10 +35,14 @@ const PostPage = () => {
     return <>Error</>;;
   }
   
-  const postData= data.post[0];
-  const tagData= data.tag;
+  // const postData= data.post;
+  // const tagData= data.tag;
+
+  const postData= data[0];
+  const tagData=data[0].tag;
 
   return (
+    <>
     <S.Container>
       <div>
       <PostItemHead postData={postData}/>
@@ -52,7 +66,9 @@ const PostPage = () => {
         {postData.content}
       </S.ContentWrap>
       </div>
+      <Comments cafeId={postData.cafeId as number} />
     </S.Container>
+    </>
   )
 }
 

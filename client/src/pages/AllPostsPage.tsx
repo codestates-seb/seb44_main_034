@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 // import { data as dataAll } from '../mockData/cafePost.json';
-import PostThumbnail from '../common/posting/PostThumbnail';
+import PostThumbnail from '../common/post/PostThumbnail';
 import { CafePostList } from '../types/type';
 import { getAllPosts } from '../api/postApi';
 import PageButton from '../components/pageButton';
@@ -57,7 +57,7 @@ const AllPostsPage = () => {
   const {
     isLoading,
     isError,
-    // error,
+    error,
     data,
     // isFetching,
     isPreviousData,
@@ -69,7 +69,7 @@ const AllPostsPage = () => {
 
   if (isLoading) return <p>Loading...</p>
 
-  if (isError) return <p>Error</p>
+  if (isError) return <p>{error as string}</p>
 
   const lastPage = () => setPage(data.totalpages);
   const firstPage = () => setPage(1);
@@ -96,11 +96,11 @@ const AllPostsPage = () => {
       </ul>
       <nav>
       <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
-        {`<<`}
+        {`<`}
       </button>
       {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
       <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
-        {`>>`}
+        {`>`}
       </button>
     </nav>
     </S.Container>

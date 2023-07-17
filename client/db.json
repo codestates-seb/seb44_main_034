@@ -1,6 +1,8 @@
 {
   "cafes": [],
   "images": [],
-  "menus":[],
-  "cafepost": []
+  "menus": [],
+  "cafepost": [],
+  "post": [],
+  "comments": []
 }
