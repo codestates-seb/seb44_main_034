@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.member.repository;
 
 import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkCafeList;
+import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkPostList;
 import mainproject.cafeIn.domain.member.dto.reponse.MyPagePostList;
 import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
 import mainproject.cafeIn.domain.member.entity.Follow;
@@ -20,7 +21,7 @@ public interface CustomMemberRepository {
 
     Slice<MyPagePostList> findByPostList(Long id, Long cursorId, Pageable pageable);
 
-    Slice<MyPagePostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable);
+    Slice<MyBookMarkPostList> findByBookMarkPostList(Long id, Long cursorId, Pageable pageable);
 
     Slice<MyBookMarkCafeList> findByBookMarkCafeList(Long id, Long cursorId, Pageable pageable);
 
