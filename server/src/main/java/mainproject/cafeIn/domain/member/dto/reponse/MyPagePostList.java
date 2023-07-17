@@ -17,8 +17,8 @@ public class MyPagePostList {
     @QueryProjection
     public MyPagePostList(long postId, String title, String image, String author) {
         this.postId = postId;
-        this.image = title;
-        this.title = image;
+        this.title = title;
+        this.image = image;
         this.author = author;
     }
 
