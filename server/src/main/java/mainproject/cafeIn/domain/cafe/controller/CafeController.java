@@ -113,4 +113,24 @@ public class CafeController {
 
         return new ApplicationResponse<>(cafeDetail);
     }
+
+    @GetMapping("/search-cafe/{cafe-name}")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<CafeResponse>> findCafesByName(@PathVariable("cafe-name") String name,
+                                                                  PageCafeRequest pageCafeRequest) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> responses = cafeService.findCafesByName(loginId, name, pageCafeRequest.of());
+
+        return new ApplicationResponse<>(responses);
+    }
+
+    @GetMapping("/search-menu/{menu-name}")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<CafeResponse>> findCafesByMenu(@PathVariable("menu-name") String name,
+                                                                   PageCafeRequest pageCafeRequest) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> responses = cafeService.findCafesByMenu(loginId, name, pageCafeRequest.of());
+
+        return new ApplicationResponse<>(responses);
+    }
 }

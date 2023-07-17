@@ -18,7 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static mainproject.cafeIn.global.exception.ErrorCode.*;
+import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
+import static mainproject.cafeIn.global.exception.ErrorCode.PASSWORD_NOT_MATCH;
 
 @Service
 @RequiredArgsConstructor
@@ -68,6 +69,16 @@ public class CafeService {
     public List<CafeResponse> searchCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
 
         return cafeRepository.findCafesByFilterCondition(loginId, searchCafeFilterCondition, pageable);
+    }
+
+    public List<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
+
+        return cafeRepository.findCafesByName(loginId, name, pageable);
+    }
+
+    public List<CafeResponse> findCafesByMenu(Long loginId, String name, Pageable pageable) {
+
+        return cafeRepository.findCafesByMenu(loginId, name, pageable);
     }
 
     public Cafe findCafeById(Long cafeId) {

@@ -5,7 +5,6 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
@@ -14,15 +13,14 @@ import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeResponse;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepositoryCustom;
-import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
+import static mainproject.cafeIn.domain.menu.entity.QMenu.menu;
 import static mainproject.cafeIn.domain.owner.entity.QOwner.owner;
-import static mainproject.cafeIn.global.exception.ErrorCode.REQUEST_VALIDATION_FAIL;
 
 @RequiredArgsConstructor
 public class CafeRepositoryImpl implements CafeRepositoryCustom {
@@ -62,13 +60,6 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
 
     @Override
     public List<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
-        return getCafes(loginId, searchCafeFilterCondition)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-    }
-
-    private JPAQuery<CafeResponse> getCafes(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition) {
         return queryFactory
                 .select(new QCafeResponse(
                         cafe.id,
@@ -87,7 +78,61 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 ))
                 .from(cafe)
                 .where(allFilter(searchCafeFilterCondition))
-                .orderBy(orderType(searchCafeFilterCondition.getSortType()));
+                .orderBy(orderType(searchCafeFilterCondition.getSortType()))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public List<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
+        return queryFactory
+                .select(new QCafeResponse(
+                        cafe.id,
+                        cafe.name,
+                        cafe.address,
+                        cafe.rating,
+                        cafe.latitude,
+                        cafe.longitude,
+                        cafe.image,
+                        Expressions.asBoolean(queryFactory
+                                .selectFrom(cafeBookmark)
+                                .where(cafeBookmark.cafe.id.eq(cafe.id),
+                                        cafeBookmark.member.id.eq(loginId))
+                                .fetchFirst() != null),
+                        cafe.posts.size()
+                ))
+                .from(cafe)
+                .where(cafe.name.contains(name))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public List<CafeResponse> findCafesByMenu(Long loginId, String menuName, Pageable pageable) {
+        return queryFactory
+                .select(new QCafeResponse(
+                        cafe.id,
+                        cafe.name,
+                        cafe.address,
+                        cafe.rating,
+                        cafe.latitude,
+                        cafe.longitude,
+                        cafe.image,
+                        Expressions.asBoolean(queryFactory
+                                .selectFrom(cafeBookmark)
+                                .where(cafeBookmark.cafe.id.eq(cafe.id),
+                                        cafeBookmark.member.id.eq(loginId))
+                                .fetchFirst() != null),
+                        cafe.posts.size()
+                ))
+                .from(cafe)
+                .where(menu.name.eq(menuName))
+                .leftJoin(cafe.menus, menu)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
     }
 
     private BooleanBuilder allFilter(SearchCafeFilterCondition searchCafeFilterCondition) {
