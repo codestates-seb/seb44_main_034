@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "profile-image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.updateMember(patch,id);
@@ -71,7 +71,7 @@ public class MemberController {
 
     @GetMapping("/my-page/bookmarked-cafe")
     @ResponseStatus(OK)
-    public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "bookmarkid", required = false) Long cursorId,
+    public ApplicationResponse<SliceResponse<MyBookMarkCafeList>> myBookMarkCafe(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
         Long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -82,7 +82,7 @@ public class MemberController {
 
     @GetMapping("/my-page/bookmarked-post")
     @ResponseStatus(OK)
-    public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "bookmarkid", required = false) Long cursorId,
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
         Long id = JwtParseInterceptor.getAuthenticatedUserId();
@@ -93,7 +93,7 @@ public class MemberController {
 
     @GetMapping("/my-page/my-post")
     @ResponseStatus(OK)
-    public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "postid", required = false) Long cursorId,
+    public ApplicationResponse<SliceResponse<MyPagePostList>> myPost(@RequestParam(value = "id", required = false) Long cursorId,
                                       @PageableDefault(size = 3) Pageable pageable) {
 
         Long id = JwtParseInterceptor.getAuthenticatedUserId();
