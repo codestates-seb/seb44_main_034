@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
 import Button from '../common/button/button';
@@ -27,6 +27,7 @@ const convertedData: FormData = {
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
   const navigate = useNavigate();
+  const { cafeId } = useParams();
   const methods = useForm<FormData>({
     defaultValues,
     mode: 'onBlur',
@@ -37,7 +38,14 @@ const EditMenuCafe = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/menus/${cafeId}` // edit 추가해야함
+          `http://localhost:3001/menus/${cafeId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
+              Authorization: localStorage.getItem('access_token'),
+            },
+          } // edit 추가해야함
         );
         const fetchedData = response.data;
         fetchedData.forEach((item: any, index: number) => {
