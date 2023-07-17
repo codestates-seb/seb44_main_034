@@ -20,6 +20,7 @@ import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -39,7 +40,7 @@ public class CafeController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
-                                                @RequestPart(value = "cafeImage", required = false) MultipartFile image) {
+                                                @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = cafeService.createCafe(loginId, request, image);
 
@@ -51,7 +52,7 @@ public class CafeController {
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
-                                          @RequestPart(value = "cafeImage", required = false) MultipartFile image) {
+                                          @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         cafeService.updateCafe(loginId, cafeId, request, image);
 
