@@ -39,7 +39,7 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "profile-image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
         memberService.updateMember(patch,id);
@@ -82,11 +82,11 @@ public class MemberController {
 
     @GetMapping("/my-page/bookmarked-post")
     @ResponseStatus(OK)
-    public ApplicationResponse<SliceResponse<MyPagePostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
+    public ApplicationResponse<SliceResponse<MyBookMarkPostList>> myBookMarkPost(@RequestParam(value = "id", required = false) Long cursorId,
                                               @PageableDefault(size = 3) Pageable pageable) {
 
         Long id = JwtParseInterceptor.getAuthenticatedUserId();
-        SliceResponse<MyPagePostList> response = memberService.myBookMarkPost(id, cursorId, pageable);
+        SliceResponse<MyBookMarkPostList> response = memberService.myBookMarkPost(id, cursorId, pageable);
 
         return new ApplicationResponse<>(response);
     }

@@ -111,11 +111,11 @@ public class MemberService {
     }
 
     @Transactional
-    public SliceResponse<MyPagePostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
+    public SliceResponse<MyBookMarkPostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
 
         Member findMember = findById(id);
-        Slice<MyPagePostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
-        List<MyPagePostList> list = postList.getContent();
+        Slice<MyBookMarkPostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
+        List<MyBookMarkPostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
         int size = pageable.getPageSize();
 

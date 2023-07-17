@@ -38,6 +38,7 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
     private List<OwnerCafeResponse> getOwnerCafeResponse(long ownerId) {
         return queryFactory
                 .select(new QOwnerCafeResponse(
+                        cafe.id,
                         cafe.name,
                         cafeBookmark.count(), // TODO countBookmakred
                         cafe.image))
