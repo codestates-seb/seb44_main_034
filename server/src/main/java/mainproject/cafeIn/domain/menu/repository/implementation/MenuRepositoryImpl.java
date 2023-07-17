@@ -34,10 +34,10 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
     @Override
     public List<List<MenuResponse>> getMenus(Long cafeId) {
         List<List<MenuResponse>> menuList = new ArrayList<>();
+        menuList.add(getSignatures(cafeId));
         menuList.add(getCoffees(cafeId));
         menuList.add(getNonCoffees(cafeId));
         menuList.add(getDesserts(cafeId));
-        menuList.add(getSignatures(cafeId));
 
         return menuList;
     }
