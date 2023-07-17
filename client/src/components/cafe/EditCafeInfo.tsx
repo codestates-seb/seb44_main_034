@@ -121,7 +121,14 @@ const EditCafeInfo = () => {
       //       cafeImg: responseImg.data.imageUrl,
       //     };
 
-      const response = await axios.patch(`${Base_URL}/cafes/${cafeId}`, data);
+      const response = await axios.patch(`${Base_URL}/cafes/${cafeId}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      });
+
       //   console.log(response.data.imageUrl);
       console.log(response.data);
       alert('카페 수정이 완료 되었습니다. 해당 카페 페이지로 이동합니다');

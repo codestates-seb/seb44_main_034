@@ -70,7 +70,13 @@ const AddCafeMenuPage = () => {
 
     console.log(mergedArray);
     try {
-      const response = await axios.post(`${baseURL}/menus/${id}`, mergedArray);
+      const response = await axios.post(`${baseURL}/menus/${id}`, mergedArray, {
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('access_token'),
+        },
+      });
 
       console.log(response.data);
     } catch (error) {
