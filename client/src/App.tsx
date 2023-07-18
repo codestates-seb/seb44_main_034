@@ -8,6 +8,7 @@ import Nav from './components/nav/Nav';
 // import Footer from './components/footer/Footer';
 import Main from './pages/Main';
 import SignupSelect from './pages/SignupSelect';
+import SignupAgreement from './pages/SignupAgreement';
 import UserSignup from './pages/UserSignup';
 import OwnerSignup from './pages/OwnerSignup';
 import OwnerMyPage from './pages/OwnerMyPage';
@@ -46,6 +47,7 @@ function App() {
             <Route path='/' element={<Main />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signupselect' element={<SignupSelect />} />
+            <Route path='/signupagreement' element={<SignupAgreement />} />
             <Route path='/usersignup' element={<UserSignup />} />
             <Route path='/ownersignup' element={<OwnerSignup />} />
             <Route path='/usermy/' element={<UserMyPage />} />

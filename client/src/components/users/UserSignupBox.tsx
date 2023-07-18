@@ -6,6 +6,7 @@ import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import styled from 'styled-components';
 import { baseURL } from '../../common/baseURL';
+import { useNavigate } from 'react-router-dom';
 
 const S = {
   Container: styled.div`
@@ -102,6 +103,7 @@ interface FormValue {
 }
 
 const OwnerSignupBox = () => {
+  const replace = useNavigate();
   const [posterror, setPostError] = useState<string>('');
   const {
     register,
@@ -118,12 +120,14 @@ const OwnerSignupBox = () => {
         email: email,
         displayName: displayName,
         password: password,
+        privacy: true,
       })
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
         alert('가입이 완료되었습니디.');
+        replace('/login');
       })
       .catch((error) => {
         // Handle error.

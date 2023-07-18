@@ -123,7 +123,7 @@ const ProfileModal = () => {
           <Link to='/login'>
             <S.ModalLeftBox>로그인</S.ModalLeftBox>
           </Link>
-          <Link to='/signupselect'>
+          <Link to='/signupagreement'>
             <S.ModalRightBox>회원가입</S.ModalRightBox>
           </Link>
         </S.ButtonBox>
