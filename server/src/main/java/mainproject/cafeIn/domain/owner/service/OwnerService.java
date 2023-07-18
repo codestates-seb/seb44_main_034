@@ -1,8 +1,8 @@
 package mainproject.cafeIn.domain.owner.service;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
-import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.owner.dto.response.OwnerDetailResponse;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.enums.OwnerStatus;
@@ -13,7 +13,6 @@ import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +21,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class OwnerService {
     private final OwnerRepository ownerRepository;
-    private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
     @Transactional
     public Owner createOwner(Owner owner, String uri) {
         verifyExistsEmail(owner.getEmail());
-        memberService.verifyExistsEmail(owner.getEmail());
         verifyExistsDisplayName(owner.getDisplayName());
 
         String encryptedPassword = passwordEncoder.encode(owner.getPassword());
@@ -84,18 +82,20 @@ public class OwnerService {
         return optionalOwner.orElseThrow(() -> new CustomException(ErrorCode.NONE_AUTHORIZATION_TOKEN));
     }
 
-    public void verifyExistsEmail(String email) {
+    private void verifyExistsEmail(String email) {
         Optional<Owner> owner = ownerRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        if (owner.isPresent()) {
+        if (owner.isPresent() || member.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
         }
     }
 
     private void verifyExistsDisplayName(String displayName) {
         Optional<Owner> owner = ownerRepository.findByDisplayName(displayName);
+        Optional<Member> member = memberRepository.findByDisplayName(displayName);
 
-        if (owner.isPresent()) {
+        if (owner.isPresent() || member.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_NAME);
         }
     }

@@ -86,11 +86,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 HTTP 통신 허용
+        configuration.setAllowedOrigins(Arrays.asList("https://cafein.site", "https://fe-cafein.s3.ap-northeast-2.amazonaws.com")); // 모든 출처 HTTP 통신 허용
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE")); // HTTP Method 허용
         configuration.setAllowedHeaders(Arrays.asList("*")); // header에 모두 요청 가능
         configuration.setExposedHeaders(Arrays.asList("Authorization", "Refresh", "Role")); // 헤더 노출 허용
-
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration); // 모든 URL에 CORS 정책 적용
 
