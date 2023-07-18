@@ -12,7 +12,6 @@ public class PostResponse {
     private String title;
     private String author;
     private String image;
-    // TODO: 이미지 업로드 시 내용 추가
 
     @QueryProjection
     public PostResponse(Long postId, String title, String author, String image) {

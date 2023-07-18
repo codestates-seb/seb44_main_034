@@ -19,13 +19,16 @@ import mainproject.cafeIn.domain.postbookmark.repository.PostBookmarkRepository;
 import mainproject.cafeIn.domain.tag.entity.PostTag;
 import mainproject.cafeIn.domain.tag.repsitory.PostTagRepository;
 import mainproject.cafeIn.domain.tag.service.PostTagService;
+import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
 import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,16 +44,24 @@ public class PostService {
     private final PostBookmarkRepository postBookmarkRepository;
     private final MemberRepository memberRepository;
     private final CommentService commentService;
+    private final S3ImageService imageService;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
-    public Long createPost(Long loginId, Long cafeId, PostRequest postRequest) {
+    public Long createPost(Long loginId, Long cafeId, PostRequest postRequest, MultipartFile image) throws IOException {
         // 충돌 해결
         verifyMember(loginId);
         Member member = memberRepository.findById(loginId).get();
 
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
+
+        // 이미지 업로드 저장
+        if (!image.isEmpty()) {
+            String storedImageUrl = imageService.upload(image, "posts");
+            post.setImage(storedImageUrl);
+        }
+
         Long postId = postRepository.save(post).getPostId();
         post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
         return postId;
@@ -58,11 +69,17 @@ public class PostService {
 
     // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
-    public Long updatePost(Long loginId, Long postId, PostRequest postRequest) {
+    public Long updatePost(Long loginId, Long postId, PostRequest postRequest, MultipartFile image) throws IOException {
         verifyMember(loginId);
         Post post = findPostById(postId);
         updatePostTags(postId, postRequest, post);
         post.updatePost(postRequest.toEntity());
+        // 이미지 구현
+        if (!image.isEmpty()) {
+            String storedImageUrl = imageService.update(post.getImage(), image, "posts");
+            post.setImage(storedImageUrl);
+        }
+
         return postId;
     }
 
@@ -150,10 +167,5 @@ public class PostService {
             throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
         }
     }
-
-
-
-
-    // 댓글 리스트 기능
 
 }
