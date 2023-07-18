@@ -33,13 +33,13 @@ const CafeInfo = () => {
   });
   // const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const selectedFile = event.target.files?.[0];
-    // if (selectedFile) {
-    //   setImageFile(selectedFile);
-    //   console.log(imageFile);
-    // }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // const selectedFile = event.target.files?.[0];
+  // if (selectedFile) {
+  //   setImageFile(selectedFile);
+  //   console.log(imageFile);
+  // }
+  // };
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
 
@@ -77,9 +77,11 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const data = {
-      dto: CafeData,
-    };
+
+    const imageFile = '';
+    const formData = new FormData();
+    formData.append('cafeImage', imageFile); // 이미지 파일 추가
+    formData.append('data', JSON.stringify({ dto: CafeData }));
 
     // if (imageFile) {
     //   console.log(imageFile);
@@ -98,10 +100,13 @@ const CafeInfo = () => {
       //     ...CafeData,
       //     cafeImg: responseImg.data.imageUrl,
       //   };
-
-      const response = await axios.post(`${baseURL}/cafes`, data, {
+      for (const entry of formData.entries()) {
+        console.log(entry[0] + ': ' + entry[1]);
+      }
+      const response = await axios.post(`${baseURL}/cafes`, formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          'ngrok-skip-browser-warning': 'true',
           // 'Content-Type': 'application/json',
           Authorization: localStorage.getItem('access_token'),
         },
@@ -129,7 +134,8 @@ const CafeInfo = () => {
       <form onSubmit={handleSaveCafeInfo}>
         <S.MainDiv>
           <S.AddImageDiv>
-            <input type='file' onChange={handleFileChange} />
+            {/* <input type='file' onChange={handleFileChange} /> */}
+            <input type='file' />
             {/* <input
               type='file'
               accept='image/*'

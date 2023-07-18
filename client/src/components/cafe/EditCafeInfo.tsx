@@ -5,8 +5,8 @@ import Button from '../../common/button/button';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
-const Base_URL =
-  'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api';
+import { baseURL } from '../../common/baseURL';
+import Loading from '../Loading';
 const facilityName = [
   '24시간 운영여부',
   '콘센트 유무',
@@ -18,15 +18,14 @@ const EditCafeInfo = () => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
   const { cafeId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [editData, setEditData] = useState<cafeType>({
     name: '',
     address: '',
     contact: '',
     notice: '',
-    cafeImg: '',
-    latitude: 1234,
-    longitude: 1234,
-    rating: 0,
+    latitude: 1234.0,
+    longitude: 1234.0,
     openTime: '',
     closeTime: '',
     isOpenAllTime: false,
@@ -35,26 +34,31 @@ const EditCafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
-    if (selectedFile) {
-      setImageFile(selectedFile);
-    }
-  };
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const selectedFile = event.target.files?.[0];
+  //   if (selectedFile) {
+  //     setImageFile(selectedFile);
+  //   }
+  // };
+  //데이터 잘 불러와지나 적용
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${Base_URL}/cafes/${cafeId}/edit`, // edit 추가해야함
+          'http://localhost:3000/edit',
+          // `${baseURL}/cafes/${cafeId}/edit`, // edit 추가해야함
           {
             headers: {
+              'ngrok-skip-browser-warning': 'true',
               Authorization: localStorage.getItem('access_token'),
             },
           }
         );
+        console.log(response.data.payload);
         setEditData(response.data.payload);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -98,10 +102,11 @@ const EditCafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const data = {
-      dto: editData,
-    };
-    console.log(data);
+    const imageFile = '';
+    const formData = new FormData();
+    formData.append('cafeImage', imageFile); // 이미지 파일 추가
+    formData.append('data', JSON.stringify({ dto: editData }));
+    console.log(editData);
     // if (imageFile) {
     //   console.log(imageFile);
     //   const formData = new FormData();
@@ -121,18 +126,27 @@ const EditCafeInfo = () => {
       //       cafeImg: responseImg.data.imageUrl,
       //     };
 
-      const response = await axios.patch(`${Base_URL}/cafes/${cafeId}`, data, {
-        headers: {
-          'Content-Type': 'application/json',
-          // 'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      });
+      const response = await axios.patch(
+        `${baseURL}/cafes/${cafeId}`,
+        // 'http://localhost:3000/edit',
+        formData,
+        {
+          headers: {
+            // 'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
+            'ngrok-skip-browser-warning': 'true',
+            Authorization: localStorage.getItem('access_token'),
+          },
+        }
+      );
 
       //   console.log(response.data.imageUrl);
-      console.log(response.data);
-      alert('카페 수정이 완료 되었습니다. 해당 카페 페이지로 이동합니다');
-      navigate(`/cafes/${cafeId}`);
+      for (const entry of formData.entries()) {
+        console.log(entry[0] + ': ' + entry[1]);
+      }
+      console.log(response);
+      alert('카페 수정이 완료 되었습니다.');
+      navigate('/');
       //   } else {
       //     throw new Error('Image upload failed');
       //   }
@@ -145,137 +159,147 @@ const EditCafeInfo = () => {
 
   return (
     <>
-      <form onSubmit={handleSaveCafeInfo}>
-        <S.MainDiv>
-          <S.AddImageDiv>
-            <input type='file' onChange={handleFileChange} />
-            {/* <input
+      {isLoading ? (
+        <Loading /> // 로딩 페이지 표시
+      ) : (
+        <form onSubmit={handleSaveCafeInfo}>
+          <S.MainDiv>
+            <S.AddImageDiv>
+              {/* <input type='file' onChange={handleFileChange} /> */}
+              <input type='file' />
+              {/* <input
               type='file'
               accept='image/*'
               ref={fileInput}
               style={{ display: 'none' }}
               onChange={handleSaveImg}
             /> */}
-            {/* <S.ImageShow alt='대표 카페 사진' src={cafeImg} /> */}
-          </S.AddImageDiv>
+              {/* <S.ImageShow alt='대표 카페 사진' src={cafeImg} /> */}
+            </S.AddImageDiv>
 
-          {/* <AddImage onClick={handleButtonClick} /> */}
-          <S.AddCafeInfoDiv>
-            <S.CafeName
-              type='text'
-              name='name'
-              placeholder='카페명을 입력해주세요'
-              value={editData.name}
-              onChange={handleCafeInfoChange}
-              required
+            {/* <AddImage onClick={handleButtonClick} /> */}
+            <S.AddCafeInfoDiv>
+              <S.CafeName
+                type='text'
+                name='name'
+                placeholder='카페명을 입력해주세요'
+                value={editData.name}
+                onChange={handleCafeInfoChange}
+                required
+              />
+              <S.CafeInputLabel>
+                OPEN :
+                <CafeBusinessHours
+                  type='text'
+                  placeholder='9:00'
+                  value={editData.openTime}
+                  name='openTime'
+                  onChange={handleCafeInfoChange}
+                  required
+                />
+              </S.CafeInputLabel>
+              <S.CafeInputLabel>
+                CLOSE :
+                <CafeBusinessHours
+                  type='text'
+                  placeholder='22:00'
+                  value={editData.closeTime}
+                  name='closeTime'
+                  onChange={handleCafeInfoChange}
+                  required
+                />
+              </S.CafeInputLabel>
+              <S.CafeInputLabel>
+                주소 :
+                <CafeAddress
+                  type='text'
+                  value={editData.address}
+                  name='address'
+                  onChange={handleCafeInfoChange}
+                  required
+                />
+              </S.CafeInputLabel>
+              <S.CafeInputLabel>
+                연락처 :
+                <CafeContact
+                  type='text'
+                  value={editData.contact}
+                  name='contact'
+                  onChange={handleCafeInfoChange}
+                  required
+                />
+              </S.CafeInputLabel>
+              <S.CafeNoticeDiv>
+                공지사항
+                <CafeNotice
+                  type='text'
+                  value={editData.notice}
+                  name='notice'
+                  onChange={handleCafeInfoChange}
+                />
+              </S.CafeNoticeDiv>
+              <S.CafeFacilityDiv>
+                <S.CafeFacilitySpan>
+                  <S.CafeFacility
+                    type='checkbox'
+                    name='isOpenAllTime'
+                    onChange={handleCafeInfoChange}
+                    checked={editData.isOpenAllTime}
+                  />
+                  {facilityName[0]}
+                </S.CafeFacilitySpan>
+                <S.CafeFacilitySpan>
+                  <S.CafeFacility
+                    type='checkbox'
+                    name='isChargingAvailable'
+                    onChange={handleCafeInfoChange}
+                    checked={editData.isChargingAvailable}
+                  />
+                  {facilityName[1]}
+                </S.CafeFacilitySpan>
+                <S.CafeFacilitySpan>
+                  <S.CafeFacility
+                    type='checkbox'
+                    name='hasParking'
+                    onChange={handleCafeInfoChange}
+                    checked={editData.hasParking}
+                  />
+                  {facilityName[2]}
+                </S.CafeFacilitySpan>
+                <S.CafeFacilitySpan>
+                  <S.CafeFacility
+                    type='checkbox'
+                    name='isPetFriendly'
+                    onChange={handleCafeInfoChange}
+                    checked={editData.isPetFriendly}
+                  />
+                  {facilityName[3]}
+                </S.CafeFacilitySpan>
+                <S.CafeFacilitySpan>
+                  <S.CafeFacility
+                    type='checkbox'
+                    name='hasDessert'
+                    onChange={handleCafeInfoChange}
+                    checked={editData.hasDessert}
+                  />
+                  {facilityName[4]}
+                </S.CafeFacilitySpan>
+              </S.CafeFacilityDiv>
+            </S.AddCafeInfoDiv>
+          </S.MainDiv>
+          <S.ButtonDiv>
+            {/* <AddImage onClick={handleButtonClick} /> */}
+            <Button text='수정' type='submit' theme='Confirm' />
+            <Button
+              text='나가기'
+              onClick={() => {
+                navigate('/ownermy');
+              }}
+              theme='Cancel'
             />
-            <S.CafeInputLabel>
-              OPEN :
-              <CafeBusinessHours
-                type='text'
-                placeholder='9:00'
-                value={editData.openTime}
-                name='openTime'
-                onChange={handleCafeInfoChange}
-                required
-              />
-            </S.CafeInputLabel>
-            <S.CafeInputLabel>
-              CLOSE :
-              <CafeBusinessHours
-                type='text'
-                placeholder='22:00'
-                value={editData.closeTime}
-                name='closeTime'
-                onChange={handleCafeInfoChange}
-                required
-              />
-            </S.CafeInputLabel>
-            <S.CafeInputLabel>
-              주소 :
-              <CafeAddress
-                type='text'
-                value={editData.address}
-                name='address'
-                onChange={handleCafeInfoChange}
-                required
-              />
-            </S.CafeInputLabel>
-            <S.CafeInputLabel>
-              연락처 :
-              <CafeContact
-                type='text'
-                value={editData.contact}
-                name='contact'
-                onChange={handleCafeInfoChange}
-                required
-              />
-            </S.CafeInputLabel>
-            <S.CafeNoticeDiv>
-              공지사항
-              <CafeNotice
-                type='text'
-                value={editData.notice}
-                name='notice'
-                onChange={handleCafeInfoChange}
-              />
-            </S.CafeNoticeDiv>
-            <S.CafeFacilityDiv>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isOpenAllTime'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[0]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isChargingAvailable'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[1]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='hasParking'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[2]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isPetFriendly'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[3]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='hasDessert'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[4]}
-              </S.CafeFacilitySpan>
-            </S.CafeFacilityDiv>
-          </S.AddCafeInfoDiv>
-        </S.MainDiv>
-        <S.ButtonDiv>
-          {/* <AddImage onClick={handleButtonClick} /> */}
-          <Button text='수정' type='submit' theme='Confirm' />
-          <Button
-            text='나가기'
-            onClick={() => {
-              navigate('/ownermy');
-            }}
-            theme='Cancel'
-          />
-        </S.ButtonDiv>
-      </form>
+          </S.ButtonDiv>
+        </form>
+      )}
     </>
   );
 };

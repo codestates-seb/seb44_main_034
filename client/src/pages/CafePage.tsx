@@ -16,7 +16,7 @@ const CafePage = () => {
   useEffect(() => {
     const fetchCafeData = async () => {
       try {
-        // const response = await axios.get('http://localhost:3000/cafes'); // 서버 API 엔드포인트에 맞게 수정
+        // const response = await axios.get('http://localhost:3000/cafes');
         const response = await axios.get(`${baseURL}/cafes/${id}`);
         const data = response.data.payload;
         console.log(data);

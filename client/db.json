@@ -1,174 +1,109 @@
 {
-  "cafes": 
-    {
-      "message": "성공적으로 요청을 불러왔습니다.",
-      "payload": {
-        "cafeDetail": {
-          "ownerId": 1,
-          "cafeId": 1,
-          "name": "cafe1",
-          "address": "서울시 양천 방화대로",
-          "latitude": 12.523,
-          "longitude": 1.2514,
-          "contact": "010-1111-2222",
-          "notice": "sfsdf",
-          "image": null,
-          "rating": 0,
-          "openTime": "09:00",
-          "closeTime": "22:00",
-          "hasParking": true,
-          "hasDessert": true,
-          "openAllTime": false,
-          "chargingAvailable": false,
-          "petFriendly": false
-        },
-        "menus": [
-          [
-            {
-              "menuId": 1,
-              "name": "아메리카노",
-              "price": 3400,
-              "menuType": "COFFEE"
-            },
-            {
-              "menuId": 2,
-              "name": "카페라떼",
-              "price": 4500,
-              "menuType": "COFFEE"
-            }
-          ],
-          [
-            {
-              "menuId": 3,
-              "name": "녹차라떼",
-              "price": 4500,
-              "menuType": "NON_COFFEE"
-            }
-          ],
-          [
-            {
-              "menuId": 4,
-              "name": "치즈케이크",
-              "price": 6000,
-              "menuType": "DESSERT"
-            },
-            {
-              "menuId": 5,
-              "name": "당근케이크",
-              "price": 5500,
-              "menuType": "DESSERT"
-            }
-          ],
-          [
-            {
-              "menuId": 6,
-              "name": "플랫화이트",
-              "price": 5000,
-              "menuType": "SIGNATURE"
-            }
-          ]
-        ],
-        "posts": [
-          {
-            "postId": 1,
-            "title": "제목",
-            "author": "cafeInuser",
-            "image": "https://포스트주소.com"
-          }
-        ],
-        "tags": [
-          {
-            "id": 1,
-            "name": "감성적"
-          },
-          {
-            "id": 2,
-            "name": "낭만적"
-          },
-          {
-            "id": 3,
-            "name": "자연뷰"
-          }
-        ],
-        "bookmarked": false
-      }
-    }
-  ,
-  "images": [],
-  "menus": [],
-  "cafepost": [],
-  "add": [
-    {
-      "dto": {
-        "name": "11",
-        "address": "111",
-        "contact": "1",
-        "notice": "11",
-        "cafeImg": "",
+  "cafes": {
+    "message": "성공적으로 요청을 불러왔습니다.",
+    "payload": {
+      "cafeDetail": {
+        "ownerId": 1,
+        "cafeId": 1,
+        "name": "cafe1",
+        "address": "서울시 양천 방화대로",
+        "latitude": 12.523,
+        "longitude": 1.2514,
+        "contact": "010-1111-2222",
+        "notice": "sfsdf",
+        "image": null,
         "rating": 0,
-        "openTime": "111",
-        "closeTime": "11",
-        "isOpenAllTime": true,
-        "isChargingAvailable": false,
-        "hasParking": false,
-        "isPetFriendly": false,
-        "hasDessert": false
+        "openTime": "09:00",
+        "closeTime": "22:00",
+        "hasParking": true,
+        "hasDessert": true,
+        "openAllTime": false,
+        "chargingAvailable": false,
+        "petFriendly": false
       },
+      "menus": [
+        [
+          {
+            "menuId": 1,
+            "name": "아메리카노",
+            "price": 3400,
+            "menuType": "COFFEE"
+          },
+          {
+            "menuId": 2,
+            "name": "카페라떼",
+            "price": 4500,
+            "menuType": "COFFEE"
+          }
+        ],
+        [
+          {
+            "menuId": 3,
+            "name": "녹차라떼",
+            "price": 4500,
+            "menuType": "NON_COFFEE"
+          }
+        ],
+        [
+          {
+            "menuId": 4,
+            "name": "치즈케이크",
+            "price": 6000,
+            "menuType": "DESSERT"
+          },
+          {
+            "menuId": 5,
+            "name": "당근케이크",
+            "price": 5500,
+            "menuType": "DESSERT"
+          }
+        ],
+        [
+          {
+            "menuId": 6,
+            "name": "플랫화이트",
+            "price": 5000,
+            "menuType": "SIGNATURE"
+          }
+        ]
+      ],
+      "posts": [
+        {
+          "postId": 1,
+          "title": "제목",
+          "author": "cafeInuser",
+          "image": "https://포스트주소.com"
+        }
+      ],
+      "tags": [
+        {
+          "id": 1,
+          "name": "감성적"
+        },
+        {
+          "id": 2,
+          "name": "낭만적"
+        },
+        {
+          "id": 3,
+          "name": "자연뷰"
+        }
+      ],
+      "bookmarked": false
+    }
+  },
+  "images": [],
+  "menus": [
+    {
+      "comment": "플랫화이트 존맛! ",
       "id": 1
     },
     {
-      "dto": {
-        "name": "11",
-        "address": "11",
-        "contact": "11",
-        "notice": "11",
-        "cafeImg": "",
-        "rating": 0,
-        "openTime": "11",
-        "closeTime": "11",
-        "isOpenAllTime": true,
-        "isChargingAvailable": true,
-        "hasParking": false,
-        "isPetFriendly": false,
-        "hasDessert": false
-      },
+      "comment": "ㅇㅇ",
       "id": 2
-    },
-    {
-      "dto": {
-        "name": "11",
-        "address": "1",
-        "contact": "111",
-        "notice": "11",
-        "cafeImg": "",
-        "rating": 0,
-        "openTime": "111",
-        "closeTime": "11",
-        "isOpenAllTime": true,
-        "isChargingAvailable": false,
-        "hasParking": false,
-        "isPetFriendly": false,
-        "hasDessert": false
-      },
-      "id": 3
-    },
-    {
-      "dto": {
-        "name": "111",
-        "address": "111",
-        "contact": "111",
-        "notice": "111",
-        "cafeImg": "",
-        "rating": 0,
-        "openTime": "11",
-        "closeTime": "111",
-        "isOpenAllTime": true,
-        "isChargingAvailable": false,
-        "hasParking": false,
-        "isPetFriendly": false,
-        "hasDessert": false
-      },
-      "id": 4
     }
-  ]
+  ],
+  "cafepost": [],
+  "add": [],
+  "edit": {}
 }

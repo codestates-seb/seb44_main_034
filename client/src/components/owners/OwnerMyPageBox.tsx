@@ -267,7 +267,9 @@ const UserMyPageBox = () => {
         </Link>
       </S.EditButtonBox>
       <S.BottomBox>
-        <S.SandButton>내 카페 보기</S.SandButton>
+        <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
+          내 카페 보기
+        </S.SandButton>
         <S.SandButton onClick={() => navigate('/addcafes')}>
           내 카페 등록하기
         </S.SandButton>
