@@ -43,7 +43,8 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .headers().frameOptions().sameOrigin() // 동일 출처 request만 허용
                 .and()
                 .csrf().disable() // CSRF 공격 비활성화
-                .cors(withDefaults()) // CORS 설정
+                .cors().configurationSource(corsConfigurationSource())
+                .and()// CORS 설정
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable() // 폼 로그인 방식(SSR에서 주로 사용)
