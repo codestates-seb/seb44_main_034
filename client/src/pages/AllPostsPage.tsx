@@ -48,6 +48,14 @@ const S = {
       }
     }
   `,
+  Nav: styled.nav`
+    > button {
+      background-color: ${COLOR_1.white};
+      border-radius: 4px;
+      border: 1px solid ${COLOR_1.dark_brown};
+      box-shadow: 0 4px 4px ${COLOR_1.brown};
+    }
+  `,
 };
 
 const AllPostsPage = () => {
@@ -95,14 +103,14 @@ const AllPostsPage = () => {
         ))}
       </ul>
       <nav>
-      <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
-        {`<`}
-      </button>
-      {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
-      <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
-        {`>`}
-      </button>
-    </nav>
+        <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
+          {`<`}
+        </button>
+        {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
+        <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
+          {`>`}
+        </button>
+      </nav>
     </S.Container>
   </>
   );

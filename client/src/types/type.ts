@@ -24,7 +24,7 @@ export interface ResPostData {
   starRating: number;
   isBookmarked?: boolean;
   tags:string[];
-  comment?: PostComment[];
+  comments?: PostComments[];
 }
 
 export interface ReqPostData {
@@ -35,7 +35,7 @@ export interface ReqPostData {
   tags:string[];
 }
 
-export interface PostComment {
+export interface PostComments {
   authorId?: number|string;
   author?: string;
   content: string;

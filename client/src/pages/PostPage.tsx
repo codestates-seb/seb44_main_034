@@ -10,71 +10,6 @@ import MoodTagPost from '../common/tags/MoodTagPost';
 import StarRating from '../components/starRating';
 import Comments from '../components/comments/Comments';
 
-const PostPage = () => {
-  const postId = useParams();
-
-  const { data, isLoading, isError } = useQuery(['getPostDetail', postId], () =>
-    getPostDetailAPI.getPostDetail(postId.toString())
-  );
-
-  //   const { data, isLoading, isError } = useQuery(
-  //   ['getPostDetail'],
-  //   () => getPostDetailAPI.getPostDetail()
-  // );
-
-  // const { data, isLoading, isError } = useQuery(['getPost'], () => {
-  //   return fetch('http://localhost:3001/post').then(res => res.json());
-  // });
-
-  if (isLoading) {
-    return <>Loading...</>;
-  }
-
-  if (isError) {
-    return <>Error</>;
-  }
-
-  // const postData= data.post;
-  // const tagData= data.tag;
-
-  const postData= data[0];
-  const tagData=data[0].tag;
-
-  return (
-    <>
-    <S.Container>
-      <div>
-        <PostItemHead postData={postData} />
-        <S.StarRatingWrap>
-          <StarRating
-            starRating={postData.starRating}
-            size={FONT_SIZE_2.normal_3}
-            color={COLOR_1.brown}
-          />
-          <div>
-            <span>{` 별점 ${postData.starRating}점`}</span>
-          </div>
-        </S.StarRatingWrap>
-        <S.TagWrap>
-          <ul>
-            {tagData.map((el: string, idx: number) => (
-              <li key={idx}>
-                <MoodTagPost text={`# ${el}`} />
-              </li>
-            ))}
-          </ul>
-        </S.TagWrap>
-        <S.ImgWrap>
-          <img src={postData.image} />
-        </S.ImgWrap>
-        <S.ContentWrap>{postData.content}</S.ContentWrap>
-      </div>
-      <Comments comments={postData.comments} />
-    </S.Container>
-    </>
-  )
-}
-
 const S = {
   Container: styled.div`
     display: block;
@@ -85,7 +20,6 @@ const S = {
       padding: 20px;
     }
   `,
-
   StarRatingWrap: styled.div`
     margin-left: 4px;
     margin-top: 4px;
@@ -137,5 +71,67 @@ const S = {
     white-space: pre-wrap;
   `,
 };
+
+const PostPage = () => {
+  const params = useParams();
+  const postId = params.postId;
+
+  const { data, isLoading, isError } = useQuery(['getPostDetail', postId], () =>
+    getPostDetailAPI.getPostDetail(postId)
+  );
+
+  //   const { data, isLoading, isError } = useQuery(
+  //   ['getPostDetail'],
+  //   () => getPostDetailAPI.getPostDetail()
+  // );
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
+  if (isError) {
+    return <>Error</>;
+  }
+
+  if (data) {
+    console.log(data);
+    
+  const postData = data.payload.data;
+  const tagData = data.payload.data.tags;
+
+  return (
+    <>
+    <S.Container>
+      <div>
+        <PostItemHead postData={postData} />
+        <S.StarRatingWrap>
+          <StarRating
+            starRating={postData.starRating}
+            size={FONT_SIZE_2.normal_3}
+            color={COLOR_1.brown}
+          />
+          <div>
+            <span>{` 별점 ${postData.starRating}점`}</span>
+          </div>
+        </S.StarRatingWrap>
+        <S.TagWrap>
+          <ul>
+            {tagData.map((el: string, idx: number) => (
+              <li key={idx}>
+                <MoodTagPost text={`# ${el}`} />
+              </li>
+            ))}
+          </ul>
+        </S.TagWrap>
+        <S.ImgWrap>
+          <img src={postData.image} />
+        </S.ImgWrap>
+        <S.ContentWrap>{postData.content}</S.ContentWrap>
+      </div>
+      <Comments comments={postData.comments} postId={postData.postId} />
+    </S.Container>
+    </>
+  );}
+}
 
 export default PostPage;
