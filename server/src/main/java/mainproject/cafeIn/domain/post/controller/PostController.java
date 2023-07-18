@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,11 +26,10 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public ApplicationResponse<Long> createPost(@PathVariable("cafe-id") Long cafeId,
                                                 @RequestPart(value = "dto") PostRequest request,
-                                                @RequestPart(value = "postImage", required = false) MultipartFile multipartFile) {
+                                                @RequestPart(value = "postImage", required = false) MultipartFile image) throws IOException {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        // TODO: 이미지 업로드 기능 추가 시 multipartFile 추가
-        Long postId = postService.createPost(loginId, cafeId, request);
+        Long postId = postService.createPost(loginId, cafeId, request, image);
 
         return new ApplicationResponse<>(postId);
     }
@@ -39,11 +39,10 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     public ApplicationResponse<Long> updatePost(@PathVariable("post-id") Long postId,
                                                 @RequestPart(value = "dto") PostRequest request,
-                                                @RequestPart(value = "postImage", required = false) MultipartFile multipartFile) {
+                                                @RequestPart(value = "postImage", required = false) MultipartFile image) throws IOException {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        // TODO: 이미지 업로드 기능 추가 시 multipartFile 추가
-        postService.updatePost(loginId, postId, request);
+        postService.updatePost(loginId, postId, request, image);
 
         return new ApplicationResponse<>(postId);
     }
