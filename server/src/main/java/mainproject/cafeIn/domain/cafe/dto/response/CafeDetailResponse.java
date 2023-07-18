@@ -1,27 +1,49 @@
 package mainproject.cafeIn.domain.cafe.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 
 @Getter
 public class CafeDetailResponse {
     private Long ownerId;
+
     private Long cafeId;
+
     private String name;
+
     private String address;
+
     private double latitude;
+
     private double longitude;
+
     private String contact;
+
     private String notice;
+
     private String image;
+
     private float rating;
+
     private String openTime;
+
     private String closeTime;
+
+    @JsonProperty("isOpenAllTime")
     private boolean isOpenAllTime;
+
+    @JsonProperty("isChargingAvailable")
     private boolean isChargingAvailable;
+
     private boolean hasParking;
+
+    @JsonProperty("isPetFriendly")
     private boolean isPetFriendly;
+
     private boolean hasDessert;
+
+    @JsonProperty("isBookmarked")
     private boolean isBookmarked;
 
     @QueryProjection
