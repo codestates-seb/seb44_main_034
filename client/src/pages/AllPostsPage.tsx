@@ -77,20 +77,19 @@ const AllPostsPage = () => {
 
   if (isError) return <p>{error as string}</p>
 
-  const lastPage = () => setPage(data.totalpages);
-  const firstPage = () => setPage(1);
-  const pagesArray = Array(data.totalpages)
-    .fill(null)
-    .map((_, i) => i + 1);
-
   if (data) {
     const postsData= data.payload.data;
     console.log(data);
     console.log(data.payload.data);
     console.log(data.payload.pageInfo);
+    const pageData=data.payload.pageInfo;
+    const lastPage = () => setPage(pageData.totalpages);
+    const firstPage = () => setPage(1);
+    const pagesArray = Array(pageData.totalpages)
+      .fill(null)
+      .map((_, i) => i + 1);
   return (
     <>
-    const 
     <S.Container>
       <S.PostStart>
         <span>POST</span>
