@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.owner.service;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.domain.owner.dto.response.OwnerDetailResponse;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.enums.OwnerStatus;
@@ -20,12 +21,15 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class OwnerService {
     private final OwnerRepository ownerRepository;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
     @Transactional
     public Owner createOwner(Owner owner, String uri) {
         verifyExistsEmail(owner.getEmail());
+        memberRepository.verifyExistsEmail(owner.getEmail());
+        verifyExistsDisplayName(owner.getDisplayName());
 
         String encryptedPassword = passwordEncoder.encode(owner.getPassword());
 
@@ -79,11 +83,19 @@ public class OwnerService {
         return optionalOwner.orElseThrow(() -> new CustomException(ErrorCode.NONE_AUTHORIZATION_TOKEN));
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
         Optional<Owner> owner = ownerRepository.findByEmail(email);
 
         if (owner.isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
+        }
+    }
+
+    private void verifyExistsDisplayName(String displayName) {
+        Optional<Owner> owner = ownerRepository.findByDisplayName(displayName);
+
+        if (owner.isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_EXIST_NAME);
         }
     }
 }
