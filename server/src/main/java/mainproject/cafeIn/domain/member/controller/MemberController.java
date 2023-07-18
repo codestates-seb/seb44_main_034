@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -39,10 +40,11 @@ public class MemberController {
 
     @PatchMapping("/update")
     @ResponseStatus(OK)
-    public ApplicationResponse updateMember(@RequestPart(value = "image", required = false) MultipartFile file, @Valid @RequestPart(value = "dto") MemberDto.Patch patch) {
+    public ApplicationResponse updateMember(@RequestPart(value = "image", required = false) MultipartFile image,
+                                            @Valid @RequestPart(value = "dto") MemberDto.Patch patch) throws IOException {
 
         long id = JwtParseInterceptor.getAuthenticatedUserId();
-        memberService.updateMember(patch,id);
+        memberService.updateMember(patch, id, image);
 
 
         return new ApplicationResponse();
