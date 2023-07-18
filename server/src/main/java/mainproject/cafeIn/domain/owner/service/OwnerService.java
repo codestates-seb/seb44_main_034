@@ -2,6 +2,7 @@ package mainproject.cafeIn.domain.owner.service;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
+import mainproject.cafeIn.domain.member.service.MemberService;
 import mainproject.cafeIn.domain.owner.dto.response.OwnerDetailResponse;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.enums.OwnerStatus;
@@ -21,14 +22,14 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class OwnerService {
     private final OwnerRepository ownerRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
 
     @Transactional
     public Owner createOwner(Owner owner, String uri) {
         verifyExistsEmail(owner.getEmail());
-        memberRepository.verifyExistsEmail(owner.getEmail());
+        memberService.verifyExistsEmail(owner.getEmail());
         verifyExistsDisplayName(owner.getDisplayName());
 
         String encryptedPassword = passwordEncoder.encode(owner.getPassword());
