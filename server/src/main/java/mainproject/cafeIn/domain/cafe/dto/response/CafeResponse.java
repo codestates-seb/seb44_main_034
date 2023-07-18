@@ -1,5 +1,6 @@
 package mainproject.cafeIn.domain.cafe.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import mainproject.cafeIn.domain.tag.dto.TagResponse;
@@ -16,6 +17,8 @@ public class CafeResponse {
     private double latitude;
     private double longitude;
     private String image;
+
+    @JsonProperty("isBookmarked")
     private boolean isBookmarked;
     private Integer countPost;
 
