@@ -31,7 +31,8 @@ public enum ErrorCode {
     ALREADY_EXIST_NAME(HttpStatus.CONFLICT, "사용 중인 닉네임입니다."),
 
     // 500
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다. 관리자에게 문의하세요.")
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류입니다. 관리자에게 문의하세요."),
+    FILE_CONVERT_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "파일 변환에 실패했습니다.")
     ;
 
     private final HttpStatus httpStatus;

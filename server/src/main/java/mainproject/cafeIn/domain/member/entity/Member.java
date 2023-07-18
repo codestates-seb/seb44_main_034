@@ -26,7 +26,7 @@ public class Member extends BaseEntity {
     private Long id;
 
 
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 100, nullable = false)
     private String displayName;
 
     @Column(name = "MEMBER_EMAIL", length = 100, nullable = false)
@@ -37,6 +37,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "PROFILE_IMAGE")
     private String image;
+
+    @Column(nullable = false)
+    private boolean isPrivacy;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "MEMBER_STATUS", length = 30, nullable = false)
@@ -66,16 +69,25 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(String displayName, String email, String password, String image, MemberStatus status, MemberGrade grade, List<String> roles) {
+    public Member(String displayName, String email, String password, String image, boolean isPrivacy, MemberStatus status, MemberGrade grade, List<String> roles) {
 
         this.displayName = displayName;
         this.email = email;
         this.password = password;
         this.image = image;
+        this.isPrivacy = isPrivacy;
         this.status = status;
         this.grade = grade;
         this.roles = roles;
 
+    }
+
+    public void deleteMember(String displayName,String email, String password, MemberStatus status, String image) {
+        this.displayName = displayName;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.image = image;
     }
 
     public void updateDisplay(String displayName) {

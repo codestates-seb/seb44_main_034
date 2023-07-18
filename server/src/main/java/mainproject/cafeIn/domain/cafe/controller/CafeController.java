@@ -20,6 +20,7 @@ import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -39,9 +40,9 @@ public class CafeController {
     @PostMapping
     @ResponseStatus(CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
-                                                @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
+                                                @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        Long cafeId = cafeService.createCafe(loginId, request, multipartFile);
+        Long cafeId = cafeService.createCafe(loginId, request, image);
 
         return new ApplicationResponse<>(cafeId);
     }
@@ -51,9 +52,9 @@ public class CafeController {
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
-                                          @RequestPart(value = "cafeImage", required = false) MultipartFile multipartFile) {
+                                          @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        cafeService.updateCafe(loginId, cafeId, request, multipartFile);
+        cafeService.updateCafe(loginId, cafeId, request, image);
 
         return new ApplicationResponse<>();
     }
@@ -112,5 +113,25 @@ public class CafeController {
         CafeDetailResponse cafeDetail = cafeService.getCafe(cafeId, loginId);
 
         return new ApplicationResponse<>(cafeDetail);
+    }
+
+    @GetMapping("/search-cafe/{cafe-name}")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<CafeResponse>> findCafesByName(@PathVariable("cafe-name") String name,
+                                                                  PageCafeRequest pageCafeRequest) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> responses = cafeService.findCafesByName(loginId, name, pageCafeRequest.of());
+
+        return new ApplicationResponse<>(responses);
+    }
+
+    @GetMapping("/search-menu/{menu-name}")
+    @ResponseStatus(OK)
+    public ApplicationResponse<List<CafeResponse>> findCafesByMenu(@PathVariable("menu-name") String name,
+                                                                   PageCafeRequest pageCafeRequest) {
+        Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
+        List<CafeResponse> responses = cafeService.findCafesByMenu(loginId, name, pageCafeRequest.of());
+
+        return new ApplicationResponse<>(responses);
     }
 }
