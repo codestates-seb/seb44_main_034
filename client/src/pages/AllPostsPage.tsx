@@ -83,17 +83,24 @@ const AllPostsPage = () => {
     .fill(null)
     .map((_, i) => i + 1);
 
+  if (data) {
+    const postsData= data.payload.data;
+    console.log(data);
+    console.log(data.payload.data);
+    console.log(data.payload.pageInfo);
   return (
     <>
+    const 
     <S.Container>
       <S.PostStart>
         <span>POST</span>
       </S.PostStart>
       <ul>
-        {data.map((el: CafePostList) => (
+        {postsData.map((el: CafePostList) => (
           <li key={el.postId}>
             <Link to={`../postpage/${el.postId}`} >
             <PostThumbnail
+              key={el.postId}
               image={el.image}
               title={el.title}
               author={el.author}
@@ -115,5 +122,6 @@ const AllPostsPage = () => {
   </>
   );
 };
+}
 
 export default AllPostsPage;
