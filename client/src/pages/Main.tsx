@@ -1,4 +1,4 @@
-import Comments from "../components/comments/Comments";
+
 const Main = () => {
   return <>
     메인

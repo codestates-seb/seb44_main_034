@@ -8,6 +8,7 @@ import Nav from './components/nav/Nav';
 // import Footer from './components/footer/Footer';
 import Main from './pages/Main';
 import SignupSelect from './pages/SignupSelect';
+import SignupAgreement from './pages/SignupAgreement';
 import UserSignup from './pages/UserSignup';
 import OwnerSignup from './pages/OwnerSignup';
 import OwnerMyPage from './pages/OwnerMyPage';
@@ -46,6 +47,7 @@ function App() {
             <Route path='/' element={<Main />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signupselect' element={<SignupSelect />} />
+            <Route path='/signupagreement' element={<SignupAgreement />} />
             <Route path='/usersignup' element={<UserSignup />} />
             <Route path='/ownersignup' element={<OwnerSignup />} />
             <Route path='/usermy/' element={<UserMyPage />} />
@@ -53,14 +55,14 @@ function App() {
             <Route path='/otherusermy/:id' element={<OtherUserMyPage />} />
             <Route path='/usermy/edit/:id' element={<EditUserMyPage />} />
             <Route path='/ownermy/edit/:id' element={<EditOwnerMyPage />} />
-            <Route path='/cafepage/:id' element={<CafePage />} />
-            <Route path='/cafes/:id' element={<AddCafeInfoPage />} />
-            <Route path='/menus/:id' element={<AddCafeMenuPage />} />
+            <Route path='/cafes/:id' element={<CafePage />} />
+            <Route path='/addcafes/' element={<AddCafeInfoPage />} />
+            <Route path='/addmenus/:id' element={<AddCafeMenuPage />} />
             <Route
-              path='/cafepage/edit/information/:id'
+              path='/cafe/edit/information/:id'
               element={<EditInformationCafePage />}
             />
-            <Route path='/cafepage/edit/menu/:id' element={<EditMenuCafe />} />
+            <Route path='/cafe/edit/menu/:id' element={<EditMenuCafe />} />
             <Route path='/postpage/:postId' element={<PostPage />} />
             <Route
               path='/cafepage/edit/menu/:id'

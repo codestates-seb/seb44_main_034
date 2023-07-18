@@ -44,3 +44,38 @@ export interface PostComments {
   updatedAt?: string;
   cafeId?:number;
 }
+
+export interface PostComment {
+  authorId: number | string;
+  author: string;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type CafeDetailType = {
+  ownerId: number;
+  cafeId: number;
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  contact: string;
+  notice: string;
+  image: string | null;
+  rating: number;
+  openTime: string;
+  closeTime: string;
+  hasParking: boolean;
+  hasDessert: boolean;
+  openAllTime: boolean;
+  chargingAvailable: boolean;
+  petFriendly: boolean;
+};
+
+export type MenuDataType = {
+  menuId: number;
+  name: string;
+  price: number;
+  menuType: string;
+};

@@ -1,4 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
@@ -99,6 +100,14 @@ interface FormValue {
 }
 
 const DeleteAccountBox = () => {
+  const [role, setRole] = useState<string>('');
+  useEffect(() => {
+    if (localStorage.getItem('role_token') === 'owner') {
+      setRole('owners');
+    } else if (localStorage.getItem('role_token') === 'member') {
+      setRole('members');
+    }
+  });
   const {
     register,
     handleSubmit,
@@ -106,7 +115,7 @@ const DeleteAccountBox = () => {
   } = useForm<FormValue>();
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     axios
-      .delete(`${baseURL}/owners/sign-out`, {
+      .delete(`${baseURL}/${role}/sign-out`, {
         headers: {
           Authorization: localStorage.getItem('access_token'),
         },

@@ -1,30 +1,33 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FONT_SIZE_2 } from '../common/common';
-import { ConfirmBtn, CancelButton } from '../common/button/button';
+import Button from '../common/button/button';
 import { FormProvider, useForm } from 'react-hook-form';
 import EditMenuForm from '../components/cafe/EditMenuForm';
 import { FormData } from './AddCafeMenuPage';
-
+import { baseURL } from '../common/baseURL';
 const menus = [
   { name: '시그니처', value: 'signature', menuType: 'SIGNATURE' },
   { name: '커피', value: 'coffee', menuType: 'COFFEE' },
-  { name: '논커피', value: 'nonCoffee', menuType: 'NONCOFFEE' },
-  { name: '디저트', value: 'desert', menuType: 'DESERT' },
+  { name: '논커피', value: 'nonCoffee', menuType: 'NON_COFFEE' },
+  { name: '디저트', value: 'desert', menuType: 'DESSERT' },
 ];
 
 const defaultValues = {};
 const convertedData: FormData = {
   signature: [],
   coffee: [],
-  nonCoffee: [],
-  desert: [],
+  non_Coffee: [],
+  dessert: [],
 };
 //cafeid를 받아서 불러야됨
-const cafeId = 1;
+
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
+  const navigate = useNavigate();
+  const { cafeId } = useParams();
   const methods = useForm<FormData>({
     defaultValues,
     mode: 'onBlur',
@@ -35,22 +38,30 @@ const EditMenuCafe = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/menus/${cafeId}` // edit 추가해야함
+          // `${baseURL}/menus/${menuId}`
+          `${baseURL}/menus/${cafeId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              // 'Content-Type': 'application/json',
+              Authorization: localStorage.getItem('access_token'),
+            },
+          } // edit 추가해야함
         );
-        const fetchedData = response.data;
-        fetchedData.forEach((item: any, index: number) => {
-          const menuId = index; // menuId 할당
-          item.menuId = menuId; // 각 데이터 항목에 menuId 속성 추가
-          if (item.menuType === 'SIGNATURE') {
-            convertedData.signature.push(item);
-          } else if (item.menuType === 'COFFEE') {
-            convertedData.coffee.push(item);
-          } else if (item.menuType === 'NONCOFFEE') {
-            convertedData.nonCoffee.push(item);
-          } else if (item.menuType === 'DESERT') {
-            convertedData.desert.push(item);
-          }
-        });
+        // const fetchedData = response.data;
+        // fetchedData.forEach((item: any, index: number) => {
+        //   const menuId = index; // menuId 할당
+        //   item.menuId = menuId; // 각 데이터 항목에 menuId 속성 추가
+        //   if (item.menuType === 'SIGNATURE') {
+        //     convertedData.signature.push(item);
+        //   } else if (item.menuType === 'COFFEE') {
+        //     convertedData.coffee.push(item);
+        //   } else if (item.menuType === 'NON_COFFEE') {
+        //     convertedData.non_Coffee.push(item);
+        //   } else if (item.menuType === 'DESSERT') {
+        //     convertedData.dessert.push(item);
+        //   }
+        // });
         // 데이터를 가져와서 defaultValues에 할당
         console.log(convertedData);
         methods.reset(convertedData);
@@ -61,7 +72,7 @@ const EditMenuCafe = () => {
 
     fetchData();
   }, []);
-
+  //확인 버튼이 사라지면 아래 함수도 사라질 예정
   const Onsubmit = async (data: FormData) => {
     const mergedMenus = Object.values(data).flat();
 
@@ -83,11 +94,20 @@ const EditMenuCafe = () => {
           <EditMenuForm key={index} type={item.value} name={item.name} />
         ))}
         <S.ButtonDiv>
-          <S.Submitbut type={'button'} onClick={() => handleSubmit(Onsubmit)()}>
-            메뉴등록
-          </S.Submitbut>
+          <Button
+            text='메뉴등록'
+            type={'button'}
+            onClick={() => handleSubmit(Onsubmit)()}
+            theme='Confirm'
+          />
 
-          <CancelButton>나가기</CancelButton>
+          <Button
+            text='나가기'
+            onClick={() => {
+              navigate('/ownermy');
+            }}
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </FormProvider>
     </S.Container>
@@ -118,9 +138,6 @@ const S = {
     @media screen and (max-width: 767px) {
       justify-content: center;
     }
-  `,
-  Submitbut: styled(ConfirmBtn)`
-    margin-bottom: 10%;
   `,
 };
 export default EditMenuCafe;

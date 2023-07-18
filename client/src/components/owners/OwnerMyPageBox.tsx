@@ -3,9 +3,9 @@ import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import CafeFollowerModal from '../modal/CafeFollowerModal';
-import coffeeshop from '../../assets/coffeeshop.svg';
+import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../common/baseURL';
 
 const S = {
@@ -74,7 +74,7 @@ const S = {
     width: 90vw;
     height: 180px;
     @media screen and (min-width: 786px) {
-      width: 200px;
+      width: 300px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -117,7 +117,7 @@ const S = {
     text-align: center;
     color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
-      width: 60px;
+      width: 800px;
     }
   `,
   FollowerInformaiton: styled.div`
@@ -178,6 +178,7 @@ interface OwnerData {
 }
 
 interface CafeData {
+  cafeId?: string;
   cafeName: string;
   countBookmarked: number;
   image: File;
@@ -186,6 +187,7 @@ const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [ownerInfo, setOwnerInfo] = useState<OwnerData | undefined>();
   const [cafeInfo, setCafeInfo] = useState<CafeData | undefined>();
+  const navigate = useNavigate();
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
       setFollowerIsOpen(true);
@@ -224,6 +226,7 @@ const UserMyPageBox = () => {
         console.log(response.data);
         setOwnerInfo(response.data.payload.ownerResponse);
         setCafeInfo(response.data.payload.cafes[0]);
+        console.log(cafeInfo?.cafeId);
       })
       .catch((error) => {
         // Handle error.
@@ -236,7 +239,13 @@ const UserMyPageBox = () => {
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg src={coffeeshop}></S.ProfileImg>
+          <S.ProfileImg
+            src={
+              cafeInfo?.image
+                ? URL.createObjectURL(cafeInfo.image)
+                : coffeeshop2
+            }
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>
@@ -264,14 +273,27 @@ const UserMyPageBox = () => {
         </Link>
       </S.EditButtonBox>
       <S.BottomBox>
-        <S.SandButton>내 카페 보기</S.SandButton>
-        <S.SandButton>내 카페 등록하기</S.SandButton>
-        <S.SandButton>내 카페 수정하기</S.SandButton>
-        <S.SandButton>카페 메뉴 등록하기</S.SandButton>
-        <S.SandButton>카페 메뉴 수정하기</S.SandButton>
+        <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
+          내 카페 보기
+        </S.SandButton>
+        <S.SandButton onClick={() => navigate('/addcafes')}>
+          내 카페 등록하기
+        </S.SandButton>
+        <S.SandButton
+          onClick={() => navigate(`/cafe/edit/information/${cafeInfo?.cafeId}`)}
+        >
+          내 카페 수정하기
+        </S.SandButton>
+        <S.SandButton onClick={() => navigate(`/addmenus/${cafeInfo?.cafeId}`)}>
+          카페 메뉴 등록하기
+        </S.SandButton>
+        <S.SandButton
+          onClick={() => navigate(`/cafe/edit/menu/${cafeInfo?.cafeId}`)}
+        >
+          카페 메뉴 수정하기
+        </S.SandButton>
       </S.BottomBox>
     </S.Container>
   );
 };
-
 export default UserMyPageBox;
