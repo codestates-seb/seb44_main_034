@@ -4,20 +4,17 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mainproject.cafeIn.domain.cafe.entity.Cafe;
-
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OwnerDetailResponse {
     private OwnerResponse ownerResponse;
 
-    private List<OwnerCafeResponse> cafes;
+    private OwnerCafeResponse cafe;
 
     @QueryProjection
-    public OwnerDetailResponse(OwnerResponse ownerResponse, List<OwnerCafeResponse> cafes) {
+    public OwnerDetailResponse(OwnerResponse ownerResponse, OwnerCafeResponse cafe) {
         this.ownerResponse = ownerResponse;
-        this.cafes = cafes;
+        this.cafe = cafe;
     }
 }

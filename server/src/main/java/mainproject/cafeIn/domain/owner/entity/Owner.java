@@ -33,19 +33,19 @@ public class Owner extends BaseEntity {
     @Column(name = "OWNER_STATUS", nullable = false)
     private OwnerStatus ownerStatus;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Cafe> cafes = new ArrayList<>();
+    @OneToOne(mappedBy = "owner", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Cafe cafe;
 
     @ElementCollection(fetch = FetchType.EAGER)
     List<String> roles = new ArrayList<>();
 
     @Builder
-    public Owner(String email, String displayName, String password, OwnerStatus ownerStatus, List<Cafe> cafes, List<String> roles) {
+    public Owner(String email, String displayName, String password, OwnerStatus ownerStatus, Cafe cafe, List<String> roles) {
         this.email = email;
         this.displayName = displayName;
         this.password = password;
         this.ownerStatus = ownerStatus;
-        this.cafes = cafes;
+        this.cafe = cafe;
         this.roles = roles;
     }
 }
