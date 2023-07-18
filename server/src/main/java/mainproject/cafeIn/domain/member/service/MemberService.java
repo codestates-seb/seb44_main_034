@@ -10,6 +10,7 @@ import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
 
 import mainproject.cafeIn.domain.member.repository.FollowRepository;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
+import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import static mainproject.cafeIn.global.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class MemberService {
 
+    private final OwnerService ownerService;
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
@@ -38,8 +40,11 @@ public class MemberService {
 
     public Member signUp(Member member, String uri) {
 
+        if (member.isPrivacy() == false) throw new CustomException(REQUEST_VALIDATION_FAIL);
         verifyExistsEmail(member.getEmail());
+        ownerService.verifyExistsEmail(member.getEmail());
         verifyExistsDisplayName(member.getDisplayName());
+
 
         String encryptedPassword = passwordEncoder.encode(member.getPassword());
         List<String> roles = authorityUtils.createRoles(uri);
@@ -51,6 +56,7 @@ public class MemberService {
                 .status(MemberStatus.MEMBER_ACTIVE)
                 .grade(MemberGrade.GRADE_GREEN_BEAN)
                 .roles(roles)
+                .isPrivacy(member.isPrivacy())
                 .build());
     }
 
@@ -101,7 +107,7 @@ public class MemberService {
     @Transactional
     public SliceResponse<MyBookMarkCafeList> myBookMarkCafe(Long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(id);
+
         Slice<MyBookMarkCafeList> postList = memberRepository.findByBookMarkCafeList(id, cursorId, pageable);
         List<MyBookMarkCafeList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -113,7 +119,6 @@ public class MemberService {
     @Transactional
     public SliceResponse<MyBookMarkPostList> myBookMarkPost(Long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(id);
         Slice<MyBookMarkPostList> postList = memberRepository.findByBookMarkPostList(id, cursorId, pageable);
         List<MyBookMarkPostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -128,7 +133,7 @@ public class MemberService {
         if(id == memberId) throw new CustomException(REQUEST_VALIDATION_FAIL);
 
         Member userMember = findById(memberId);
-        Member findMember = findById(id);
+
         boolean isFollowing = checkfollowing(id, userMember).size() > 0;
         UserPageDetails userInfo = UserPageDetails.builder()
                 .displayName(userMember.getDisplayName())
@@ -144,7 +149,7 @@ public class MemberService {
     @Transactional
     public SliceResponse<MyPagePostList> postList(Long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(id);
+
         Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
@@ -176,7 +181,7 @@ public class MemberService {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
-            findMember.deleteStatus(MEMBER_QUIT);
+            findMember.deleteMember("********", "*************","**********************",MEMBER_QUIT, null);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
@@ -187,7 +192,7 @@ public class MemberService {
     @Transactional
     public SliceResponse<SearchFollow> followingList(Long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(id);
+
         Slice<SearchFollow> following = memberRepository.findByFollowingList(id, cursorId,pageable);
         List<SearchFollow> followings = following.getContent();
         boolean hasNext = following.hasNext();
@@ -199,7 +204,7 @@ public class MemberService {
     @Transactional
     public SliceResponse<SearchFollow> followerList(Long id, Long cursorId, Pageable pageable) {
 
-        Member findMember = findById(id);
+
         Slice<SearchFollow> follower = memberRepository.findByFollowerList(id, cursorId, pageable);
         List<SearchFollow> followers = follower.getContent();
         boolean hasNext = follower.hasNext();
@@ -209,7 +214,7 @@ public class MemberService {
 
     }
 
-    private void verifyExistsEmail(String email) {
+    public void verifyExistsEmail(String email) {
 
         Optional<Member> member = memberRepository.findByEmail(email);
         if (member.isPresent()) {
@@ -217,7 +222,7 @@ public class MemberService {
         }
     }
 
-    private void verifyExistsDisplayName(String displayName) {
+    public void verifyExistsDisplayName(String displayName) {
 
         Optional<Member> member = memberRepository.findByDisplayName(displayName);
         if (member.isPresent()) {

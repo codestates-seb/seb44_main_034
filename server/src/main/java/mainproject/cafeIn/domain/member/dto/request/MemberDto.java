@@ -27,12 +27,15 @@ public class MemberDto {
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{8,15}$", message = "비밀번호는 8~15자리여야합니다.")
         private String password;
 
+        private boolean privacy;
+
 
         public Member toEntity() {
             return Member.builder()
                     .email(email)
                     .displayName(displayName)
                     .password(password)
+                    .isPrivacy(privacy)
                     .build();
         }
 
