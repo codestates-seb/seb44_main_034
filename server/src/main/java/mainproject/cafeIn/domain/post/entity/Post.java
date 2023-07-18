@@ -1,9 +1,6 @@
 package mainproject.cafeIn.domain.post.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.comment.entity.Comment;
 import mainproject.cafeIn.domain.member.entity.Member;
@@ -33,6 +30,7 @@ public class Post extends BaseEntity {
     @Column(name = "star_rating", nullable = false)
     private int starRating;
 
+    @Setter
     @Column(name = "post_image")
     private String image;
 

@@ -21,7 +21,6 @@ public class PostRequest {
     private String content;
     @NotNull
     private int starRating;
-    private String image;
     private List<String> tags;
 
     public Post toEntity(Member member, Cafe cafe) {
@@ -30,7 +29,6 @@ public class PostRequest {
                 .title(title)
                 .content(content)
                 .starRating(starRating)
-                .image(image)
                 .cafe(cafe)
                 .build();
     }
@@ -40,7 +38,6 @@ public class PostRequest {
                 .title(title)
                 .content(content)
                 .starRating(starRating)
-                .image(image)
                 .build();
     }
 
