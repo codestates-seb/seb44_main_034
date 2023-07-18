@@ -120,7 +120,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .select(new QMyPagePostList(post.postId, post.title, post.image, member.displayName))
                 .from(post)
                 .innerJoin(post.member, member)
-                .where(member.id.eq(id), member.status.eq(MEMBER_ACTIVE),postIdLtCursorId(cursorId))
+                .where(member.id.eq(id),postIdLtCursorId(cursorId))
                 .orderBy(post.postId.desc())
                 .limit(pageable.getPageSize()+1)
                 .fetch();
@@ -136,7 +136,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .from(member)
                 .innerJoin(member.postBookmarks, postBookmark)
                 .innerJoin(postBookmark.post, post)
-                .where(member.id.eq(id), post.member.status.eq(MEMBER_ACTIVE),postBookMarkIdLtCursorId(cursorId))
+                .where(member.id.eq(id),postBookMarkIdLtCursorId(cursorId))
                 .orderBy(postBookmark.postBookmarkId.desc())
                 .limit(pageable.getPageSize()+1)
                 .fetch();
