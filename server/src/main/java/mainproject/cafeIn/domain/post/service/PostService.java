@@ -96,10 +96,8 @@ public class PostService {
     // 게시물 단일 조회
     public PostDetailResponse findPost(Long loginId, Long postId) {
         Boolean isBookmarked = false;
-        if (loginId != null) {
-            isBookmarked = postBookmarkRepository.findByMemberIdAndPostPostId(loginId, postId)
-                    .map(postBookmark -> true)
-                    .orElse(false);
+        if (postBookmarkRepository.findByMemberIdAndPostPostId(loginId, postId).isPresent()) {
+            isBookmarked = true;
         }
         Post post = findPostById(postId);
         List<String> tagNames = postTagService.getTagNames(postId);
