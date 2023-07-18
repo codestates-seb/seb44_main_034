@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import MoodTag from '../../common/tags/MoodTag';
 import { tagName } from '../../common/tagName';
 import { PostItemAtom } from '../../recoil/postState';
-import { PostData } from '../../types/type';
+import { ReqPostData } from '../../types/type';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 
@@ -30,7 +30,7 @@ const PostMood = () => {
   const [tag, setTag] = useState<string[]>([]);
   // const [tagCount, setTagCount] = useState(0);
 
-      const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
+      const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
 
       const saveTag = () => {
         setPostData((current)=>({...current, tag:tag})); //리코일: PostItemAtom에 선택된 태그 담기

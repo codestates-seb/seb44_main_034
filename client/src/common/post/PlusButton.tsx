@@ -6,7 +6,7 @@ type PlusBtnProps = {
   handleEvent: ()=>void;
 }
 
-const PlusBtn = ({text, handleEvent}:PlusBtnProps) => {
+const PlusButton = ({text, handleEvent}:PlusBtnProps) => {
   return (
   <S.PlusBtn onClick={() => {handleEvent}} >
     {text}
@@ -33,4 +33,4 @@ const S = {
   `,
 };
 
-export default PlusBtn;
+export default PlusButton;
