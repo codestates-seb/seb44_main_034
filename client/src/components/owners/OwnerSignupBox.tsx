@@ -120,6 +120,7 @@ const OwnerSignupBox = () => {
         email: email,
         displayName: displayName,
         password: password,
+        privacy: true,
       })
       .then((response) => {
         // Handle success.

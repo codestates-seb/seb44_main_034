@@ -3,7 +3,7 @@ import axios from 'axios';
 import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import CafeFollowerModal from '../modal/CafeFollowerModal';
-import coffeeshop from '../../assets/coffeeshop.svg';
+import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../common/baseURL';
@@ -74,7 +74,7 @@ const S = {
     width: 90vw;
     height: 180px;
     @media screen and (min-width: 786px) {
-      width: 200px;
+      width: 300px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -117,7 +117,7 @@ const S = {
     text-align: center;
     color: ${COLOR_1.brown};
     @media screen and (min-width: 786px) {
-      width: 60px;
+      width: 800px;
     }
   `,
   FollowerInformaiton: styled.div`
@@ -239,7 +239,13 @@ const UserMyPageBox = () => {
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg src={coffeeshop}></S.ProfileImg>
+          <S.ProfileImg
+            src={
+              cafeInfo?.image
+                ? URL.createObjectURL(cafeInfo.image)
+                : coffeeshop2
+            }
+          ></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>

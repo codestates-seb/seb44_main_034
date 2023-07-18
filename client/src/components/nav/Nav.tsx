@@ -5,8 +5,8 @@ import { GoHome } from 'react-icons/go';
 import { GoHomeFill } from 'react-icons/go';
 import { BsFilePost } from 'react-icons/bs';
 import { BsFilePostFill } from 'react-icons/bs';
-import { BiUser } from 'react-icons/Bi';
-import { BiSolidUser } from 'react-icons/Bi';
+import { BiUser } from 'react-icons/bi';
+import { BiSolidUser } from 'react-icons/bi';
 import ProfileModal from '../modal/ProfileModal';
 
 import styled from 'styled-components';

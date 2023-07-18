@@ -108,7 +108,7 @@ const FollowingModal = () => {
           next={fetchMoreData}
           hasMore={hasMore}
           loader={<p>Loading...</p>}
-          endMessage={<p>You ar all set!</p>}
+          endMessage={<p>You are all set!</p>}
           height={250}
         >
           {dataSource.map((item) => {
