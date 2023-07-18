@@ -10,7 +10,9 @@ import mainproject.cafeIn.domain.member.entity.enums.MemberStatus;
 
 import mainproject.cafeIn.domain.member.repository.FollowRepository;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
-import mainproject.cafeIn.domain.owner.service.OwnerService;
+import mainproject.cafeIn.domain.owner.entity.Owner;
+import mainproject.cafeIn.domain.owner.repository.OwnerRepository;
+
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,7 @@ import static mainproject.cafeIn.global.exception.ErrorCode.*;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final OwnerService ownerService;
+    private final OwnerRepository ownerRepository;
     private final MemberRepository memberRepository;
     private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,7 +44,6 @@ public class MemberService {
 
         if (member.isPrivacy() == false) throw new CustomException(REQUEST_VALIDATION_FAIL);
         verifyExistsEmail(member.getEmail());
-        ownerService.verifyExistsEmail(member.getEmail());
         verifyExistsDisplayName(member.getDisplayName());
 
 
@@ -220,6 +221,11 @@ public class MemberService {
         if (member.isPresent()) {
             throw new CustomException(ALREADY_EXIST_EMAIL);
         }
+        Optional<Owner> owner = ownerRepository.findByEmail(email);
+        if(owner.isPresent()) {
+            throw new CustomException(ALREADY_EXIST_EMAIL);
+        }
+
     }
 
     public void verifyExistsDisplayName(String displayName) {

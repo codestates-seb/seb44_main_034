@@ -136,7 +136,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .from(member)
                 .innerJoin(member.postBookmarks, postBookmark)
                 .innerJoin(postBookmark.post, post)
-                .where(member.id.eq(id),postBookMarkIdLtCursorId(cursorId))
+                .where(member.id.eq(id), postBookMarkIdLtCursorId(cursorId))
                 .orderBy(postBookmark.postBookmarkId.desc())
                 .limit(pageable.getPageSize()+1)
                 .fetch();
