@@ -43,14 +43,14 @@ public class S3ImageService {
     }
 
     public String update(String imageUrl, MultipartFile multipartFile, String dirName) throws IOException {
-        delete(imageUrl);
+        delete(dirName, imageUrl);
 
         return upload(multipartFile, dirName);
     }
 
-    public void delete(String imageUrl) {
+    public void delete(String dirName, String imageUrl) {
         String fileName = extractFileNameFromUrl(imageUrl);
-        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+        amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, dirName + fileName));
     }
 
     private String extractFileNameFromUrl(String imageUrl) {

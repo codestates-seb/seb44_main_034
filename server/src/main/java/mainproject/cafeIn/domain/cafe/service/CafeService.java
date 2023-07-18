@@ -66,7 +66,7 @@ public class CafeService {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
 
-        imageService.delete(cafe.getImage());
+        imageService.delete("cafes", cafe.getImage());
         cafeRepository.delete(cafe);
     }
 
