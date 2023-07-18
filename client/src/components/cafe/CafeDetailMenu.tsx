@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css';
 import { styled } from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { MenuDataType } from '../../types/type';
 import Loading from '../Loading';
+import { baseURL } from '../../common/baseURL';
 interface MenuDetailsInfoProps {
   menu: MenuDataType[][];
 }
@@ -12,16 +15,48 @@ const menuTypeName = ['시그니처', '커피', '논커피', '디저트'];
 const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   const [isLoading, setLoading] = useState(true);
   const [modifiedMenu, setModifiedMenu] = useState<MenuDataType[][]>([...menu]);
+  const [selectedMenu, setSelectedMenu] = useState<MenuDataType | null>(null);
+  const [showModal, setShowModal] = useState(false);
+  const [comment, setComment] = useState('');
 
+  const openModal = (menu: MenuDataType) => {
+    setSelectedMenu(menu);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
   useEffect(() => {
     const lastMenu = modifiedMenu.pop();
     if (lastMenu) {
       modifiedMenu.unshift(lastMenu);
     }
+    console.log(setModifiedMenu);
     console.log(modifiedMenu);
     setLoading(false);
   }, [modifiedMenu]);
 
+  const addComment = async () => {
+    try {
+      const response = await axios.post(
+        // `${baseURL}/menu-comments/1`,
+        'http://localhost:3000/menus',
+        {
+          comment,
+        }
+      );
+      console.log(response.data);
+      // const menuId = response.data.payload;
+      // 화면에 반영
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <S.Container>
       {isLoading ? (
@@ -33,7 +68,7 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
               <S.MenuType>{menuTypeName[index]}</S.MenuType>
               <S.MenuDiv>
                 {menuGroup.map((menuItem: any, subIndex: number) => (
-                  <S.Menu key={subIndex}>
+                  <S.Menu key={subIndex} onClick={() => openModal(menuItem)}>
                     {menuItem.name}
                     <span>{menuItem.price}</span>
                   </S.Menu>
@@ -43,6 +78,20 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
           ))}{' '}
         </>
       )}
+      <Modal open={showModal} onClose={closeModal} center>
+        {selectedMenu && (
+          <div>
+            <h3>{selectedMenu.name}</h3>
+            <input
+              type='text'
+              value={comment}
+              onChange={handleCommentChange}
+              placeholder='댓글을 입력하세요'
+            />
+            <button onClick={addComment}>댓글 추가</button>
+          </div>
+        )}
+      </Modal>
     </S.Container>
   );
 };

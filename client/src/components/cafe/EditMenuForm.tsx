@@ -29,10 +29,9 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
     control,
   });
   const onUpdateMenu = async (updatedMenu: any, menuId: number) => {
-    const parameterMenuId = updatedMenu.menuId;
     try {
       const response = await axios.patch(
-        `${baseURL}/menus/${parameterMenuId}`,
+        `${baseURL}/menus/${menuId}`,
         updatedMenu
       );
       console.log(menuId);
@@ -49,6 +48,14 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
       console.error(error);
     }
   };
+  // const onAddMenu = async (menu: any) => {
+  //   try {
+  //     const response = await axios.post(`${baseURL}/menus`, menu);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div>

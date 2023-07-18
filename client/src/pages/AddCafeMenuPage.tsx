@@ -18,12 +18,12 @@ export type FormData = {
     price: number;
     menuType: string;
   }[];
-  nonCoffee: {
+  non_Coffee: {
     name: string;
     price: number;
     menuType: string;
   }[];
-  desert: {
+  dessert: {
     name: string;
     price: number;
     menuType: string;
@@ -33,8 +33,8 @@ export type FormData = {
 const menus = [
   { name: '시그니처', value: 'signature', menuType: 'SIGNATURE' },
   { name: '커피', value: 'coffee', menuType: 'COFFEE' },
-  { name: '논커피', value: 'nonCoffee', menuType: 'NONCOFFEE' },
-  { name: '디저트', value: 'desert', menuType: 'DESERT' },
+  { name: '논커피', value: 'non_Coffee', menuType: 'NON_COFFEE' },
+  { name: '디저트', value: 'dessert', menuType: 'DESSERT' },
 ];
 
 const defaultValues = {
@@ -42,8 +42,8 @@ const defaultValues = {
     { name: '아이스 아메리카노', price: 5000, menuType: 'SIGNATURE' },
   ],
   coffee: [{ name: '아이스 아메리카노', price: 5000, menuType: 'COFFEE' }],
-  nonCoffee: [{ name: '아이스티', price: 5500, menuType: 'NONCOFFEE' }],
-  desert: [{ name: '빵', price: 10000, menuType: 'DESERT' }],
+  non_Coffee: [{ name: '아이스티', price: 5500, menuType: 'NON_COFFEE' }],
+  dessert: [{ name: '빵', price: 10000, menuType: 'DESSERT' }],
 };
 const AddCafeMenuPage = () => {
   //methods에 useForm 리턴값을 넣어줌
@@ -73,6 +73,7 @@ const AddCafeMenuPage = () => {
       const response = await axios.post(`${baseURL}/menus/${id}`, mergedArray, {
         headers: {
           'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true',
           // 'Content-Type': 'application/json',
           Authorization: localStorage.getItem('access_token'),
         },
