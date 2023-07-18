@@ -6,9 +6,6 @@ import mainproject.cafeIn.domain.cafe.entity.QCafe;
 import mainproject.cafeIn.domain.owner.dto.response.*;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.repository.OwnerRepositoryCustom;
-
-import java.util.List;
-
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.owner.entity.QOwner.owner;
@@ -21,7 +18,7 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
     @Override
     public OwnerDetailResponse getOwnerDetailResponse(Long ownerId) {
         OwnerResponse ownerResponse = getOwnerResponse(ownerId);
-        List<OwnerCafeResponse> ownerCafeResponses = getOwnerCafeResponse(ownerId);
+        OwnerCafeResponse ownerCafeResponses = getOwnerCafeResponse(ownerId);
 
         return new OwnerDetailResponse(ownerResponse, ownerCafeResponses);
     }
@@ -35,7 +32,7 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
                 .execute();
     }
 
-    private List<OwnerCafeResponse> getOwnerCafeResponse(long ownerId) {
+    private OwnerCafeResponse getOwnerCafeResponse(long ownerId) {
         return queryFactory
                 .select(new QOwnerCafeResponse(
                         cafe.id,
@@ -43,11 +40,11 @@ public class OwnerRepositoryImpl implements OwnerRepositoryCustom {
                         cafeBookmark.count(), // TODO countBookmakred
                         cafe.image))
                 .from(owner)
-                .join(owner.cafes, cafe)
+                .join(owner.cafe, cafe)
                 .leftJoin(cafe.cafeBookmarks, cafeBookmark)
                 .where(owner.ownerId.eq(ownerId))
                 .groupBy(cafe) // TODO bookmark
-                .fetch();
+                .fetchOne();
     }
 
     private OwnerResponse getOwnerResponse(long ownerId) {
