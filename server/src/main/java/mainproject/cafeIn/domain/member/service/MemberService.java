@@ -14,6 +14,7 @@ import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.repository.OwnerRepository;
 
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
+import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +39,7 @@ public class MemberService {
     private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
+    private final S3ImageService imageService;
 
 
 
@@ -62,7 +65,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(MemberDto.Patch patch, Long id) {
+    public void updateMember(MemberDto.Patch patch, Long id, MultipartFile image) throws IOException {
 
         Member findmember = findById(id);
 
@@ -72,6 +75,16 @@ public class MemberService {
             String pass = patch.getPassword();
             String encryptedPassword = passwordEncoder.encode(pass);
             member.updatePassword(encryptedPassword);
+        }
+
+        if (!image.isEmpty() && findmember.getImage() == null) {
+
+            String storedImageUrl = imageService.upload(image, "profile");
+            member.updateImage(storedImageUrl);
+        } else if (!image.isEmpty() && findmember.getImage() != null) {
+
+            String storedImageUrl = imageService.update(findmember.getImage(), image, "profile");
+            member.updateImage(storedImageUrl);
         }
 
         memberRepository.save(member);
@@ -182,7 +195,8 @@ public class MemberService {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
-            findMember.deleteMember("********", "*************","**********************",MEMBER_QUIT, null);
+            imageService.delete(findMember.getImage());
+            findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
@@ -232,6 +246,10 @@ public class MemberService {
 
         Optional<Member> member = memberRepository.findByDisplayName(displayName);
         if (member.isPresent()) {
+            throw new CustomException(ALREADY_EXIST_NAME);
+        }
+        Optional<Owner> owner = ownerRepository.findByDisplayName(displayName);
+        if(owner.isPresent()) {
             throw new CustomException(ALREADY_EXIST_NAME);
         }
     }
