@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -149,13 +149,12 @@ const EditPostPage = () => {
 
   const editPostMutation = useMutation({
     mutationFn: editPost,
-    onSuccess: (data, context) => {
-      // console.log(context);
-      // console.log(data);
-      resetPostItem();
-    },
-  });
-
+    onSuccess: (data, context)=>{
+      console.log(context);
+      console.log(data);
+    resetPostItem();
+    }
+  })
   //리코일 데이터: cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
   const { cafeName, title, starRating, content } = postData; //리코일에서 불러온 데이터
 
@@ -179,19 +178,21 @@ const EditPostPage = () => {
 
   const saveTag = () => {
     setTags(tags);
-    setPostData((current) => ({ ...current, tag: tags })); //리코일: PostItemAtom에 선택된 태그 담기
-  };
-  const onClickEvent = (e: any, isClicked: boolean): void => {
+    setPostData((current)=>({...current, tag:tags})); //리코일: PostItemAtom에 선택된 태그 담기
+  }
+  const onClickEvent = (e:any):void => {
     if (tags.length >= 3) {
       e.preventDefault();
       alert('태그를 3개 이하로 선택하세요!');
+      saveTag();
       return;
     }
     if (tags.length < 3) {
-      setTags((prev) => [...prev, e.target.textContent]); //선택한 태그
-    } else {
-      //선택한 태그를 클릭하여 선택 해제 될 때
-      setTags(tags.filter((el) => el !== e.target.textContent)); //선택한 태그-선택해제한 태그
+      setTags((prev)=>[...prev, e.target.textContent]); //선택한 태그
+      saveTag();
+    } else { //선택한 태그를 클릭하여 선택 해제 될 때
+      setTags(tags.filter(el=>el !== e.target.textContent)); //선택한 태그-선택해제한 태그
+      saveTag();
     }
   };
 

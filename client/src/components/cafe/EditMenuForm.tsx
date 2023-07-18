@@ -5,7 +5,7 @@ import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { FONT_SIZE_2 } from '../../common/common';
 import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
 import { MdDriveFileRenameOutline } from 'react-icons/md';
-
+import { baseURL } from '../../common/baseURL';
 export type FormValues = {
   menu: {
     menuId?: number;
@@ -29,10 +29,9 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
     control,
   });
   const onUpdateMenu = async (updatedMenu: any, menuId: number) => {
-    const parameterMenuId = updatedMenu.menuId;
     try {
       const response = await axios.patch(
-        `http://localhost:3001/menus/${parameterMenuId}`,
+        `${baseURL}/menus/${menuId}`,
         updatedMenu
       );
       console.log(menuId);
@@ -43,14 +42,20 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
   };
   const onDeleteMenu = async (menuId: number) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/menus/${menuId}`
-      );
+      const response = await axios.delete(`${baseURL}/menus/${menuId}`);
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+  // const onAddMenu = async (menu: any) => {
+  //   try {
+  //     const response = await axios.post(`${baseURL}/menus`, menu);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <div>

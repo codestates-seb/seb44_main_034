@@ -149,21 +149,19 @@ const CreatePostPage = () => {
     // console.log(postData);
     createPostMutation.mutate(postData);
   };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const fileList = event.target.files;
-    // if (fileList) {
-    // 파일 처리 로직
-    // const formData = new FormData();
-    // console.log(fileList);
-    // mutate(formData, {
-    //   onSuccess: (data) => {
-    //     console.log(data);
-    //   }
-    // })
-    // }
-  };
-
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // const fileList = event.target.files;
+  //   // if (fileList) {
+  //     // 파일 처리 로직
+  //     // const formData = new FormData();
+  //     // console.log(fileList);
+  //     // mutate(formData, {
+  //     //   onSuccess: (data) => {
+  //     //     console.log(data);
+  //     //   }
+  //     // })
+  //   // }
+  // };
   const handleContent = (contentValue: string) => {
     // let contentValue = e.target.value;
     console.log(typeof contentValue);
@@ -219,7 +217,7 @@ const CreatePostPage = () => {
             id='file-upload'
             type='file'
             accept='image/*'
-            onChange={handleFileChange}
+            // onChange={handleFileChange}
           ></S.AddImg>
           {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
           <SunEditor height='300px' onChange={handleContent} />
@@ -247,7 +245,6 @@ const CreatePostPage = () => {
       </form>
     </S.Container>
   );
-  return <S.Container></S.Container>;
-};
-
+}
 export default CreatePostPage;
+
