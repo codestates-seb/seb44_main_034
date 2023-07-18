@@ -22,7 +22,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 350px;
+    height: 380px;
     width: 80vw;
     margin-top: 10px;
     @media screen and (min-width: 550px) {
@@ -39,17 +39,17 @@ const S = {
     }
   `,
   ExplainBox: styled.label`
-    height: 130px;
+    height: 180px;
     margin-top: 10px;
     margin-bottom: 6px;
-    font-size: ${FONT_SIZE_1.normal_1};
+    font-size: ${FONT_SIZE_1.small_2};
     border: solid 1px black;
     @media screen and (min-width: 550px) {
       width: 470px;
     }
   `,
   NextButton: styled.button`
-    height: 50px;
+    height: 40px;
     width: 80vw;
     border-radius: 15px;
     border: none;
@@ -74,7 +74,7 @@ const S = {
   `,
 
   InactiveButton: styled.button`
-    height: 50px;
+    height: 40px;
     width: 80vw;
     border-radius: 15px;
     border: none;
@@ -90,7 +90,7 @@ const S = {
     }
   `,
   ExitButton: styled.button`
-    height: 50px;
+    height: 40px;
     width: 80vw;
     border-radius: 15px;
     border: none;
@@ -117,6 +117,9 @@ const S = {
     display: flex;
     justify-content: right;
     width: 80vw;
+    @media screen and (min-width: 550px) {
+      width: 470px;
+    }
   `,
   AgreementCheckBox: styled.input`
     height: 20px;
