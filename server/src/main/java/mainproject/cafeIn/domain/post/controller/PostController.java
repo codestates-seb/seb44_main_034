@@ -53,10 +53,6 @@ public class PostController {
     public ApplicationResponse<PostDetailResponse> getPost(@PathVariable("post-id") Long postId) {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        // 로그인이 되어 있지 않은 경우
-        if (loginId == -1L) {
-            loginId = null;
-        }
         PostDetailResponse response = postService.findPost(loginId, postId);
 
         return new ApplicationResponse<>(response);
