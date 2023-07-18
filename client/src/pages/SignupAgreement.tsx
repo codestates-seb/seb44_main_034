@@ -79,7 +79,7 @@ const S = {
     border-radius: 15px;
     border: none;
     background-color: ${COLOR_1.light_gray};
-    color: black;
+    color: #999999;
     font-size: ${FONT_SIZE_1.big_1};
     font-weight: 700;
     margin-top: 10px;
@@ -153,10 +153,10 @@ const SignupAgreement = () => {
             onChange={handleCheckboxChange}
           />
         </S.Agreementbox>
-        {!isChecked && <S.InactiveButton>다음</S.InactiveButton>}
+        {!isChecked && <S.InactiveButton>동의 후 가입 가능</S.InactiveButton>}
         {isChecked && (
           <Link to='/signupselect'>
-            <S.NextButton>다음</S.NextButton>
+            <S.NextButton>가입계속</S.NextButton>
           </Link>
         )}
         <S.ExitButton>나가기</S.ExitButton>
