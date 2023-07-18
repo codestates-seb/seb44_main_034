@@ -6,31 +6,34 @@ import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
 import { cafeType } from '../../recoil/recoil';
 import { baseURL } from '../../common/baseURL';
-const facilityName = [
-  '24시간 운영여부',
-  '콘센트 유무',
-  '주차공간',
-  '동물 출입 가능 여부',
-  '디저트 판매 여부',
+
+const facilityName:{value:string;label:string}[] = [
+  { value: 'isOpenAllTime', label: '24시간 운영여부' },
+  { value: 'isChargingAvailable', label:'콘센트 유무'},
+  { value: 'hasParking', label:'주차공간'},
+  { value: 'isPetFriendly', label:'동물 출입 가능 여부'},
+  { value: 'hasDessert', label:'디저트 판매 여부'},
 ];
+
+const defaultValues = {
+  name: '',
+  address: '',
+  contact: '',
+  latitude: 1234.0,
+  longitude: 1234.0,
+  notice: '',
+  openTime: '',
+  closeTime: '',
+  isOpenAllTime: false,
+  isChargingAvailable: false,
+  hasParking: false,
+  isPetFriendly: false,
+  hasDessert: false,
+}
 const CafeInfo = () => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
-  const [CafeData, setCafeData] = useState<cafeType>({
-    name: '',
-    address: '',
-    contact: '',
-    latitude: 1234.0,
-    longitude: 1234.0,
-    notice: '',
-    openTime: '',
-    closeTime: '',
-    isOpenAllTime: false,
-    isChargingAvailable: false,
-    hasParking: false,
-    isPetFriendly: false,
-    hasDessert: false,
-  });
+  const [CafeData, setCafeData] = useState<cafeType>(defaultValues);
   // const [imageFile, setImageFile] = useState<File | null>(null);
 
   // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,46 +211,18 @@ const CafeInfo = () => {
               />
             </S.CafeNoticeDiv>
             <S.CafeFacilityDiv>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isOpenAllTime'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[0]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isChargingAvailable'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[1]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='hasParking'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[2]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='isPetFriendly'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[3]}
-              </S.CafeFacilitySpan>
-              <S.CafeFacilitySpan>
-                <S.CafeFacility
-                  type='checkbox'
-                  name='hasDessert'
-                  onChange={handleCafeInfoChange}
-                />
-                {facilityName[4]}
-              </S.CafeFacilitySpan>
+              {facilityName.map((el)=>(
+                  <S.CafeFacilitySpan
+                  key={el.value}
+                  >
+                    <S.CafeFacility
+                        type='checkbox'
+                        name={el.value}
+                        onChange={handleCafeInfoChange}
+                    />
+                    {el.label}
+                  </S.CafeFacilitySpan>
+              ))}
             </S.CafeFacilityDiv>
           </S.AddCafeInfoDiv>
         </S.MainDiv>
@@ -266,6 +241,7 @@ const CafeInfo = () => {
     </>
   );
 };
+
 const S = {
   MainDiv: styled.div`
     width: 768px;

@@ -17,6 +17,9 @@ import greenbean from '../../assets/greenbean.svg';
 import espresso from '../../assets/espresso.svg';
 // import { useNavigate } from 'react-router-dom';
 
+const defaultHeader = { 'ngrok-skip-browser-warning': 'true',
+  'Access-Control-Allow-Origin': '*',};
+
 const S = {
   Container: styled.div`
     width: 90vw;
@@ -315,101 +318,70 @@ interface UserData {
 //   image: File;
 // }
 
-interface AllListData {
-  cafeId?: number;
+export interface PostType {
+  id?: number;
   cafeName?: string;
   image?: File;
   address?: string;
   rating?: number;
-  postId?: number;
   title?: string;
   author?: string;
 }
+
+
+const mockData = [{
+  id: 1,
+  cafeName:'동대문 카페',
+  image:undefined,
+  address:'서울시 동대문구',
+  rating:1,
+  title:'먹자',
+  author:'주인장',
+},{
+  id: 2,
+  cafeName:'동대문 카페1',
+  image:undefined,
+  address:'서울시 동대문구',
+  rating:1,
+  title:'먹자',
+  author:'주인장',
+},{
+  id: 3,
+  cafeName:'동대문 카페2',
+  image:undefined,
+  address:'서울시 동대문구',
+  rating:1,
+  title:'먹자',
+  author:'주인장',
+},{
+  id: 4,
+  cafeName:'동대문 카페3',
+  image:undefined,
+  address:'서울시 동대문구',
+  rating:1,
+  title:'먹자',
+  author:'주인장',
+}]
+
 const UserMyPageBox = () => {
-  const [bookmarkCafeFocus, setBookmarkCafeFocus] = useState<boolean>(true);
-  const [bookmarkPostFocus, setBookmarkPostFocus] = useState<boolean>(false);
-  const [myPostFocus, setMyPostFocus] = useState<boolean>(false);
-  const handleBookmarkCafeFocus = () => {
-    axios
-      .get(`${baseURL}/members/my-page/bookmarked-cafe`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      })
-      .then((response) => {
-        // Handle success.
-        console.log('success');
-        const bookMarkCafe: AllListData[] = response.data.payload.data;
-        setDataSource(bookMarkCafe);
-        setHasMore(response.data.payload.hasNext);
-      })
-      .catch((error) => {
-        // Handle error.
-
-        console.log('An error occurred:', error.response);
-        // replace('/');
-      });
-    setBookmarkCafeFocus(true);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(false);
-  };
-  const handleBookmarkPostFocus = () => {
-    axios
-      .get(`${baseURL}/members/my-page/bookmarked-post`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      })
-      .then((response) => {
-        // Handle success.
-        console.log('success');
-        const bookmarkPost: AllListData[] = response.data.payload.data;
-        setDataSource(bookmarkPost);
-        setHasMore(response.data.payload.hasNext);
-      })
-      .catch((error) => {
-        // Handle error.
-
-        console.log('An error occurred:', error.response);
-        // replace('/');
-      });
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(true);
-    setMyPostFocus(false);
-  };
-  const handleMyPostFocus = () => {
-    axios
-      .get(`${baseURL}/members/my-page/my-post`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-          'Access-Control-Allow-Origin': '*',
-          Authorization: localStorage.getItem('access_token'),
-        },
-      })
-      .then((response) => {
-        // Handle success.
-        console.log('success');
-        const MyPost: AllListData[] = response.data.payload.data;
-        setDataSource(MyPost);
-        setHasMore(response.data.payload.hasNext);
-      })
-      .catch((error) => {
-        // Handle error.
-
-        console.log('An error occurred:', error.response);
-        // replace('/');
-      });
-    setBookmarkCafeFocus(false);
-    setBookmarkPostFocus(false);
-    setMyPostFocus(true);
-  };
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserData | undefined>();
+
+  const [dataSource, setDataSource] = useState<PostType[]>(mockData);
+  const [hasMore, setHasMore] = useState(true);
+
+  // cafe, post, myPost
+  const [selectedTab,setSelctedTab] = useState<'cafe'|'post'|'my-post'>('cafe')
+  //
+  // const [modalVisible, setModalVisible] = useState({
+  //   new:false,
+  //   edit:false,
+  //   submit:false,
+  //   submitBefore:false,
+  // });
+  //
+  // setModalVisible((prevState)=> ({...prevState, submit:true}));
 
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
@@ -468,8 +440,7 @@ const UserMyPageBox = () => {
       });
   }, []);
 
-  const [dataSource, setDataSource] = useState<AllListData[]>(Array.from([]));
-  const [hasMore, setHasMore] = useState(true);
+
   const fetchMoreData = () => {
     if (dataSource.length < 100) {
       setTimeout(() => {
@@ -482,6 +453,30 @@ const UserMyPageBox = () => {
       setHasMore(false);
     }
   };
+
+  useEffect(()=> {
+    axios
+        .get(`${baseURL}/members/my-page/${selectedTab}`, {
+          headers: {
+          ...defaultHeader,
+            Authorization: localStorage.getItem('access_token'),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          console.log('success');
+          const MyPost: PostType[] = response.data.payload.data;
+          setDataSource(MyPost);
+          setHasMore(response.data.payload.hasNext);
+        })
+        .catch((error) => {
+          // Handle error.
+
+          console.log('An error occurred:', error.response);
+          // replace('/');
+        });
+
+  },[selectedTab]);
 
   return (
     <S.Container>
@@ -535,9 +530,12 @@ const UserMyPageBox = () => {
       </S.EditButtonBox>
       <S.BottomBox>
         <S.SandBtn
-          onClick={handleBookmarkCafeFocus}
+          onClick={()=> {
+            setSelctedTab('cafe')
+
+          }}
           style={{
-            backgroundColor: bookmarkCafeFocus
+            backgroundColor: selectedTab ==='cafe'
               ? `${COLOR_1.dark_sand}`
               : `${COLOR_1.ivory}`,
           }}
@@ -545,9 +543,12 @@ const UserMyPageBox = () => {
           북마크한 카페
         </S.SandBtn>
         <S.SandBtn
-          onClick={handleBookmarkPostFocus}
+            onClick={()=> {
+              setSelctedTab('post')
+
+            }}
           style={{
-            backgroundColor: bookmarkPostFocus
+            backgroundColor: selectedTab==='post'
               ? `${COLOR_1.dark_sand}`
               : `${COLOR_1.ivory}`,
           }}
@@ -555,9 +556,12 @@ const UserMyPageBox = () => {
           북마크한 포스트
         </S.SandBtn>
         <S.SandBtn
-          onClick={handleMyPostFocus}
+            onClick={()=> {
+              setSelctedTab('my-post')
+
+            }}
           style={{
-            backgroundColor: myPostFocus
+            backgroundColor: selectedTab==='my-post'
               ? `${COLOR_1.dark_sand}`
               : `${COLOR_1.ivory}`,
           }}
@@ -572,14 +576,21 @@ const UserMyPageBox = () => {
           hasMore={hasMore}
           loader={<p>Loading...</p>}
           endMessage={<p>You are all set!</p>}
-          height={250}
+          height={400}
         >
-          {dataSource.map(() => {
+          {dataSource.map((el) => {
             return (
               <>
-                {bookmarkCafeFocus && <BookmarkCafe />}
-                {bookmarkPostFocus && <BookmarkPost />}
-                {myPostFocus && <MyPost />}
+                {selectedTab === 'cafe' ? (<BookmarkCafe
+                data={el}
+                key={el?.id}
+                />) : selectedTab === 'post' ?  <BookmarkPost
+                    data={el}
+                    key={el?.id}
+                />:<MyPost
+                    data={el}
+                    key={el?.id}
+                />}
               </>
             );
           })}

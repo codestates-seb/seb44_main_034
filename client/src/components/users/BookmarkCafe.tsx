@@ -2,6 +2,7 @@ import { FONT_SIZE_1 } from '../../common/common';
 import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 import styled from 'styled-components';
+import {PostType} from "./UserMyPageBox.tsx";
 
 const S = {
   GradeImg: styled.img`
@@ -84,19 +85,20 @@ const S = {
   `,
 };
 
-const BookmarkCafe = () => {
+const BookmarkCafe = (props:{data:PostType}) => {
+  const {data}=props;
   return (
     <S.CafeContainer>
-      <S.CafeImgBox src={coffeeshop2} />
+      <S.CafeImgBox src={data?.image ?? ''} />
       <S.CafeInformaiton>
         <S.CafeTitleBox>
-          <S.CafeTitle>스타벅스</S.CafeTitle>
+          <S.CafeTitle>{data?.cafeName ?? ''}</S.CafeTitle>
           <S.CafeRating>
             <BiSolidCoffeeBean size='18' />
-            4.1
+            {data?.rating ?? 0}
           </S.CafeRating>
         </S.CafeTitleBox>
-        <S.CafeAddressBox>서울시 마포구</S.CafeAddressBox>
+        <S.CafeAddressBox>{data?.address ?? ''}</S.CafeAddressBox>
         <S.CafeTagBox>
           <S.CafeTag>24시영업</S.CafeTag>
           <S.CafeTag>콘센트</S.CafeTag>

@@ -4,20 +4,19 @@ import styled from 'styled-components';
 
 type MoodTagProps = {
   text: string;
-  onClickEvent: (e:any, isClicked:boolean) => void;
+  onClickEvent: (tagName:string) => void;
+  selected:boolean;
 }
 
-const MoodTag = ({text, onClickEvent}:MoodTagProps) => {
-const [isClicked, setIsClicked] = useState(false);
-const handleIsClicked =((e:any) => {
-  setIsClicked((prev)=>!prev);
-  onClickEvent(e, isClicked);
+const MoodTag = ({selected,text, onClickEvent}:MoodTagProps) => {
+const handleIsClicked =((tagName:string) => {
+  onClickEvent(tagName);
 })
   return (
-    <S.Tag className={isClicked? 'isClicked' : ''} onClick={(e:any)=>{handleIsClicked(e)}} >
+    <S.Tag className={selected? 'isClicked' : ''} onClick={()=>{handleIsClicked(text)}} >
     {text}
    </S.Tag>
-  ) 
+  )
 }
 
 const S= {

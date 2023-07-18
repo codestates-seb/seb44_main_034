@@ -1,11 +1,7 @@
 import LoginBox from '../components/loginbox/LoginBox';
 
 const Login = () => {
-  return (
-    <>
-      <LoginBox></LoginBox>
-    </>
-  );
+  return <LoginBox />;
 };
 
 export default Login;

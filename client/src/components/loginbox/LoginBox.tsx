@@ -180,9 +180,7 @@ const LoginBox = () => {
           />
           {errors.username ? (
             <S.InputInformation>{errors.username.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
+          ) : null}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
             id='password'
@@ -204,12 +202,10 @@ const LoginBox = () => {
                   '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
               },
             })}
-          ></S.InputBox>
+          />
           {errors.password ? (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
-          )}
+          ) : null}
           <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>
         <S.Submitbutton type='submit'>로그인</S.Submitbutton>
