@@ -201,6 +201,9 @@ const EditUserMyPageBox = () => {
     console.log(data);
     axios
       .post(`${baseURL}/members/update`, {
+        headers: {
+          withCredentials: true,
+        },
         data,
       })
       .then((response) => {

@@ -321,7 +321,7 @@ interface UserData {
 // }
 
 export interface PostType {
-  cafeId?: number;
+  id?: number;
   cafeName?: string;
   image?: File;
   address?: string;
@@ -443,6 +443,7 @@ const UserMyPageBox = () => {
         headers: {
           'ngrok-skip-browser-warning': 'true',
           'Access-Control-Allow-Origin': '*',
+          withCredentials: true,
           Authorization: localStorage.getItem('access_token'),
         },
       })

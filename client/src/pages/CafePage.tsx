@@ -17,7 +17,12 @@ const CafePage = () => {
     const fetchCafeData = async () => {
       try {
         // const response = await axios.get('http://localhost:3000/cafes');
-        const response = await axios.get(`${baseURL}/cafes/${id}`);
+        const response = await axios.get(`${baseURL}/cafes/${id}`, {
+          headers: {
+            withCredentials: true,
+            Authorization: localStorage.getItem('access_token'),
+          },
+        });
         const data = response.data.payload;
         console.log(data);
         setCafeDetail(data.cafeDetail);

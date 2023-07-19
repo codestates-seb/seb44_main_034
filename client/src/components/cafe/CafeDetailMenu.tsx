@@ -6,7 +6,7 @@ import { styled } from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { MenuDataType } from '../../types/type';
 import Loading from '../Loading';
-// import { baseURL } from '../../common/baseURL';
+import { baseURL } from '../../common/baseURL';
 interface MenuDetailsInfoProps {
   menu: MenuDataType[][];
 }
@@ -43,13 +43,9 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
 
   const addComment = async () => {
     try {
-      const response = await axios.post(
-        // `${baseURL}/menu-comments/1`,
-        'http://localhost:3000/menus',
-        {
-          comment,
-        }
-      );
+      const response = await axios.post(`${baseURL}/menu-comments/1`, {
+        comment,
+      });
       console.log(response.data);
       // const menuId = response.data.payload;
       // 화면에 반영
