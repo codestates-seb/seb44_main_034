@@ -3,53 +3,43 @@ import styled from 'styled-components';
 
 type FacilitiesTagProps = {
   text: string;
-  id: string;
+  selected: string|undefined;
+  onClickEvent: (text:string) => void;
 }
 
-const FacilitiesTag = ({text, id}:FacilitiesTagProps) => {
-
+const FacilitiesTag = ({text, onClickEvent, selected}:FacilitiesTagProps) => {
+  const handleIsClicked = (text:string) => {
+    onClickEvent(text);
+  }
   return (
-    <>
-  <S.Input type='checkbox' id={id} name='facilities' value={text} />
-  <S.Label htmlFor={id}>
-    {text}
-  </S.Label>
-    </>
+    <S.Tag className={selected? 'isClicked' : ''} onClick={()=>{handleIsClicked(text)}} >
+      {text}
+    </S.Tag>
   )
 }
 
 const S = {
-  Input: styled.input`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin :-1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-  &:checked + label {
-    background-color: ${COLOR_1.dark_brown};
-    color: ${COLOR_1.white};
-    box-shadow: 0px 5px 6px ${COLOR_1.dark_brown};
-  }
-  &:hover+ label {
-    background-color: ${COLOR_1.dark_brown};
-    color: ${COLOR_1.white};
-    box-shadow: 0px 5px 6px ${COLOR_1.dark_brown};
-  }
-`,
-Label: styled.label`
-  padding: 6px 8px;
-  height: 30px;
+  Tag: styled.div`
+  padding: 6px 6px 2px 6px;
+  height: 28px;
   cursor: pointer;
+  white-space: nowrap;
   border: 1px solid ${COLOR_1.black};
   border-radius: 12px;
   box-shadow: 0px 5px 6px ${COLOR_1.brown};
   background-color: ${COLOR_1.white};
   font-size: ${FONT_SIZE_1.normal_2};
   color: ${COLOR_1.brown};
+  &.isClicked {
+    background-color: ${COLOR_1.dark_brown};
+    color: ${COLOR_1.white};
+    box-shadow: 0px 5px 6px ${COLOR_1.dark_brown};
+  }
+  &:hover {
+    background-color: ${COLOR_1.dark_brown};
+    color: ${COLOR_1.white};
+    box-shadow: 0px 5px 6px ${COLOR_1.dark_brown};
+  }
 `  
 }
 
