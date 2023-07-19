@@ -43,6 +43,7 @@ const EditMenuCafe = () => {
           {
             headers: {
               'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': 'true',
               // 'Content-Type': 'application/json',
               Authorization: localStorage.getItem('access_token'),
             },
