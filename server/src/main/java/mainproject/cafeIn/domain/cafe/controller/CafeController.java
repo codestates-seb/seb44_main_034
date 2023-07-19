@@ -17,6 +17,7 @@ import mainproject.cafeIn.domain.tag.dto.TagResponse;
 import mainproject.cafeIn.domain.tag.service.TagService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,10 +88,10 @@ public class CafeController {
     // 카페 리스트 조회
     @GetMapping
     @ResponseStatus(OK)
-    public ApplicationResponse<List<CafeResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
+    public ApplicationResponse<Page<CafeResponse>> getCafes(SearchCafeFilterCondition searchCafeFilterCondition,
                                                             PageCafeRequest pageCafeRequest) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        List<CafeResponse> response = cafeService.searchCafesByFilterCondition(loginId, searchCafeFilterCondition, pageCafeRequest.of());
+        Page<CafeResponse> response = cafeService.searchCafesByFilterCondition(loginId, searchCafeFilterCondition, pageCafeRequest.of());
 
         return new ApplicationResponse<>(response);
     }
@@ -117,20 +118,20 @@ public class CafeController {
 
     @GetMapping("/search-cafe/{cafe-name}")
     @ResponseStatus(OK)
-    public ApplicationResponse<List<CafeResponse>> findCafesByName(@PathVariable("cafe-name") String name,
+    public ApplicationResponse<Page<CafeResponse>> findCafesByName(@PathVariable("cafe-name") String name,
                                                                   PageCafeRequest pageCafeRequest) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        List<CafeResponse> responses = cafeService.findCafesByName(loginId, name, pageCafeRequest.of());
+        Page<CafeResponse> responses = cafeService.findCafesByName(loginId, name, pageCafeRequest.of());
 
         return new ApplicationResponse<>(responses);
     }
 
     @GetMapping("/search-menu/{menu-name}")
     @ResponseStatus(OK)
-    public ApplicationResponse<List<CafeResponse>> findCafesByMenu(@PathVariable("menu-name") String name,
+    public ApplicationResponse<Page<CafeResponse>> findCafesByMenu(@PathVariable("menu-name") String name,
                                                                    PageCafeRequest pageCafeRequest) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        List<CafeResponse> responses = cafeService.findCafesByMenu(loginId, name, pageCafeRequest.of());
+        Page<CafeResponse> responses = cafeService.findCafesByMenu(loginId, name, pageCafeRequest.of());
 
         return new ApplicationResponse<>(responses);
     }
