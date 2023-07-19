@@ -2,7 +2,7 @@ import { FONT_SIZE_1 } from '../../common/common';
 import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 import styled from 'styled-components';
-import { PostType } from './UserMyPageBox.tsx';
+import { PostType } from '../users/UserMyPageBox';
 
 const S = {
   GradeImg: styled.img`
@@ -86,7 +86,7 @@ const S = {
   `,
 };
 
-const BookmarkCafe = (props: { data: PostType }) => {
+const Cafe = (props: { data: PostType }) => {
   const { data } = props;
   return (
     <S.CafeContainer>
@@ -109,4 +109,4 @@ const BookmarkCafe = (props: { data: PostType }) => {
   );
 };
 
-export default BookmarkCafe;
+export default Cafe;
