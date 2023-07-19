@@ -13,6 +13,7 @@ import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeResponse;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepositoryCustom;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
@@ -60,7 +61,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     @Override
-    public PageImpl<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+    public Page<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
         List<CafeResponse> response = queryFactory
                 .select(new QCafeResponse(
                         cafe.id,
@@ -84,11 +85,16 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(response);
+        Long count = queryFactory
+                .select(cafe.count())
+                .where(allFilter(searchCafeFilterCondition))
+                .fetchOne();
+
+        return new PageImpl<>(response,pageable, count);
     }
 
     @Override
-    public PageImpl<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
+    public Page<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
         List<CafeResponse> response = queryFactory
                 .select(new QCafeResponse(
                         cafe.id,
@@ -111,11 +117,17 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(response);
+        Long count = queryFactory
+                .select(cafe.count())
+                .from(cafe)
+                .where(cafe.name.contains(name))
+                .fetchOne();
+
+        return new PageImpl<>(response, pageable, count);
     }
 
     @Override
-    public PageImpl<CafeResponse> findCafesByMenu(Long loginId, String menuName, Pageable pageable) {
+    public Page<CafeResponse> findCafesByMenu(Long loginId, String menuName, Pageable pageable) {
         List<CafeResponse> response = queryFactory
                 .select(new QCafeResponse(
                         cafe.id,
@@ -139,7 +151,14 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        return new PageImpl<>(response);
+        Long count = queryFactory
+                .select(cafe.count())
+                .from(cafe)
+                .where(menu.name.eq(menuName))
+                .leftJoin(cafe.menus, menu)
+                .fetchOne();
+
+        return new PageImpl<>(response, pageable, count);
     }
 
     private BooleanBuilder allFilter(SearchCafeFilterCondition searchCafeFilterCondition) {

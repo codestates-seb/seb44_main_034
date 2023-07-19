@@ -11,7 +11,7 @@ import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
 import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 import static mainproject.cafeIn.global.exception.ErrorCode.PASSWORD_NOT_MATCH;
@@ -77,17 +76,17 @@ public class CafeService {
         return cafeRepository.getCafe(cafeId, loginId);
     }
 
-    public PageImpl<CafeResponse> searchCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
+    public Page<CafeResponse> searchCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable) {
 
         return cafeRepository.findCafesByFilterCondition(loginId, searchCafeFilterCondition, pageable);
     }
 
-    public PageImpl<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
+    public Page<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
 
         return cafeRepository.findCafesByName(loginId, name, pageable);
     }
 
-    public PageImpl<CafeResponse> findCafesByMenu(Long loginId, String name, Pageable pageable) {
+    public Page<CafeResponse> findCafesByMenu(Long loginId, String name, Pageable pageable) {
 
         return cafeRepository.findCafesByMenu(loginId, name, pageable);
     }
