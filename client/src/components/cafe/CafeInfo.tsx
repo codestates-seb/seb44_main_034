@@ -31,15 +31,15 @@ const CafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  // const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<string | Blob>('');
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  // const selectedFile = event.target.files?.[0];
-  // if (selectedFile) {
-  //   setImageFile(selectedFile);
-  //   console.log(imageFile);
-  // }
-  // };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setImageFile(selectedFile);
+      console.log(imageFile);
+    }
+  };
   // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   const reader = new FileReader();
 
@@ -53,9 +53,6 @@ const CafeInfo = () => {
   //   }
   // };
 
-  // const saveCafe = (cafe: CafeType) => {
-  //   setCafes((prevCafes) => [...prevCafes, cafe]);
-  // };
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
@@ -78,28 +75,11 @@ const CafeInfo = () => {
   ) => {
     event.preventDefault();
 
-    const imageFile = '';
     const formData = new FormData();
     formData.append('cafeImage', imageFile); // 이미지 파일 추가
-    formData.append('data', JSON.stringify({ dto: CafeData }));
+    formData.append('dto', JSON.stringify(CafeData));
 
-    // if (imageFile) {
-    //   console.log(imageFile);
-    //   const formData = new FormData();
-    //   console.log(formData);
-    //   formData.append('image', imageFile);
-    // }
     try {
-      // const responseImg = await axios.post(
-      //   'http://localhost:3001/cafes',
-      //   FormData
-      // );
-      // if (responseImg.status === 201) {
-      //   //이미지 업로드 성공일 때
-      //   const cafeDataWithImage = {
-      //     ...CafeData,
-      //     cafeImg: responseImg.data.imageUrl,
-      //   };
       for (const entry of formData.entries()) {
         console.log(entry[0] + ': ' + entry[1]);
       }
@@ -114,9 +94,10 @@ const CafeInfo = () => {
       // const response = await axios.post('http://localhost:3000/add', data);
       // console.log(response.data.imageUrl);
       console.log(response.data);
-      const cafeId = response.data.id;
+      console.log(response);
+      const cafeId = response.data.payload;
       alert('카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다');
-      navigate(`/addmenus/${cafeId}`);
+      navigate(`/menus/${cafeId}/add`);
       // } else {
       //   throw new Error('Image upload failed');
       // }
@@ -134,8 +115,7 @@ const CafeInfo = () => {
       <form onSubmit={handleSaveCafeInfo}>
         <S.MainDiv>
           <S.AddImageDiv>
-            {/* <input type='file' onChange={handleFileChange} /> */}
-            <input type='file' />
+            <input type='file' onChange={handleFileChange} />
             {/* <input
               type='file'
               accept='image/*'
