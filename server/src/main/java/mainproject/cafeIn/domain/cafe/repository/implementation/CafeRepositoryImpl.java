@@ -191,7 +191,9 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     private OrderSpecifier<?> orderType(String sortType) {
-        if (sortType.equals("countBookmark")) {
+        if (StringUtils.isBlank(sortType)) {
+            return cafe.createdAt.desc();
+        } else if (sortType.equals("countBookmark")) {
             return cafe.cafeBookmarks.size().desc();
         } else if (sortType.equals("rating")) {
             return cafe.rating.desc();

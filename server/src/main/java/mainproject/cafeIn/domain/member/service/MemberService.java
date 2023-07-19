@@ -195,7 +195,7 @@ public class MemberService {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
-            imageService.delete(findMember.getImage());
+            imageService.delete("profile", findMember.getImage());
             findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
