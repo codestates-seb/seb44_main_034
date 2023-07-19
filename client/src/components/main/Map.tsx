@@ -2,7 +2,11 @@ import { COLOR_1 } from '../../common/common';
 import styled from 'styled-components';
 import { FONT_SIZE_1 } from '../../common/common';
 import { useEffect } from 'react';
-
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
 const S = {
   Container: styled.div`
     display: flex;

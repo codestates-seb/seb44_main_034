@@ -80,6 +80,8 @@ const AddCafeMenuPage = () => {
       });
 
       console.log(response.data);
+      alert('메뉴 등록이 완료되었습니다 카페 상세 페이지로 이동합니다');
+      navigate(`/cafes/${id}`);
     } catch (error) {
       console.error(error);
     }

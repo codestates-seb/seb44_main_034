@@ -276,7 +276,7 @@ const UserMyPageBox = () => {
         <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
           내 카페 보기
         </S.SandButton>
-        <S.SandButton onClick={() => navigate('/addcafes')}>
+        <S.SandButton onClick={() => navigate('/cafes/add')}>
           내 카페 등록하기
         </S.SandButton>
         <S.SandButton
@@ -284,7 +284,9 @@ const UserMyPageBox = () => {
         >
           내 카페 수정하기
         </S.SandButton>
-        <S.SandButton onClick={() => navigate(`/addmenus/${cafeInfo?.cafeId}`)}>
+        <S.SandButton
+          onClick={() => navigate(`/menus/${cafeInfo?.cafeId}/add`)}
+        >
           카페 메뉴 등록하기
         </S.SandButton>
         <S.SandButton
