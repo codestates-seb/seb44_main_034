@@ -8,7 +8,6 @@ import { baseURL } from '../../common/baseURL';
 import coffeebean from '../../assets/coffeebean.svg';
 import greenbean from '../../assets/greenbean.svg';
 import espresso from '../../assets/espresso.svg';
-import coffeeshop3 from '../../assets/coffeeshop3.jpeg';
 import { PostType } from '../users/UserMyPageBox';
 import MyPost from '../users/MyPost';
 import styled from 'styled-components';

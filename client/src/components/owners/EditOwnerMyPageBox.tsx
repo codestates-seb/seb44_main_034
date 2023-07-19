@@ -200,6 +200,7 @@ const EditOwnerMyPageBox = () => {
         {
           headers: {
             'ngrok-skip-browser-warning': 'true',
+            withCredentials: true,
             Authorization: localStorage.getItem('access_token'),
           },
         }

@@ -12,7 +12,10 @@ const S = {
   Container: styled.div`
     width: 90vw;
     margin-bottom: 10px;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
+    @media screen and (min-width: 786px) {
       width: 700px;
     }
   `,
@@ -23,6 +26,9 @@ const S = {
     align-items: center;
     height: 400px;
     width: 90vw;
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     @media screen and (min-width: 786px) {
       flex-direction: row;
       width: 700px;
@@ -34,6 +40,9 @@ const S = {
     align-items: center;
     margin-top: 20px;
     width: 90vw;
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     @media screen and (min-width: 786px) {
       width: 700px;
     }
@@ -43,6 +52,9 @@ const S = {
     justify-content: right;
     height: 60px;
     width: 90vw;
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     border-bottom: solid 1px ${COLOR_1.light_gray};
     @media screen and (min-width: 786px) {
       width: 700px;
@@ -73,8 +85,15 @@ const S = {
   ProfileImg: styled.img`
     width: 90vw;
     height: 180px;
+    border: solid 2px black;
+    border-radius: 10px;
+    box-shadow: 0px 2px 2px 2px gray;
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     @media screen and (min-width: 786px) {
       width: 300px;
+      height: 200px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -97,6 +116,9 @@ const S = {
     background-color: ${COLOR_1.white};
     border: solid 2px ${COLOR_1.green};
     box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     @media screen and (min-width: 786px) {
       width: 350px;
     }
@@ -107,6 +129,9 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 30vw;
+    @media screen and (min-width: 500px) {
+      width: 480px;
+    }
     @media screen and (min-width: 786px) {
       width: 80px;
     }
@@ -116,6 +141,9 @@ const S = {
     margin-top: 5px;
     text-align: center;
     color: ${COLOR_1.brown};
+    @media screen and (min-width: 500px) {
+      width: 100px;
+    }
     @media screen and (min-width: 786px) {
       width: 800px;
     }
@@ -128,6 +156,9 @@ const S = {
     color: ${COLOR_1.black};
     &:hover {
       color: ${COLOR_1.light_red};
+    }
+    @media screen and (min-width: 500px) {
+      width: 200px;
     }
     @media screen and (min-width: 786px) {
       width: 270px;
@@ -217,6 +248,7 @@ const UserMyPageBox = () => {
       .get(`${baseURL}/owners/my-page`, {
         headers: {
           'ngrok-skip-browser-warning': 'true',
+          withCredentials: true,
           Authorization: localStorage.getItem('access_token'),
         },
       })
