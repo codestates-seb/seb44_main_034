@@ -3,16 +3,17 @@ import styled from 'styled-components';
 
 type FacilitiesTagProps = {
   text: string;
+  address: string;
   selected: string|undefined;
-  onClickEvent: (text:string) => void;
+  onClickEvent: (text:string, key:string) => void;
 }
 
-const FacilitiesTag = ({text, onClickEvent, selected}:FacilitiesTagProps) => {
-  const handleIsClicked = (text:string) => {
-    onClickEvent(text);
+const FacilitiesTag = ({text, address, onClickEvent, selected}:FacilitiesTagProps) => {
+  const handleIsClicked = (text:string, address:string) => {
+    onClickEvent(text, address);
   }
   return (
-    <S.Tag className={selected? 'isClicked' : ''} onClick={()=>{handleIsClicked(text)}} >
+    <S.Tag className={selected? 'isClicked' : ''} onClick={()=>{handleIsClicked(text, address)}} >
       {text}
     </S.Tag>
   )

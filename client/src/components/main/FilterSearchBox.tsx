@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState, SetRecoilState, useSetRecoilState } from 'recoil';
+import { FacilitiesAtom } from '../../recoil/mainState';
+import { HandleSearchAtom } from '../../recoil/mainState';
 import { FacilitiesTagNames, MoodTagNames } from '../../common/tagNames';
 import FacilitiesTag from '../../common/tags/FacilitiesTag';
 import MoodTag from '../../common/tags/MoodTag';
@@ -111,17 +114,41 @@ const S = {
 const FilterSearchBox = () => {
   const [facilities, setFacilities] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
+  const facilitiesKeys = ['&isopenalltime=true','&ischargingavailable=true','&hasparking=true','&ispetfriendly=true','&hasdessert=true']
+  const [facilAddress, setFacilAddress] = useState<string[]>([]);
 
+  const [facilitiesAtom, setfacilitiesAtom] = useRecoilState<string>(FacilitiesAtom);
+  const setHandleSearch = useSetRecoilState(HandleSearchAtom);
 
-  const handleFaciliesTagClick = (tagText:string):void => {
+  const handleSearchClick =() => {
+    setHandleSearch(true);
+  }
+
+  const saveFacil =() => {
+    setfacilitiesAtom(facilAddress.join(''));
+  }
+  // console.log(facilAddress);
+  console.log(facilitiesAtom);
+  // if (facilities === '전체') {
+  //   setShortAddress('');
+  // }
+  // if (location !== '전체') {
+  //   setShortAddress(`shortaddress=${location}`);
+  // }
+  // console.log(shortAddress);
+
+  const handleFaciliesTagClick = (tagText:string, address:string):void => {
     const findTag = facilities.find((el) => (el === tagText));
     const filterTag = facilities.filter((el) => (el !== tagText));
-
+    // const findFacil = facilitiesKeys.find((el) => (el === address));
+    const filterFacil = facilAddress.filter((el) => (el !== address));
     if (findTag) {
       setFacilities(() => ([...filterTag]));
+      setFacilAddress(() => ([...filterFacil]));
     }
     if (!findTag) {
       setFacilities(() => ([...facilities, tagText]));
+      setFacilAddress(() => ([...facilAddress, address]));
     }
   }
 
@@ -136,14 +163,18 @@ const FilterSearchBox = () => {
       setMoodTags(() => ([...moodTags, tagText]));
     }
   }
-console.log(facilities, moodTags)
+
+  useEffect(saveFacil, [facilAddress])
+  console.log(facilities, moodTags)
+  // console.log(facilAddress);
+
   return (
     <S.Container>
       <S.TitleBox>
         <S.Title>시설</S.Title>
       </S.TitleBox>
       <S.FacilityContainer>
-      {FacilitiesTagNames.map((el)=> (<FacilitiesTag key={el} text={el} onClickEvent={handleFaciliesTagClick} selected={
+      {FacilitiesTagNames.map((el, idx)=> (<FacilitiesTag key={facilitiesKeys[idx]} address={facilitiesKeys[idx]} text={el} onClickEvent={handleFaciliesTagClick} selected={
           facilities.find((ele)=>(ele === el))
         }></FacilitiesTag>))}
       </S.FacilityContainer>
@@ -156,7 +187,7 @@ console.log(facilities, moodTags)
         }></MoodTag>))}
       </S.MoodContainer>
       <S.ButtonBox>
-        <S.SearchButton>Search</S.SearchButton>
+        <S.SearchButton onClick={handleSearchClick}>Search</S.SearchButton>
       </S.ButtonBox>
     </S.Container>
   );
