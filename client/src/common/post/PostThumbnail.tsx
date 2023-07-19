@@ -10,19 +10,22 @@ type PostThumbnailProps = {
 const PostThumbnail = ({ image, title, author }: PostThumbnailProps) => {
   return (
     <S.Container>
+      {/* <div> */}
       <S.ImgWrap>
         <S.Img src={image} />
       </S.ImgWrap>
       <S.Div>
+        <div></div>
         <S.TitleWrap>
           <S.Title>
-            {title.length > 26 ? `${title.slice(0, 26)}...` : title}
+            {title.length > 21 ? `${title.slice(0, 21)}...` : title}
           </S.Title>
         </S.TitleWrap>
         <S.AuthorWrap>
           <S.Author>- {author}</S.Author>
         </S.AuthorWrap>
       </S.Div>
+      {/* </div> */}
     </S.Container>
   );
 };
@@ -30,39 +33,45 @@ const PostThumbnail = ({ image, title, author }: PostThumbnailProps) => {
 const S = {
   Container: styled.div`
     width: 300px;
-    height: 450px;
+    height: 240px;
     border-radius: 20px;
     box-shadow: 0 4px 3px ${COLOR_1.dark_brown};
-    @media screen and (max-width: 500px) {
-      width: 42vw;
-      height: 68vw;
-      min-height: 243.163px;
-      min-width: 150.188px;
+    @media screen and (max-width: 767px) {
+      min-width: 300px;
+      min-height: 240px;
     }
   `,
-  ImgWrap: styled.div``,
+  ImgWrap: styled.div`
+    width: 100%;
+    height: 74%;
+    top:0;
+    left:20%;
+  `,
   Img: styled.img`
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    @media screen and (max-width: 500px) {
-      width: 42vw;
-      height: 42vw;
-      min-height: 150.188px;
-      min-width: 150.188px;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
     }
   `,
   Div: styled.div`
+    width: 100%;
+    height: 20%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin: auto 0;
-    padding: 0;
-    height: 130px;
-    @media screen and (max-width: 500px) {
-      height: 24vw;
+    padding: 0 4px;
+    /* height: 30%; */
+    @media screen and (max-width: 767px) {
+      /* height: 30%; */
+      min-height:72px;
     }
   `,
   TitleWrap: styled.div`
@@ -70,38 +79,28 @@ const S = {
   `,
   Title: styled.span`
     color: ${COLOR_1.dark_brown};
-    font-size: ${FONT_SIZE_2.normal_5};
+    font-size: ${FONT_SIZE_2.normal_3};
     @media screen and (max-width: 280px) {
       font-size: ${FONT_SIZE_1.small_3};
     }
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_1.normal_1};
+    @media screen and (max-width: 767px) {
+      font-size: ${FONT_SIZE_1.normal_2};
     }
   `,
   AuthorWrap: styled.div`
     display: flex;
     justify-content: end;
-    margin: auto 12px 8px auto;
-    @media screen and (max-width: 500px) {
-      margin: auto 12px 8px auto;
+    margin: 8px 12px 8px auto;
+    @media screen and (max-width: 767px) {
+      margin: 8px 12px 8px auto;
     }
   `,
   Author: styled.span`
     color: ${COLOR_1.brown};
-    font-size: ${FONT_SIZE_2.normal_4};
-    @media screen and (max-width: 500px) {
-      font-size: ${FONT_SIZE_2.normal_2};
+    font-size: ${FONT_SIZE_1.normal_1};
+    @media screen and (max-width: 767px) {
+      font-size: ${FONT_SIZE_1.normal_1};
     }
   `,
-  FacilitiesTag: styled.button`
-    background-color: ${COLOR_1.white};
-    color: ${COLOR_1.brown};
-    height: 30px;
-    padding: 6px 8px;
-    border: 1px solid ${COLOR_1.black};
-    border-radius: 12px;
-    box-shadow: 0px 5px 6px ${COLOR_1.brown};
-  `,
-};
-
+  }
 export default PostThumbnail;
