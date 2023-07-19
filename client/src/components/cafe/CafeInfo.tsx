@@ -102,6 +102,7 @@ const CafeInfo = () => {
       if (coordinates) {
         setCafeData((prevCafeData) => ({
           ...prevCafeData,
+          address: coordinates.address_name,
           latitude: coordinates.y,
           longitude: coordinates.x,
         }));
@@ -112,14 +113,7 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const coordinates = await convertAddressToCoordinates(CafeData.address);
 
-    // 좌표 정보를 CafeData 상태에 설정
-    setCafeData((prevCafeData) => ({
-      ...prevCafeData,
-      latitude: coordinates.y,
-      longitude: coordinates.x,
-    }));
     console.log(imageFile);
     console.log(CafeData.latitude);
     console.log(CafeData.longitude);
