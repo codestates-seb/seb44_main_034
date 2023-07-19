@@ -1,4 +1,4 @@
-import { COLOR_1 } from '../../common/common';
+import { COLOR_1, FONT_WEIGHT } from '../../common/common';
 import styled from 'styled-components';
 import { FONT_SIZE_1 } from '../../common/common';
 
@@ -6,7 +6,7 @@ const S = {
   Container: styled.div`
     display: flex;
     justify-content: center;
-    height: 50px;
+    height: 40px;
     width: 95vw;
     margin-top: 10px;
     @media screen and (min-width: 767px) {
@@ -16,21 +16,23 @@ const S = {
   SubContainer: styled.div`
     display: flex;
     justify-content: space-between;
-    height: 50px;
+    height: 32px;
     width: 95vw;
-    margin-top: 10px;
     @media screen and (min-width: 767px) {
       width: 728px;
     }
   `,
   LocationButton: styled.button`
     height: 30px;
-    width: 55px;
+    padding: 0 10px;
     border-radius: 25px;
     box-shadow: 0px 1px 1px 1px gray;
-    font-size: ${FONT_SIZE_1.small_2};
+    font-size: ${FONT_SIZE_1.small_3};
     border: none;
     background-color: ${COLOR_1.ivory};
+    @media screen and (min-width: 767px) {
+      font-size: ${FONT_SIZE_1.normal_1};
+    }
     &:hover {
       background-color: ${COLOR_1.sand};
       cursor: pointer;

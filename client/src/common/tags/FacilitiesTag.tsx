@@ -30,10 +30,20 @@ const S = {
   background-color: ${COLOR_1.white};
   font-size: ${FONT_SIZE_1.normal_2};
   color: ${COLOR_1.brown};
+  @media screen and (max-width: 767px) {
+    padding: 6px 6px 0 6px;
+    height: 26px;
+    font-size: ${FONT_SIZE_1.normal_1};
+  }
   &.isClicked {
     background-color: ${COLOR_1.dark_brown};
     color: ${COLOR_1.white};
     box-shadow: 0px 5px 6px ${COLOR_1.dark_brown};
+    @media screen and (max-width: 767px) {
+      padding: 6px 6px 0 6px;
+      height: 26px;
+      font-size: ${FONT_SIZE_1.normal_1};
+    }
   }
   &:hover {
     background-color: ${COLOR_1.dark_brown};

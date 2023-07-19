@@ -52,22 +52,7 @@ const PostMood = () => {
     if (!findTag) {
       setPostData((prevState) => ({ ...prevState, tags: [...tags, tagName]}))
     }
-
-        // if (e.target.checked && tagCount >= 3) {
-        //   e.preventDefault();
-        //   alert('태그를 3개 이하로 선택하세요!');
-        //   return;
-        // }
-        // if (e.target.checked && tagCount<3) {
-        //   setTagCount((prev)=>prev+1); //선택한 태그 갯수
-        //   setTag((prev)=>[...prev, e.target.value]); //선택한 태그
-
-        // } else { //선택한 태그를 클릭하여 선택 해제 될 때
-        //   setTagCount((prev)=>prev-1); //선택한 태그 갯수-1
-        //   setTag(tag.filter(el=>el !== e.target.value)); //선택한 태그-선택해제한 태그
-        // }
-        // setIsClicked((prev)=>!prev);
-      }
+  }
 
   // useEffect(() => {
   //   saveTag();

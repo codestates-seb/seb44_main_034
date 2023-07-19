@@ -15,16 +15,15 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 95%;
-    margin-top: 10px;
-    @media screen and (min-width: 550px) {
-      width: 500px;
+    @media screen and (min-width: 768px) {
+      width: 760px;
     }
   `,
   FacilityContainer: styled.div`
     box-sizing: border-box;
     display: flex;
     justify-content: space-around;
-    height: 50px;
+    height: 46px;
     width: 95%;
     margin-top: 6px;
     padding: 0 10px;
@@ -36,7 +35,7 @@ const S = {
       margin-right: 10px;
       margin-top: 4px;
     }
-    @media screen and (min-width: 767px) {
+    @media screen and (min-width: 768px) {
       justify-content: space-around;
       width: 760px;
       height: 50px;
@@ -47,31 +46,34 @@ const S = {
     }
   `,
   MoodContainer: styled.div`
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
-    height: 110px;
+    height: 108px;
     width: 95%;
     margin-top: 6px;
-    padding: 8px 4px;
-    gap: 8px;
+    padding: 6px 4px;
+    gap: 7px;
     flex-wrap: wrap;
     background-color: ${COLOR_1.sand};
     border-radius: 20px;
     border: solid 1px ${COLOR_1.brown};
     overflow-y: auto;
     >div {
-      margin-bottom: 2px;
+      margin-bottom: 1px;
     }
-    @media screen and (min-width: 767px) {
+    @media screen and (min-width: 768px) {
       width: 760px;
-      height: 140px;
+      height: 120px;
+      padding: 8px 4px;
+      gap: 8px;
     }
   `,
   TitleBox: styled.div`
     height: 20px;
     width: 100%;
     margin-top: 12px;
-    @media screen and (min-width: 767px) {
+    @media screen and (min-width: 768px) {
       width: 770px;
     }
   `,
@@ -86,10 +88,10 @@ const S = {
   `,
   SearchButton: styled.button`
     height: 30px;
-    width: 55px;
+    padding: 0 10px;
     border-radius: 25px;
-    box-shadow: 0px 1px 1px 1px gray;
-    font-size: ${FONT_SIZE_1.small_2};
+    box-shadow: 0px 2px 2px gray;
+    font-size: ${FONT_SIZE_1.normal_1};
     border: none;
     background-color: ${COLOR_1.light_green};
     margin-top: 10px;
