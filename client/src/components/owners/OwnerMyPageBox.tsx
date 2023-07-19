@@ -225,7 +225,7 @@ const UserMyPageBox = () => {
         console.log('success');
         console.log(response.data);
         setOwnerInfo(response.data.payload.ownerResponse);
-        setCafeInfo(response.data.payload.cafes[0]);
+        setCafeInfo(response.data.payload.cafe);
         console.log(cafeInfo?.cafeId);
       })
       .catch((error) => {

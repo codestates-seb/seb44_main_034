@@ -121,6 +121,9 @@ const LoginBox = () => {
     const { username, password } = data;
     axios
       .post(`${baseURL}/users/log-in`, {
+        headers: {
+          withCredentials: true,
+        },
         username: username,
         password: password,
       })

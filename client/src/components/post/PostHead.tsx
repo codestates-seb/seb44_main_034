@@ -1,11 +1,11 @@
 import { useSetRecoilState } from 'recoil';
 import { PostItemAtom } from '../../recoil/postState';
-import { PostData } from '../../types/type';
+import { ReqPostData } from '../../types/type';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
 
 type AddPostProps = {
-  cafeName: string;
+  cafeName?: string;
 };
 
 const S ={
@@ -37,7 +37,7 @@ const S ={
 }
 
 const PostHead = ({cafeName}:AddPostProps) => {
-  const setPostData = useSetRecoilState<PostData>(PostItemAtom);
+  const setPostData = useSetRecoilState<ReqPostData>(PostItemAtom);
 
   const handleTitle =(event:any) => {
     let title:string = event?.target.value;

@@ -125,7 +125,7 @@ const Nav = () => {
             <S.NavButton onClick={mainHandler}>
               <S.Iconbox>
                 {selectedButton === 'home' ? (
-                  <GoHomeFill size='30' />
+                  <GoHomeFill size='30' color='#CED5B2' />
                 ) : (
                   <GoHome size='30' />
                 )}
@@ -135,7 +135,7 @@ const Nav = () => {
             <S.NavButton onClick={postHandler}>
               <S.Iconbox>
                 {selectedButton === 'post' ? (
-                  <BsFilePostFill size='30' />
+                  <BsFilePostFill size='30' color='#CED5B2' />
                 ) : (
                   <BsFilePost size='30' />
                 )}
@@ -146,7 +146,7 @@ const Nav = () => {
             <S.NavButton onClick={modalHandler} ref={dropdownRef}>
               <S.Iconbox>
                 {selectedButton === 'my' ? (
-                  <BiSolidUser size='30' />
+                  <BiSolidUser size='30' color='#CED5B2' />
                 ) : (
                   <BiUser size='30' />
                 )}

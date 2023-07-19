@@ -43,13 +43,9 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
 
   const addComment = async () => {
     try {
-      const response = await axios.post(
-        // `${baseURL}/menu-comments/1`,
-        'http://localhost:3000/menus',
-        {
-          comment,
-        }
-      );
+      const response = await axios.post(`${baseURL}/menu-comments/1`, {
+        comment,
+      });
       console.log(response.data);
       // const menuId = response.data.payload;
       // 화면에 반영

@@ -43,7 +43,9 @@ const EditMenuCafe = () => {
           {
             headers: {
               'Content-Type': 'application/json',
+              'ngrok-skip-browser-warning': 'true',
               // 'Content-Type': 'application/json',
+              withCredentials: true,
               Authorization: localStorage.getItem('access_token'),
             },
           } // edit 추가해야함

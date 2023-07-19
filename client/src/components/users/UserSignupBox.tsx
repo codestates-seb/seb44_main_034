@@ -78,7 +78,7 @@ const S = {
   InputBox: styled.input`
     height: 50px;
     width: 78vw;
-    padding: 3px;
+    padding: 5px;
     border-radius: 15px;
     border: solid 1.5px ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.white};
@@ -117,6 +117,9 @@ const OwnerSignupBox = () => {
 
     axios
       .post(`${baseURL}/members/sign-up`, {
+        headers: {
+          withCredentials: true,
+        },
         email: email,
         displayName: displayName,
         password: password,

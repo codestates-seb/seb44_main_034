@@ -78,7 +78,7 @@ const S = {
   InputBox: styled.input`
     height: 50px;
     width: 78vw;
-    padding: 3px;
+    padding: 5px;
     border-radius: 15px;
     border: solid 1.5px ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.white};
@@ -114,9 +114,11 @@ const OwnerSignupBox = () => {
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { email, displayName, password } = data;
-    console.log(data);
     axios
       .post(`${baseURL}/owners/sign-up`, {
+        headers: {
+          withCredentials: true,
+        },
         email: email,
         displayName: displayName,
         password: password,

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../common/common';
 // import { data as dataAll } from '../mockData/cafePost.json';
-import PostThumbnail from '../common/posting/PostThumbnail';
+import PostThumbnail from '../common/post/PostThumbnail';
 import { CafePostList } from '../types/type';
 import { getAllPosts } from '../api/postApi';
 import PageButton from '../components/pageButton';
@@ -48,6 +48,14 @@ const S = {
       }
     }
   `,
+  Nav: styled.nav`
+    > button {
+      background-color: ${COLOR_1.white};
+      border-radius: 4px;
+      border: 1px solid ${COLOR_1.dark_brown};
+      box-shadow: 0 4px 4px ${COLOR_1.brown};
+    }
+  `,
 };
 
 const AllPostsPage = () => {
@@ -57,7 +65,7 @@ const AllPostsPage = () => {
   const {
     isLoading,
     isError,
-    // error,
+    error,
     data,
     // isFetching,
     isPreviousData,
@@ -67,50 +75,52 @@ const AllPostsPage = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Error</p>;
+  if (isError) return <p>{error as string}</p>
 
-  const lastPage = () => setPage(data.totalpages);
-  const firstPage = () => setPage(1);
-  const pagesArray = Array(data.totalpages)
-    .fill(null)
-    .map((_, i) => i + 1);
-
+  if (data) {
+    const postsData= data.payload.data;
+    console.log(data);
+    console.log(data.payload.data);
+    console.log(data.payload.pageInfo);
+    const pageData=data.payload.pageInfo;
+    const lastPage = () => setPage(pageData.totalpages);
+    const firstPage = () => setPage(1);
+    const pagesArray = Array(pageData.totalpages)
+      .fill(null)
+      .map((_, i) => i + 1);
   return (
     <>
-      <S.Container>
-        <S.PostStart>
-          <span>POST</span>
-        </S.PostStart>
-        <ul>
-          {data.map((el: CafePostList) => (
-            <li key={el.postId}>
-              <Link to={`../postpage/${el.postId}`}>
-                <PostThumbnail
-                  image={el.image}
-                  title={el.title}
-                  author={el.author}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <nav>
-          <button onClick={firstPage} disabled={isPreviousData || page === 1}>
-            {`<<`}
-          </button>
-          {pagesArray.map((el) => (
-            <PageButton key={el} page={el} setPage={setPage} />
-          ))}
-          <button
-            onClick={lastPage}
-            disabled={isPreviousData || page === data.totalpages}
-          >
-            {`>>`}
-          </button>
-        </nav>
-      </S.Container>
-    </>
+    <S.Container>
+      <S.PostStart>
+        <span>POST</span>
+      </S.PostStart>
+      <ul>
+        {postsData.map((el: CafePostList) => (
+          <li key={el.postId}>
+            <Link to={`../postpage/${el.postId}`} >
+            <PostThumbnail
+              key={el.postId}
+              image={el.image}
+              title={el.title}
+              author={el.author}
+            />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <nav>
+        <button onClick = {firstPage} disabled={isPreviousData || page === 1}>
+          {`<`}
+        </button>
+        {pagesArray.map(el => <PageButton key={el} page={el} setPage={setPage} />)}
+        <button onClick={lastPage} disabled={isPreviousData || page === data.totalpages}>
+          {`>`}
+        </button>
+      </nav>
+    </S.Container>
+  </>
   );
 };
+}
 
 export default AllPostsPage;
