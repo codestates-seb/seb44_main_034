@@ -21,6 +21,7 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+    spring.jpa.defer-datasource-initialization: true
 
   security:
     oauth2:
