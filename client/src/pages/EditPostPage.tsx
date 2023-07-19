@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { PostItemAtom } from '../recoil/postState';
-import { PostData } from '../types/type';
+import { PostCafeAtom, PostItemAtom } from '../recoil/postState';
+import { ReqPostData } from '../types/type';
 import { tagName } from '../common/tagName';
 import MoodTag from '../common/tags/MoodTag';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
@@ -125,7 +125,8 @@ const S = {
 const EditPostPage = () => {
   const postId = useParams();
   const [disabled, setDisabled] = useState(false);
-  const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
+  const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
+  const postCafe = useRecoilValue(PostCafeAtom);
   const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
 
@@ -141,11 +142,12 @@ const EditPostPage = () => {
   //   }
   // )
 
-  //api
-  const editPost = (post: PostData) =>
+
+//api
+  const editPost = (post:ReqPostData) =>
     axios.patch(`${baseURL}/posts/${postId}`, post, {
-      headers: { Authorization: localStorage.getItem('access_token') },
-    });
+      headers: {Authorization:localStorage.getItem('access_token')}});
+
 
   const editPostMutation = useMutation({
     mutationFn: editPost,
@@ -156,7 +158,8 @@ const EditPostPage = () => {
     }
   })
   //리코일 데이터: cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
-  const { cafeName, title, starRating, content } = postData; //리코일에서 불러온 데이터
+
+  const {title, starRating, content} =postData; //리코일에서 불러온 데이터
 
   //수정하기 눌렀을 때
   const submitPost = (e: React.FormEvent<HTMLFormElement>) => {
@@ -224,7 +227,7 @@ const EditPostPage = () => {
       >
         <div>
           <S.CafeNameWrap>
-            <S.CafeName>{cafeName}</S.CafeName>
+            <S.CafeName>{postCafe.cafeName}</S.CafeName>
           </S.CafeNameWrap>
           <S.TitleWrap>
             <S.Title
@@ -287,15 +290,22 @@ const EditPostPage = () => {
             setContents={content}
           />
           <S.BtnWrap>
+
             <ConfirmBtn
-              type='button'
-              disabled={disabled}
-              onClick={(e: any) => {
-                submitPost(e);
-              }}
-            >
-              수정하기
-            </ConfirmBtn>
+            type='button'
+            disabled={disabled}
+            onClick={(e:any)=>{
+              if (title === '') {
+                alert('제목을 입력해주세요.');
+              }
+              if (starRating<1 || starRating>5) {
+                alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+              }
+              // if () {
+              //   alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+              // }
+              submitPost(e)}} >수정하기</ConfirmBtn>
+
             <ConfirmBtn
               onClick={() => {
                 confirm(
