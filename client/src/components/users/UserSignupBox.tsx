@@ -117,6 +117,9 @@ const OwnerSignupBox = () => {
 
     axios
       .post(`${baseURL}/members/sign-up`, {
+        headers: {
+          withCredentials: true,
+        },
         email: email,
         displayName: displayName,
         password: password,

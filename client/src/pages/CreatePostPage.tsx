@@ -111,7 +111,10 @@ const CreatePostPage = () => {
 
   const createPost = (post: PostData) =>
     axios.post(`${baseURL}/posts/${post.cafeId}`, post, {
-      headers: { Authorization: localStorage.getItem('access_token') },
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+        withCredentials: true,
+      },
     });
 
   const createPostMutation = useMutation({
@@ -245,6 +248,5 @@ const CreatePostPage = () => {
       </form>
     </S.Container>
   );
-}
+};
 export default CreatePostPage;
-
