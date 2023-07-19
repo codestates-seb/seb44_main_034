@@ -4,17 +4,18 @@ import styled from 'styled-components';
 
 type MoodTagProps = {
   text: string;
-  onClickEvent: (e:any, isClicked:boolean) => void;
+  selected: any;
+  onClickEvent: (text:string) => void;
 }
 
-const MoodTag = ({text, onClickEvent}:MoodTagProps) => {
-const [isClicked, setIsClicked] = useState(false);
-const handleIsClicked =((e:any) => {
-  setIsClicked((prev)=>!prev);
-  onClickEvent(e, isClicked);
+const MoodTag = ({text, onClickEvent, selected}:MoodTagProps) => {
+// const [isClicked, setIsClicked] = useState(false);
+const handleIsClicked =((text:string) => {
+  // setIsClicked((prev)=>!prev);
+  onClickEvent(text);
 })
   return (
-    <S.Tag className={isClicked? 'isClicked' : ''} onClick={(e:any)=>{handleIsClicked(e)}} >
+    <S.Tag className={selected? 'isClicked' : ''} onClick={()=>{handleIsClicked(text)}} >
     {text}
    </S.Tag>
   ) 
@@ -35,10 +36,10 @@ const S= {
     background-color: ${COLOR_1.green};
     box-shadow: 0px 4px 4px ${COLOR_1.brown};
   }
-  &:focus {
+  /* &:focus {
     background-color: ${COLOR_1.green};
     box-shadow: 0px 4px 4px ${COLOR_1.brown};
-  }
+  } */
   &:hover {
     background-color: ${COLOR_1.light_green};
   }
