@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../common/button/button';
 import styled from 'styled-components';
@@ -23,8 +23,8 @@ const CafeInfo = () => {
     name: '',
     address: '',
     contact: '',
-    latitude: 1234.0,
-    longitude: 1234.0,
+    latitude: 0,
+    longitude: 0,
     notice: '',
     openTime: '',
     closeTime: '',
@@ -51,6 +51,36 @@ const CafeInfo = () => {
     setImageFile('');
     setPreviewImage(null);
   };
+  const convertAddressToCoordinates = async (address: string) => {
+    try {
+      const response = await axios.get(
+        'https://dapi.kakao.com/v2/local/search/address.json',
+        {
+          headers: {
+            Authorization: 'KakaoAK 39c175a34af51dbed869e39dfcb03014',
+          },
+          params: {
+            query: address,
+          },
+        }
+      );
+      console.log('좌표변환');
+      const documents = response.data.documents;
+      if (documents.length === 0) {
+        console.log('검색된 주소가 없습니다.');
+        alert('정확한 주소를 기입해주세요 ! '); //이부분은 나중에 경고 문구로 대체 될 예정
+        return null;
+      }
+      // 응답 데이터에서 좌표 정보 추출
+      const coordinates = response.data.documents[0].address;
+      console.log(coordinates);
+      return coordinates;
+    } catch (error) {
+      console.error(error);
+      // 에러 처리
+    }
+  };
+
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
@@ -67,11 +97,32 @@ const CafeInfo = () => {
     }
   };
 
+  const handleAddressInputBlur = () => {
+    convertAddressToCoordinates(CafeData.address).then((coordinates) => {
+      if (coordinates) {
+        setCafeData((prevCafeData) => ({
+          ...prevCafeData,
+          latitude: coordinates.y,
+          longitude: coordinates.x,
+        }));
+      }
+    });
+  };
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
+    const coordinates = await convertAddressToCoordinates(CafeData.address);
+
+    // 좌표 정보를 CafeData 상태에 설정
+    setCafeData((prevCafeData) => ({
+      ...prevCafeData,
+      latitude: coordinates.y,
+      longitude: coordinates.x,
+    }));
     console.log(imageFile);
+    console.log(CafeData.latitude);
+    console.log(CafeData.longitude);
     const formData = new FormData();
     if (imageFile) {
       formData.append('cafeImage', imageFile);
@@ -84,6 +135,9 @@ const CafeInfo = () => {
         console.log(entry[0] + ': ' + entry[1]);
       }
       const response = await axios.post(`${baseURL}/cafes`, formData, {
+        // const response = await axios.post(
+        //   'http://localhost:3000/cafes',
+        //   formData,
         headers: {
           'Content-Type': 'multipart/form-data',
           'ngrok-skip-browser-warning': 'true',
@@ -91,8 +145,7 @@ const CafeInfo = () => {
           Authorization: localStorage.getItem('access_token'),
         },
       });
-      // const response = await axios.post('http://localhost:3000/add', data);
-      // console.log(response.data.imageUrl);
+
       console.log(response.data);
       console.log(response);
       const cafeId = response.data.payload;
@@ -170,6 +223,7 @@ const CafeInfo = () => {
                 value={CafeData.address}
                 name='address'
                 onChange={handleCafeInfoChange}
+                onBlur={handleAddressInputBlur}
                 required
               />
             </S.CafeInputLabel>

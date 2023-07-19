@@ -51,17 +51,20 @@ const Main = () => {
       });
   }, []);
 
-
-//카페 목록 요청 (api: ../api/mainApi.tsx)
+  //카페 목록 요청 (api: ../api/mainApi.tsx)
   const {
     // isLoading,
     // isError,
     // error,
     data,
     // isPreviousData,
-  } = useQuery(['getAllposts', page, handleSearch], () => getCafes(page, shortaddress, facilities), {
-    keepPreviousData: true,
-  });
+  } = useQuery(
+    ['getAllposts', page, handleSearch],
+    () => getCafes(page, shortaddress, facilities),
+    {
+      keepPreviousData: true,
+    }
+  );
 
   // if (isLoading) return <p>Loading...</p>;
   // if (isError) return <p>{error as string}</p>
@@ -69,12 +72,12 @@ const Main = () => {
   /* ☕️카페 데이터 */
   if (data) {
     setHandleSearch(false); //서치 함수
-    const cafesData= data.payload;
+    const cafesData = data.payload;
     console.log(cafesData);
     console.log(data);
     console.log(data.payload);
     console.log(data.payload.pageInfo);
-    const pageData=data.payload.pageInfo;
+    const pageData = data.payload.pageInfo;
     console.log(pageData);
     // const lastPage = () => setPage(pageData.totalpages);
     // const firstPage = () => setPage(1);
@@ -106,19 +109,4 @@ const Main = () => {
   );
 };
 
-const S = {
-  Container: styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center; /* 수평 가운데 정렬 */
-    flex-direction: column;
-    overflow: scroll;
-    @media screen and (max-width: 767px) {
-      width: 100%;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  `,
-};
 export default Main;
