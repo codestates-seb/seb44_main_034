@@ -16,6 +16,9 @@ const S = {
     align-items: center;
     width: 95%;
     margin-top: 10px;
+    @media screen and (min-width: 550px) {
+      width: 500px;
+    }
   `,
   FacilityContainer: styled.div`
     box-sizing: border-box;

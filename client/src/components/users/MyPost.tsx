@@ -1,20 +1,22 @@
 import { FONT_SIZE_1 } from '../../common/common';
 import coffeeshop3 from '../../assets/coffeeshop3.jpeg';
 import styled from 'styled-components';
+import { PostType } from './UserMyPageBox.tsx';
 
 const S = {
   PostContainer: styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 200px;
-    width: 90vw;
+    width: 80vw;
     border: solid 1px black;
     border-radius: 10px;
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
       width: 330px;
     }
   `,
@@ -22,7 +24,7 @@ const S = {
     height: 140px;
     width: 90vw;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
       width: 330px;
     }
   `,
@@ -33,7 +35,7 @@ const S = {
     justify-content: center;
     height: 60px;
     width: 80vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
       width: 270px;
     }
   `,
@@ -41,7 +43,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 75vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
       width: 270px;
     }
   `,
@@ -53,7 +55,7 @@ const S = {
     display: flex;
     justify-content: right;
     width: 60vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 500px) {
       width: 270px;
     }
   `,
@@ -64,16 +66,17 @@ const S = {
   `,
 };
 
-const MyPost = () => {
+const MyPost = (props: { data: PostType }) => {
+  const { data } = props;
   return (
     <S.PostContainer>
-      <S.PostImgBox src={coffeeshop3} />
+      <S.PostImgBox src={data?.image ?? ''} />
       <S.PostInformaiton>
         <S.PostTitleBox>
-          <S.PostTitle>스타벅스</S.PostTitle>
+          <S.PostTitle>{data?.title ?? ''}</S.PostTitle>
         </S.PostTitleBox>
         <S.PostWriterBox>
-          <S.Writer>나</S.Writer>
+          <S.Writer>-{data?.author ?? ''}</S.Writer>
         </S.PostWriterBox>
       </S.PostInformaiton>
     </S.PostContainer>

@@ -26,7 +26,7 @@ const S = {
   Container: styled.div`
     width: 90vw;
     @media screen and (min-width: 768px) {
-      width: 700px;
+      width: 720px;
     }
   `,
   MiddleBox: styled.div`
@@ -201,12 +201,14 @@ const S = {
   ListBox: styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 90vw;
-    height: 500px;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 700px;
-      flex-direction: row;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
     }
   `,
   GradeImg: styled.img`
@@ -225,7 +227,7 @@ const S = {
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 330px;
     }
   `,
@@ -233,7 +235,7 @@ const S = {
     height: 140px;
     width: 90vw;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 330px;
     }
   `,
@@ -244,7 +246,7 @@ const S = {
     justify-content: center;
     height: 60px;
     width: 80vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
@@ -252,7 +254,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 75vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
@@ -276,7 +278,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 60vw;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 270px;
     }
   `,
@@ -323,7 +325,7 @@ interface UserData {
 export interface PostType {
   id?: number;
   cafeName?: string;
-  image?: File;
+  image?: string;
   address?: string;
   rating?: number;
   postId?: number;
@@ -350,24 +352,24 @@ const UserMyPageBox = () => {
       title: '먹자',
       author: '주인장',
     },
-    {
-      id: 3,
-      cafeName: '동대문 카페2',
-      image: undefined,
-      address: '서울시 동대문구',
-      rating: 1,
-      title: '먹자',
-      author: '주인장',
-    },
-    {
-      id: 4,
-      cafeName: '동대문 카페3',
-      image: undefined,
-      address: '서울시 동대문구',
-      rating: 1,
-      title: '먹자',
-      author: '주인장',
-    },
+    // {
+    //   id: 3,
+    //   cafeName: '동대문 카페2',
+    //   image: undefined,
+    //   address: '서울시 동대문구',
+    //   rating: 1,
+    //   title: '먹자',
+    //   author: '주인장',
+    // },
+    // {
+    //   id: 4,
+    //   cafeName: '동대문 카페3',
+    //   image: undefined,
+    //   address: '서울시 동대문구',
+    //   rating: 1,
+    //   title: '먹자',
+    //   author: '주인장',
+    // },
   ];
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
@@ -574,15 +576,16 @@ const UserMyPageBox = () => {
           작성한 포스트
         </S.SandBtn>
       </S.BottomBox>
-      <S.ListBox>
-        <InfiniteScroll
-          dataLength={dataSource.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          loader={<p>Loading...</p>}
-          endMessage={<p>You are all set!</p>}
-          height={400}
-        >
+
+      <InfiniteScroll
+        dataLength={dataSource.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<p>Loading...</p>}
+        endMessage={<p>You are all set!</p>}
+        height={400}
+      >
+        <S.ListBox>
           {dataSource.map((el) => {
             return (
               <>
@@ -596,8 +599,8 @@ const UserMyPageBox = () => {
               </>
             );
           })}
-        </InfiniteScroll>
-      </S.ListBox>
+        </S.ListBox>
+      </InfiniteScroll>
     </S.Container>
   );
 };

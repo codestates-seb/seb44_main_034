@@ -9,6 +9,8 @@ import coffeebean from '../../assets/coffeebean.svg';
 import greenbean from '../../assets/greenbean.svg';
 import espresso from '../../assets/espresso.svg';
 import coffeeshop3 from '../../assets/coffeeshop3.jpeg';
+import { PostType } from '../users/UserMyPageBox';
+import MyPost from '../users/MyPost';
 import styled from 'styled-components';
 
 const S = {
@@ -16,7 +18,7 @@ const S = {
     min-height: 100vh;
     width: 90vw;
     @media screen and (min-width: 768px) {
-      width: 700px;
+      width: 720px;
     }
   `,
   MiddleBox: styled.div`
@@ -44,6 +46,7 @@ const S = {
     justify-content: center;
     margin-top: 20px;
     width: 90vw;
+    margin-bottom: 20px;
     @media screen and (min-width: 786px) {
       width: 700px;
     }
@@ -180,12 +183,14 @@ const S = {
   ListBox: styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 90vw;
-    height: 500px;
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 786px) {
       width: 700px;
-      flex-direction: row;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
     }
   `,
   PostContainer: styled.div`
@@ -255,15 +260,31 @@ interface UserData {
   image?: File;
 }
 
-interface UserPostData {
-  postId: number;
-  title: string;
-  author: string;
-  image: string;
-}
 const OtherUserMyPageBox = () => {
+  const mockData = [
+    {
+      id: 1,
+      cafeName: '동대문 카페',
+      image: undefined,
+      address: '서울시 동대문구',
+      rating: 1,
+      title: '먹자',
+      author: '주인장',
+    },
+    {
+      id: 2,
+      cafeName: '동대문 카페1',
+      image: undefined,
+      address: '서울시 동대문구',
+      rating: 1,
+      title: '먹자',
+      author: '주인장',
+    },
+  ];
   // const replace = useNavigate();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
+  const [dataSource, setDataSource] = useState<PostType[]>(mockData);
+  const [hasMore, setHasMore] = useState(true);
   const followingHandler = () => {
     axios
       .post(`${baseURL}/members/1/follow`, {
@@ -286,8 +307,6 @@ const OtherUserMyPageBox = () => {
       });
   };
 
-  const [dataSource, setDataSource] = useState<UserPostData[]>(Array.from([]));
-  const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
     if (dataSource.length < 100) {
       setTimeout(() => {
@@ -316,7 +335,7 @@ const OtherUserMyPageBox = () => {
       .then((response) => {
         // Handle success.
         console.log('success');
-        const followers: UserPostData[] = response.data.payload.data;
+        const followers: PostType[] = response.data.payload.data;
         setDataSource(followers);
         setHasMore(response.data.payload.hasNext);
       })
@@ -389,32 +408,21 @@ const OtherUserMyPageBox = () => {
       <S.BottomBox>
         <S.SandBtn>작성한 포스트</S.SandBtn>
       </S.BottomBox>
-      <S.ListBox>
-        <InfiniteScroll
-          dataLength={dataSource.length}
-          next={fetchMoreData}
-          hasMore={hasMore}
-          loader={<p>Loading...</p>}
-          endMessage={<p>You are all set!</p>}
-          height={250}
-        >
-          {dataSource.map((item) => {
-            return (
-              <S.PostContainer key={item.postId}>
-                <S.PostImgBox src={item.image || coffeeshop3} />
-                <S.PostInformaiton>
-                  <S.PostTitleBox>
-                    <S.PostTitle>{item.title}</S.PostTitle>
-                  </S.PostTitleBox>
-                  <S.PostWriterBox>
-                    <S.Writer>{item.author}</S.Writer>
-                  </S.PostWriterBox>
-                </S.PostInformaiton>
-              </S.PostContainer>
-            );
+
+      <InfiniteScroll
+        dataLength={dataSource.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<p>Loading...</p>}
+        endMessage={<p>You are all set!</p>}
+        height={400}
+      >
+        <S.ListBox>
+          {dataSource.map((el) => {
+            return <MyPost data={el} key={el?.id} />;
           })}
-        </InfiniteScroll>
-      </S.ListBox>
+        </S.ListBox>
+      </InfiniteScroll>
     </S.Container>
   );
 };
