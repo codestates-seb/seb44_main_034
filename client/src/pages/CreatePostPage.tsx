@@ -178,7 +178,7 @@ const CreatePostPage = () => {
     console.log(typeof contentValue);
     setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
   };
-
+console.log(postData)
   return (
     <S.Container>
       <form
