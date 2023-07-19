@@ -12,8 +12,8 @@ const S = {
     width: 100vw;
     background-color: none;
     box-shadow: 0px 1px 1px 1px gray;
-    @media screen and (min-width: 550px) {
-      width: 500px;
+    @media screen and (min-width: 767px) {
+      width: 768px;
     }
   `,
 
@@ -34,8 +34,8 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (min-width: 550px) {
-      width: 300px;
+    @media screen and (min-width: 767px) {
+      width: 600px;
     }
   `,
   IconBox: styled.div`
@@ -43,6 +43,9 @@ const S = {
     height: 25px;
     margin-left: 20px;
     cursor: pointer;
+    @media screen and (min-width: 767px) {
+      width: 50px;
+    }
   `,
 };
 

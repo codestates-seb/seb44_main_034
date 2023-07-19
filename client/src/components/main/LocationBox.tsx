@@ -9,6 +9,9 @@ const S = {
     height: 50px;
     width: 95vw;
     margin-top: 10px;
+    @media screen and (min-width: 767px) {
+      width: 768px;
+    }
   `,
   SubContainer: styled.div`
     display: flex;
@@ -16,6 +19,9 @@ const S = {
     height: 50px;
     width: 95vw;
     margin-top: 10px;
+    @media screen and (min-width: 767px) {
+      width: 728px;
+    }
   `,
   LocationButton: styled.button`
     height: 30px;

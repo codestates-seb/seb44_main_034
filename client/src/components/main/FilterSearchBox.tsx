@@ -7,10 +7,12 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-
     height: 300px;
     width: 95vw;
     margin-top: 10px;
+    @media screen and (min-width: 550px) {
+      width: 500px;
+    }
   `,
   FacilityContainer: styled.div`
     display: flex;
