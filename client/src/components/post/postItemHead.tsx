@@ -4,18 +4,20 @@ import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import PostDate from './PostDate';
-import { PostData } from '../../types/type';
+import { ReqPostData } from '../../types/type';
+import { ResPostData } from '../../types/type';
 import { PostItemAtom } from '../../recoil/postState';
 import { IoShareSocial } from 'react-icons/io5';
 import { GoBookmark, GoBookmarkFill } from 'react-icons/go';
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
-
+ 
 type PostItemProps = {
-  postData: PostData;
-};
+  postData: ResPostData;
+}
 const PostItemHead = ({ postData }: PostItemProps) => {
+
   const { postId } = postData;
-  const setPostState = useSetRecoilState<PostData>(PostItemAtom);
+  const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const navigate = useNavigate();
 
   const handleEdit = () => {
