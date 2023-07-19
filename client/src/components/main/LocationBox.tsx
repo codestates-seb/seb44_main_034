@@ -1,5 +1,8 @@
-import { COLOR_1, FONT_WEIGHT } from '../../common/common';
+import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { LocationAtom } from '../../recoil/mainState';
 import styled from 'styled-components';
+import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 
 const S = {
@@ -47,14 +50,28 @@ const S = {
 };
 
 const LocationBox = () => {
+  const locationName = ['전체', '강서구', '양천구', '영등포구', '마포구'];
+  const [shortAddress, setShortAddress] = useRecoilState<string>(LocationAtom);
+  const [location, setLocation]= useState<string>('');
+  const handleClickEvent=(el:string)=>{
+    setLocation(el);
+    console.log(el)
+  }
+  console.log(location);
+  if (location === '전체') {
+    setShortAddress('');
+  }
+  if (location !== '전체') {
+    setShortAddress(`shortaddress=${location}`);
+  }
+  console.log(shortAddress);
+
   return (
     <S.Container>
       <S.SubContainer>
-        <S.LocationButton>전체</S.LocationButton>
-        <S.LocationButton>강서구</S.LocationButton>
-        <S.LocationButton>양천구</S.LocationButton>
-        <S.LocationButton>영등포구</S.LocationButton>
-        <S.LocationButton>마포구</S.LocationButton>
+        {locationName.map((el)=><S.LocationButton key={el} onClick={()=>{
+          handleClickEvent(el)
+        }}>{el}</S.LocationButton>)}
       </S.SubContainer>
     </S.Container>
   );
