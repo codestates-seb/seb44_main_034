@@ -47,8 +47,8 @@ const EditCafeInfo = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/edit',
-          // `${baseURL}/cafes/${cafeId}/edit`, // edit 추가해야함
+          // 'http://localhost:3000/edit',
+          `${baseURL}/cafes/${cafeId}/edit`, // edit 추가해야함
           {
             headers: {
               'ngrok-skip-browser-warning': 'true',
