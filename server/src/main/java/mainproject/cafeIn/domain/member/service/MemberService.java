@@ -79,11 +79,11 @@ public class MemberService {
 
         if (!image.isEmpty() && findmember.getImage() == null) {
 
-            String storedImageUrl = imageService.upload(image, "profile");
+            String storedImageUrl = imageService.upload(image, "profiles");
             member.updateImage(storedImageUrl);
         } else if (!image.isEmpty() && findmember.getImage() != null) {
 
-            String storedImageUrl = imageService.update(findmember.getImage(), image, "profile");
+            String storedImageUrl = imageService.update(findmember.getImage(), image, "profiles");
             member.updateImage(storedImageUrl);
         }
 
@@ -195,7 +195,7 @@ public class MemberService {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
-            imageService.delete("profile", findMember.getImage());
+            imageService.delete("profiles", findMember.getImage());
             findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
