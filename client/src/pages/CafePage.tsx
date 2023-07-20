@@ -125,7 +125,7 @@ const Bookmark = styled(BsFillBookmarkFill)`
   ${({ isBookmarked }) =>
     isBookmarked &&
     css`
-      color: none; /* 클릭된 상태일 때 색상 */
+      color: white; /* 클릭된 상태일 때 색상 */
       border: 1px soild ${COLOR_1.dark_brown};
     `}
 `;
