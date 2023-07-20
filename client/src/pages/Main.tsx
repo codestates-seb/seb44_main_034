@@ -16,7 +16,7 @@ import { baseURL } from "../common/baseURL";
 import { FacilitiesAtom, LocationAtom } from "../recoil/mainState";
 import { HandleSearchAtom } from "../recoil/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { set } from "react-hook-form";
+// import { set } from "react-hook-form";
 
 const S = {
   ListContainer: styled.div`

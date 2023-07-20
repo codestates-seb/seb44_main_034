@@ -16,18 +16,18 @@ const menus = [
 ];
 
 const defaultValues = {};
-const convertedData: FormData = {
-  signature: [],
-  coffee: [],
-  non_Coffee: [],
-  dessert: [],
-};
+// const convertedData: FormData = {
+//   signature: [],
+//   coffee: [],
+//   non_Coffee: [],
+//   dessert: [],
+// };
 //cafeid를 받아서 불러야됨
 
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
   const navigate = useNavigate();
-  const { cafeId } = useParams();
+  const { id } = useParams();
   const methods = useForm<FormData>({
     defaultValues,
     mode: "onBlur",
@@ -39,7 +39,7 @@ const EditMenuCafe = () => {
       try {
         const response = await axios.get(
           // `${baseURL}/menus/${menuId}`
-          `${baseURL}/menus/${cafeId}`,
+          `${baseURL}/menus/${id}/edit`,
           {
             headers: {
               "Content-Type": "application/json",

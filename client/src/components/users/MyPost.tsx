@@ -1,7 +1,7 @@
-import { FONT_SIZE_1 } from '../../common/common';
-import coffeeshop3 from '../../assets/coffeeshop3.jpeg';
-import styled from 'styled-components';
-import { PostType } from './UserMyPageBox.tsx';
+import { FONT_SIZE_1 } from "../../common/common";
+// import coffeeshop3 from "../../assets/coffeeshop3.jpeg";
+import styled from "styled-components";
+import { PostType } from "./UserMyPageBox.tsx";
 
 const S = {
   PostContainer: styled.div`
@@ -70,13 +70,13 @@ const MyPost = (props: { data: PostType }) => {
   const { data } = props;
   return (
     <S.PostContainer>
-      <S.PostImgBox src={data?.image ?? ''} />
+      <S.PostImgBox src={data?.image ?? ""} />
       <S.PostInformaiton>
         <S.PostTitleBox>
-          <S.PostTitle>{data?.title ?? ''}</S.PostTitle>
+          <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
         </S.PostTitleBox>
         <S.PostWriterBox>
-          <S.Writer>-{data?.author ?? ''}</S.Writer>
+          <S.Writer>-{data?.author ?? ""}</S.Writer>
         </S.PostWriterBox>
       </S.PostInformaiton>
     </S.PostContainer>

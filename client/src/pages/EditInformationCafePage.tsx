@@ -2,11 +2,11 @@ import styled from "styled-components";
 import EditCafeInfo from "../components/cafe/EditCafeInfo";
 import { useParams } from "react-router-dom";
 const EditInfomationCafe = () => {
-  const { paramsCafeId } = useParams();
-  const cafeId: string = paramsCafeId ?? "";
+  const { id } = useParams();
+
   return (
     <S.Container>
-      <EditCafeInfo cafeId={cafeId} />
+      <EditCafeInfo cafeId={id} />
     </S.Container>
   );
 };

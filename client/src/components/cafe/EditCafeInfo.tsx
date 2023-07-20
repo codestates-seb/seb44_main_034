@@ -15,7 +15,7 @@ const facilityName = [
   "동물 출입 가능 여부",
   "디저트 판매 여부",
 ];
-const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
+const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,6 +59,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
         {
           headers: {
             Authorization: "KakaoAK 39c175a34af51dbed869e39dfcb03014",
+            withCredentials: true,
           },
           params: {
             query: address,
@@ -163,6 +164,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
             "Content-Type": "multipart/form-data",
             "ngrok-skip-browser-warning": "true",
             Authorization: localStorage.getItem("access_token"),
+            withCredentials: true,
           },
         }
       );
