@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class SearchCafeFilterCondition {
     private String shortAddress;
@@ -22,9 +24,10 @@ public class SearchCafeFilterCondition {
     private Boolean hasDessert;
 
     private String sortType;
+    private List<Long> tags;
 
     @Builder
-    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert, String sortType) {
+    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert, String sortType, List<Long> tags) {
         this.shortAddress = shortAddress;
         this.isOpenAllTime = isOpenAllTime;
         this.isChargingAvailable = isChargingAvailable;
@@ -32,5 +35,6 @@ public class SearchCafeFilterCondition {
         this.isPetFriendly = isPetFriendly;
         this.hasDessert = hasDessert;
         this.sortType = sortType;
+        this.tags = tags;
     }
 }

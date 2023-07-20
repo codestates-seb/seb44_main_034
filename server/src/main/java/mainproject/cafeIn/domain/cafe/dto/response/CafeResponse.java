@@ -20,10 +20,11 @@ public class CafeResponse {
 
     @JsonProperty("isBookmarked")
     private boolean isBookmarked;
+    private Integer countBookmark;
     private Integer countPost;
 
     @QueryProjection
-    public CafeResponse(Long cafeId, String name, String address, float rating, double latitude, double longitude, String image, boolean isBookmarked, Integer countPost) {
+    public CafeResponse(Long cafeId, String name, String address, float rating, double latitude, double longitude, String image, boolean isBookmarked, Integer countBookmark, Integer countPost) {
         this.cafeId = cafeId;
         this.name = name;
         this.address = address;
@@ -32,6 +33,7 @@ public class CafeResponse {
         this.longitude = longitude;
         this.image = image;
         this.isBookmarked = isBookmarked;
+        this.countBookmark = countBookmark;
         this.countPost = countPost;
     }
 }
