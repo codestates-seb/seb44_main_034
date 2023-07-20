@@ -10,9 +10,6 @@ const S = {
     height: 300px;
     width: 95vw;
     margin-top: 10px;
-    @media screen and (min-width: 550px) {
-      width: 500px;
-    }
   `,
   FacilityContainer: styled.div`
     display: flex;

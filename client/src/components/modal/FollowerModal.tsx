@@ -82,6 +82,7 @@ const FollowerModal = () => {
       .get(`${baseURL}/members/my-page/follower`, {
         headers: {
           'ngrok-skip-browser-warning': 'true',
+          withCredentials: true,
           Authorization: localStorage.getItem('access_token'),
         },
       })

@@ -70,7 +70,7 @@ const BookmarkPost = (props: { data: PostType }) => {
   const { data } = props;
   return (
     <S.PostContainer>
-      <S.PostImgBox src={data?.image ?? { coffeeshop3 }} />
+      <S.PostImgBox src={data?.image ?? ''} />
       <S.PostInformaiton>
         <S.PostTitleBox>
           <S.PostTitle>{data?.title ?? ''}</S.PostTitle>
