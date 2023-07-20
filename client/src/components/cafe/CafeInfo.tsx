@@ -1,18 +1,18 @@
-import axios from 'axios';
-import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Button from '../../common/button/button';
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
-import { cafeType } from '../../recoil/recoil';
-import { baseURL } from '../../common/baseURL';
-import { BiImageAdd } from 'react-icons/bi';
+import axios from "axios";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../common/button/button";
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from "../../common/common";
+import { cafeType } from "../../recoil/recoil";
+import { baseURL } from "../../common/baseURL";
+import { BiImageAdd } from "react-icons/bi";
 const facilityName = [
-  '24시간 운영여부',
-  '콘센트 유무',
-  '주차공간',
-  '동물 출입 가능 여부',
-  '디저트 판매 여부',
+  "24시간 운영여부",
+  "콘센트 유무",
+  "주차공간",
+  "동물 출입 가능 여부",
+  "디저트 판매 여부",
 ];
 
 const CafeInfo = () => {
@@ -20,22 +20,22 @@ const CafeInfo = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [CafeData, setCafeData] = useState<cafeType>({
-    name: '',
-    address: '',
-    contact: '',
+    name: "",
+    address: "",
+    contact: "",
     latitude: 0,
     longitude: 0,
-    notice: '',
-    openTime: '',
-    closeTime: '',
+    notice: "",
+    openTime: "",
+    closeTime: "",
     isOpenAllTime: false,
     isChargingAvailable: false,
     hasParking: false,
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<string | Blob>('');
-  const [previewImage, setPreviewImage] = useState<string | null>('');
+  const [imageFile, setImageFile] = useState<string | Blob>("");
+  const [previewImage, setPreviewImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -48,27 +48,27 @@ const CafeInfo = () => {
     fileInputRef.current?.click(); // 파일 선택 창 열기
   };
   const handleRemoveImageButtonClick = () => {
-    setImageFile('');
+    setImageFile("");
     setPreviewImage(null);
   };
   const convertAddressToCoordinates = async (address: string) => {
     try {
       const response = await axios.get(
-        'https://dapi.kakao.com/v2/local/search/address.json',
+        "https://dapi.kakao.com/v2/local/search/address.json",
         {
           headers: {
-            Authorization: 'KakaoAK 39c175a34af51dbed869e39dfcb03014',
+            Authorization: "KakaoAK 39c175a34af51dbed869e39dfcb03014",
           },
           params: {
             query: address,
           },
         }
       );
-      console.log('좌표변환');
+      console.log("좌표변환");
       const documents = response.data.documents;
       if (documents.length === 0) {
-        console.log('검색된 주소가 없습니다.');
-        alert('정확한 주소를 기입해주세요 ! '); //이부분은 나중에 경고 문구로 대체 될 예정
+        console.log("검색된 주소가 없습니다.");
+        alert("정확한 주소를 기입해주세요 ! "); //이부분은 나중에 경고 문구로 대체 될 예정
         return null;
       }
       // 응답 데이터에서 좌표 정보 추출
@@ -84,7 +84,7 @@ const CafeInfo = () => {
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       setCafeData((prevCafeData) => ({
         ...prevCafeData,
         [name]: checked,
@@ -119,36 +119,38 @@ const CafeInfo = () => {
     console.log(CafeData.longitude);
     const formData = new FormData();
     if (imageFile) {
-      formData.append('cafeImage', imageFile);
+      formData.append("cafeImage", imageFile);
     }
-
-    formData.append('dto', JSON.stringify(CafeData));
+    const json = JSON.stringify(CafeData);
+    const info = new Blob([json], { type: "application/json" });
+    formData.append("dto", info);
 
     try {
       for (const entry of formData.entries()) {
-        console.log(entry[0] + ': ' + entry[1]);
+        console.log(entry[0] + ": " + entry[1]);
       }
       const response = await axios.post(`${baseURL}/cafes`, formData, {
         // const response = await axios.post(
         //   'http://localhost:3000/cafes',
         //   formData,
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'ngrok-skip-browser-warning': 'true',
+          // 'Content-Type': 'application/json;charset=UTF-8',
+          "Content-Type": "multipart/form-data",
+          "ngrok-skip-browser-warning": "true",
           // 'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       });
 
       console.log(response.data);
       console.log(response);
       const cafeId = response.data.payload;
-      alert('카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다');
+      alert("카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다");
       navigate(`/menus/${cafeId}/add`);
       // } else {
       //   throw new Error('Image upload failed');
       // }
-      console.log('성공');
+      console.log("성공");
     } catch (error) {
       console.error(error);
       // alert('Image upload failed');
@@ -164,7 +166,7 @@ const CafeInfo = () => {
               type='file'
               onChange={handleFileChange}
               ref={fileInputRef}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
             {previewImage ? (
               <>
@@ -290,7 +292,7 @@ const CafeInfo = () => {
           <Button
             text='나가기'
             onClick={() => {
-              navigate('/ownermy/');
+              navigate("/ownermy/");
             }}
             theme='Cancel'
           />

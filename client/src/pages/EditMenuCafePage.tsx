@@ -1,36 +1,36 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { styled } from 'styled-components';
-import { FONT_SIZE_2 } from '../common/common';
-import Button from '../common/button/button';
-import { FormProvider, useForm } from 'react-hook-form';
-import EditMenuForm from '../components/cafe/EditMenuForm';
-import { FormData } from './AddCafeMenuPage';
-import { baseURL } from '../common/baseURL';
+import axios from "axios";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { styled } from "styled-components";
+import { FONT_SIZE_2 } from "../common/common";
+import Button from "../common/button/button";
+import { FormProvider, useForm } from "react-hook-form";
+import EditMenuForm from "../components/cafe/EditMenuForm";
+import { FormData } from "./AddCafeMenuPage";
+import { baseURL } from "../common/baseURL";
 const menus = [
-  { name: '시그니처', value: 'signature', menuType: 'SIGNATURE' },
-  { name: '커피', value: 'coffee', menuType: 'COFFEE' },
-  { name: '논커피', value: 'nonCoffee', menuType: 'NON_COFFEE' },
-  { name: '디저트', value: 'desert', menuType: 'DESSERT' },
+  { name: "시그니처", value: "signature", menuType: "SIGNATURE" },
+  { name: "커피", value: "coffee", menuType: "COFFEE" },
+  { name: "논커피", value: "nonCoffee", menuType: "NON_COFFEE" },
+  { name: "디저트", value: "desert", menuType: "DESSERT" },
 ];
 
 const defaultValues = {};
-const convertedData: FormData = {
-  signature: [],
-  coffee: [],
-  non_Coffee: [],
-  dessert: [],
-};
+// const convertedData: FormData = {
+//   signature: [],
+//   coffee: [],
+//   non_Coffee: [],
+//   dessert: [],
+// };
 //cafeid를 받아서 불러야됨
 
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
   const navigate = useNavigate();
-  const { cafeId } = useParams();
+  const { id } = useParams();
   const methods = useForm<FormData>({
     defaultValues,
-    mode: 'onBlur',
+    mode: "onBlur",
   });
   const { handleSubmit } = methods;
 
@@ -39,14 +39,14 @@ const EditMenuCafe = () => {
       try {
         const response = await axios.get(
           // `${baseURL}/menus/${menuId}`
-          `${baseURL}/menus/${cafeId}`,
+          `${baseURL}/menus/${id}/edit`,
           {
             headers: {
-              'Content-Type': 'application/json',
-              'ngrok-skip-browser-warning': 'true',
+              "Content-Type": "application/json",
+              "ngrok-skip-browser-warning": "true",
               // 'Content-Type': 'application/json',
               withCredentials: true,
-              Authorization: localStorage.getItem('access_token'),
+              Authorization: localStorage.getItem("access_token"),
             },
           } // edit 추가해야함
         );
@@ -65,8 +65,9 @@ const EditMenuCafe = () => {
         //   }
         // });
         // 데이터를 가져와서 defaultValues에 할당
-        console.log(convertedData);
-        methods.reset(convertedData);
+        // console.log(convertedData);
+        console.log(response.data.payload);
+        methods.reset(response.data.payload);
       } catch (error) {
         console.error(error);
       }
@@ -98,7 +99,7 @@ const EditMenuCafe = () => {
         <S.ButtonDiv>
           <Button
             text='메뉴등록'
-            type={'button'}
+            type={"button"}
             onClick={() => handleSubmit(Onsubmit)()}
             theme='Confirm'
           />
@@ -106,7 +107,7 @@ const EditMenuCafe = () => {
           <Button
             text='나가기'
             onClick={() => {
-              navigate('/ownermy');
+              navigate("/ownermy");
             }}
             theme='Cancel'
           />

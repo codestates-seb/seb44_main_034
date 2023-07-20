@@ -6,7 +6,7 @@ import { getCafes } from '../api/mainApi';
 import SearchBox from '../components/main/SearchBox';
 import LocationBox from '../components/main/LocationBox';
 import FilterSearchBox from '../components/main/FilterSearchBox';
-import Map from '../components/main/Map';
+// import Map from '../components/main/Map';
 import styled from 'styled-components';
 import '../Paging.css';
 import Cafe from '../components/main/Cafe';
@@ -18,7 +18,7 @@ import { HandleSearchAtom } from '../recoil/mainState';
 // import { HandleSearchBoxAtom } from '../recoil/mainState';
 import { SearchValueAtom } from '../recoil/mainState';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { set } from 'react-hook-form';
+// import { set } from 'react-hook-form';
 
 const S = {
   ListContainer: styled.div`
@@ -114,6 +114,7 @@ export interface MainCafeType {
   rating?: number;
   countPost?: number;
 }
+
 const Main = () => {
   const shortaddress = useRecoilValue<string>(LocationAtom);
   const facilities = useRecoilValue<string>(FacilitiesAtom);
@@ -126,103 +127,103 @@ const Main = () => {
   const mockData = [
     {
       cafeId: 1,
-      cafeName: '동대문 카페',
+      cafeName: "동대문 카페",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 4,
       countPost: 5,
     },
     {
       cafeId: 2,
-      cafeName: '동대문 카페1',
+      cafeName: "동대문 카페1",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 2,
       countPost: 2,
     },
     {
       cafeId: 3,
-      cafeName: '동대문 카페2',
+      cafeName: "동대문 카페2",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
       countPost: 3,
     },
     {
       cafeId: 4,
-      cafeName: '동대문 카페3',
+      cafeName: "동대문 카페3",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 3,
       countPost: 6,
     },
     {
       cafeId: 5,
-      cafeName: '동대문 카페4',
+      cafeName: "동대문 카페4",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 4,
       countPost: 8,
     },
     {
       cafeId: 6,
-      cafeName: '동대문 카페5',
+      cafeName: "동대문 카페5",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 5,
       countPost: 2,
     },
     {
       cafeId: 7,
-      cafeName: '동대문 카페6',
+      cafeName: "동대문 카페6",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 3,
       countPost: 1,
     },
     {
       cafeId: 8,
-      cafeName: '동대문 카페7',
+      cafeName: "동대문 카페7",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
       countPost: 1,
     },
     {
       cafeId: 9,
-      cafeName: '동대문 카페8',
+      cafeName: "동대문 카페8",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
     },
     {
       cafeId: 10,
-      cafeName: '동대문 카페9',
+      cafeName: "동대문 카페9",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 2,
       countPost: 1,
     },
     {
       cafeId: 11,
-      cafeName: '동대문 카페10',
+      cafeName: "동대문 카페10",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
     },
     {
       cafeId: 12,
-      cafeName: '동대문 카페11',
+      cafeName: "동대문 카페11",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
       countPost: 22,
     },
     {
       cafeId: 13,
-      cafeName: '동대문 카페12',
+      cafeName: "동대문 카페12",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
       countPost: 0,
     },
@@ -269,6 +270,7 @@ const Main = () => {
   } = useQuery(
     ['getAllCafes', page, handleSearch],
     () => getCafes(searchValue, page, shortaddress, facilities, mood),
+
     {
       keepPreviousData: true,
     }
@@ -303,17 +305,17 @@ const Main = () => {
       axios
         .get(`${baseURL}/members/my-page/`, {
           headers: {
-            Authorization: localStorage.getItem('access_token'),
+            Authorization: localStorage.getItem("access_token"),
           },
         })
         .then((response) => {
           // Handle success.
-          console.log('success');
+          console.log("success");
           setCafeInfo(response.data); // 받아온 데이터를 상태로 설정
         })
         .catch((error) => {
           // Handle error.
-          console.log('An error occurred:', error.response);
+          console.log("An error occurred:", error.response);
           // replace('/');
         });
     };
@@ -325,7 +327,7 @@ const Main = () => {
       <SearchBox />
       <LocationBox />
       <FilterSearchBox />
-      <Map />
+      {/* <Map /> */}
       <S.ListContainer>
         <S.ListSubContainer>
           <S.SubTitle>Cafe</S.SubTitle>
@@ -367,8 +369,8 @@ const Main = () => {
         itemsCountPerPage={cafePerPage}
         totalItemsCount={cafeInfo.length}
         pageRangeDisplayed={5}
-        prevPageText={'‹'}
-        nextPageText={'›'}
+        prevPageText={"‹"}
+        nextPageText={"›"}
         onChange={handlePageChange}
       />
     </S.Container>

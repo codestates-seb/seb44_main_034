@@ -1,47 +1,99 @@
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Button from '../../common/button/button';
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
-import { cafeType } from '../../recoil/recoil';
-import { baseURL } from '../../common/baseURL';
-import Loading from '../Loading';
+import axios from "axios";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../common/button/button";
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from "../../common/common";
+import { cafeType } from "../../recoil/recoil";
+import { baseURL } from "../../common/baseURL";
+import Loading from "../Loading";
+import { BiImageAdd } from "react-icons/bi";
 const facilityName = [
-  '24시간 운영여부',
-  '콘센트 유무',
-  '주차공간',
-  '동물 출입 가능 여부',
-  '디저트 판매 여부',
+  "24시간 운영여부",
+  "콘센트 유무",
+  "주차공간",
+  "동물 출입 가능 여부",
+  "디저트 판매 여부",
 ];
-const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
+const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
-
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [editData, setEditData] = useState<cafeType>({
-    name: '',
-    address: '',
-    contact: '',
-    notice: '',
-    latitude: 1234.0,
-    longitude: 1234.0,
-    openTime: '',
-    closeTime: '',
+    name: "",
+    address: "",
+    contact: "",
+    notice: "",
+    latitude: 0,
+    longitude: 0,
+    openTime: "",
+    closeTime: "",
     isOpenAllTime: false,
     isChargingAvailable: false,
     hasParking: false,
     isPetFriendly: false,
     hasDessert: false,
   });
-  // const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<string | Blob>("");
+  const [previewImage, setPreviewImage] = useState<string | null>("");
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const selectedFile = event.target.files?.[0];
-  //   if (selectedFile) {
-  //     setImageFile(selectedFile);
-  //   }
-  // };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setImageFile(selectedFile);
+      setPreviewImage(URL.createObjectURL(selectedFile));
+    }
+  };
+  const handleAddImageButtonClick = () => {
+    fileInputRef.current?.click(); // 파일 선택 창 열기
+  };
+  const handleRemoveImageButtonClick = () => {
+    setImageFile("");
+    setPreviewImage(null);
+  };
+  const convertAddressToCoordinates = async (address: string) => {
+    try {
+      const response = await axios.get(
+        "https://dapi.kakao.com/v2/local/search/address.json",
+        {
+          headers: {
+            Authorization: "KakaoAK 39c175a34af51dbed869e39dfcb03014",
+            withCredentials: true,
+          },
+          params: {
+            query: address,
+          },
+        }
+      );
+      console.log("좌표변환");
+      const documents = response.data.documents;
+      if (documents.length === 0) {
+        console.log("검색된 주소가 없습니다.");
+        alert("정확한 주소를 기입해주세요 ! "); //이부분은 나중에 경고 문구로 대체 될 예정
+        return null;
+      }
+      // 응답 데이터에서 좌표 정보 추출
+      const coordinates = response.data.documents[0].address;
+      console.log(coordinates);
+      return coordinates;
+    } catch (error) {
+      console.error(error);
+      // 에러 처리
+    }
+  };
+  const handleAddressInputBlur = () => {
+    convertAddressToCoordinates(editData.address).then((coordinates) => {
+      if (coordinates) {
+        setEditData((prevEditData) => ({
+          ...prevEditData,
+          address: coordinates.address_name,
+          latitude: coordinates.y,
+          longitude: coordinates.x,
+        }));
+      }
+    });
+  };
   //데이터 잘 불러와지나 적용
   useEffect(() => {
     const fetchData = async () => {
@@ -51,8 +103,8 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
           `${baseURL}/cafes/${cafeId}/edit`, // edit 추가해야함
           {
             headers: {
-              'ngrok-skip-browser-warning': 'true',
-              Authorization: localStorage.getItem('access_token'),
+              "ngrok-skip-browser-warning": "true",
+              Authorization: localStorage.getItem("access_token"),
               credentials: true,
             },
           }
@@ -66,26 +118,11 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
     };
     fetchData();
   }, []);
-  // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const reader = new FileReader();
 
-  //   reader.onload = function (e) {
-  //     if (e.target) {
-  //       setCafeImg(e.target.result);
-  //     }
-  //   };
-  //   if (e.target.files) {
-  //     reader.readAsDataURL(e.target.files[0]);
-  //   }
-  // };
-
-  // const saveCafe = (cafe: CafeType) => {
-  //   setCafes((prevCafes) => [...prevCafes, cafe]);
-  // };
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       setEditData((preveditData) => ({
         ...preveditData,
         [name]: checked,
@@ -98,34 +135,24 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
     }
   };
 
-  /* 이미지를 전송하고 받은 Url로 tempdata 를 요청보내는게 맞는건지 */
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    const imageFile = '';
+    console.log(imageFile);
+
     const formData = new FormData();
-    formData.append('cafeImage', imageFile); // 이미지 파일 추가
-    formData.append('data', JSON.stringify({ dto: editData }));
-    console.log(editData);
-    // if (imageFile) {
-    //   console.log(imageFile);
-    //   const formData = new FormData();
-    //   console.log(formData);
-    //   formData.append('image', imageFile);
-    // }
+    if (imageFile) {
+      formData.append("cafeImage", imageFile);
+    }
+    const json = JSON.stringify(editData);
+    const info = new Blob([json], { type: "application/json" });
+    formData.append("dto", info);
 
     try {
-      //   const responseImg = await axios.post(
-      //     'http://localhost:3001/cafes',
-      //     FormData
-      //   );
-      //   if (responseImg.status === 201) {
-      //     //이미지 업로드 성공일 때
-      //     const editDataWithImage = {
-      //       ...editData,
-      //       cafeImg: responseImg.data.imageUrl,
-      //     };
+      for (const entry of formData.entries()) {
+        console.log(entry[0] + ": " + entry[1]);
+      }
 
       const response = await axios.patch(
         `${baseURL}/cafes/${cafeId}`,
@@ -134,25 +161,22 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
         {
           headers: {
             // 'Content-Type': 'application/json',
-            'Content-Type': 'multipart/form-data',
-            'ngrok-skip-browser-warning': 'true',
-            Authorization: localStorage.getItem('access_token'),
+            "Content-Type": "multipart/form-data",
+            "ngrok-skip-browser-warning": "true",
+            Authorization: localStorage.getItem("access_token"),
+            withCredentials: true,
           },
         }
       );
 
-      //   console.log(response.data.imageUrl);
-      for (const entry of formData.entries()) {
-        console.log(entry[0] + ': ' + entry[1]);
-      }
       console.log(response);
-      alert('카페 수정이 완료 되었습니다.');
-      navigate('/');
+      alert("카페 수정이 완료 되었습니다.");
+      navigate("/");
       //   } else {
       //     throw new Error('Image upload failed');
       //   }
     } catch (error) {
-      alert('Image upload failed');
+      alert("Image upload failed");
     }
     // saveCafe(editData);
     // console.log(cafes);
@@ -166,16 +190,22 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
         <form onSubmit={handleSaveCafeInfo}>
           <S.MainDiv>
             <S.AddImageDiv>
-              {/* <input type='file' onChange={handleFileChange} /> */}
-              <input type='file' />
-              {/* <input
-              type='file'
-              accept='image/*'
-              ref={fileInput}
-              style={{ display: 'none' }}
-              onChange={handleSaveImg}
-            /> */}
-              {/* <S.ImageShow alt='대표 카페 사진' src={cafeImg} /> */}
+              <input
+                type='file'
+                onChange={handleFileChange}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+              />
+              {previewImage ? (
+                <>
+                  <RemoveImgButton onClick={handleRemoveImageButtonClick}>
+                    사진 수정
+                  </RemoveImgButton>
+                  <S.ImageShow src={previewImage} alt='미리보기' />
+                </>
+              ) : (
+                <AddImgButton onClick={handleAddImageButtonClick} />
+              )}
             </S.AddImageDiv>
 
             {/* <AddImage onClick={handleButtonClick} /> */}
@@ -217,6 +247,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
                   value={editData.address}
                   name='address'
                   onChange={handleCafeInfoChange}
+                  onBlur={handleAddressInputBlur}
                   required
                 />
               </S.CafeInputLabel>
@@ -294,7 +325,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
             <Button
               text='나가기'
               onClick={() => {
-                navigate('/ownermy');
+                navigate("/ownermy");
               }}
               theme='Cancel'
             />
@@ -459,6 +490,38 @@ const CafeNotice = styled(S.InputBase)`
   margin: auto;
   @media screen and (max-width: 767px) {
     height: 40%;
+  }
+`;
+const AddImgButton = styled(BiImageAdd)`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const RemoveImgButton = styled.button`
+  width: 80px;
+  height: 20px;
+  font-size: ${FONT_SIZE_1.small_3};
+  position: absolute;
+  top: 310px;
+  border: 2px solid ${COLOR_1.green};
+  background-color: white;
+  border-radius: 10px;
+  color: ${COLOR_1.dark_brown};
+  &:hover {
+    background-color: ${COLOR_1.green};
+    cursor: pointer;
+  }
+  @media screen and (max-width: 767px) {
+    top: 185px;
+    width: 70px;
+    height: 18px;
+    font-size: ${FONT_SIZE_1.small_2};
   }
 `;
 export default EditCafeInfo;
