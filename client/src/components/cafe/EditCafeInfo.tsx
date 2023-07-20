@@ -25,6 +25,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     address: "",
     contact: "",
     notice: "",
+    shortAddress: "",
     latitude: 0,
     longitude: 0,
     openTime: "",

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { styled } from "styled-components";
 import { FONT_SIZE_2 } from "../common/common";
@@ -11,28 +11,37 @@ import { baseURL } from "../common/baseURL";
 const menus = [
   { name: "시그니처", value: "signature", menuType: "SIGNATURE" },
   { name: "커피", value: "coffee", menuType: "COFFEE" },
-  { name: "논커피", value: "nonCoffee", menuType: "NON_COFFEE" },
-  { name: "디저트", value: "desert", menuType: "DESSERT" },
+  { name: "논커피", value: "non_Coffee", menuType: "NON_COFFEE" },
+  { name: "디저트", value: "dessert", menuType: "DESSERT" },
 ];
+type MenuItem = {
+  menuId: number;
+  name: string;
+  price: number;
+  menuType: string;
+};
+type UpdatedDefaultValues = {
+  signature: MenuItem[];
+  coffee: MenuItem[];
+  non_Coffee: MenuItem[];
+  dessert: MenuItem[];
+};
+
+// type UpdatedDefaultValues = MenuItem[][];
 
 const defaultValues = {};
-// const convertedData: FormData = {
-//   signature: [],
-//   coffee: [],
-//   non_Coffee: [],
-//   dessert: [],
-// };
-//cafeid를 받아서 불러야됨
 
 const EditMenuCafe = () => {
   //methods에 useForm 리턴값을 넣어줌
+
   const navigate = useNavigate();
   const { id } = useParams();
   const methods = useForm<FormData>({
     defaultValues,
     mode: "onBlur",
   });
-  const { handleSubmit } = methods;
+  // const { handleSubmit } = methods;
+  const [menuData, setMenuData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,26 +57,23 @@ const EditMenuCafe = () => {
               withCredentials: true,
               Authorization: localStorage.getItem("access_token"),
             },
-          } // edit 추가해야함
+          }
         );
-        // const fetchedData = response.data;
-        // fetchedData.forEach((item: any, index: number) => {
-        //   const menuId = index; // menuId 할당
-        //   item.menuId = menuId; // 각 데이터 항목에 menuId 속성 추가
-        //   if (item.menuType === 'SIGNATURE') {
-        //     convertedData.signature.push(item);
-        //   } else if (item.menuType === 'COFFEE') {
-        //     convertedData.coffee.push(item);
-        //   } else if (item.menuType === 'NON_COFFEE') {
-        //     convertedData.non_Coffee.push(item);
-        //   } else if (item.menuType === 'DESSERT') {
-        //     convertedData.dessert.push(item);
-        //   }
+        const fetchedData = response.data.payload;
+        // setCafedata({
+        //   signature: fetchedData.filter(
+        //     (item: any) => item.menuType === "SIGNATURE"
+        //   ),
+        //   coffee: fetchedData.filter((item: any) => item.menuType === "COFFEE"),
+        //   non_Coffee: fetchedData.filter(
+        //     (item: any) => item.menuType === "NON_COFFEE"
+        //   ),
+        //   dessert: fetchedData.filter(
+        //     (item: any) => item.menuType === "DESSERT"
+        //   ),
         // });
-        // 데이터를 가져와서 defaultValues에 할당
-        // console.log(convertedData);
+        setMenuData(fetchedData);
         console.log(response.data.payload);
-        methods.reset(response.data.payload);
       } catch (error) {
         console.error(error);
       }
@@ -75,20 +81,37 @@ const EditMenuCafe = () => {
 
     fetchData();
   }, []);
-  //확인 버튼이 사라지면 아래 함수도 사라질 예정
-  const Onsubmit = async (data: FormData) => {
-    const mergedMenus = Object.values(data).flat();
+  useEffect(() => {
+    if (menuData.length > 0) {
+      // 새로운 defaultValues를 생성
+      const updatedDefaultValues: UpdatedDefaultValues = {
+        signature: [],
+        coffee: [],
+        non_Coffee: [],
+        dessert: [],
+      };
 
-    try {
-      const response = await axios.post(
-        `http://localhost:3001/menus/`,
-        mergedMenus
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+      // 원하는 형태로 defaultValues 설정
+      menuData.forEach((itemArray: MenuItem[]) => {
+        itemArray.forEach((item: MenuItem) => {
+          if (item.menuType === "SIGNATURE") {
+            updatedDefaultValues.signature.push(item);
+          } else if (item.menuType === "COFFEE") {
+            updatedDefaultValues.coffee.push(item);
+          } else if (item.menuType === "NON_COFFEE") {
+            updatedDefaultValues.non_Coffee.push(item);
+          } else if (item.menuType === "DESSERT") {
+            updatedDefaultValues.dessert.push(item);
+          }
+        });
+      });
+
+      // methods.reset()을 사용하여 defaultValues를 갱신
+      methods.reset(updatedDefaultValues);
+      console.log(updatedDefaultValues);
     }
-  };
+  }, [menuData]);
+
   return (
     <S.Container>
       <FormProvider {...methods}>
@@ -97,12 +120,12 @@ const EditMenuCafe = () => {
           <EditMenuForm key={index} type={item.value} name={item.name} />
         ))}
         <S.ButtonDiv>
-          <Button
+          {/* <Button
             text='메뉴등록'
             type={"button"}
             onClick={() => handleSubmit(Onsubmit)()}
             theme='Confirm'
-          />
+          /> */}
 
           <Button
             text='나가기'

@@ -212,7 +212,7 @@ interface CafeData {
   cafeId?: string;
   cafeName: string;
   countBookmarked: number;
-  image: File;
+  image?: string | Blob;
 }
 const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
@@ -271,13 +271,7 @@ const UserMyPageBox = () => {
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg
-          // src={
-          //   cafeInfo?.image
-          //     ? URL.createObjectURL(cafeInfo.image)
-          //     : coffeeshop2
-          // }
-          ></S.ProfileImg>
+          <S.ProfileImg src={`${cafeInfo?.image}`}></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>

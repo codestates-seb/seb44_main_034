@@ -1,5 +1,5 @@
-import { atom } from 'recoil';
-import { recoilPersist } from 'recoil-persist';
+import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
 
 export type CafeType = {
   id: number;
@@ -21,6 +21,7 @@ export type cafeType = {
   ownerId?: number;
   name: string;
   address: string;
+  shortAddress: string;
   contact: string;
   latitude?: number;
   longitude?: number;
@@ -64,36 +65,36 @@ export type CommentType = {
 };
 // 카페 정보를 담는 atom
 export const AllcafeState = atom<CafeType[]>({
-  key: 'AllcafeState',
+  key: "AllcafeState",
   default: [],
 });
 
 export const cafeState = atom<CafeType>({
-  key: 'cafeState',
+  key: "cafeState",
   default: {
     id: 0,
     ownerId: 0,
-    name: '',
-    address: '',
-    contact: '',
-    notice: '',
-    cafeImg: '',
+    name: "",
+    address: "",
+    contact: "",
+    notice: "",
+    cafeImg: "",
     rating: 0,
-    openTime: '',
-    closeTime: '',
+    openTime: "",
+    closeTime: "",
     facility: [],
     post: [],
     menu: [],
   },
 });
 const { persistAtom } = recoilPersist({
-  key: 'recoil-persist',
+  key: "recoil-persist",
   storage: localStorage,
   converter: JSON,
 });
 
 export const LoginState = atom<boolean>({
-  key: 'LoginState',
+  key: "LoginState",
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
