@@ -26,6 +26,7 @@ const CafePage = () => {
         const data = response.data.payload;
         console.log(data);
         setCafeDetail(data.cafeDetail);
+        console.log(data.cafeDetail);
         setMenus(data.menus);
         console.log(data.menus);
         setIsLoading(false);

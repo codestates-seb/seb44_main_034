@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
 import PostHead from '../components/post/PostHead';
 import PostMood from '../components/post/PostMood';
-import { PostItemAtom } from '../recoil/postState';
-import { PostData } from '../types/type';
+import { PostItemAtom, PostCafeAtom } from '../recoil/postState';
+import { ReqPostData } from '../types/type';
+import { PostCafeType } from '../types/type';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 // import { CiCoffeeBean } from "react-icons/ci";
 import { ConfirmBtn } from '../common/button/button';
@@ -93,7 +94,10 @@ const S = {
 
 const CreatePostPage = () => {
   const [disabled, setDisabled] = useState(false);
-  const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
+  const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
+  const postCafe = useRecoilValue<PostCafeType>(PostCafeAtom);
+
+  const [correctValue, setCorrectValue] = useState({correctTitle:false, correctStarRating:false});
   const resetPostItem = useResetRecoilState(PostItemAtom);
   // const mutation = useMutation(
   //   (postData:PostDataProps) => {
@@ -139,7 +143,11 @@ const CreatePostPage = () => {
   // const { mutate } = saveImageMutation;
 
   // const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
-  const { cafeName } = postData;
+
+
+  const { title, starRating} =postData;
+  
+  
   // const postDataToSand:PostDataProps = {
   //   cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
   // }
@@ -170,7 +178,7 @@ const CreatePostPage = () => {
     console.log(typeof contentValue);
     setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
   };
-
+console.log(postData)
   return (
     <S.Container>
       <form
@@ -179,7 +187,7 @@ const CreatePostPage = () => {
         }}
       >
         <div>
-          <PostHead cafeName={cafeName} />
+          <PostHead cafeName={postCafe.cafeName} />
           <PostMood />
           <S.RatingWrap>
             <BiSolidCoffeeBean
@@ -228,12 +236,22 @@ const CreatePostPage = () => {
             <ConfirmBtn
               type='button'
               disabled={disabled}
-              onClick={(e: any) => {
-                submitPost(e);
-              }}
-            >
-              출간하기
-            </ConfirmBtn>
+              onClick={(e:any)=>{
+              if (title === '') {
+                alert('제목을 입력해주세요.');
+              } else {
+                setCorrectValue({...correctValue, correctTitle:true});
+              }
+              if (starRating<1 || starRating>5) {
+                alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+              } else {
+                setCorrectValue({...correctValue, correctStarRating:true});
+              }
+              // if () {
+              //   alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+              // }
+              
+              submitPost(e)}} >출간하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(

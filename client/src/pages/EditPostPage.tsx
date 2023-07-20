@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useResetRecoilState } from 'recoil';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-import { PostItemAtom } from '../recoil/postState';
-import { PostData } from '../types/type';
-import { tagName } from '../common/tagName';
+import { PostCafeAtom, PostItemAtom } from '../recoil/postState';
+import { ReqPostData } from '../types/type';
+import { MoodTagNames } from '../common/tagNames';
 import MoodTag from '../common/tags/MoodTag';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 // import { CiCoffeeBean } from "react-icons/ci";
@@ -125,8 +125,9 @@ const S = {
 const EditPostPage = () => {
   const postId = useParams();
   const [disabled, setDisabled] = useState(false);
-  const [postData, setPostData] = useRecoilState<PostData>(PostItemAtom);
-  const [tags, setTags] = useState<string[]>([]);
+  const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
+  const postCafe = useRecoilValue(PostCafeAtom);
+  // const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
 
   // const mutation = useMutation(
@@ -141,8 +142,9 @@ const EditPostPage = () => {
   //   }
   // )
 
-  //api
-  const editPost = (post: PostData) =>
+
+//api
+  const editPost = (post:ReqPostData) =>
     axios.patch(`${baseURL}/posts/${postId}`, post, {
       headers: {
         Authorization: localStorage.getItem('access_token'),
@@ -159,7 +161,8 @@ const EditPostPage = () => {
     },
   });
   //리코일 데이터: cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
-  const { cafeName, title, starRating, content } = postData; //리코일에서 불러온 데이터
+
+  const {title, starRating, content} =postData; //리코일에서 불러온 데이터
 
   //수정하기 눌렀을 때
   const submitPost = (e: React.FormEvent<HTMLFormElement>) => {
@@ -179,26 +182,45 @@ const EditPostPage = () => {
 
   //태그
 
-  const saveTag = () => {
-    setTags(tags);
-    setPostData((current) => ({ ...current, tag: tags })); //리코일: PostItemAtom에 선택된 태그 담기
-  };
-  const onClickEvent = (e: any): void => {
+  // const saveTag = () => {
+  //   setTags(tags);
+  //   setPostData((current) => ({ ...current, tag: tags })); //리코일: PostItemAtom에 선택된 태그 담기
+  // };
+  // const onClickEvent = (e: any): void => {
+  //   if (tags.length >= 3) {
+  //     e.preventDefault();
+  //     alert('태그를 3개 이하로 선택하세요!');
+  //     saveTag();
+  //     return;
+  //   }
+  //   if (tags.length < 3) {
+  //     setTags((prev) => [...prev, e.target.textContent]); //선택한 태그
+  //     saveTag();
+  //   } else {
+  //     //선택한 태그를 클릭하여 선택 해제 될 때
+  //     setTags(tags.filter((el) => el !== e.target.textContent)); //선택한 태그-선택해제한 태그
+  //     saveTag();
+  //   }
+  // };
+
+  const onClickEvent = (tagName:string):void => {
+
+    console.log(tagName);
+    const tags = postData?.tags ?? [];
+    const findTag = tags.find((el) => el === tagName);
+    const filterTag = tags.filter((el) => el !== tagName);
+
+    if (findTag) {
+      setPostData((prevState) => ({ ...prevState, tags: [...filterTag]}))
+    }
     if (tags.length >= 3) {
-      e.preventDefault();
-      alert('태그를 3개 이하로 선택하세요!');
-      saveTag();
+      alert('태그는 3개까지만 선택해주세요.');
       return;
     }
-    if (tags.length < 3) {
-      setTags((prev) => [...prev, e.target.textContent]); //선택한 태그
-      saveTag();
-    } else {
-      //선택한 태그를 클릭하여 선택 해제 될 때
-      setTags(tags.filter((el) => el !== e.target.textContent)); //선택한 태그-선택해제한 태그
-      saveTag();
+    if (!findTag) {
+      setPostData((prevState) => ({ ...prevState, tags: [...tags, tagName]}))
     }
-  };
+  }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
@@ -228,7 +250,7 @@ const EditPostPage = () => {
       >
         <div>
           <S.CafeNameWrap>
-            <S.CafeName>{cafeName}</S.CafeName>
+            <S.CafeName>{postCafe.cafeName}</S.CafeName>
           </S.CafeNameWrap>
           <S.TitleWrap>
             <S.Title
@@ -243,9 +265,9 @@ const EditPostPage = () => {
             <S.MoodAsk>카페 분위기는 어떠셨나요?</S.MoodAsk>
           </S.MoodAskWrap>
           <S.MoodWrap>
-            {tagName.map((el, id) => (
+            {MoodTagNames.map((el, id) => (
               <S.TagWrap key={id}>
-                <MoodTag text={el} onClickEvent={onClickEvent}></MoodTag>
+                <MoodTag text={el} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag>
               </S.TagWrap>
             ))}
           </S.MoodWrap>
@@ -291,15 +313,18 @@ const EditPostPage = () => {
             setContents={content}
           />
           <S.BtnWrap>
+
             <ConfirmBtn
-              type='button'
-              disabled={disabled}
-              onClick={(e: any) => {
-                submitPost(e);
-              }}
-            >
-              수정하기
-            </ConfirmBtn>
+            type='button'
+            disabled={disabled}
+            onClick={(e:any)=>{
+              if (title === '') {
+                alert('제목을 입력해주세요.');
+              }
+              if (starRating<1 || starRating>5) {
+                alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+              }
+              submitPost(e)}} >수정하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(

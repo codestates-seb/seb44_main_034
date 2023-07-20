@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { getCafes } from '../api/mainApi';
 import SearchBox from '../components/main/SearchBox';
 import LocationBox from '../components/main/LocationBox';
 import FilterSearchBox from '../components/main/FilterSearchBox';
 import Map from '../components/main/Map';
 import styled from 'styled-components';
 import '../Paging.css';
-import axios from 'axios';
-import { baseURL } from '../common/baseURL';
 import Cafe from '../components/main/Cafe';
 import { FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
+import { baseURL } from '../common/baseURL';
+import { FacilitiesAtom, LocationAtom } from '../recoil/mainState';
+import { HandleSearchAtom } from '../recoil/mainState';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { set } from 'react-hook-form';
 
 const S = {
   ListContainer: styled.div`
@@ -98,6 +104,11 @@ const S = {
 };
 
 type PageType = number;
+
+const Main = () => {
+  const shortaddress = useRecoilValue<string>(LocationAtom);
+  const facilities = useRecoilValue<string>(FacilitiesAtom);
+  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
 
 export interface MainCafeType {
   cafeId?: number;
@@ -242,7 +253,42 @@ const Main = () => {
     const sortedData = [...cafeInfo];
     sortedData.sort((a, b) => (b.countPost || 0) - (a.countPost || 0));
     setCafeInfo(sortedData);
-  };
+
+  //카페 목록 요청 (api: ../api/mainApi.tsx)
+  const {
+    // isLoading,
+    // isError,
+    // error,
+    data,
+    // isPreviousData,
+  } = useQuery(
+    ['getAllposts', page, handleSearch],
+    () => getCafes(page, shortaddress, facilities),
+    {
+      keepPreviousData: true,
+    }
+  );
+
+  // if (isLoading) return <p>Loading...</p>;
+  // if (isError) return <p>{error as string}</p>
+
+  /* ☕️카페 데이터 */
+  if (data) {
+    setHandleSearch(false); //서치 함수
+    const cafesData = data.payload;
+    console.log(cafesData);
+    console.log(data);
+    console.log(data.payload);
+    console.log(data.payload.pageInfo);
+    const pageData = data.payload.pageInfo;
+    console.log(pageData);
+    // const lastPage = () => setPage(pageData.totalpages);
+    // const firstPage = () => setPage(1);
+    // const pagesArray = Array(pageData.totalpages)
+    //   .fill(null)
+    //   .map((_, i) => i + 1);
+  }
+
   useEffect(() => {
     // 데이터를 불러오는 함수
     const fetchData = () => {
