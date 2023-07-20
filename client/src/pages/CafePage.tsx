@@ -5,6 +5,7 @@ import { FONT_SIZE_1, COLOR_1 } from "../common/common";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
+import PostList from "../components/post/PostList"
 import { CafeDetailType, MenuDataType } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
@@ -76,9 +77,9 @@ const CafePage = () => {
           </S.Title>
           {menus && <CafeDetailMenu menu={menus} />}
           <S.Title>
-            Post
-            <div></div>
-            {/* 여기에 추가해주시면 됩니다 !! 위에 div는 구분선입니다 ㅎ.ㅎ  */}
+            {/* Post
+            <div></div> */}
+            <PostList />
           </S.Title>
         </S.Container>
       )}
@@ -106,6 +107,7 @@ const S = {
     }
     @media screen and (max-width: 767px) {
       text-align: center;
+      
     }
   `,
   BookmarkDiv: styled.div`

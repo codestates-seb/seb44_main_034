@@ -79,7 +79,7 @@ const SearchBox = () => {
   const [searchValue, setSearchValue] = useRecoilState<string>(SearchValueAtom);
   const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
 
-  // console.log(handleSearchBox);
+  console.log(handleSearch);
 
   const handleToggleName = () => {
     setToggleName(toggleName === '카페이름' ? '메뉴이름' : '카페이름');

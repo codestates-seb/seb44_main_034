@@ -38,7 +38,7 @@ const PostMood = () => {
   const onClickEvent = (tagName:string):void => {
 
     console.log(tagName);
-    const tags = postData?.tags ?? [];
+    const tags = postData?.tagNames ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);
 
@@ -67,7 +67,7 @@ const PostMood = () => {
       </S.MoodAsk>
       </S.MoodAskWrap>
       <S.MoodWrap>
-      {MoodTagNames.map((el, id)=>(<S.TagWrap key={id}><MoodTag text={el} id={id} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag></S.TagWrap>))}
+      {MoodTagNames.map((el, id)=>(<S.TagWrap key={id}><MoodTag text={el} id={id} onClickEvent={onClickEvent} selected={postData.tagNames.find(ele=>ele===el)}></MoodTag></S.TagWrap>))}
       </S.MoodWrap>
     </>
   )

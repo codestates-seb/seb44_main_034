@@ -10,12 +10,10 @@ type PostThumbnailProps = {
 const PostThumbnail = ({ image, title, author }: PostThumbnailProps) => {
   return (
     <S.Container>
-      {/* <div> */}
       <S.ImgWrap>
         <S.Img src={image} />
       </S.ImgWrap>
       <S.Div>
-        <div></div>
         <S.TitleWrap>
           <S.Title>
             {title.length > 21 ? `${title.slice(0, 21)}...` : title}
@@ -25,7 +23,6 @@ const PostThumbnail = ({ image, title, author }: PostThumbnailProps) => {
           <S.Author>- {author}</S.Author>
         </S.AuthorWrap>
       </S.Div>
-      {/* </div> */}
     </S.Container>
   );
 };
@@ -43,9 +40,7 @@ const S = {
   `,
   ImgWrap: styled.div`
     width: 100%;
-    height: 74%;
-    top:0;
-    left:20%;
+    height: 180px;
   `,
   Img: styled.img`
     width: 100%;
@@ -56,26 +51,27 @@ const S = {
     @media screen and (max-width: 767px) {
       width: 100%;
       height: 100%;
-      min-width: 100%;
-      min-height: 100%;
+      /* min-width: 100%; */
+      /* min-height: 100%; */
     }
   `,
   Div: styled.div`
-    width: 100%;
-    height: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: auto 0;
+    /* width: 100%; */
+    height: 60px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: space-between; */
+    margin: 0;
     padding: 0 4px;
     /* height: 30%; */
     @media screen and (max-width: 767px) {
       /* height: 30%; */
-      min-height:72px;
+      /* min-height:20px; */
     }
   `,
   TitleWrap: styled.div`
-    margin: 4px auto 0 auto;
+    height: 30px;
+    margin: -20px auto 0 auto;
   `,
   Title: styled.span`
     color: ${COLOR_1.dark_brown};
@@ -88,9 +84,11 @@ const S = {
     }
   `,
   AuthorWrap: styled.div`
-    display: flex;
-    justify-content: end;
-    margin: 8px 12px 8px auto;
+    /* display: flex; */
+    /* justify-content: end; */
+    height: 20px;
+    margin: 0 12px 8px auto;
+    text-align: right;
     @media screen and (max-width: 767px) {
       margin: 8px 12px 8px auto;
     }

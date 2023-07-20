@@ -10,7 +10,7 @@ export const PostItemAtom = atom<ReqPostData>({
     image: '',
     content: '',
     starRating: 0,
-    tags:[],
+    tagNames:[],
   }
 })
 

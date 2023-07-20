@@ -117,6 +117,8 @@ const FilterSearchBox = () => {
   const [moodTags, setMoodTags] = useState<string[]>([]);
   const [moodIds, setMoodIds] = useState<number[]>([]);
 
+console.log(setMoodIds);
+
   const facilitiesKeys = [
     "&isopenalltime=true",
     "&ischargingavailable=true",

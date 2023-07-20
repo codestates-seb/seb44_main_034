@@ -14,7 +14,7 @@ export interface ResPostData {
   postId?: number;
   cafeId?: number | string;
   cafeName?: string;
-  title: string;
+  title?: string;
   createdAt: string;
   updatedAt?: string;
   authorId?: number | string;
@@ -23,35 +23,35 @@ export interface ResPostData {
   content: string;
   starRating: number;
   isBookmarked?: boolean;
-  tags: string[];
+  tagNames: string[];
   comments?: PostComments[];
 }
 
 export interface ReqPostData {
-  cafeId?: number;
-  title: string;
+  cafeId?: number | string;
+  title?: string;
   image?: string | File;
   content: string;
   starRating: number;
-  tags: string[];
+  tagNames: string[];
 }
 
 export interface PostComments {
   authorId?: number | string;
   author?: string;
-  content: string;
-  commentId?: number;
+  content?: string;
+  commentId?: number|undefined;
   createdAt?: string;
   updatedAt?: string;
   cafeId?: number;
 }
 
 export interface PostComment {
-  authorId: number | string;
-  author: string;
-  body: string;
-  createdAt: string;
-  updatedAt: string;
+  authorId?: number | string;
+  author?: string;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type CafeDetailType = {
