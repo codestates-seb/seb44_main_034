@@ -148,4 +148,9 @@ public class Cafe extends BaseEntity {
             throw new CustomException(NONE_AUTHORIZATION_TOKEN);
         }
     }
+
+    public void calculateRating(Long starRating) {
+
+        this.rating = (this.rating + starRating) / this.posts.size();
+    }
 }
