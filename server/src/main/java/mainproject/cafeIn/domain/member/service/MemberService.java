@@ -45,7 +45,7 @@ public class MemberService {
 
     public Member signUp(Member member, String uri) {
 
-        if (member.isPrivacy() == false) throw new CustomException(REQUEST_VALIDATION_FAIL);
+        if (!member.isPrivacy()) throw new CustomException(REQUEST_VALIDATION_FAIL);
         verifyExistsEmail(member.getEmail());
         verifyExistsDisplayName(member.getDisplayName());
 
@@ -277,7 +277,7 @@ public class MemberService {
         if(displayName.equals(member.getDisplayName())){
 
             return member;
-        } else if (displayName != null) {
+        } else {
 
             verifyExistsDisplayName(displayName);
             member.updateDisplay(displayName);
