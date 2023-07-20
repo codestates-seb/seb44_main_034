@@ -9,6 +9,7 @@ import mainproject.cafeIn.domain.postbookmark.service.PostBookmarkService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +23,7 @@ public class PostController {
     private final PostService postService;
     private final PostBookmarkService postBookmarkService;
     // 게시물 등록
-    @PostMapping("/{cafe-id}")
+    @PostMapping(value = "/{cafe-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public ApplicationResponse<Long> createPost(@PathVariable("cafe-id") Long cafeId,
                                                 @RequestPart(value = "dto") PostRequest request,
@@ -35,7 +36,7 @@ public class PostController {
     }
 
     // 게시물 수정
-    @PatchMapping("/{post-id}")
+    @PatchMapping(value = "/{post-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public ApplicationResponse<Long> updatePost(@PathVariable("post-id") Long postId,
                                                 @RequestPart(value = "dto") PostRequest request,
