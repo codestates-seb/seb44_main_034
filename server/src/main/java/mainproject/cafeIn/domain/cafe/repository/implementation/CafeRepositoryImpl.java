@@ -13,6 +13,7 @@ import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.QCafeResponse;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepositoryCustom;
+import mainproject.cafeIn.domain.tag.entity.QPostTag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,7 @@ import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.menu.entity.QMenu.menu;
 import static mainproject.cafeIn.domain.owner.entity.QOwner.owner;
+import static mainproject.cafeIn.domain.tag.entity.QTag.tag;
 
 @RequiredArgsConstructor
 public class CafeRepositoryImpl implements CafeRepositoryCustom {
@@ -76,10 +78,12 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
                                 .fetchFirst() != null),
+                        cafe.cafeBookmarks.size(),
                         cafe.posts.size()
                 ))
                 .from(cafe)
-                .where(allFilter(searchCafeFilterCondition))
+                .where(allFilter(searchCafeFilterCondition),
+                        cafe.postTags.any().tag.tagId.in(searchCafeFilterCondition.getTags()))
                 .orderBy(orderType(searchCafeFilterCondition.getSortType()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -87,10 +91,12 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
 
         Long count = queryFactory
                 .select(cafe.count())
-                .where(allFilter(searchCafeFilterCondition))
+                .from(cafe)
+                .where(allFilter(searchCafeFilterCondition),
+                        cafe.postTags.any().tag.tagId.in(searchCafeFilterCondition.getTags()))
                 .fetchOne();
 
-        return new PageImpl<>(response,pageable, count);
+        return new PageImpl<>(response,pageable, count == null ? 0 : count);
     }
 
     @Override
@@ -109,6 +115,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
                                 .fetchFirst() != null),
+                        cafe.cafeBookmarks.size(),
                         cafe.posts.size()
                 ))
                 .from(cafe)
@@ -123,7 +130,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .where(cafe.name.contains(name))
                 .fetchOne();
 
-        return new PageImpl<>(response, pageable, count);
+        return new PageImpl<>(response, pageable, count == null ? 0 : count);
     }
 
     @Override
@@ -142,6 +149,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
                                 .fetchFirst() != null),
+                        cafe.cafeBookmarks.size(),
                         cafe.posts.size()
                 ))
                 .from(cafe)
@@ -158,7 +166,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .leftJoin(cafe.menus, menu)
                 .fetchOne();
 
-        return new PageImpl<>(response, pageable, count);
+        return new PageImpl<>(response, pageable, count == null ? 0 : count);
     }
 
     private BooleanBuilder allFilter(SearchCafeFilterCondition searchCafeFilterCondition) {
