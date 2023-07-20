@@ -13,10 +13,10 @@ import Cafe from '../components/main/Cafe';
 import { FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 import { baseURL } from '../common/baseURL';
-import { FacilitiesAtom, LocationAtom } from '../recoil/mainState';
+import { FacilitiesAtom, MoodAtom, LocationAtom } from '../recoil/mainState';
 import { HandleSearchAtom } from '../recoil/mainState';
-import { HandleSearchBoxAtom } from '../recoil/mainState';
-import { SearchBoxAtom } from '../recoil/mainState';
+// import { HandleSearchBoxAtom } from '../recoil/mainState';
+import { SearchValueAtom } from '../recoil/mainState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { set } from 'react-hook-form';
 
@@ -117,11 +117,12 @@ export interface MainCafeType {
 const Main = () => {
   const shortaddress = useRecoilValue<string>(LocationAtom);
   const facilities = useRecoilValue<string>(FacilitiesAtom);
+  const mood = useRecoilValue<string>(MoodAtom);
   const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
-  const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
-  const searchValue = useRecoilValue(SearchBoxAtom);
+  // const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
+  const searchValue = useRecoilValue(SearchValueAtom);
 
-  console.log(setHandleSearch);
+  // console.log(setHandleSearch);
   const mockData = [
     {
       cafeId: 1,
@@ -231,8 +232,8 @@ const Main = () => {
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
-  const currentPageData = cafeInfo.slice(startIndex, endIndex);
-  console.log(currentPageData.length);
+  // const currentPageData = cafeInfo.slice(startIndex, endIndex);
+  // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
     console.log(pageNumber);
     setPage(pageNumber);
@@ -264,10 +265,10 @@ const Main = () => {
     isError,
     error,
     data,
-    // isPreviousData, 
+    // isPreviousData,
   } = useQuery(
-    ['getAllCafes', page, handleSearch, searchBox],
-    () => getCafes(searchBox, searchValue, page, shortaddress, facilities),
+    ['getAllCafes', page, handleSearch],
+    () => getCafes(searchValue, page, shortaddress, facilities, mood),
     {
       keepPreviousData: true,
     }
@@ -275,14 +276,13 @@ const Main = () => {
 
   // if (isLoading) return <p>Loading...</p>;
   if (isError) {
-    setSearchBox(false);
+    // setSearchBox(false);
     console.log(error);
-    return;
   }
 
   /* ☕️카페 데이터 */
   if (data) {
-    setSearchBox(false);
+    // setSearchBox(false);
     const cafesData = data.payload;
     console.log(cafesData);
     console.log(data);
@@ -358,9 +358,9 @@ const Main = () => {
         </S.ListSubContainer>
       </S.ListContainer>
       <S.ListBox>
-        {currentPageData.map((data) => {
+        {/* {currentPageData.map((data) => {
           return <Cafe data={data} key={data.cafeId} />;
-        })}
+        })} */}
       </S.ListBox>
       <Pagination
         activePage={page}

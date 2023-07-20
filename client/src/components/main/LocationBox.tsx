@@ -73,9 +73,6 @@ const LocationBox = () => {
   // }
   // console.log(shortAddress);
 
-
-
-
   return (
     <S.Container>
       <S.SubContainer>

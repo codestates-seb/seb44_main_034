@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { SearchBoxAtom} from '../../recoil/mainState';
-import { HandleSearchBoxAtom } from '../../recoil/mainState';
+import { SearchValueAtom} from '../../recoil/mainState';
+import { HandleSearchAtom } from '../../recoil/mainState';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 import { BsSearch } from 'react-icons/bs';
 import styled from 'styled-components';
@@ -76,10 +76,10 @@ const S = {
 const SearchBox = () => {
   const [toggleName, setToggleName] = useState<string>('카페이름');
   const [inputValue, setInputValue] = useState<string>('');
-  const [searchValue, setSearchValue] = useRecoilState<string>(SearchBoxAtom);
-  const [handleSearchBox, setHandleSearchBox] = useRecoilState(HandleSearchBoxAtom);
+  const [searchValue, setSearchValue] = useRecoilState<string>(SearchValueAtom);
+  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
 
-  console.log(handleSearchBox);
+  // console.log(handleSearchBox);
 
   const handleToggleName = () => {
     setToggleName(toggleName === '카페이름' ? '메뉴이름' : '카페이름');
@@ -89,12 +89,12 @@ const SearchBox = () => {
   }
   const handleSearchIcon = (toggle:string) => {
     if (toggle === '카페이름') {
-      setSearchValue(`search-cafe/${inputValue}?`);
+      setSearchValue(`/search-cafe/${inputValue}`);
     }
     if (toggle === '메뉴이름') {
-      setSearchValue(`search-menu/${inputValue}?`);
+      setSearchValue(`/search-menu/${inputValue}`);
     }
-    setHandleSearchBox(true);
+    setHandleSearch((prev)=>(!prev));
   }
 console.log(searchValue);
   return (

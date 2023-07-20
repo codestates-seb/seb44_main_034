@@ -29,6 +29,7 @@ export interface ResPostData {
 
 export interface ReqPostData {
   title: string;
+  cafeId: number;
   image?: string|File;
   content: string;
   starRating: number;

@@ -6,6 +6,7 @@ export const PostItemAtom = atom<ReqPostData>({
   key:'postItemAtom',
   default:{
     title: '',
+    cafeId: 1,
     image: '',
     content: '',
     starRating: 0,

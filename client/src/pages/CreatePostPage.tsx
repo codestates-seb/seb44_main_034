@@ -113,7 +113,7 @@ const CreatePostPage = () => {
 
   //api
 
-  const createPost = (post: PostData) =>
+  const createPost = (post: ReqPostData) =>
     axios.post(`${baseURL}/posts/${post.cafeId}`, post, {
       headers: {
         Authorization: localStorage.getItem('access_token'),

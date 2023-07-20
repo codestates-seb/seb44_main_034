@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { FacilitiesAtom } from '../../recoil/mainState';
+import { MoodAtom } from '../../recoil/mainState';
 import { HandleSearchAtom } from '../../recoil/mainState';
 import { FacilitiesTagNames, MoodTagNames } from '../../common/tagNames';
 import FacilitiesTag from '../../common/tags/FacilitiesTag';
@@ -113,10 +114,14 @@ const S = {
 const FilterSearchBox = () => {
   const [facilities, setFacilities] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
+  const [moodIds, setMoodIds] = useState<number[]>([]);
   const facilitiesKeys = ['&isopenalltime=true','&ischargingavailable=true','&hasparking=true','&ispetfriendly=true','&hasdessert=true']
   const [facilAddress, setFacilAddress] = useState<string[]>([]);
+  // const [moodAddress, setMoodAddress] = useState<string[]>([]);
 
-  const [facilitiesAtom, setfacilitiesAtom] = useRecoilState<string>(FacilitiesAtom);
+  const [facilitiesAtom, setFacilitiesAtom] = useRecoilState<string>(FacilitiesAtom);
+  const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
+
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
 
   const handleSearchClick =() => {
@@ -124,10 +129,16 @@ const FilterSearchBox = () => {
   }
 
   const saveFacil =() => {
-    setfacilitiesAtom(facilAddress.join(''));
+    setFacilitiesAtom(facilAddress.join(''));
+  }
+
+  const saveMood =() => {
+    const moodToIds = moodIds.join();
+    setMoodAtom(`&tags=${moodToIds}`);
   }
   // console.log(facilAddress);
   console.log(facilitiesAtom);
+  console.log(moodAtom);
   // if (facilities === '전체') {
   //   setShortAddress('');
   // }
@@ -154,19 +165,33 @@ const FilterSearchBox = () => {
   const handleMoodTagClick = (tagText:string, id:number):void => {
     const findTag = moodTags.find((el) => (el === tagText));
     const filterTag = moodTags.filter((el) => (el !== tagText));
+    const findId = moodIds.find((el) => (el === id));
+    const filterId = moodIds.filter((el) => (el !== id));
+
 
     if (findTag) {
       setMoodTags(() => ([...filterTag]));
+      setMoodIds(()=>([...filterId]))
       console.log(id);
     }
     if (!findTag) {
       setMoodTags(() => ([...moodTags, tagText]));
+      setMoodIds(()=>([...moodIds, id]))
       console.log(id);
     }
   }
 
-  useEffect(saveFacil, [facilAddress])
-  console.log(facilities, moodTags)
+  useEffect(() => {
+    saveFacil();
+  }, [facilAddress]);
+
+  useEffect(() => {
+    saveMood();
+  }, [moodIds]);
+
+  console.log(facilities, moodTags);
+  console.log(moodIds);
+  console.log(moodIds.join());
   // console.log(facilAddress);
 
   return (
