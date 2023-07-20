@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { styled } from 'styled-components';
-import { FONT_SIZE_1, COLOR_1 } from '../common/common';
-import CafeDetailMenu from '../components/cafe/CafeDetailMenu';
-import CafeDetailsInfo from '../components/cafe/CafeDetailsInfo';
-import Loading from '../components/Loading';
-import { CafeDetailType, MenuDataType } from '../types/type';
-import { baseURL } from '../common/baseURL';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { styled } from "styled-components";
+import { FONT_SIZE_1, COLOR_1 } from "../common/common";
+import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
+import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
+import Loading from "../components/Loading";
+import { CafeDetailType, MenuDataType } from "../types/type";
+import { baseURL } from "../common/baseURL";
+import { useParams } from "react-router-dom";
 const CafePage = () => {
   const [cafeDetail, setCafeDetail] = useState<CafeDetailType | undefined>();
   const [menus, setMenus] = useState<MenuDataType[][] | undefined>();
@@ -20,7 +20,7 @@ const CafePage = () => {
         const response = await axios.get(`${baseURL}/cafes/${id}`, {
           headers: {
             withCredentials: true,
-            Authorization: localStorage.getItem('access_token'),
+            Authorization: localStorage.getItem("access_token"),
           },
         });
         const data = response.data.payload;
@@ -31,7 +31,7 @@ const CafePage = () => {
         console.log(data.menus);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching cafe data:', error);
+        console.error("Error fetching cafe data:", error);
       }
     };
     fetchCafeData();

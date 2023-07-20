@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Modal } from 'react-responsive-modal';
-import 'react-responsive-modal/styles.css';
-import { styled } from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import { MenuDataType } from '../../types/type';
-import Loading from '../Loading';
-import { baseURL } from '../../common/baseURL';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
+import { styled } from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+import { MenuDataType } from "../../types/type";
+import Loading from "../Loading";
+import { baseURL } from "../../common/baseURL";
 interface MenuDetailsInfoProps {
   menu: MenuDataType[][];
 }
-const menuTypeName = ['시그니처', '커피', '논커피', '디저트'];
+const menuTypeName = ["시그니처", "커피", "논커피", "디저트"];
 
 const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
   const [modifiedMenu, setModifiedMenu] = useState<MenuDataType[][]>([...menu]);
   const [selectedMenu, setSelectedMenu] = useState<MenuDataType | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
 
   const openModal = (menu: MenuDataType) => {
     setSelectedMenu(menu);
@@ -31,15 +31,15 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
-  useEffect(() => {
-    const lastMenu = modifiedMenu.pop();
-    if (lastMenu) {
-      modifiedMenu.unshift(lastMenu);
-    }
-    console.log(setModifiedMenu);
-    console.log(modifiedMenu);
-    setLoading(false);
-  }, [modifiedMenu]);
+  // useEffect(() => {
+  //   const lastMenu = modifiedMenu.pop();
+  //   if (lastMenu) {
+  //     modifiedMenu.unshift(lastMenu);
+  //   }
+  //   console.log(setModifiedMenu);
+  //   console.log(modifiedMenu);
+  //   setLoading(false);
+  // }, [modifiedMenu]);
 
   const addComment = async () => {
     try {
@@ -55,25 +55,22 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   };
   return (
     <S.Container>
-      {isLoading ? (
-        <Loading /> // 로딩 페이지 표시)
-      ) : (
-        <>
-          {modifiedMenu.map((menuGroup: any, index: number) => (
-            <div key={index}>
-              <S.MenuType>{menuTypeName[index]}</S.MenuType>
-              <S.MenuDiv>
-                {menuGroup.map((menuItem: any, subIndex: number) => (
-                  <S.Menu key={subIndex} onClick={() => openModal(menuItem)}>
-                    {menuItem.name}
-                    <span>{menuItem.price}</span>
-                  </S.Menu>
-                ))}
-              </S.MenuDiv>
-            </div>
-          ))}{' '}
-        </>
-      )}
+      <>
+        {modifiedMenu.map((menuGroup: any, index: number) => (
+          <div key={index}>
+            <S.MenuType>{menuTypeName[index]}</S.MenuType>
+            <S.MenuDiv>
+              {menuGroup.map((menuItem: any, subIndex: number) => (
+                <S.Menu key={subIndex} onClick={() => openModal(menuItem)}>
+                  {menuItem.name}
+                  <span>{menuItem.price}</span>
+                </S.Menu>
+              ))}
+            </S.MenuDiv>
+          </div>
+        ))}
+      </>
+
       <Modal open={showModal} onClose={closeModal} center>
         {selectedMenu && (
           <div>
