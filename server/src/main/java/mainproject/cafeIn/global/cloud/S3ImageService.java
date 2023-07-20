@@ -40,6 +40,7 @@ public class S3ImageService {
     private String upload(File uploadFile, String dirName) {
 
         String changeName = uploadFile.getName().replaceAll(" ","_");
+        changeName = URLEncoder.encode(changeName, StandardCharsets.UTF_8);
         String uuidName = UUID.randomUUID().toString();
 
         String fileName = dirName + "/" + uuidName+ "_" + changeName;
@@ -68,7 +69,7 @@ public class S3ImageService {
 
     private String putS3(File uploadFile, String fileName) {
 
-        fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
 
