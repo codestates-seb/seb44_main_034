@@ -118,7 +118,7 @@ export interface MainCafeType {
   rating?: number;
   countPost?: number;
 }
-const Main = () => {
+
   const mockData = [
     {
       cafeId: 1,
@@ -253,7 +253,7 @@ const Main = () => {
     const sortedData = [...cafeInfo];
     sortedData.sort((a, b) => (b.countPost || 0) - (a.countPost || 0));
     setCafeInfo(sortedData);
-
+  };
   //카페 목록 요청 (api: ../api/mainApi.tsx)
   const {
     // isLoading,
