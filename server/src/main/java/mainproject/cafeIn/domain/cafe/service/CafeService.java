@@ -62,12 +62,12 @@ public class CafeService {
         Cafe cafe = findCafeById(cafeId);
         cafe.validateOwner(loginId);
         Owner owner = ownerService.findVerifiedOwner(loginId);
-        if (!passwordEncoder.matches(password, owner.getPassword())) {
+        if (passwordEncoder.matches(password, owner.getPassword())) {
+            imageService.delete("cafes", cafe.getImage());
+            cafeRepository.delete(cafe);
+        } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
-
-        imageService.delete("cafes", cafe.getImage());
-        cafeRepository.delete(cafe);
     }
 
     public CafeDetailResponse getCafe(Long cafeId, Long loginId) {
