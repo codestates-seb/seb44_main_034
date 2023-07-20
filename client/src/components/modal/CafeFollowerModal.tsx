@@ -11,8 +11,8 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 250px;
-    width: 180px;
+    height: 230px;
+    width: 200px;
     z-index: 1;
     position: absolute;
     border-radius: 10px;
@@ -21,8 +21,8 @@ const S = {
     background-color: ${COLOR_1.ivory};
   `,
   SubContainer: styled.div`
-    width: 170px;
-    height: 250px;
+    width: 190px;
+    height: 230px;
   `,
   UserBox: styled.div`
     display: flex;
@@ -51,12 +51,39 @@ const S = {
 };
 
 interface Follower {
-  id: number;
-  displayName: string;
-  image: string | null;
+  id?: number;
+  displayName?: string;
+  image?: string;
 }
 const CafeFollowerModal = () => {
-  const [dataSource, setDataSource] = useState<Follower[]>(Array.from([]));
+  const mockData = [
+    {
+      id: 1,
+      displayName: '커피나라1',
+      image: undefined,
+    },
+    {
+      id: 2,
+      displayName: '커피2',
+      image: undefined,
+    },
+    {
+      id: 2,
+      displayName: '커피3',
+      image: undefined,
+    },
+    {
+      id: 4,
+      displayName: '커피4',
+      image: undefined,
+    },
+    {
+      id: 5,
+      displayName: '커피6',
+      image: undefined,
+    },
+  ];
+  const [dataSource, setDataSource] = useState<Follower[]>(mockData);
   const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
     if (dataSource.length < 100) {
@@ -107,7 +134,7 @@ const CafeFollowerModal = () => {
           hasMore={hasMore}
           loader={<p>Loading...</p>}
           endMessage={<p>You ar all set!</p>}
-          height={250}
+          height={200}
         >
           {dataSource.map((item) => {
             return (

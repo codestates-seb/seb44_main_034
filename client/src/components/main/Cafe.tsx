@@ -1,8 +1,7 @@
 import { FONT_SIZE_1 } from '../../common/common';
-import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 import styled from 'styled-components';
-import { PostType } from '../users/UserMyPageBox';
+import { MainCafeType } from '../../pages/Main';
 
 const S = {
   GradeImg: styled.img`
@@ -86,7 +85,7 @@ const S = {
   `,
 };
 
-const Cafe = (props: { data: PostType }) => {
+const Cafe = (props: { data: MainCafeType }) => {
   const { data } = props;
   return (
     <S.CafeContainer>
