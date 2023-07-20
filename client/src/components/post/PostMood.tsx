@@ -67,7 +67,7 @@ const PostMood = () => {
       </S.MoodAsk>
       </S.MoodAskWrap>
       <S.MoodWrap>
-      {MoodTagNames.map((el, id)=>(<S.TagWrap key={id}><MoodTag text={el} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag></S.TagWrap>))}
+      {MoodTagNames.map((el, id)=>(<S.TagWrap key={id}><MoodTag text={el} id={id} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag></S.TagWrap>))}
       </S.MoodWrap>
     </>
   )

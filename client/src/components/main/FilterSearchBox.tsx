@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState, SetRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { FacilitiesAtom } from '../../recoil/mainState';
 import { HandleSearchAtom } from '../../recoil/mainState';
 import { FacilitiesTagNames, MoodTagNames } from '../../common/tagNames';
@@ -8,7 +8,6 @@ import MoodTag from '../../common/tags/MoodTag';
 import { COLOR_1 } from '../../common/common';
 import styled from 'styled-components';
 import { FONT_SIZE_1 } from '../../common/common';
-
 
 const S = {
   Container: styled.div`
@@ -26,7 +25,7 @@ const S = {
     box-sizing: border-box;
     display: flex;
     justify-content: space-around;
-    height: 46px;
+    height: 44px;
     width: 95%;
     margin-top: 6px;
     padding: 0 10px;
@@ -121,7 +120,7 @@ const FilterSearchBox = () => {
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
 
   const handleSearchClick =() => {
-    setHandleSearch(true);
+    setHandleSearch((cur)=>(!cur));
   }
 
   const saveFacil =() => {
@@ -152,15 +151,17 @@ const FilterSearchBox = () => {
     }
   }
 
-  const handleMoodTagClick = (tagText:string):void => {
+  const handleMoodTagClick = (tagText:string, id:number):void => {
     const findTag = moodTags.find((el) => (el === tagText));
     const filterTag = moodTags.filter((el) => (el !== tagText));
 
     if (findTag) {
       setMoodTags(() => ([...filterTag]));
+      console.log(id);
     }
     if (!findTag) {
       setMoodTags(() => ([...moodTags, tagText]));
+      console.log(id);
     }
   }
 
@@ -182,7 +183,7 @@ const FilterSearchBox = () => {
         <S.Title>Mood</S.Title>
       </S.TitleBox>
       <S.MoodContainer>
-      {MoodTagNames.map((el)=> (<MoodTag key={el} text={el} onClickEvent={handleMoodTagClick} selected={
+      {MoodTagNames.map((el, idx)=> (<MoodTag key={el} id={idx+1} text={el} onClickEvent={handleMoodTagClick} selected={
           moodTags.find((ele)=>(ele === el))
         }></MoodTag>))}
       </S.MoodContainer>

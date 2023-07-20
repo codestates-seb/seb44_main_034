@@ -10,13 +10,29 @@ export const createBaseUrl = axios.create({
 
 
 
-export const getCafes = async (pageParam:number, shortAddress:string, facilities:string) => {
+export const getCafes = async (searchBox:boolean, searchValue:string, pageParam:number, shortAddress:string, facilities:string) => {
 
-  const res = await createBaseUrl.get(`/cafes?${shortAddress}${facilities}&page=${pageParam}&size=8`, {
-    headers: {
-      // 'ngrok-skip-browser-warning': 'true'
-    }
-  });
-  // const res = await createBaseUrl.get(`/posts/${Id}`);
-  return res.data;
+  if (searchBox) {
+    const res = await createBaseUrl.get(`/cafes/${searchValue}&page=${pageParam}&size=8`, {
+      headers: {
+        // 'ngrok-skip-browser-warning': 'true'
+          withCredentials: true,
+      }
+    });
+    // const res = await createBaseUrl.get(`/posts/${Id}`);
+    console.log(res.data);
+    return res.data;
+  }
+  if (!searchBox) {
+    const res = await createBaseUrl.get(`/cafes?${shortAddress}${facilities}&page=${pageParam}&size=8`, {
+      headers: {
+        // 'ngrok-skip-browser-warning': 'true'
+          withCredentials: true,
+      }
+    });
+    // const res = await createBaseUrl.get(`/posts/${Id}`);
+    console.log(res.data);
+    return res.data;
+  }
+
 };

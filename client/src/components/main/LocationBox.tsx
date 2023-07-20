@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { LocationAtom } from '../../recoil/mainState';
 import styled from 'styled-components';
@@ -52,19 +52,29 @@ const S = {
 const LocationBox = () => {
   const locationName = ['전체', '강서구', '양천구', '영등포구', '마포구'];
   const [shortAddress, setShortAddress] = useRecoilState<string>(LocationAtom);
-  const [location, setLocation]= useState<string>('');
+  // const [location, setLocation]= useState<string>('');
   const handleClickEvent=(el:string)=>{
-    setLocation(el);
+    // setLocation(el);
     console.log(el)
-  }
-  console.log(location);
-  if (location === '전체') {
-    setShortAddress('');
-  }
-  if (location !== '전체') {
-    setShortAddress(`shortaddress=${location}`);
+    if (el === '전체') {
+      setShortAddress('');
+    }
+    if (el !== '전체') {
+      setShortAddress(`shortaddress=${el}`);
+    }
   }
   console.log(shortAddress);
+  // console.log(location);
+  // if (location === '전체') {
+  //   setShortAddress('');
+  // }
+  // if (location !== '전체') {
+  //   setShortAddress(`shortaddress=${location}`);
+  // }
+  // console.log(shortAddress);
+
+
+
 
   return (
     <S.Container>

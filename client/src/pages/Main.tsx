@@ -15,6 +15,8 @@ import { BiSolidCoffeeBean } from 'react-icons/bi';
 import { baseURL } from '../common/baseURL';
 import { FacilitiesAtom, LocationAtom } from '../recoil/mainState';
 import { HandleSearchAtom } from '../recoil/mainState';
+import { HandleSearchBoxAtom } from '../recoil/mainState';
+import { SearchBoxAtom } from '../recoil/mainState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { set } from 'react-hook-form';
 
@@ -116,7 +118,10 @@ const Main = () => {
   const shortaddress = useRecoilValue<string>(LocationAtom);
   const facilities = useRecoilValue<string>(FacilitiesAtom);
   const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
+  const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
+  const searchValue = useRecoilValue(SearchBoxAtom);
 
+  console.log(setHandleSearch);
   const mockData = [
     {
       cafeId: 1,
@@ -252,27 +257,32 @@ const Main = () => {
     sortedData.sort((a, b) => (b.countPost || 0) - (a.countPost || 0));
     setCafeInfo(sortedData);
   };
+
   //카페 목록 요청 (api: ../api/mainApi.tsx)
   const {
     // isLoading,
-    // isError,
-    // error,
+    isError,
+    error,
     data,
-    // isPreviousData,
+    // isPreviousData, 
   } = useQuery(
-    ['getAllposts', page, handleSearch],
-    () => getCafes(page, shortaddress, facilities),
+    ['getAllCafes', page, handleSearch, searchBox],
+    () => getCafes(searchBox, searchValue, page, shortaddress, facilities),
     {
       keepPreviousData: true,
     }
   );
 
   // if (isLoading) return <p>Loading...</p>;
-  // if (isError) return <p>{error as string}</p>
+  if (isError) {
+    setSearchBox(false);
+    console.log(error);
+    return;
+  }
 
   /* ☕️카페 데이터 */
   if (data) {
-    setHandleSearch(false); //서치 함수
+    setSearchBox(false);
     const cafesData = data.payload;
     console.log(cafesData);
     console.log(data);
