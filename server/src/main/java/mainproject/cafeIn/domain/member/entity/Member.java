@@ -52,10 +52,10 @@ public class Member extends BaseEntity {
     @ElementCollection(fetch = FetchType.EAGER)
     List<String> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "followerId", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "followerId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "followingId", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "followingId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Follow> followings = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
