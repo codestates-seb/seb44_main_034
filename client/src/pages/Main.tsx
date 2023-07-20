@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { getCafes } from '../api/mainApi';
 import SearchBox from '../components/main/SearchBox';
 import LocationBox from '../components/main/LocationBox';
 import FilterSearchBox from '../components/main/FilterSearchBox';
@@ -7,10 +10,14 @@ import Map from '../components/main/Map';
 import styled from 'styled-components';
 import '../Paging.css';
 import axios from 'axios';
-import { baseURL } from '../common/baseURL';
 import Cafe from '../components/main/Cafe';
 import { FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
+import { baseURL } from '../common/baseURL';
+import { FacilitiesAtom, LocationAtom } from '../recoil/mainState';
+import { HandleSearchAtom } from '../recoil/mainState';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { set } from 'react-hook-form';
 
 const S = {
   ListContainer: styled.div`
@@ -97,7 +104,14 @@ const S = {
   `,
 };
 
+
 type PageType = number;
+
+const Main = () => {
+  const shortaddress = useRecoilValue<string>(LocationAtom);
+  const facilities = useRecoilValue<string>(FacilitiesAtom);
+  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
+
 
 export interface MainCafeType {
   cafeId?: number;
@@ -243,6 +257,7 @@ const Main = () => {
     sortedData.sort((a, b) => (b.countPost || 0) - (a.countPost || 0));
     setCafeInfo(sortedData);
   };
+  
   useEffect(() => {
     // 데이터를 불러오는 함수
     const fetchData = () => {
