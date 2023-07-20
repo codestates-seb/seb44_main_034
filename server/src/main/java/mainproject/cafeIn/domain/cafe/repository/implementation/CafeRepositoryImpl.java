@@ -82,8 +82,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                         cafe.posts.size()
                 ))
                 .from(cafe)
-                .where(allFilter(searchCafeFilterCondition),
-                        cafe.postTags.any().tag.tagId.in(searchCafeFilterCondition.getTags()))
+                .where(allFilter(searchCafeFilterCondition))
                 .orderBy(orderType(searchCafeFilterCondition.getSortType()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -176,8 +175,12 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .and(charging(searchCafeFilterCondition.getIsChargingAvailable()))
                 .and(pet(searchCafeFilterCondition.getIsPetFriendly()))
                 .and(parking(searchCafeFilterCondition.getHasParking()))
-                .and(dessert(searchCafeFilterCondition.getHasDessert()))
-                .and(hasTag(searchCafeFilterCondition.getTags()));
+                .and(dessert(searchCafeFilterCondition.getHasDessert()));
+
+        BooleanExpression tagExpression = hasTag(searchCafeFilterCondition.getTags());
+        if (tagExpression != null) {
+            builder.and(tagExpression);
+        }
 
         return builder;
     }
