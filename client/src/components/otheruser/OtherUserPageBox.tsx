@@ -179,6 +179,28 @@ const S = {
       color: white;
     }
   `,
+  FollowingButton: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: ${COLOR_1.dark_sand};
+    background-color: #a57d52;
+    border: solid 1px ${COLOR_1.dark_brown};
+    cursor: pointer;
+    &:hover {
+      background-color: #764f26;
+      color: white;
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 5px #e1e1e1;
+      color: white;
+    }
+  `,
   ListBox: styled.div`
     display: flex;
     flex-direction: column;
@@ -282,8 +304,11 @@ const OtherUserMyPageBox = () => {
   ];
   // const replace = useNavigate();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<PostType[]>(mockData);
   const [hasMore, setHasMore] = useState(true);
+
+  //특정회원 팔로우하기
   const followingHandler = () => {
     axios
       .post(`${baseURL}/members/1/follow`, {
@@ -295,8 +320,8 @@ const OtherUserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
-        setMemberInfo(response.data.payload);
+        console.log(response);
+        setIsFollowing(!isFollowing);
       })
       .catch((error) => {
         // Handle error.
@@ -322,10 +347,10 @@ const OtherUserMyPageBox = () => {
     fetchData();
     ('');
   }, []);
-
+  //특정회원 포스터 불러오기
   const fetchData = () => {
     axios
-      .get(`${baseURL}/members/my-page/follower`, {
+      .get(`${baseURL}/members/my-page/post`, {
         headers: {
           'ngrok-skip-browser-warning': 'true',
           Authorization: localStorage.getItem('access_token'),
@@ -345,6 +370,7 @@ const OtherUserMyPageBox = () => {
         // replace('/');
       });
   };
+  //특정회원 정보 불러오기
   useEffect(() => {
     axios
       .get(`${baseURL}/members/1`, {
@@ -357,6 +383,7 @@ const OtherUserMyPageBox = () => {
         // Handle success.
         console.log('success');
         setMemberInfo(response.data.payload);
+        setIsFollowing(response.data.payload.folling);
       })
       .catch((error) => {
         // Handle error.
@@ -400,7 +427,15 @@ const OtherUserMyPageBox = () => {
               </S.Informaiton>
             </S.InformaitonBox>
           </S.MiddleTopBox>
-          <S.FollowButton onClick={followingHandler}>팔로우하기</S.FollowButton>
+          {!isFollowing ? (
+            <S.FollowButton onClick={followingHandler}>
+              팔로우하기
+            </S.FollowButton>
+          ) : (
+            <S.FollowingButton onClick={followingHandler}>
+              언팔로우하기
+            </S.FollowingButton>
+          )}
         </S.ProfileListBox>
       </S.MiddleBox>
       <S.EditButtonBox></S.EditButtonBox>

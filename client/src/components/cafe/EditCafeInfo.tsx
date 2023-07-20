@@ -14,10 +14,10 @@ const facilityName = [
   '동물 출입 가능 여부',
   '디저트 판매 여부',
 ];
-const EditCafeInfo = () => {
+const EditCafeInfo = ({ cafeId }: { cafeId: string }) => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
-  const { cafeId } = useParams();
+
   const [isLoading, setIsLoading] = useState(true);
   const [editData, setEditData] = useState<cafeType>({
     name: '',
@@ -53,6 +53,7 @@ const EditCafeInfo = () => {
             headers: {
               'ngrok-skip-browser-warning': 'true',
               Authorization: localStorage.getItem('access_token'),
+              credentials: true,
             },
           }
         );

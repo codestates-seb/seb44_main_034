@@ -6,7 +6,7 @@ import { COLOR_1 } from '../../common/common';
 import { FONT_SIZE_1 } from '../../common/common';
 import profileimg from '../../assets/profileimg.svg';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { baseURL } from '../../common/baseURL';
 
 const S = {
@@ -166,7 +166,7 @@ const S = {
   `,
 };
 interface FormValue {
-  nickName: string;
+  displayName: string;
   password: string;
   passwordConfirm: string;
   image: FileList;
@@ -174,7 +174,7 @@ interface FormValue {
 
 const EditUserMyPageBox = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
+  const replace = useNavigate();
   const openHandler = () => {
     if (!isOpen) {
       setIsOpen(true);
@@ -189,6 +189,7 @@ const EditUserMyPageBox = () => {
     watch,
     formState: { errors },
   } = useForm<FormValue>();
+
   const image = watch('image');
   useEffect(() => {
     if (image && image.length > 0) {
@@ -198,19 +199,39 @@ const EditUserMyPageBox = () => {
   }, [image]);
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log(data);
+    const { displayName, password } = data;
+    const formData = new FormData();
+    formData.append('displayName', data.displayName);
+    formData.append('password', data.password);
+
+    // 사용자가 선택한 이미지를 가져와서 formData에 추가
+    const image = watch('image');
+    if (image && image.length > 0) {
+      const file = image[0];
+      formData.append('image', file);
+    }
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
     axios
-      .post(`${baseURL}/members/update`, {
-        headers: {
-          withCredentials: true,
+      .patch(
+        `${baseURL}/members/update`,
+        {
+          displayName: displayName,
+          password: password,
         },
-        data,
-      })
+        {
+          headers: {
+            Authorization: localStorage.getItem('access_token'),
+          },
+        }
+      )
       .then((response) => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
         alert('수정이 완료되었습니디.');
+        replace('/');
       })
       .catch((error) => {
         // Handle error.
@@ -236,12 +257,12 @@ const EditUserMyPageBox = () => {
                 {...register('image')}
               />
             </S.ProfileImgBox>
-            <S.SubTitle htmlFor='nickName'>닉네임</S.SubTitle>
+            <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
             <S.InputBox
-              id='nickName'
+              id='displayName'
               type='text'
               placeholder='닉네임을 입력하세요'
-              {...register('nickName', {
+              {...register('displayName', {
                 required: '닉네임은 필수 입력입니다',
                 minLength: {
                   value: 2,
@@ -249,8 +270,10 @@ const EditUserMyPageBox = () => {
                 },
               })}
             ></S.InputBox>
-            {errors.nickName ? (
-              <S.InputInformation>{errors.nickName.message}</S.InputInformation>
+            {errors.displayName ? (
+              <S.InputInformation>
+                {errors.displayName.message}
+              </S.InputInformation>
             ) : (
               <S.InputInformation>{null}</S.InputInformation>
             )}

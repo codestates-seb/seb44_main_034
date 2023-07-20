@@ -13,7 +13,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 520px;
+    height: 560px;
     width: 90vw;
     border-radius: 20px;
     background-color: #fafafa;
@@ -26,7 +26,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: baseline;
-    height: 370px;
+    height: 410px;
     width: 80vw;
     margin-top: 10px;
     @media screen and (min-width: 550px) {
@@ -76,10 +76,11 @@ const S = {
     }
   `,
   InputBox: styled.input`
-    height: 50px;
-    width: 78vw;
-    padding: 5px;
+    height: 25px;
+    width: 75vw;
+    padding: 10px;
     border-radius: 15px;
+    font-size: ${FONT_SIZE_1.normal_2};
     border: solid 1.5px ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.white};
     cursor: pointer;
@@ -91,7 +92,7 @@ const S = {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
     @media screen and (min-width: 550px) {
-      width: 460px;
+      width: 450px;
     }
   `,
 };
@@ -129,7 +130,7 @@ const OwnerSignupBox = () => {
         // Handle success.
         console.log('Well done!');
         console.log('User profile', response);
-        alert('가입이 완료되었습니디.');
+        alert('가입이 완료되었습니다.');
         replace('/login');
       })
       .catch((error) => {
@@ -155,10 +156,8 @@ const OwnerSignupBox = () => {
               },
             })}
           />
-          {errors.email ? (
+          {errors.email && (
             <S.InputInformation>{errors.email.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
           <S.InputBox
@@ -173,12 +172,10 @@ const OwnerSignupBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.displayName ? (
+          {errors.displayName && (
             <S.InputInformation>
               {errors.displayName.message}
             </S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
@@ -202,16 +199,14 @@ const OwnerSignupBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.password ? (
+          {errors.password && (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.SubTitle htmlFor='passwordConfirm'>비밀번호 확인</S.SubTitle>
           <S.InputBox
             id='passwordConfirm'
             type='password'
-            placeholder='비밀번호를 입력하세요'
+            placeholder='비밀번호 확인을 입력하세요'
             {...register('passwordConfirm', {
               required: '비밀번호 확인은 필수 입력입니다.',
               validate: {
@@ -222,12 +217,10 @@ const OwnerSignupBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.passwordConfirm ? (
+          {errors.passwordConfirm && (
             <S.InputInformation>
               {errors.passwordConfirm.message}
             </S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>

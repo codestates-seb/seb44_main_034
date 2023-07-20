@@ -44,7 +44,7 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
+    height: 29px;
     width: 100px;
     color: ${COLOR_1.dark_brown};
     background-color: ${COLOR_1.green};
@@ -64,7 +64,7 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30px;
+    height: 29px;
     width: 99px;
     color: ${COLOR_1.dark_brown};
     background-color: ${COLOR_1.green};

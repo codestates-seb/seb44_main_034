@@ -27,6 +27,7 @@ import Login from './pages/Login';
 import AddCafeInfoPage from './pages/AddCafeInfoPage';
 import AddCafeMenuPage from './pages/AddCafeMenuPage';
 import EditMenuCafe from './pages/EditMenuCafePage';
+import StartPage from './pages/StartPage';
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -44,7 +45,8 @@ function App() {
         <Header />
         <Container>
           <Routes>
-            <Route path='/' element={<Main />} />
+            <Route path='/' element={<StartPage />} />
+            <Route path='/main' element={<Main />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signupselect' element={<SignupSelect />} />
             <Route path='/signupagreement' element={<SignupAgreement />} />
@@ -56,8 +58,8 @@ function App() {
             <Route path='/usermy/edit/:id' element={<EditUserMyPage />} />
             <Route path='/ownermy/edit/:id' element={<EditOwnerMyPage />} />
             <Route path='/cafes/:id' element={<CafePage />} />
-            <Route path='/addcafes/' element={<AddCafeInfoPage />} />
-            <Route path='/addmenus/:id' element={<AddCafeMenuPage />} />
+            <Route path='/cafes/add' element={<AddCafeInfoPage />} />
+            <Route path='/menus/:id/add' element={<AddCafeMenuPage />} />
             <Route
               path='/cafe/edit/information/:id'
               element={<EditInformationCafePage />}

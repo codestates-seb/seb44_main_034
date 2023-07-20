@@ -79,11 +79,12 @@ const S = {
   `,
   InputBox: styled.input`
     height: 50px;
-    width: 78vw;
-    padding: 3px;
+    width: 75vw;
+    padding-left: 10px;
     border-radius: 15px;
     border: solid 1.5px ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.white};
+    font-size: ${FONT_SIZE_1.normal_2};
     cursor: pointer;
 
     &:hover {
@@ -93,7 +94,7 @@ const S = {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
     @media screen and (min-width: 550px) {
-      width: 460px;
+      width: 455px;
     }
   `,
 };
@@ -105,10 +106,11 @@ interface FormValue {
 const LoginBox = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [posterror, setPostError] = useState<string>('');
+  const [authorization, setAuthorization] = useState<string | null>('');
   const replace = useNavigate();
   useEffect(() => {
     if (isLogin) {
-      replace('/');
+      replace('/main');
     }
   });
   const {
@@ -121,9 +123,6 @@ const LoginBox = () => {
     const { username, password } = data;
     axios
       .post(`${baseURL}/users/log-in`, {
-        headers: {
-          withCredentials: true,
-        },
         username: username,
         password: password,
       })
@@ -137,7 +136,8 @@ const LoginBox = () => {
         localStorage.setItem('refresh_token', response.headers.refresh);
         localStorage.setItem('role_token', response.headers.role);
         setIsLogin(true);
-        replace('/');
+        alert('로그인되었습니다.');
+        replace('/usermy');
         const waitForTokenExpiration = async (expirationTime: number) => {
           const currentTime = Date.now();
           const remainingTime = expirationTime - currentTime;
@@ -148,7 +148,7 @@ const LoginBox = () => {
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('role_token');
-            window.location.replace('/');
+            window.location.replace('/main');
           } else {
             console.log('토큰이 이미 만료되었습니다.');
           }
@@ -163,6 +163,17 @@ const LoginBox = () => {
         setPostError('이메일또는 비밀번호가 맞지않습니다.');
       });
   };
+  //Oauth로그인시
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const urlAccessToken = url.searchParams.get('access_token');
+    setAuthorization(urlAccessToken);
+    if (urlAccessToken !== null && urlAccessToken.length >= 10) {
+      localStorage.setItem('access_token', authorization || '');
+      localStorage.setItem('role_token', 'member');
+      setIsLogin(true);
+    }
+  });
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -181,10 +192,8 @@ const LoginBox = () => {
               },
             })}
           />
-          {errors.username ? (
+          {errors.username && (
             <S.InputInformation>{errors.username.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
@@ -208,10 +217,8 @@ const LoginBox = () => {
               },
             })}
           ></S.InputBox>
-          {errors.password ? (
+          {errors.password && (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>

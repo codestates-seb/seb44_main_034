@@ -99,10 +99,6 @@ const Cafe = (props: { data: MainCafeType }) => {
           </S.CafeRating>
         </S.CafeTitleBox>
         <S.CafeAddressBox>{data?.address ?? ''}</S.CafeAddressBox>
-        <S.CafeTagBox>
-          <S.CafeTag>24시영업</S.CafeTag>
-          <S.CafeTag>콘센트</S.CafeTag>
-        </S.CafeTagBox>
       </S.CafeInformaiton>
     </S.CafeContainer>
   );

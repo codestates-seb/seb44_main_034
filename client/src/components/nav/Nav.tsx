@@ -83,7 +83,7 @@ const Nav = () => {
 
   const mainHandler = () => {
     handleButtonClick('home');
-    replace('/');
+    replace('/main');
   };
   const postHandler = () => {
     handleButtonClick('post');

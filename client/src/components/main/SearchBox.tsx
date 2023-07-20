@@ -11,7 +11,7 @@ const S = {
     height: 60px;
     width: 100vw;
     background-color: none;
-    box-shadow: 0px 1px 1px 1px gray;
+    border-bottom: solid 1px #ececec;
     @media screen and (min-width: 767px) {
       width: 768px;
     }

@@ -93,7 +93,7 @@ const S = {
     }
     @media screen and (min-width: 786px) {
       width: 300px;
-      height: 200px;
+      height: 210px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -101,16 +101,17 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 210px;
     width: 90vw;
     margin-top: 10px;
     @media screen and (min-width: 786px) {
+      margin-top: 0px;
       width: 350px;
     }
   `,
   ProfileListBox: styled.div`
     display: flex;
-    height: 200px;
+    height: 210px;
     width: 90vw;
     border-radius: 10px;
     background-color: ${COLOR_1.white};
@@ -247,7 +248,6 @@ const UserMyPageBox = () => {
     axios
       .get(`${baseURL}/owners/my-page`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
           withCredentials: true,
           Authorization: localStorage.getItem('access_token'),
         },
@@ -308,7 +308,7 @@ const UserMyPageBox = () => {
         <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
           내 카페 보기
         </S.SandButton>
-        <S.SandButton onClick={() => navigate('/addcafes')}>
+        <S.SandButton onClick={() => navigate('/cafes/add')}>
           내 카페 등록하기
         </S.SandButton>
         <S.SandButton
@@ -316,7 +316,9 @@ const UserMyPageBox = () => {
         >
           내 카페 수정하기
         </S.SandButton>
-        <S.SandButton onClick={() => navigate(`/addmenus/${cafeInfo?.cafeId}`)}>
+        <S.SandButton
+          onClick={() => navigate(`/menus/${cafeInfo?.cafeId}/add`)}
+        >
           카페 메뉴 등록하기
         </S.SandButton>
         <S.SandButton
