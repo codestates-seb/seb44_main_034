@@ -3,7 +3,7 @@ package mainproject.cafeIn.global.cloud;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
+
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -69,13 +69,10 @@ public class S3ImageService {
     private String putS3(File uploadFile, String fileName) {
 
         fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
 
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
-                        .withMetadata(metadata)
         );
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
