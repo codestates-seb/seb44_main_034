@@ -9,6 +9,7 @@ import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,7 +39,7 @@ public class MemberController {
         return new ApplicationResponse<>();
     }
 
-    @PatchMapping("/update")
+    @PatchMapping(value = "/update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(OK)
     public ApplicationResponse updateMember(@RequestPart(value = "image", required = false) MultipartFile image,
                                             @Valid @RequestPart(value = "dto") MemberDto.Patch patch) throws IOException {
