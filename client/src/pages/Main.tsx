@@ -104,12 +104,6 @@ const S = {
 };
 
 type PageType = number;
-
-const Main = () => {
-  const shortaddress = useRecoilValue<string>(LocationAtom);
-  const facilities = useRecoilValue<string>(FacilitiesAtom);
-  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
-
 export interface MainCafeType {
   cafeId?: number;
   cafeName?: string;
@@ -118,6 +112,10 @@ export interface MainCafeType {
   rating?: number;
   countPost?: number;
 }
+const Main = () => {
+  const shortaddress = useRecoilValue<string>(LocationAtom);
+  const facilities = useRecoilValue<string>(FacilitiesAtom);
+  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
 
   const mockData = [
     {
