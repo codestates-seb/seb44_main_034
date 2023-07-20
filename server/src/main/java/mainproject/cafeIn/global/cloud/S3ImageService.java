@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,9 +42,10 @@ public class S3ImageService {
     private String upload(File uploadFile, String dirName) {
 
         String changeName = uploadFile.getName().replaceAll(" ","_");
+        String encodeName = URLEncoder.encode(changeName, StandardCharsets.UTF_8);
         String uuidName = UUID.randomUUID().toString();
 
-        String fileName = dirName + "/" + uuidName+ "_" + changeName;
+        String fileName = dirName + "/" + uuidName+ "_" + encodeName;
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);
@@ -59,6 +61,7 @@ public class S3ImageService {
 
     public void delete(String dirName, String imageUrl) {
         String fileName = extractFileNameFromUrl(imageUrl);
+        log.info("deleteName : " + fileName);
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, dirName + fileName));
     }
 
@@ -66,15 +69,19 @@ public class S3ImageService {
 
         String decodeName = URLDecoder.decode(imageUrl, StandardCharsets.UTF_8);
 
-
-        return imageUrl.substring(decodeName.lastIndexOf("/"));
+        log.info("decodeNamd: " + decodeName);
+        return decodeName.substring(decodeName.lastIndexOf("/"));
     }
 
     private String putS3(File uploadFile, String fileName) {
 
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
+
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
+                        .withMetadata(metadata)
         );
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
