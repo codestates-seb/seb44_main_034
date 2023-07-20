@@ -183,7 +183,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
     }
 
     private BooleanExpression hasTag(List<Long> tags) {
-        if (tags == null) {
+        if (tags.size() == 0) {
             return null;
         }
 
