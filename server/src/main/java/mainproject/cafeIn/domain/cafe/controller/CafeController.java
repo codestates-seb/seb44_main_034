@@ -38,7 +38,7 @@ public class CafeController {
     private final PostService postService;
 
     // 카페 등록
-    @PostMapping
+    @PostMapping(consumes = {"multipart/form-data"})
     @ResponseStatus(CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
                                                 @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
@@ -49,7 +49,7 @@ public class CafeController {
     }
 
     // 카페 수정
-    @PatchMapping("/{cafe-id}")
+    @PatchMapping(consumes = {"multipart/form-data"}, value = "/{cafe-id}")
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
