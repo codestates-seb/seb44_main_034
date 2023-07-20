@@ -98,10 +98,10 @@ public class Cafe extends BaseEntity {
     private List<PostTag> postTags = new ArrayList<>();
 
     @Builder
-    public Cafe(String name, String address, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {
+    public Cafe(String name, String address, String shortAddress, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {
         this.name = name;
         this.address = address;
-        this.shortAddress = extractAreaFromAddress(address);
+        this.shortAddress = shortAddress;
         this.contact = contact;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -121,7 +121,10 @@ public class Cafe extends BaseEntity {
     public void updateCafe(Cafe cafe) {
         this.name = cafe.name;
         this.address = cafe.address;
+        this.shortAddress = cafe.shortAddress;
         this.contact = cafe.contact;
+        this.latitude = cafe.latitude;
+        this.longitude = cafe.longitude;
         this.notice = cafe.notice;
         this.openTime = cafe.openTime;
         this.closeTime = cafe.closeTime;
@@ -130,17 +133,6 @@ public class Cafe extends BaseEntity {
         this.hasParking = cafe.hasParking;
         this.isPetFriendly = cafe.isPetFriendly;
         this.hasDessert = cafe.hasDessert;
-    }
-
-    private String extractAreaFromAddress(String address) {
-        // TODO: 주소 추출 로직 수정
-        String[] splitAddress = address.split(" ");
-
-        if (splitAddress.length < 1) {
-            throw new CustomException(INVALID_ADDRESS);
-        } else {
-            return splitAddress[1];
-        }
     }
 
     public void validateOwner(Long ownerId) {
