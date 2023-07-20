@@ -194,7 +194,7 @@ public class MemberService {
     public Member signOut(Long id, String password) {
 
         Member findMember = findById(id);
-        if (passwordEncoder.matches(password, findMember.getPassword()) == true) {
+        if (passwordEncoder.matches(password, findMember.getPassword())) {
             imageService.delete("profiles", findMember.getImage());
             findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
         } else {

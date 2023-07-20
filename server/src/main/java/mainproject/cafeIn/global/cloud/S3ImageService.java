@@ -64,7 +64,8 @@ public class S3ImageService {
 
     private String extractFileNameFromUrl(String imageUrl) {
 
-        String decodeName = URLDecoder.decode(imageUrl,StandardCharsets.UTF_8);
+        String decodeName = URLDecoder.decode(imageUrl, StandardCharsets.UTF_8);
+
 
         return imageUrl.substring(decodeName.lastIndexOf("/"));
     }
