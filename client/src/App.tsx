@@ -1,32 +1,32 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import { RecoilRoot } from 'recoil';
-import { styled } from 'styled-components';
-import Header from './components/header/Header';
-import Nav from './components/nav/Nav';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import { RecoilRoot } from "recoil";
+import { styled } from "styled-components";
+import Header from "./components/header/Header";
+import Nav from "./components/nav/Nav";
 // import Footer from './components/footer/Footer';
-import Main from './pages/Main';
-import SignupSelect from './pages/SignupSelect';
-import SignupAgreement from './pages/SignupAgreement';
-import UserSignup from './pages/UserSignup';
-import OwnerSignup from './pages/OwnerSignup';
-import OwnerMyPage from './pages/OwnerMyPage';
-import UserMyPage from './pages/UserMyPage';
-import OtherUserMyPage from './pages/OtherUserMyPage';
-import EditInformationCafePage from './pages/EditInformationCafePage';
-import EditMenuCafePage from './pages/EditMenuCafePage';
-import EditOwnerMyPage from './pages/EditOwnerMyPage';
-import EditPostPage from './pages/EditPostPage';
-import EditUserMyPage from './pages/EditUserMyPage';
-import PostPage from './pages/PostPage';
-import CafePage from './pages/CafePage';
-import CreatePostPage from './pages/CreatePostPage';
-import AllPostsPage from './pages/AllPostsPage';
-import Login from './pages/Login';
-import AddCafeInfoPage from './pages/AddCafeInfoPage';
-import AddCafeMenuPage from './pages/AddCafeMenuPage';
-import EditMenuCafe from './pages/EditMenuCafePage';
+import Main from "./pages/Main";
+import SignupSelect from "./pages/SignupSelect";
+import SignupAgreement from "./pages/SignupAgreement";
+import UserSignup from "./pages/UserSignup";
+import OwnerSignup from "./pages/OwnerSignup";
+import OwnerMyPage from "./pages/OwnerMyPage";
+import UserMyPage from "./pages/UserMyPage";
+import OtherUserMyPage from "./pages/OtherUserMyPage";
+import EditInformationCafePage from "./pages/EditInformationCafePage";
+import EditMenuCafePage from "./pages/EditMenuCafePage";
+import EditOwnerMyPage from "./pages/EditOwnerMyPage";
+import EditPostPage from "./pages/EditPostPage";
+import EditUserMyPage from "./pages/EditUserMyPage";
+import PostPage from "./pages/PostPage";
+import CafePage from "./pages/CafePage";
+import CreatePostPage from "./pages/CreatePostPage";
+import AllPostsPage from "./pages/AllPostsPage";
+import Login from "./pages/Login";
+import AddCafeInfoPage from "./pages/AddCafeInfoPage";
+import AddCafeMenuPage from "./pages/AddCafeMenuPage";
+import EditMenuCafe from "./pages/EditMenuCafePage";
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -68,7 +68,6 @@ function App() {
               path='/cafepage/edit/menu/:id'
               element={<EditMenuCafePage />}
             />
-            <Route path='/postpage/:id' element={<PostPage />} />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
             <Route path='/allposts' element={<AllPostsPage />} />

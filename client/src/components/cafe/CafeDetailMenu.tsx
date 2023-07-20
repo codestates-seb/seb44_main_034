@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
 import { styled } from "styled-components";
 import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 import { MenuDataType } from "../../types/type";
-import Loading from "../Loading";
 import { baseURL } from "../../common/baseURL";
 interface MenuDetailsInfoProps {
   menu: MenuDataType[][];
@@ -31,15 +30,6 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
-  // useEffect(() => {
-  //   const lastMenu = modifiedMenu.pop();
-  //   if (lastMenu) {
-  //     modifiedMenu.unshift(lastMenu);
-  //   }
-  //   console.log(setModifiedMenu);
-  //   console.log(modifiedMenu);
-  //   setLoading(false);
-  // }, [modifiedMenu]);
 
   const addComment = async () => {
     try {
@@ -49,6 +39,7 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
       console.log(response.data);
       // const menuId = response.data.payload;
       // 화면에 반영
+      console.log(setModifiedMenu);
     } catch (error) {
       console.error(error);
     }
