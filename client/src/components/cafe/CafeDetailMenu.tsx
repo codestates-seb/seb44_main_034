@@ -109,6 +109,8 @@ const S = {
     border-bottom: 2px solid ${COLOR_1.light_green};
     @media screen and (max-width: 767px) {
       font-size: ${FONT_SIZE_1.normal_1};
+      margin: auto;
+      margin-bottom: 2%;
     }
   `,
   MenuDiv: styled.div`
@@ -123,7 +125,7 @@ const S = {
     }
   `,
   Menu: styled.div`
-    width: 140px;
+    width: 180px;
     height: 30px;
     background-color: ${COLOR_1.ivory};
     font-size: ${FONT_SIZE_1.normal_1};
@@ -143,7 +145,7 @@ const S = {
       background-color: ${COLOR_1.brown};
     }
     @media screen and (max-width: 767px) {
-      width: 130px;
+      width: 150px;
       font-size: ${FONT_SIZE_1.normal_1};
       margin-bottom: 10px;
       margin-left: 10px;

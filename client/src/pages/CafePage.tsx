@@ -79,6 +79,9 @@ const S = {
     > div {
       border-bottom: 1px solid ${COLOR_1.green};
     }
+    @media screen and (max-width: 767px) {
+      text-align: center;
+    }
   `,
 };
 export default CafePage;
