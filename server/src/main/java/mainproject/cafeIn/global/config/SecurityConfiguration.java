@@ -120,7 +120,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
 
             builder
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class)
                     .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }

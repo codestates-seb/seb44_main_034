@@ -18,6 +18,8 @@ public class CafeInfoRequest {
     @NotNull
     private String address;
 
+    private String shortAddress;
+
     private String contact;
 
     @NotNull
@@ -49,6 +51,7 @@ public class CafeInfoRequest {
         return Cafe.builder()
                 .name(name)
                 .address(address)
+                .shortAddress(shortAddress)
                 .contact(contact)
                 .latitude(latitude)
                 .longitude(longitude)
@@ -67,6 +70,7 @@ public class CafeInfoRequest {
         return Cafe.builder()
                 .name(name)
                 .address(address)
+                .shortAddress(shortAddress)
                 .contact(contact)
                 .latitude(latitude)
                 .longitude(longitude)
