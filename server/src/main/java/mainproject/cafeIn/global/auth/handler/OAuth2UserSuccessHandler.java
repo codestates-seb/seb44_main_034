@@ -55,6 +55,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .image(image)
                 .roles(authorities)
                 .password("dd")
+                .isPrivacy(true)
                 .build();
 
         return memberService.signUp(member, uri);
@@ -63,6 +64,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     private void redirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException {
         String accessToken = delegateAccessToken(member.getId(), member.getEmail(), member.getRoles());
         String refreshToken = delegateRefreshToken(member.getEmail());
+        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("Refresh", refreshToken);
         response.setHeader("Role", "member");
 
         String uri = createURI(accessToken, refreshToken).toString();
@@ -102,10 +105,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(5173)
-                .path("/")
+                .scheme("https")
+                .host("fe-dev-cafein.vercel.app")
+                .path("/main")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
