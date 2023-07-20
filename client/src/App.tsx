@@ -63,14 +63,14 @@ function App() {
               element={<EditInformationCafePage />}
             />
             <Route path='/cafe/edit/menu/:id' element={<EditMenuCafe />} />
-            <Route path='/postpage/:postId' element={<PostPage />} />
+            {/* <Route path='/postpage/:postId' element={<PostPage />} /> */}
             <Route
               path='/cafepage/edit/menu/:id'
               element={<EditMenuCafePage />}
             />
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
-            <Route path='/allposts' element={<AllPostsPage />} />
+            {/* <Route path='/allposts' element={<AllPostsPage />} /> */}
           </Routes>
         </Container>
         <Nav />

@@ -1,47 +1,46 @@
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import PostDate from './PostDate';
-import { ReqPostData } from '../../types/type';
-import { ResPostData } from '../../types/type';
-import { PostItemAtom } from '../../recoil/postState';
-import { IoShareSocial } from 'react-icons/io5';
-import { GoBookmark, GoBookmarkFill } from 'react-icons/go';
-import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from '../../common/common';
- 
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+// import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
+import PostDate from "./PostDate";
+// import { ReqPostData } from "../../types/type";
+import { ResPostData } from "../../types/type";
+// import { PostItemAtom } from "../../recoil/postState";
+import { IoShareSocial } from "react-icons/io5";
+import { GoBookmark, GoBookmarkFill } from "react-icons/go";
+import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
+
 type PostItemProps = {
   postData: ResPostData;
-}
+};
 const PostItemHead = ({ postData }: PostItemProps) => {
-
   const { postId } = postData;
-  const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
+  // const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const navigate = useNavigate();
 
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
-    setPostState(postData);
+    // setPostState(postData);
     // navigate(`/api/posts/${postId}`);
     navigate(`/postpage/edit/${postId}`);
-    console.log('clicked');
+    console.log("clicked");
   };
   const handleDelete = () => {
     //if user Id와 지금 userId가 일치하면
-    if (confirm('삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?')) {
+    if (confirm("삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")) {
       useMutation((postId) => {
         return axios
           .delete(`/${postId}`, {
             headers: {
-              Authorization: localStorage.getItem('access_token'),
+              Authorization: localStorage.getItem("access_token"),
             },
             data: { postId: postId },
           })
           .then((res) => {
             console.log(res);
-            alert('삭제되었습니다.');
-            navigate('/allpostpage');
+            alert("삭제되었습니다.");
+            navigate("/allpostpage");
           });
       });
     }
