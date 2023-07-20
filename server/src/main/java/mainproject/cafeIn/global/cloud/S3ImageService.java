@@ -16,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,7 +41,6 @@ public class S3ImageService {
     private String upload(File uploadFile, String dirName) {
 
         String changeName = uploadFile.getName().replaceAll(" ","_");
-        changeName = URLEncoder.encode(changeName, StandardCharsets.UTF_8);
         String uuidName = UUID.randomUUID().toString();
 
         String fileName = dirName + "/" + uuidName+ "_" + changeName;
@@ -64,11 +64,12 @@ public class S3ImageService {
 
     private String extractFileNameFromUrl(String imageUrl) {
 
-        return imageUrl.substring(imageUrl.lastIndexOf("/"));
+        String decodeName = URLDecoder.decode(imageUrl,StandardCharsets.UTF_8);
+
+        return imageUrl.substring(decodeName.lastIndexOf("/"));
     }
 
     private String putS3(File uploadFile, String fileName) {
-
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
