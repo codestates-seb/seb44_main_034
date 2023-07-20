@@ -50,8 +50,7 @@ public class PostService {
     @Transactional
     public Long createPost(Long loginId, Long cafeId, PostRequest postRequest, MultipartFile image) throws IOException {
         // 충돌 해결
-        verifyMember(loginId);
-        Member member = memberRepository.findById(loginId).get();
+        Member member = findVerifiedMember(loginId);
 
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
@@ -72,14 +71,18 @@ public class PostService {
     // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
     public Long updatePost(Long loginId, Long postId, PostRequest postRequest, MultipartFile image) throws IOException {
-        verifyMember(loginId);
-        Post post = findPostById(postId);
-        updatePostTags(postId, postRequest, post);
-        post.updatePost(postRequest.toEntity());
-        // 이미지 구현
+        Post findPost = findVerifiedPostById(postId);
+
+        // 로그인한 사용자가 게시물 작성자와 일치하는지 확인
+        verifiedPostOwner(findPost.getMember().getId(), loginId);
+
+        updatePostTags(postId, postRequest, findPost);
+        findPost.updatePost(postRequest.toEntity());
+
+        // 이미지 수정 구현
         if (!image.isEmpty()) {
-            String storedImageUrl = imageService.update(post.getImage(), image, "posts");
-            post.setImage(storedImageUrl);
+            String storedImageUrl = imageService.update(findPost.getImage(), image, "posts");
+            findPost.setImage(storedImageUrl);
         }
 
         return postId;
@@ -88,10 +91,13 @@ public class PostService {
     // 게시물 삭제
     @Transactional
     public Long deletePost(Long loginId, Long postId) {
-        verifyMember(loginId);
-        Post post = findPostById(postId);
-        Long cafeId = post.getCafe().getId();
-        postRepository.delete(post);
+        Post findPost = findVerifiedPostById(postId);
+
+        // 로그인한 회원과 해당 게시물의 작성자가 일치하는 지 확인
+        verifiedPostOwner(findPost.getMember().getId(), loginId);
+
+        Long cafeId = findPost.getCafe().getId();
+        postRepository.delete(findPost);
         return cafeId;
     }
 
@@ -107,6 +113,7 @@ public class PostService {
 
         PostDetailResponse response = new PostDetailResponse(
                 post.getPostId(),
+                post.getTitle(),
                 post.getCafe().getId(),
                 post.getCafe().getName(),
                 post.getMember().getId(),
@@ -155,17 +162,30 @@ public class PostService {
         }
     }
 
+    // 카페 게시물 집계
     public List<PostResponse> getPosts(Long cafeId) {
-
         return postRepository.getPosts(cafeId);
     }
 
-    public void verifyMember(Long memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
+    // 존재하는 회원인지 확인
+    public Member findVerifiedMember(Long loginId) {
+        Optional<Member> optionalMember = memberRepository.findById(loginId);
+        return optionalMember.orElseThrow(
+                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+        );
+    }
 
-        if (!optionalMember.isPresent()) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+    // 게시글 작성자 확인
+    public void verifiedPostOwner(long memberId, long loginId) {
+        if(!(memberId == loginId)) {
+            throw new CustomException(ErrorCode.NOT_AUTHOR);
         }
     }
 
+    // 해당하는 게시글이 존재하는지 확인
+    public Post findVerifiedPostById(Long postId) {
+        Optional<Post> optionalPost = postRepository.findById(postId);
+        return optionalPost.orElseThrow(
+                () -> new CustomException(ErrorCode.POST_NOT_FOUND));
+    }
 }
