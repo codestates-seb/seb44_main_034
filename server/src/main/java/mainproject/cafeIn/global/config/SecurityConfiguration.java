@@ -12,6 +12,7 @@ import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.auth.utils.JwtUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -56,22 +57,28 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        .antMatchers(HttpMethod.POST, "/*/members/{member-id}/follow").hasRole("USER")
-//                        .antMatchers(HttpMethod.POST, "/*/members").permitAll()
-//                        .antMatchers(HttpMethod.PATCH, "/*/members/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.GET, "/*/members/my-page/**").hasRole("USER")
-//                        .antMatchers(HttpMethod.DELETE, "/*/members").permitAll()
-//                        .antMatchers(HttpMethod.POST, "/*/owners/**").permitAll()
-//                        .antMatchers("/*/owners/**").hasRole("OWNER")
-//                        .antMatchers(HttpMethod.POST,"/*/cafes/{cafe-id}/bookmark").hasRole("USER")
-//                        .antMatchers(HttpMethod.POST,  "/*/cafes").hasRole("OWNER")
-//                        .antMatchers(HttpMethod.PATCH, "/*/cafes").hasRole("OWNER")
-//                        .antMatchers(HttpMethod.DELETE, "/*/cafes").hasRole("OWNER")
-//                        .antMatchers(HttpMethod.GET,"/*/cafes/**").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/*/menus/**").permitAll()
-//                        .antMatchers("/*/menus/**").hasRole("OWNER")
-//                        .anyRequest().hasRole("USER"));
-                        .anyRequest().permitAll())
+                        // owners 권한
+                        .antMatchers(HttpMethod.POST, "/api/*/sign-up").permitAll()
+                        .antMatchers("/*/owners/**").hasRole("OWNER")
+
+                        // cafes 권한
+                        .antMatchers(HttpMethod.POST, "/*/cafes/{cafe-id}/Bookmark").hasRole("MEMBER")
+                        .antMatchers(HttpMethod.GET, "/*/cafes/{cafe-id}/edit").hasRole("OWNER")
+                        .antMatchers(HttpMethod.GET, "/*/cafes/**").hasAnyRole("OWNER", "MEMBER")
+                        .antMatchers("/*/cafes/**").hasRole("OWNER")
+
+                        // menus 권한
+                        .antMatchers(HttpMethod.GET,"/*/menus/{menu-id}").hasAnyRole("OWNER, MEMBER")
+                        .antMatchers("/*/menus/**").hasRole("OWNER")
+
+                        // members 권한
+                        .antMatchers("/*/members/**").hasRole("MEMBER")
+
+                        // 비로그인 권한
+                        .antMatchers(HttpMethod.GET, "/**").permitAll()
+
+                        // 나머지 권한
+                        .antMatchers("/**").hasRole("MEMBER"))
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, memberRepository, memberService))
                 );
