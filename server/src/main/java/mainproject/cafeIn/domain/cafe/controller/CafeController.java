@@ -18,6 +18,7 @@ import mainproject.cafeIn.domain.tag.service.TagService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.data.domain.Page;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,7 +39,7 @@ public class CafeController {
     private final PostService postService;
 
     // 카페 등록
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(CREATED)
     public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
                                                 @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
@@ -49,7 +50,7 @@ public class CafeController {
     }
 
     // 카페 수정
-    @PatchMapping(consumes = {"multipart/form-data"}, value = "/{cafe-id}")
+    @PatchMapping(value = "/{cafe-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
                                           @RequestPart(value = "dto") CafeInfoRequest request,
