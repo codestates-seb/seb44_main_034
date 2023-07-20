@@ -3,6 +3,7 @@ package mainproject.cafeIn.global.cloud;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -34,7 +38,11 @@ public class S3ImageService {
     }
 
     private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+
+        String changeName = uploadFile.getName().replaceAll(" ","_");
+        String uuidName = UUID.randomUUID().toString();
+
+        String fileName = dirName + "/" + uuidName+ "_" + changeName;
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);
@@ -59,9 +67,15 @@ public class S3ImageService {
     }
 
     private String putS3(File uploadFile, String fileName) {
+
+        fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
+
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
+                        .withMetadata(metadata)
         );
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
