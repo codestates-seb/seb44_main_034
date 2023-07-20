@@ -92,8 +92,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
         Long count = queryFactory
                 .select(cafe.count())
                 .from(cafe)
-                .where(allFilter(searchCafeFilterCondition),
-                        cafe.postTags.any().tag.tagId.in(searchCafeFilterCondition.getTags()))
+                .where(allFilter(searchCafeFilterCondition))
                 .fetchOne();
 
         return new PageImpl<>(response,pageable, count == null ? 0 : count);
@@ -177,9 +176,18 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .and(charging(searchCafeFilterCondition.getIsChargingAvailable()))
                 .and(pet(searchCafeFilterCondition.getIsPetFriendly()))
                 .and(parking(searchCafeFilterCondition.getHasParking()))
-                .and(dessert(searchCafeFilterCondition.getHasDessert()));
+                .and(dessert(searchCafeFilterCondition.getHasDessert()))
+                .and(hasTag(searchCafeFilterCondition.getTags()));
 
         return builder;
+    }
+
+    private BooleanExpression hasTag(List<Long> tags) {
+        if (tags == null) {
+            return null;
+        }
+
+        return cafe.postTags.any().tag.tagId.in(tags);
     }
 
     private BooleanExpression eqAddress(String shortAddress) {
