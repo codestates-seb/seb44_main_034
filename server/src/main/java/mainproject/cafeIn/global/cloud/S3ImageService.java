@@ -66,6 +66,7 @@ public class S3ImageService {
 
         String decodeName = URLDecoder.decode(imageUrl, StandardCharsets.UTF_8);
 
+
         return imageUrl.substring(decodeName.lastIndexOf("/"));
     }
 
