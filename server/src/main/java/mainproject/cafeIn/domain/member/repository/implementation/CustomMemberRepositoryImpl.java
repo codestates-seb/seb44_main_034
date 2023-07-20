@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.member.repository.implementation;
 
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -159,6 +160,20 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .fetch();
 
         return checkLastPage(cafeList, pageable);
+    }
+
+    @Override
+    public void deleteFollowerOrFollowing(Member m) {
+
+        BooleanBuilder list = new BooleanBuilder();
+
+        list.or(follow.followerId.eq(m));
+        list.or(follow.followingId.eq(m));
+
+        queryFactory.delete(follow)
+                .where(list)
+                .execute();
+
     }
     private BooleanExpression followLtCursorId(Long cursorId) {
         if(cursorId == null) {
