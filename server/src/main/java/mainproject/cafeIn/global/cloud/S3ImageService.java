@@ -72,13 +72,9 @@ public class S3ImageService {
 
     private String putS3(File uploadFile, String fileName) {
 
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentDisposition("attachment; filename*=UTF-8''" + fileName);
-
         amazonS3Client.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
                         .withCannedAcl(CannedAccessControlList.PublicRead)
-                        .withMetadata(metadata)
         );
 
         return amazonS3Client.getUrl(bucket, fileName).toString();
