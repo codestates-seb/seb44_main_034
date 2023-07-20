@@ -53,7 +53,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .selectFrom(m)
                 .innerJoin(m.followers, follow)
                 .innerJoin(follow.followingId, member)
-                .where(m.id.eq(id), member.status.eq(MEMBER_ACTIVE))
+                .where(m.id.eq(id))
                 .fetch()
                 .stream()
                 .count();
@@ -69,7 +69,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .selectFrom(m)
                 .innerJoin(m.followings, follow)
                 .innerJoin(follow.followerId, member)
-                .where(m.id.eq(id), member.status.eq(MEMBER_ACTIVE))
+                .where(m.id.eq(id))
                 .fetch()
                 .stream()
                 .count();
