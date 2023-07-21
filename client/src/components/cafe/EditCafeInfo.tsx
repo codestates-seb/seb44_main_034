@@ -28,6 +28,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     shortAddress: "",
     latitude: 0,
     longitude: 0,
+    image: "",
     openTime: "",
     closeTime: "",
     isOpenAllTime: false,
@@ -112,6 +113,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
         );
         console.log(response.data.payload);
         setEditData(response.data.payload);
+        // if (response.data.payload.image) { 변환해줘야됨
+        //   setPreviewImage(URL.createObjectURL(response.data.payload.image));
+        // }
         setIsLoading(false);
       } catch (error) {
         console.error(error);
