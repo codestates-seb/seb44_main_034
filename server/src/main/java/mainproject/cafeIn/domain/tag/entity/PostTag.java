@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "post_tag")
+@Table(name = "postTag")
 public class PostTag {
 
     @Id
