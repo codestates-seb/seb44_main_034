@@ -105,7 +105,7 @@ const ProfileModal = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
     localStorage.removeItem("role_token");
-    window.location.replace("/");
+    window.location.replace("/main");
   };
   return (
     <S.Container>
