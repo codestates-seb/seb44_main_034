@@ -38,9 +38,9 @@ public class PostController {
     // 게시물 수정
     @PatchMapping(value = "/{post-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.OK)
-    public ApplicationResponse<Long> updatePost(@PathVariable("post-id") Long postId,
-                                                @RequestPart(value = "dto") PostRequest request,
-                                                @RequestPart(value = "postImage", required = false) MultipartFile image) throws IOException {
+    public ApplicationResponse<Long> patchPost(@PathVariable("post-id") Long postId,
+                                               @RequestPart(value = "dto") PostRequest request,
+                                               @RequestPart(value = "postImage", required = false) MultipartFile image) throws IOException {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         postService.updatePost(loginId, postId, request, image);
