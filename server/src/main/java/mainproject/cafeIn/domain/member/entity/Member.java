@@ -35,7 +35,7 @@ public class Member extends BaseEntity {
     @Column(name = "MEMBER_PASSWORD", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "PROFILE_IMAGE")
+    @Column(name = "PROFILE_IMAGE", columnDefinition = "TEXT")
     private String image;
 
     @Column(nullable = false)
