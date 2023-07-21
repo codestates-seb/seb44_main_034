@@ -28,7 +28,7 @@ VALUES ('1', '감성적'),
 ('25', '작업공간'),
 ('26', '야외테라스');
 
-INSERT INTO cafe.owner(OWNER_ID, createdAt, updatedAt, OWNER_DISPLAYNAME, OWNER_EMAIL, OWNER_STATUS, OWNER_PASSWORD)
+INSERT INTO owner(OWNER_ID, createdAt, updatedAt, OWNER_DISPLAYNAME, OWNER_EMAIL, OWNER_STATUS, OWNER_PASSWORD)
 VALUES ('1', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '점주1', 'onwer1@gmail.com', 'OWNER_ACTIVE', '{bcrypt}$2a$10$Ifs9a2ctQLTVKYX11Sso1.ZrnOzpFsThiYMhWCZnFIQL9z9Wg1qDC'),
 ('2', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '점주2', 'onwer2@gmail.com', 'OWNER_ACTIVE', '{bcrypt}$2a$10$Ifs9a2ctQLTVKYX11Sso1.ZrnOzpFsThiYMhWCZnFIQL9z9Wg1qDC'),
 ('3', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '점주3', 'onwer3@gmail.com', 'OWNER_ACTIVE', '{bcrypt}$2a$10$Ifs9a2ctQLTVKYX11Sso1.ZrnOzpFsThiYMhWCZnFIQL9z9Wg1qDC'),
@@ -39,7 +39,7 @@ VALUES ('1', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '점주1', 'onwer1@gm
 ('8', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '점주8', 'onwer8@gmail.com', 'OWNER_ACTIVE', '{bcrypt}$2a$10$Ifs9a2ctQLTVKYX11Sso1.ZrnOzpFsThiYMhWCZnFIQL9z9Wg1qDC');
 
 
-INSERT INTO cafe.cafes(cafe_id, owner_id, cafe_name, createdAt, updatedAt, address, contact, latitude, longitude, short_address, notice, rating, open_time, close_time, is_open_all_time, is_charging_available, has_parking, is_pet_friendly, has_dessert)
+INSERT INTO cafes(cafe_id, owner_id, cafe_name, createdAt, updatedAt, address, contact, latitude, longitude, short_address, notice, rating, open_time, close_time, is_open_all_time, is_charging_available, has_parking, is_pet_friendly, has_dessert)
 VALUES ('1', '1', '커피볶는제임스', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '서울특별시 강서구 내발산동 648-15', '02-2063-4045', '126.843752', '37.5574425', '강서구', '공지사항', '5', '8:00', '22:00', 'false', 'true', 'true', 'false', 'true'),
 ('2', '2', '카페넬비콜로', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '서울특별시 강서구 내발산동 공항대로42길 16', '070-7781-4389', '126.843582', '37.5572171', '강서구', '공지사항', '5', '8:00', '22:30', 'false', 'true', 'true', 'false', 'true'),
 ('3', '3', '스마일빈', '2023-07-20 14:40:56', '2023-07-20 14:40:56', '서울특별시 양천구 중앙로36길 30', '0507-1366-2035', '126.857349', '37.5196362', '양천구', '공지사항', '5', '10:00', '21:00', 'false', 'true', 'false', 'false', 'true'),
