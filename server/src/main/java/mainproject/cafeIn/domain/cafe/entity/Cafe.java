@@ -143,6 +143,7 @@ public class Cafe extends BaseEntity {
     }
 
     public void calculateRating(int starRating) {
-        this.rating = (float) (Math.round((this.rating * (this.posts.size() - 1) + starRating) / this.posts.size() * 10.0) / 10.0);
+        int numberOfPosts = this.posts.size() == 0 ? 1 : this.posts.size();
+        this.rating = (float) (Math.round((this.rating * (numberOfPosts - 1) + starRating) / numberOfPosts * 10.0) / 10.0);
     }
 }
