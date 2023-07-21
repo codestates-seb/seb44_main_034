@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import {data as dataAll} from '../../mockData/cafePost.json'
+// import {data as dataAll} from '../../mockData/cafePost.json'
 import { PostCafeAtom } from '../../recoil/postState';
 import { CafePostList } from '../../types/type';
 import { PostCafeType } from '../../types/type';
@@ -8,6 +8,10 @@ import PostThumbnail from '../../common/post/PostThumbnail';
 import PlusButton from '../../common/post/PlusButton';
 import styled from 'styled-components';
 import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
+
+type PostData = {
+  postData: CafePostList[];
+}
 
 const S = {
   Container: styled.div`
@@ -50,8 +54,9 @@ const S = {
   `,
 }
 
-const PostingList = () => {
-  const data= dataAll.post;
+const PostingList = ({postData}:PostData) => {
+  // const data= dataAll.post;
+  const data = postData;
   const setPostData = useSetRecoilState<PostCafeType>(PostCafeAtom);
 
   const handleBtnCafeName = ():void => {

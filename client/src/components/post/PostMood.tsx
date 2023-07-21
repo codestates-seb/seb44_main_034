@@ -43,14 +43,14 @@ const PostMood = () => {
     const filterTag = tags.filter((el) => el !== tagName);
 
     if (findTag) {
-      setPostData((prevState) => ({ ...prevState, tags: [...filterTag]}))
+      setPostData((prevState) => ({ ...prevState, tagNames: [...filterTag]}))
     }
     if (tags.length >= 3) {
       alert('태그는 3개까지만 선택해주세요.');
       return;
     }
     if (!findTag) {
-      setPostData((prevState) => ({ ...prevState, tags: [...tags, tagName]}))
+      setPostData((prevState) => ({ ...prevState, tagNames: [...tags, tagName]}))
     }
   }
 
