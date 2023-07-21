@@ -1,6 +1,8 @@
 package mainproject.cafeIn.domain.member.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import mainproject.cafeIn.domain.cafe.entity.CafeBookmark;
 import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkCafeList;
 import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkPostList;
 import mainproject.cafeIn.domain.member.dto.reponse.MyPagePostList;
@@ -11,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import java.util.List;
+import java.util.Optional;
 
+import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.member.entity.QFollow.follow;
 
 public interface CustomMemberRepository {
@@ -32,6 +36,9 @@ public interface CustomMemberRepository {
 
     Long countByFollowings(Long id);
 
-    void deleteFollowerOrFollowing(Member m);
+    public void deleteFollowerOrFollowing(Member m);
+
+    public void deleteCafeBookMarkList(Member m);
+
 
 }
