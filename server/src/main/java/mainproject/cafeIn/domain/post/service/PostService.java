@@ -103,26 +103,29 @@ public class PostService {
 
     // 게시물 단일 조회
     public PostDetailResponse findPost(Long loginId, Long postId) {
+        Post findPost = findVerifiedPostById(postId);
+
         Boolean isBookmarked = false;
         if (postBookmarkRepository.findByMemberIdAndPostPostId(loginId, postId).isPresent()) {
             isBookmarked = true;
         }
-        Post post = findPostById(postId);
+
         List<String> tagNames = postTagService.getTagNames(postId);
+
         List<CommentResponse> commentList = commentService.findComments(postId);
 
         PostDetailResponse response = new PostDetailResponse(
-                post.getPostId(),
-                post.getTitle(),
-                post.getCafe().getId(),
-                post.getCafe().getName(),
-                post.getMember().getId(),
-                post.getMember().getDisplayName(),
-                post.getImage(),
-                post.getContent(),
-                post.getStarRating(),
-                post.getCreatedAt(),
-                post.getUpdatedAt(),
+                findPost.getPostId(),
+                findPost.getTitle(),
+                findPost.getCafe().getId(),
+                findPost.getCafe().getName(),
+                findPost.getMember().getId(),
+                findPost.getMember().getDisplayName(),
+                findPost.getImage(),
+                findPost.getContent(),
+                findPost.getStarRating(),
+                findPost.getCreatedAt(),
+                findPost.getUpdatedAt(),
                 tagNames,
                 isBookmarked,
                 commentList);
@@ -142,12 +145,6 @@ public class PostService {
                         post.getImage()))
                 .collect(Collectors.toList());
         return new MultiPostResponse<>(posts, postPage);
-    }
-
-    // 아이디로 게시물 조회
-    public Post findPostById(Long postId) {
-        return postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
     // postTag 업데이트 로직 분리
