@@ -6,7 +6,7 @@ export interface CafePostList {
 }
 
 export type PostCafeType = {
-  cafeName: string;
+  cafeName?: string;
   cafeId?: number | string;
 };
 

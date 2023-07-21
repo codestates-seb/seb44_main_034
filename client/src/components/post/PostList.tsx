@@ -9,8 +9,10 @@ import PlusButton from "../../common/post/PlusButton";
 import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 
-type PostData = {
+type PostDataProp = {
   postData: CafePostList[];
+  cafeName?: string;
+  cafeId?: number;
 };
 
 const S = {
@@ -53,13 +55,13 @@ const S = {
   `,
 };
 
-const PostingList = ({ postData }: PostData) => {
+const PostingList = ({ postData, cafeId, cafeName }: PostDataProp) => {
   // const data= dataAll.post;
   const data = postData;
   const setPostData = useSetRecoilState<PostCafeType>(PostCafeAtom);
 
   const handleBtnCafeName = (): void => {
-    setPostData((prev) => ({ ...prev, cafeName: "카페이름모름" })); //카페 이름과 id를 추가하여야 함.
+    setPostData((prev) => ({ ...prev, cafeName: cafeName, cafeId: cafeId })); //카페 이름과 id를 추가하여야 함.
   };
   return (
     <S.Container>

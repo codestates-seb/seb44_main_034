@@ -82,7 +82,11 @@ const CafePage = () => {
           <S.Title>
             {/* Post
             <div></div> */}
-            <PostList postData={posts} />
+            <PostList
+              postData={posts}
+              cafeName={cafeDetail?.name}
+              cafeId={cafeDetail?.cafeId}
+            />
           </S.Title>
         </S.Container>
       )}
