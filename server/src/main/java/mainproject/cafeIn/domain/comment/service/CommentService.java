@@ -32,8 +32,7 @@ public class CommentService {
     // 댓글 등록
     @Transactional
     public void createComment(Long loginId, Long postId, CommentRequest commentRequest) {
-        verifyMember(loginId);
-        Member member = memberRepository.findById(loginId).get();
+        Member member = findVerifiedMember(loginId);
         Post post = postRepository.findById(postId).get();
         Comment comment = commentRequest.toEntity(member, post);
         commentRepository.save(comment);
@@ -42,36 +41,47 @@ public class CommentService {
     // 댓글 수정
     @Transactional
     public void updateComment(Long loginId, Long commentId, CommentRequest commentRequest) {
-        verifyMember(loginId);
-        verifyComment(commentId);
-        Comment comment = commentRepository.findById(commentId).get();
-        comment.updateComment(commentRequest.getContent());
+        Comment findComment = findVerifiedCommentById(commentId);
+
+        // 댓글 작성자와 로그인 사용자가 일치하는지 확인
+        verifiedCommentOwner(findComment.getMember().getId(), loginId);
+
+        findComment.updateComment(commentRequest.getContent());
     }
 
     // 댓글 삭제
     @Transactional
     public void deleteComment(Long loginId, Long commentId) {
-        verifyComment(commentId);
-        verifyMember(loginId);
-        Comment comment = commentRepository.findById(commentId).get();
-        commentRepository.delete(comment);
+        Comment findComment = findVerifiedCommentById(commentId);
+
+        // 댓글 작성자와 로그인 사용자가 일치하는지 확인
+        verifiedCommentOwner(findComment.getMember().getId(), loginId);
+
+        commentRepository.delete(findComment);
     }
 
     // 로그인 확인
-    public void verifyMember(Long memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
+    public Member findVerifiedMember(Long loginId) {
+        Optional<Member> optionalMember = memberRepository.findById(loginId);
+        return optionalMember.orElseThrow(
+                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+        );
+    }
 
-        if (!optionalMember.isPresent()) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+    // 작성자 확인
+    public void verifiedCommentOwner(long memberId, long loginId) {
+        if(!(memberId == loginId)) {
+            throw new CustomException(ErrorCode.NOT_AUTHOR);
         }
     }
 
-    public void verifyComment(Long commentId) {
+    // 댓글 확인
+    public Comment findVerifiedCommentById(Long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
 
-        if(!optionalComment.isPresent()) {
-            throw new CustomException(ErrorCode.COMMENT_NOT_FOUND);
-        }
+        return optionalComment.orElseThrow(
+                () -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)
+        );
     }
 
 
