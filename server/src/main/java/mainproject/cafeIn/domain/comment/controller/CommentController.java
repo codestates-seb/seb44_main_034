@@ -2,12 +2,10 @@ package mainproject.cafeIn.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.comment.dto.request.CommentRequest;
-import mainproject.cafeIn.domain.comment.entity.Comment;
 import mainproject.cafeIn.domain.comment.service.CommentService;
 import mainproject.cafeIn.global.auth.interceptor.JwtParseInterceptor;
 import mainproject.cafeIn.global.response.ApplicationResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,8 +28,8 @@ public class CommentController {
     // 댓글 수정
     @PatchMapping("/{comment-id}")
     @ResponseStatus(HttpStatus.OK)
-    public ApplicationResponse updateComment(@PathVariable("comment-id") Long commentId,
-                                             @RequestBody CommentRequest commentRequest) {
+    public ApplicationResponse patchComment(@PathVariable("comment-id") Long commentId,
+                                            @RequestBody CommentRequest commentRequest) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         commentService.updateComment(loginId, commentId, commentRequest);
 
