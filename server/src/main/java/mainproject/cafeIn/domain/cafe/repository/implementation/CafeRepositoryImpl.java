@@ -97,76 +97,6 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
         return new PageImpl<>(response,pageable, count == null ? 0 : count);
     }
 
-    @Override
-    public Page<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
-        List<CafeResponse> response = queryFactory
-                .select(new QCafeResponse(
-                        cafe.id,
-                        cafe.name,
-                        cafe.address,
-                        cafe.rating,
-                        cafe.latitude,
-                        cafe.longitude,
-                        cafe.image,
-                        Expressions.asBoolean(queryFactory
-                                .selectFrom(cafeBookmark)
-                                .where(cafeBookmark.cafe.id.eq(cafe.id),
-                                        cafeBookmark.member.id.eq(loginId))
-                                .fetchFirst() != null),
-                        cafe.cafeBookmarks.size(),
-                        cafe.posts.size()
-                ))
-                .from(cafe)
-                .where(cafe.name.contains(name))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        Long count = queryFactory
-                .select(cafe.count())
-                .from(cafe)
-                .where(cafe.name.contains(name))
-                .fetchOne();
-
-        return new PageImpl<>(response, pageable, count == null ? 0 : count);
-    }
-
-    @Override
-    public Page<CafeResponse> findCafesByMenu(Long loginId, String menuName, Pageable pageable) {
-        List<CafeResponse> response = queryFactory
-                .select(new QCafeResponse(
-                        cafe.id,
-                        cafe.name,
-                        cafe.address,
-                        cafe.rating,
-                        cafe.latitude,
-                        cafe.longitude,
-                        cafe.image,
-                        Expressions.asBoolean(queryFactory
-                                .selectFrom(cafeBookmark)
-                                .where(cafeBookmark.cafe.id.eq(cafe.id),
-                                        cafeBookmark.member.id.eq(loginId))
-                                .fetchFirst() != null),
-                        cafe.cafeBookmarks.size(),
-                        cafe.posts.size()
-                ))
-                .from(cafe)
-                .where(menu.name.eq(menuName))
-                .leftJoin(cafe.menus, menu)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        Long count = queryFactory
-                .select(cafe.count())
-                .from(cafe)
-                .where(menu.name.eq(menuName))
-                .leftJoin(cafe.menus, menu)
-                .fetchOne();
-
-        return new PageImpl<>(response, pageable, count == null ? 0 : count);
-    }
-
     private BooleanBuilder allFilter(SearchCafeFilterCondition searchCafeFilterCondition) {
         BooleanBuilder builder = new BooleanBuilder();
 
@@ -175,7 +105,9 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .and(charging(searchCafeFilterCondition.getIsChargingAvailable()))
                 .and(pet(searchCafeFilterCondition.getIsPetFriendly()))
                 .and(parking(searchCafeFilterCondition.getHasParking()))
-                .and(dessert(searchCafeFilterCondition.getHasDessert()));
+                .and(dessert(searchCafeFilterCondition.getHasDessert()))
+                .and(eqCafeName(searchCafeFilterCondition.getCafeName()))
+                .and(eqMenuName(searchCafeFilterCondition.getMenuName()));
 
         BooleanExpression tagExpression = hasTag(searchCafeFilterCondition.getTags());
         if (tagExpression != null) {
@@ -233,6 +165,20 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
             return null;
         }
         return cafe.hasParking.eq(hasParking);
+    }
+
+    private BooleanExpression eqCafeName(String cafeName) {
+        if (StringUtils.isBlank(cafeName)) {
+            return null;
+        }
+        return cafe.name.contains(cafeName);
+    }
+
+    private BooleanExpression eqMenuName(String menuName) {
+        if (StringUtils.isBlank(menuName)) {
+            return null;
+        }
+        return cafe.menus.any().name.eq(menuName);
     }
 
     private OrderSpecifier<?> orderType(String sortType) {
