@@ -23,10 +23,6 @@ type EditComment = {
 
 const S = {
   EditForm: styled.form`
-    /* display: none;
-    &.active {
-      display: flex;
-    } */
     height: 140px;
     width: 100%;
     justify-content: space-between;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { data as co } from "../../mockData/comments.json";
+// import { data as co } from "../../mockData/comments.json";
 // import ReplyItem from "./CommentItem";
 import CommentsPagination from "./CommentsPagination";
 import { baseURL } from "../../common/baseURL";
@@ -125,7 +125,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [commentsPerPage, setCommentsPerPage] = useState(10);
   // const [isEditing, setIsEditing] = useState(false);
-
+  console.log(currentPage);
   const {
     register,
     handleSubmit,
@@ -160,7 +160,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const replyData = co.comments; //대댓글데이터
 
   //페이지네이션
-  const lastPostIndex = currentPage * commentsPerPage;
+  // const lastPostIndex = currentPage * commentsPerPage;
   // const firstPostIndex = lastPostIndex - commentsPerPage;
   // const currentPosts = replyData.slice(firstPostIndex, lastPostIndex);
   console.log(setCommentsPerPage);

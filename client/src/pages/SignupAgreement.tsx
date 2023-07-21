@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import styled from 'styled-components';
-import { COLOR_1 } from '../common/common';
-import { FONT_SIZE_1 } from '../common/common';
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import styled from "styled-components";
+import { COLOR_1 } from "../common/common";
+import { FONT_SIZE_1 } from "../common/common";
 
 const S = {
   Container: styled.div`
@@ -138,7 +138,7 @@ const SignupAgreement = () => {
       <S.SubMiniBox>
         <S.Title>개인정보 수집 및 이용안내</S.Title>
         <S.ExplainBox>
-          회원가입, 고객상담을 위해서 아래와 같이 개인정보를 수집·이용합니다.{' '}
+          회원가입, 고객상담을 위해서 아래와 같이 개인정보를 수집·이용합니다.{" "}
           <br></br>1. 개인정보 수집 목적: 회원관리, 고객상담, 고지사항 전달
           <br></br>2. 개인정보 수집 항목:이메일, 비밀번호
           <br></br>3. 보유 및 이용기간 : 회원 탈퇴시까지

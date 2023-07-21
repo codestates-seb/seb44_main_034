@@ -29,7 +29,7 @@ const S = {
 
 const GoogleLoginButton: React.FC = () => {
   return (
-    <Link to='https://7810-58-237-124-214.ngrok-free.app/oauth2/authorization/google'>
+    <Link to='https://55af-58-237-124-214.ngrok-free.app/oauth2/authorization/google'>
       <S.Oauthbutton>
         <FcGoogle size='20' />
         Log in with Google

@@ -16,6 +16,8 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 300px;
+    margin-top: 10px;
     align-items: center;
     width: 95%;
     @media screen and (min-width: 768px) {
@@ -119,11 +121,11 @@ const FilterSearchBox = () => {
   console.log(setMoodIds);
 
   const facilitiesKeys = [
-    "&isOpenAllTime=true",
-    "&isChargingAvailable=true",
-    "&hasParking=true",
-    "&isPetFriendly=true",
-    "&hasDessert=true",
+    "&isopenalltime=true",
+    "&ischargingavailable=true",
+    "&hasparking=true",
+    "&ispetfriendly=true",
+    "&hasdessert=true",
   ];
 
   const [facilAddress, setFacilAddress] = useState<string[]>([]);
@@ -133,7 +135,11 @@ const FilterSearchBox = () => {
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
 
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
+  const handleSearchClick = () => {
+    setHandleSearch((cur) => !cur);
+  };
 
+<<<<<<< HEAD
   const handleSearchClick = () => {
     setHandleSearch((cur) => !cur);
   };
@@ -142,6 +148,12 @@ const FilterSearchBox = () => {
     setFacilitiesAtom(facilAddress.join(""));
   };
 
+=======
+  const saveFacil = () => {
+    setFacilitiesAtom(facilAddress.join(""));
+  };
+
+>>>>>>> f116b82024e8e25e5d3b674b8617211d76b4d4e3
   const saveMood = () => {
     const moodToIds = moodIds.join();
     setMoodAtom(`&tags=${moodToIds}`);
