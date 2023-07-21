@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { styled, css } from "styled-components";
+import { styled } from "styled-components";
 import { FONT_SIZE_1, COLOR_1 } from "../common/common";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
