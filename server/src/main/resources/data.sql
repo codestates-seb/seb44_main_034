@@ -1,4 +1,6 @@
-
+DELETE FROM owner;
+DELETE FROM cafes;
+DELETE FROM tag;
 
 INSERT INTO tag(tag_id,tag_name)
 VALUES ('1', '감성적'),
