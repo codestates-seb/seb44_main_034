@@ -44,6 +44,7 @@ export interface PostComments {
   createdAt?: string;
   updatedAt?: string;
   cafeId?: number;
+  replies?: PostReplies;
 }
 
 export interface PostComment {
@@ -52,8 +53,26 @@ export interface PostComment {
   content: string;
   createdAt?: string;
   updatedAt?: string;
+  replies?: PostReplies[];
+}
+export interface PostReplies {
+  authorId?: number | string;
+  author?: string;
+  content?: string;
+  replyId?: number | undefined;
+  createdAt?: string;
+  updatedAt?: string;
+  cafeId?: number;
 }
 
+export interface PostReply {
+  authorId?: number | string;
+  author?: string;
+  replyId?: number | undefined;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
 export type CafeDetailType = {
   ownerId: number;
   cafeId: number;

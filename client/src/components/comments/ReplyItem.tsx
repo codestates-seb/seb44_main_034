@@ -3,14 +3,13 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
-import { PostComments } from "../../types/type";
+import { PostReplies } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
-// import Replies from "./Replies";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
-type CommentItemProps = {
-  comment: PostComments;
+type ReplyItemProps = {
+  reply: PostReplies;
   // currentPosts: PostComments[];
 };
 type InputData = {
@@ -85,7 +84,7 @@ const S = {
   `,
 };
 
-const CommentItem = ({ comment }: CommentItemProps) => {
+const ReplyItem = ({ reply }: ReplyItemProps) => {
   const [editing, setEditing] = useState(false);
   // const [editedText, setEditedText] = useState(comment.content);
 
@@ -96,32 +95,29 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     // formState: { errors }
   } = useForm<InputData>();
 
-  const showEditComment = () => {
+  const showEditReply = () => {
     //수정 창 보여주기
     setEditing(true);
   };
 
-  const editComment = (editedContent: EditComment) =>
-    axios.patch(
-      `${baseURL}/post-comments/${comment.commentId}`,
-      editedContent,
-      {
-        headers: { Authorization: localStorage.getItem("access_token") },
-      }
-    );
-  const editCommentMutation = useMutation({
-    mutationFn: editComment,
+  const editReply = (editedContent: EditComment) =>
+    axios.patch(`${baseURL}/replys/${"replyId"}`, editedContent, {
+      //replyId
+      headers: { Authorization: localStorage.getItem("access_token") },
+    });
+  const editReplyMutation = useMutation({
+    mutationFn: editReply,
     onSuccess: (data, context) => {
       console.log(context);
       console.log(data);
-      console.log(comment.commentId);
       reset();
     },
   });
 
-  const deleteCommentMutation = useMutation(() => {
+  const deleteReplyMutation = useMutation(() => {
     return axios
-      .delete(`${baseURL}/post-comments/${comment.commentId}`, {
+      .delete(`${baseURL}/replys/${"replyId"}`, {
+        //replyId
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
@@ -132,17 +128,17 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       });
   });
 
-  const deleteComment = () => {
+  const deleteReply = () => {
     if (
       confirm("삭제하신 댓글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")
     ) {
-      deleteCommentMutation.mutate();
+      deleteReplyMutation.mutate();
     }
   };
   const onSubmitEdit = (editedContent: InputData) => {
-    const comment = { ...editedContent };
-    console.log(comment);
-    editCommentMutation.mutate(comment);
+    const reply = { ...editedContent };
+    console.log(reply);
+    editReplyMutation.mutate(reply);
   };
 
   return (
@@ -150,29 +146,29 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       {editing ? (
         <ul>
           {
-            <li key={comment.commentId}>
+            <li key={reply.replyId}>
               <S.FlexWrap>
                 <S.Author>
-                  <span>{comment.author}</span>
+                  <span>{reply.author}</span>
                 </S.Author>
                 <S.Edit>
                   <span
                     onClick={() => {
-                      showEditComment();
+                      showEditReply();
                     }}
                   >
                     수정
                   </span>
                   <span
                     onClick={() => {
-                      deleteComment();
+                      deleteReply();
                     }}
                   >
                     삭제
                   </span>
                 </S.Edit>
               </S.FlexWrap>
-              {comment.content}
+              {reply.content}
               <S.EditForm
                 onSubmit={handleSubmit(onSubmitEdit)}
                 // className={comment.commentId ? "active" : ""}
@@ -190,39 +186,35 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                   댓글 수정
                 </button>
               </S.EditForm>
-              {/* <Replies
-                replies={comment?.replies}
-                commentId={comment?.commentId}
-              /> */}
             </li>
           }
         </ul>
       ) : (
         <S.Comments>
           <ul>
-            <li key={comment.commentId}>
+            <li key={reply.replyId}>
               <S.FlexWrap>
                 <S.Author>
-                  <span>{comment.author}</span>
+                  <span>{reply.author}</span>
                 </S.Author>
                 <S.Edit>
                   <span
                     onClick={() => {
-                      showEditComment();
+                      showEditReply();
                     }}
                   >
                     수정
                   </span>
                   <span
                     onClick={() => {
-                      deleteComment();
+                      deleteReply();
                     }}
                   >
                     삭제
                   </span>
                 </S.Edit>
               </S.FlexWrap>
-              {comment.content}
+              {reply.content}
             </li>
           </ul>
         </S.Comments>
@@ -231,4 +223,4 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   );
 };
 
-export default CommentItem;
+export default ReplyItem;
