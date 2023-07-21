@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import CafeInfo from '../components/cafe/CafeInfo';
+import styled from "styled-components";
+import CafeInfo from "../components/cafe/CafeInfo";
 const AddCafeInfoPage = () => {
   return (
     <S.Container>

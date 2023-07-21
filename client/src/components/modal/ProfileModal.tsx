@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { Link } from 'react-router-dom';
-import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import styled from 'styled-components';
-import { LoginState } from '../../recoil/recoil';
+import { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { Link } from "react-router-dom";
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import styled from "styled-components";
+import { LoginState } from "../../recoil/recoil";
 
 const S = {
   Container: styled.div`
@@ -89,23 +89,23 @@ const S = {
 
 const ProfileModal = () => {
   const [loginDistinction, setLoginDistinction] = useState<boolean>(true);
-  const [role, setRole] = useState<string>('');
+  const [role, setRole] = useState<string>("");
   useEffect(() => {
-    if (localStorage.getItem('role_token') === 'owner') {
+    if (localStorage.getItem("role_token") === "owner") {
       setLoginDistinction(false);
-      setRole('사업자');
-    } else if (localStorage.getItem('role_token') === 'member') {
+      setRole("사업자");
+    } else if (localStorage.getItem("role_token") === "member") {
       setLoginDistinction(true);
-      setRole('일반유저');
+      setRole("일반유저");
     }
   });
   const login = useRecoilValue(LoginState);
   const LogoutHandler = () => {
-    localStorage.removeItem('recoil-persist');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('role_token');
-    window.location.replace('/');
+    localStorage.removeItem("recoil-persist");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("role_token");
+    window.location.replace("/");
   };
   return (
     <S.Container>

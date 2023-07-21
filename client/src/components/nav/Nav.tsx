@@ -1,15 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import { GoHome } from 'react-icons/go';
-import { GoHomeFill } from 'react-icons/go';
-import { BsFilePost } from 'react-icons/bs';
-import { BsFilePostFill } from 'react-icons/bs';
-import { BiUser } from 'react-icons/bi';
-import { BiSolidUser } from 'react-icons/bi';
-import ProfileModal from '../modal/ProfileModal';
+import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+import { GoHome } from "react-icons/go";
+import { GoHomeFill } from "react-icons/go";
+import { BsFilePost } from "react-icons/bs";
+import { BsFilePostFill } from "react-icons/bs";
+import { BiUser } from "react-icons/bi";
+import { BiSolidUser } from "react-icons/bi";
+import ProfileModal from "../modal/ProfileModal";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const S = {
   BackContainer: styled.div`
@@ -75,23 +75,23 @@ const S = {
 const Nav = () => {
   const replace = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedButton, setSelectedButton] = useState('home');
+  const [selectedButton, setSelectedButton] = useState("home");
 
   const handleButtonClick = (buttonName: string) => {
     setSelectedButton(buttonName);
   };
 
   const mainHandler = () => {
-    handleButtonClick('home');
-    replace('/main');
+    handleButtonClick("home");
+    replace("/main");
   };
   const postHandler = () => {
-    handleButtonClick('post');
-    replace('/allposts');
+    handleButtonClick("post");
+    replace("/allposts");
   };
 
   const modalHandler = (): void => {
-    handleButtonClick('my');
+    handleButtonClick("my");
     if (!isOpen) {
       setIsOpen(true);
     } else {
@@ -110,10 +110,10 @@ const Nav = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener("mousedown", handleOutsideClick);
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
@@ -124,7 +124,7 @@ const Nav = () => {
           <S.Container>
             <S.NavButton onClick={mainHandler}>
               <S.Iconbox>
-                {selectedButton === 'home' ? (
+                {selectedButton === "home" ? (
                   <GoHomeFill size='30' color='#CED5B2' />
                 ) : (
                   <GoHome size='30' />
@@ -134,7 +134,7 @@ const Nav = () => {
             </S.NavButton>
             <S.NavButton onClick={postHandler}>
               <S.Iconbox>
-                {selectedButton === 'post' ? (
+                {selectedButton === "post" ? (
                   <BsFilePostFill size='30' color='#CED5B2' />
                 ) : (
                   <BsFilePost size='30' />
@@ -145,7 +145,7 @@ const Nav = () => {
             </S.NavButton>
             <S.NavButton onClick={modalHandler} ref={dropdownRef}>
               <S.Iconbox>
-                {selectedButton === 'my' ? (
+                {selectedButton === "my" ? (
                   <BiSolidUser size='30' color='#CED5B2' />
                 ) : (
                   <BiUser size='30' />

@@ -5,52 +5,53 @@ export interface CafePostList {
   author: string;
 }
 
-export type PostCafeType ={
-  cafeName:string;
-  cafeId?:number|string;
-}
+export type PostCafeType = {
+  cafeName: string;
+  cafeId?: number | string;
+};
 
 export interface ResPostData {
-  postId?:number;
-  cafeId?: number|string;
-  cafeName?:string;
-  title: string;
+  postId?: number;
+  cafeId?: number | string;
+  cafeName?: string;
+  title?: string;
   createdAt: string;
   updatedAt?: string;
-  authorId?: number|string;
+  authorId?: number | string;
   author: string;
-  image?: string|File;
+  image?: string | File;
   content: string;
   starRating: number;
   isBookmarked?: boolean;
-  tags:string[];
+  tagNames: string[];
   comments?: PostComments[];
 }
 
 export interface ReqPostData {
-  title: string;
-  image?: string|File;
+  cafeId?: number | string;
+  title?: string;
+  image?: string | File;
   content: string;
   starRating: number;
-  tags:string[];
+  tagNames: string[];
 }
 
 export interface PostComments {
-  authorId?: number|string;
+  authorId?: number | string;
   author?: string;
-  content: string;
-  commentId?: number;
+  content?: string;
+  commentId?: number | undefined;
   createdAt?: string;
   updatedAt?: string;
-  cafeId?:number;
+  cafeId?: number;
 }
 
 export interface PostComment {
-  authorId: number | string;
-  author: string;
-  body: string;
-  createdAt: string;
-  updatedAt: string;
+  authorId?: number | string;
+  author?: string;
+  content: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type CafeDetailType = {

@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import CafeMenuForm from '../components/cafe/CafeMenuForm';
-import { styled } from 'styled-components';
-import { FONT_SIZE_2 } from '../common/common';
-import Button from '../common/button/button';
-import { FormProvider, useForm } from 'react-hook-form';
-import { baseURL } from '../common/baseURL';
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import CafeMenuForm from "../components/cafe/CafeMenuForm";
+import { styled } from "styled-components";
+import { FONT_SIZE_2 } from "../common/common";
+import Button from "../common/button/button";
+import { FormProvider, useForm } from "react-hook-form";
+import { baseURL } from "../common/baseURL";
 
 export type FormData = {
   signature: {
@@ -31,19 +31,19 @@ export type FormData = {
 };
 
 const menus = [
-  { name: '시그니처', value: 'signature', menuType: 'SIGNATURE' },
-  { name: '커피', value: 'coffee', menuType: 'COFFEE' },
-  { name: '논커피', value: 'non_Coffee', menuType: 'NON_COFFEE' },
-  { name: '디저트', value: 'dessert', menuType: 'DESSERT' },
+  { name: "시그니처", value: "signature", menuType: "SIGNATURE" },
+  { name: "커피", value: "coffee", menuType: "COFFEE" },
+  { name: "논커피", value: "non_Coffee", menuType: "NON_COFFEE" },
+  { name: "디저트", value: "dessert", menuType: "DESSERT" },
 ];
 
 const defaultValues = {
-  signature: [
-    { name: '아이스 아메리카노', price: 5000, menuType: 'SIGNATURE' },
-  ],
-  coffee: [{ name: '아이스 아메리카노', price: 5000, menuType: 'COFFEE' }],
-  non_Coffee: [{ name: '아이스티', price: 5500, menuType: 'NON_COFFEE' }],
-  dessert: [{ name: '빵', price: 10000, menuType: 'DESSERT' }],
+  // signature: [
+  //   { name: "아이스 아메리카노", price: 5000, menuType: "SIGNATURE" },
+  // ],
+  // coffee: [{ name: "아이스 아메리카노", price: 5000, menuType: "COFFEE" }],
+  // non_Coffee: [{ name: "아이스티", price: 5500, menuType: "NON_COFFEE" }],
+  // dessert: [{ name: "빵", price: 10000, menuType: "DESSERT" }],
 };
 const AddCafeMenuPage = () => {
   //methods에 useForm 리턴값을 넣어줌
@@ -51,7 +51,7 @@ const AddCafeMenuPage = () => {
   const navigate = useNavigate();
   const methods = useForm<FormData>({
     defaultValues,
-    mode: 'onBlur',
+    mode: "onBlur",
   });
   const { handleSubmit } = methods;
 
@@ -72,15 +72,15 @@ const AddCafeMenuPage = () => {
     try {
       const response = await axios.post(`${baseURL}/menus/${id}`, mergedArray, {
         headers: {
-          'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true',
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
           // 'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       });
 
       console.log(response.data);
-      alert('메뉴 등록이 완료되었습니다 카페 상세 페이지로 이동합니다');
+      alert("메뉴 등록이 완료되었습니다 카페 상세 페이지로 이동합니다");
       navigate(`/cafes/${id}`);
     } catch (error) {
       console.error(error);
@@ -103,7 +103,7 @@ const AddCafeMenuPage = () => {
           <Button
             text='나가기'
             onClick={() => {
-              navigate('/ownermy/');
+              navigate("/ownermy/");
             }}
             theme='Cancel'
           />

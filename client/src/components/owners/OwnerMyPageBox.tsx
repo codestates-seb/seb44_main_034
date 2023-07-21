@@ -1,12 +1,12 @@
-import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import CafeFollowerModal from '../modal/CafeFollowerModal';
-import coffeeshop2 from '../../assets/coffeeshop2.jpeg';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { baseURL } from '../../common/baseURL';
+import { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import CafeFollowerModal from "../modal/CafeFollowerModal";
+// import coffeeshop2 from "../../assets/coffeeshop2.jpeg";
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   Container: styled.div`
@@ -213,7 +213,7 @@ interface CafeData {
   cafeId?: string;
   cafeName: string;
   countBookmarked: number;
-  image: File;
+  image?: string | Blob;
 }
 const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
@@ -238,23 +238,24 @@ const UserMyPageBox = () => {
         setFollowerIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', followModalhandler);
+    document.addEventListener("mousedown", followModalhandler);
 
     return () => {
-      document.removeEventListener('mousedown', followModalhandler);
+      document.removeEventListener("mousedown", followModalhandler);
     };
   }, []);
   useEffect(() => {
     axios
       .get(`${baseURL}/owners/my-page`, {
         headers: {
+          "ngrok-skip-browser-warning": "true",
           withCredentials: true,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         console.log(response.data);
         setOwnerInfo(response.data.payload.ownerResponse);
         setCafeInfo(response.data.payload.cafe);
@@ -263,7 +264,7 @@ const UserMyPageBox = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, []);
@@ -271,13 +272,7 @@ const UserMyPageBox = () => {
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg
-            src={
-              cafeInfo?.image
-                ? URL.createObjectURL(cafeInfo.image)
-                : coffeeshop2
-            }
-          ></S.ProfileImg>
+          <S.ProfileImg src={`${cafeInfo?.image}`}></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>
@@ -287,13 +282,13 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>카페팔로워</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox ref={dropdownRef}>
-            <S.Informaiton>{ownerInfo ? ownerInfo.email : '-'}</S.Informaiton>
+            <S.Informaiton>{ownerInfo ? ownerInfo.email : "-"}</S.Informaiton>
             <S.Informaiton>
-              {ownerInfo ? ownerInfo.displayName : '-'}
+              {ownerInfo ? ownerInfo.displayName : "-"}
             </S.Informaiton>
-            <S.Informaiton>{cafeInfo ? cafeInfo.cafeName : '-'}</S.Informaiton>
+            <S.Informaiton>{cafeInfo ? cafeInfo.cafeName : "-"}</S.Informaiton>
             <S.FollowerInformaiton onClick={openFollowerModal}>
-              {cafeInfo ? cafeInfo.countBookmarked : '0'}
+              {cafeInfo ? cafeInfo.countBookmarked : "0"}
             </S.FollowerInformaiton>
             {isFollowerOpen ? <CafeFollowerModal /> : null}
           </S.InformaitonBox>
@@ -308,7 +303,7 @@ const UserMyPageBox = () => {
         <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
           내 카페 보기
         </S.SandButton>
-        <S.SandButton onClick={() => navigate('/cafes/add')}>
+        <S.SandButton onClick={() => navigate("/cafes/add")}>
           내 카페 등록하기
         </S.SandButton>
         <S.SandButton

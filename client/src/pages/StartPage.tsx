@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../common/common';
-import mainimage from '../assets/mainimage.jpeg';
-import postimage from '../assets/postimage.jpeg';
-import Footer from '../components/footer/Footer';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../common/common";
+import mainimage from "../assets/mainimage.jpeg";
+import postimage from "../assets/postimage.jpeg";
+import Footer from "../components/footer/Footer";
+import { Link } from "react-router-dom";
 
 const S = {
   AllContainer: styled.div`

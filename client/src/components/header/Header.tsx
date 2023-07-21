@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
-import { COLOR_1 } from '../../common/common';
-import Logo from '../../assets/Logo.svg';
-import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+import { COLOR_1 } from "../../common/common";
+import Logo from "../../assets/Logo.svg";
+import styled from "styled-components";
 
 const S = {
   Container: styled.div`
@@ -40,7 +40,7 @@ const S = {
 const Header = () => {
   const replace = useNavigate();
   const reloadHandler = () => {
-    replace('/main');
+    replace("/main");
     window.location.reload();
   };
   return (

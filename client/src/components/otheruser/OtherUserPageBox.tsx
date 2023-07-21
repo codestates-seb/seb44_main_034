@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import { baseURL } from '../../common/baseURL';
-import coffeebean from '../../assets/coffeebean.svg';
-import greenbean from '../../assets/greenbean.svg';
-import espresso from '../../assets/espresso.svg';
-import { PostType } from '../users/UserMyPageBox';
-import MyPost from '../users/MyPost';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import { baseURL } from "../../common/baseURL";
+import coffeebean from "../../assets/coffeebean.svg";
+import greenbean from "../../assets/greenbean.svg";
+import espresso from "../../assets/espresso.svg";
+import { PostType } from "../users/UserMyPageBox";
+import MyPost from "../users/MyPost";
+import styled from "styled-components";
 
 const S = {
   Container: styled.div`
@@ -285,21 +285,21 @@ const OtherUserMyPageBox = () => {
   const mockData = [
     {
       id: 1,
-      cafeName: '동대문 카페',
+      cafeName: "동대문 카페",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
     {
       id: 2,
-      cafeName: '동대문 카페1',
+      cafeName: "동대문 카페1",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
   ];
   // const replace = useNavigate();
@@ -313,9 +313,9 @@ const OtherUserMyPageBox = () => {
     axios
       .post(`${baseURL}/members/1/follow`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
+          "ngrok-skip-browser-warning": "true",
           withCredentials: true,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
@@ -326,7 +326,7 @@ const OtherUserMyPageBox = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };
@@ -345,20 +345,20 @@ const OtherUserMyPageBox = () => {
   };
   useEffect(() => {
     fetchData();
-    ('');
+    ("");
   }, []);
   //특정회원 포스터 불러오기
   const fetchData = () => {
     axios
       .get(`${baseURL}/members/my-page/post`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
+          "ngrok-skip-browser-warning": "true",
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         const followers: PostType[] = response.data.payload.data;
         setDataSource(followers);
         setHasMore(response.data.payload.hasNext);
@@ -366,7 +366,7 @@ const OtherUserMyPageBox = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };
@@ -375,20 +375,20 @@ const OtherUserMyPageBox = () => {
     axios
       .get(`${baseURL}/members/1`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
+          "ngrok-skip-browser-warning": "true",
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         setMemberInfo(response.data.payload);
         setIsFollowing(response.data.payload.folling);
       })
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, []);
@@ -412,14 +412,14 @@ const OtherUserMyPageBox = () => {
             </S.TitleInformaitonBox>
             <S.InformaitonBox>
               <S.Informaiton>
-                {memberInfo ? memberInfo.displayName : '-'}
+                {memberInfo ? memberInfo.displayName : "-"}
               </S.Informaiton>
               <S.Informaiton>
                 <S.GradeImg
                   src={
-                    memberInfo?.grade === 'GRADE_COFFEE_BEAN'
+                    memberInfo?.grade === "GRADE_COFFEE_BEAN"
                       ? coffeebean
-                      : memberInfo?.grade === 'GRADE_ESPRESSO'
+                      : memberInfo?.grade === "GRADE_ESPRESSO"
                       ? espresso
                       : greenbean
                   }

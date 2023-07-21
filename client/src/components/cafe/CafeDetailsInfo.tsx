@@ -1,12 +1,12 @@
-import { styled } from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import { BiSolidParking } from 'react-icons/bi';
-import { Ri24HoursLine } from 'react-icons/ri';
-import { FaDog } from 'react-icons/fa';
-import { GiCupcake } from 'react-icons/gi';
-import { ImPowerCord } from 'react-icons/im';
-import { BiPhoneCall, BiSolidCoffeeBean } from 'react-icons/bi';
-import { CafeDetailType } from '../../types/type';
+import { styled } from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+import { BiSolidParking } from "react-icons/bi";
+import { Ri24HoursLine } from "react-icons/ri";
+import { FaDog } from "react-icons/fa";
+import { GiCupcake } from "react-icons/gi";
+import { ImPowerCord } from "react-icons/im";
+import { BiPhoneCall, BiSolidCoffeeBean } from "react-icons/bi";
+import { CafeDetailType } from "../../types/type";
 
 interface CafeDetailsInfoProps {
   cafeDetail: CafeDetailType;
@@ -14,7 +14,9 @@ interface CafeDetailsInfoProps {
 const CafeDetailsInfo = ({ cafeDetail }: CafeDetailsInfoProps) => {
   return (
     <S.Container>
-      <S.ImageDiv></S.ImageDiv>
+      <S.ImageDiv>
+        <S.CafeImg src={`${cafeDetail.image}`} />
+      </S.ImageDiv>
       <S.CafeInfoDiv>
         <S.CafeTitle>{cafeDetail.name}</S.CafeTitle>
         <S.ContectDiv>
@@ -70,7 +72,14 @@ const S = {
     height: 300px;
     margin-right: 20px;
     border-radius: 10px;
-    background-color: black;
+    @media screen and (max-width: 767px) {
+      width: 100%;
+      height: 200px;
+    }
+  `,
+  CafeImg: styled.img`
+    width: 380px;
+    height: 300px;
     @media screen and (max-width: 767px) {
       width: 100%;
       height: 200px;
@@ -169,7 +178,7 @@ const iconStyle = `
 
 const StyledIcon = styled.div<{ istrue: boolean }>`
   ${iconStyle}
-  color: ${({ istrue }) => (istrue ? 'black' : 'gainsboro')};
+  color: ${({ istrue }) => (istrue ? "black" : "gainsboro")};
 `;
 
 const Parking = styled(StyledIcon).attrs({ as: BiSolidParking })`

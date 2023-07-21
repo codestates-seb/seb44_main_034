@@ -1,8 +1,8 @@
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { styled } from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import { FONT_SIZE_2 } from '../../common/common';
-import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
+import { useFieldArray, useFormContext } from "react-hook-form";
+import { styled } from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+import { FONT_SIZE_2 } from "../../common/common";
+import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
 export type FormValues = {
   menu: {
     name: string;
@@ -77,7 +77,7 @@ function CafeMenuForm({ type, name }: { type: string; name: string }) {
             type='button'
             onClick={() =>
               append({
-                name: '',
+                name: "",
                 price: 0,
                 menuType: type.toUpperCase(),
               })

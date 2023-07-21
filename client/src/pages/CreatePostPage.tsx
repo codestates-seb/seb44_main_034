@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useResetRecoilState } from 'recoil';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
-import PostHead from '../components/post/PostHead';
-import PostMood from '../components/post/PostMood';
-import { PostItemAtom, PostCafeAtom } from '../recoil/postState';
-import { ReqPostData } from '../types/type';
-import { PostCafeType } from '../types/type';
-import { BiSolidCoffeeBean } from 'react-icons/bi';
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useResetRecoilState } from "recoil";
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+import PostHead from "../components/post/PostHead";
+import PostMood from "../components/post/PostMood";
+import { PostItemAtom, PostCafeAtom } from "../recoil/postState";
+import { ReqPostData } from "../types/type";
+import { PostCafeType } from "../types/type";
+import { BiSolidCoffeeBean } from "react-icons/bi";
 // import { CiCoffeeBean } from "react-icons/ci";
-import { ConfirmBtn } from '../common/button/button';
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../common/common';
-import { baseURL } from '../common/baseURL';
+import { ConfirmBtn } from "../common/button/button";
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../common/common";
+import { baseURL } from "../common/baseURL";
 
 // type PostDataProps = {
 //   postData: PostData;
@@ -97,7 +97,10 @@ const CreatePostPage = () => {
   const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
   const postCafe = useRecoilValue<PostCafeType>(PostCafeAtom);
 
-  const [correctValue, setCorrectValue] = useState({correctTitle:false, correctStarRating:false});
+  const [correctValue, setCorrectValue] = useState({
+    correctTitle: false,
+    correctStarRating: false,
+  });
   const resetPostItem = useResetRecoilState(PostItemAtom);
   // const mutation = useMutation(
   //   (postData:PostDataProps) => {
@@ -113,10 +116,10 @@ const CreatePostPage = () => {
 
   //api
 
-  const createPost = (post: PostData) =>
+  const createPost = (post: ReqPostData) =>
     axios.post(`${baseURL}/posts/${post.cafeId}`, post, {
       headers: {
-        Authorization: localStorage.getItem('access_token'),
+        Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
       },
     });
@@ -144,10 +147,8 @@ const CreatePostPage = () => {
 
   // const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
 
+  const { title, starRating } = postData;
 
-  const { title, starRating} =postData;
-  
-  
   // const postDataToSand:PostDataProps = {
   //   cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
   // }
@@ -178,7 +179,7 @@ const CreatePostPage = () => {
     console.log(typeof contentValue);
     setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
   };
-console.log(postData)
+  console.log(postData);
   return (
     <S.Container>
       <form
@@ -208,10 +209,10 @@ console.log(postData)
                 // }
                 const rateValue = e?.target.value;
                 if (Number(rateValue) !== parseInt(rateValue)) {
-                  alert('1 이상 5 이하의 정수만 입력해주세요.');
+                  alert("1 이상 5 이하의 정수만 입력해주세요.");
                 }
                 if (parseInt(rateValue) > 5 || parseInt(rateValue) < 1) {
-                  alert('1 이상 5 이하의 숫자를 입력해주세요.');
+                  alert("1 이상 5 이하의 숫자를 입력해주세요.");
                 }
                 if (parseInt(rateValue) >= 1 && parseInt(rateValue) <= 5) {
                   setPostData((current) => ({
@@ -236,22 +237,26 @@ console.log(postData)
             <ConfirmBtn
               type='button'
               disabled={disabled}
-              onClick={(e:any)=>{
-              if (title === '') {
-                alert('제목을 입력해주세요.');
-              } else {
-                setCorrectValue({...correctValue, correctTitle:true});
-              }
-              if (starRating<1 || starRating>5) {
-                alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
-              } else {
-                setCorrectValue({...correctValue, correctStarRating:true});
-              }
-              // if () {
-              //   alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
-              // }
-              
-              submitPost(e)}} >출간하기</ConfirmBtn>
+              onClick={(e: any) => {
+                if (title === "") {
+                  alert("제목을 입력해주세요.");
+                } else {
+                  setCorrectValue({ ...correctValue, correctTitle: true });
+                }
+                if (starRating < 1 || starRating > 5) {
+                  alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
+                } else {
+                  setCorrectValue({ ...correctValue, correctStarRating: true });
+                }
+                // if () {
+                //   alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
+                // }
+
+                submitPost(e);
+              }}
+            >
+              출간하기
+            </ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
                 confirm(

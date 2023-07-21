@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useRecoilState, SetRecoilState, useSetRecoilState } from 'recoil';
-import { FacilitiesAtom } from '../../recoil/mainState';
-import { HandleSearchAtom } from '../../recoil/mainState';
-import { FacilitiesTagNames, MoodTagNames } from '../../common/tagNames';
-import FacilitiesTag from '../../common/tags/FacilitiesTag';
-import MoodTag from '../../common/tags/MoodTag';
-import { COLOR_1 } from '../../common/common';
-import styled from 'styled-components';
-import { FONT_SIZE_1 } from '../../common/common';
+import { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { FacilitiesAtom } from "../../recoil/mainState";
+import { MoodAtom } from "../../recoil/mainState";
+import { HandleSearchAtom } from "../../recoil/mainState";
+import { FacilitiesTagNames, MoodTagNames } from "../../common/tagNames";
+import FacilitiesTag from "../../common/tags/FacilitiesTag";
+import MoodTag from "../../common/tags/MoodTag";
+import { COLOR_1 } from "../../common/common";
+import styled from "styled-components";
+import { FONT_SIZE_1 } from "../../common/common";
 
 const S = {
   Container: styled.div`
@@ -27,7 +28,7 @@ const S = {
     box-sizing: border-box;
     display: flex;
     justify-content: space-around;
-    height: 46px;
+    height: 44px;
     width: 95%;
     margin-top: 6px;
     padding: 0 10px;
@@ -115,28 +116,42 @@ const S = {
 const FilterSearchBox = () => {
   const [facilities, setFacilities] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
-  const facilitiesKeys = [
-    '&isopenalltime=true',
-    '&ischargingavailable=true',
-    '&hasparking=true',
-    '&ispetfriendly=true',
-    '&hasdessert=true',
-  ];
-  const [facilAddress, setFacilAddress] = useState<string[]>([]);
+  const [moodIds, setMoodIds] = useState<number[]>([]);
 
-  const [facilitiesAtom, setfacilitiesAtom] =
+  console.log(setMoodIds);
+
+  const facilitiesKeys = [
+    "&isopenalltime=true",
+    "&ischargingavailable=true",
+    "&hasparking=true",
+    "&ispetfriendly=true",
+    "&hasdessert=true",
+  ];
+
+  const [facilAddress, setFacilAddress] = useState<string[]>([]);
+  // const [moodAddress, setMoodAddress] = useState<string[]>([]);
+  const [facilitiesAtom, setFacilitiesAtom] =
     useRecoilState<string>(FacilitiesAtom);
+  const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
+
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
 
   const handleSearchClick = () => {
-    setHandleSearch(true);
+    setHandleSearch((cur) => !cur);
   };
 
   const saveFacil = () => {
-    setfacilitiesAtom(facilAddress.join(''));
+    setFacilitiesAtom(facilAddress.join(""));
   };
+
+  const saveMood = () => {
+    const moodToIds = moodIds.join();
+    setMoodAtom(`&tags=${moodToIds}`);
+  };
+
   // console.log(facilAddress);
   console.log(facilitiesAtom);
+  console.log(moodAtom);
   // if (facilities === '전체') {
   //   setShortAddress('');
   // }
@@ -172,9 +187,17 @@ const FilterSearchBox = () => {
     }
   };
 
-  useEffect(saveFacil, [facilAddress]);
+  useEffect(() => {
+    saveFacil();
+  }, [facilAddress]);
+
+  useEffect(() => {
+    saveMood();
+  }, [moodIds]);
+
   console.log(facilities, moodTags);
-  // console.log(facilAddress);
+  console.log(moodIds);
+  console.log(moodIds.join());
 
   return (
     <S.Container>
@@ -196,9 +219,10 @@ const FilterSearchBox = () => {
         <S.Title>Mood</S.Title>
       </S.TitleBox>
       <S.MoodContainer>
-        {MoodTagNames.map((el) => (
+        {MoodTagNames.map((el, idx) => (
           <MoodTag
             key={el}
+            id={idx + 1}
             text={el}
             onClickEvent={handleMoodTagClick}
             selected={moodTags.find((ele) => ele === el)}

@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import axios from 'axios';
-import DeleteAccountBox from '../deleteaccoutbox/DeleteAccoutBox';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
-import { baseURL } from '../../common/baseURL';
+import { useState, useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
+import DeleteAccountBox from "../deleteaccoutbox/DeleteAccoutBox";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   AllContainer: styled.div`
@@ -182,7 +182,7 @@ const EditUserMyPageBox = () => {
       setIsOpen(false);
     }
   };
-  const [avatarPreview, setAvatarPreview] = useState('');
+  const [avatarPreview, setAvatarPreview] = useState("");
   const {
     register,
     handleSubmit,
@@ -190,7 +190,7 @@ const EditUserMyPageBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
 
-  const image = watch('image');
+  const image = watch("image");
   useEffect(() => {
     if (image && image.length > 0) {
       const file = image[0];
@@ -201,14 +201,14 @@ const EditUserMyPageBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { displayName, password } = data;
     const formData = new FormData();
-    formData.append('displayName', data.displayName);
-    formData.append('password', data.password);
+    formData.append("displayName", data.displayName);
+    formData.append("password", data.password);
 
     // 사용자가 선택한 이미지를 가져와서 formData에 추가
-    const image = watch('image');
+    const image = watch("image");
     if (image && image.length > 0) {
       const file = image[0];
-      formData.append('image', file);
+      formData.append("image", file);
     }
     for (const [key, value] of formData.entries()) {
       console.log(key, value);
@@ -222,20 +222,20 @@ const EditUserMyPageBox = () => {
         },
         {
           headers: {
-            Authorization: localStorage.getItem('access_token'),
+            Authorization: localStorage.getItem("access_token"),
           },
         }
       )
       .then((response) => {
         // Handle success.
-        console.log('Well done!');
-        console.log('User profile', response);
-        alert('수정이 완료되었습니디.');
-        replace('/');
+        console.log("Well done!");
+        console.log("User profile", response);
+        alert("수정이 완료되었습니디.");
+        replace("/");
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
       });
   };
   return (
@@ -254,7 +254,7 @@ const EditUserMyPageBox = () => {
                 id='profileImg'
                 type='file'
                 accept='image/*'
-                {...register('image')}
+                {...register("image")}
               />
             </S.ProfileImgBox>
             <S.SubTitle htmlFor='displayName'>닉네임</S.SubTitle>
@@ -262,11 +262,11 @@ const EditUserMyPageBox = () => {
               id='displayName'
               type='text'
               placeholder='닉네임을 입력하세요'
-              {...register('displayName', {
-                required: '닉네임은 필수 입력입니다',
+              {...register("displayName", {
+                required: "닉네임은 필수 입력입니다",
                 minLength: {
                   value: 2,
-                  message: '2자이상 입력바랍니다',
+                  message: "2자이상 입력바랍니다",
                 },
               })}
             ></S.InputBox>
@@ -282,20 +282,20 @@ const EditUserMyPageBox = () => {
               id='password'
               type='password'
               placeholder='비밀번호를 입력하세요'
-              {...register('password', {
-                required: '비밀번호는 필수 입력입니다',
+              {...register("password", {
+                required: "비밀번호는 필수 입력입니다",
                 minLength: {
                   value: 8,
-                  message: '8자 이상입력바랍니다',
+                  message: "8자 이상입력바랍니다",
                 },
                 maxLength: {
                   value: 16,
-                  message: '16자 이하로 입력바랍니다',
+                  message: "16자 이하로 입력바랍니다",
                 },
                 pattern: {
                   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
                   message:
-                    '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
+                    "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요",
                 },
               })}
             ></S.InputBox>
@@ -311,13 +311,13 @@ const EditUserMyPageBox = () => {
               id='passwordConfirm'
               type='password'
               placeholder='비밀번호를 입력하세요'
-              {...register('passwordConfirm', {
-                required: '비밀번호 확인은 필수 입력입니다.',
+              {...register("passwordConfirm", {
+                required: "비밀번호 확인은 필수 입력입니다.",
                 validate: {
                   matchesPreviousPassword: (value) => {
                     const { password } = watch();
                     return (
-                      password === value || ' 비밀번호가 일치하지 않습니다.'
+                      password === value || " 비밀번호가 일치하지 않습니다."
                     );
                   },
                 },
@@ -338,7 +338,7 @@ const EditUserMyPageBox = () => {
         </Link>
       </S.Container>
       <S.DeleteButton onClick={openHandler}>탈퇴하기</S.DeleteButton>
-      {isOpen ? <DeleteAccountBox /> : ''}
+      {isOpen ? <DeleteAccountBox /> : ""}
     </S.AllContainer>
   );
 };

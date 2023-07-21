@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
-import { COLOR_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import styled from 'styled-components';
-import { baseURL } from '../../common/baseURL';
+import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { COLOR_1 } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import styled from "styled-components";
+import { baseURL } from "../../common/baseURL";
 const S = {
   Container: styled.div`
     display: flex;
@@ -59,27 +59,27 @@ const CafeFollowerModal = () => {
   const mockData = [
     {
       id: 1,
-      displayName: '커피나라1',
+      displayName: "커피나라1",
       image: undefined,
     },
     {
       id: 2,
-      displayName: '커피2',
+      displayName: "커피2",
       image: undefined,
     },
     {
       id: 2,
-      displayName: '커피3',
+      displayName: "커피3",
       image: undefined,
     },
     {
       id: 4,
-      displayName: '커피4',
+      displayName: "커피4",
       image: undefined,
     },
     {
       id: 5,
-      displayName: '커피6',
+      displayName: "커피6",
       image: undefined,
     },
   ];
@@ -100,20 +100,20 @@ const CafeFollowerModal = () => {
 
   useEffect(() => {
     fetchData();
-    ('');
+    ("");
   }, []);
 
   const fetchData = () => {
     axios
       .get(`${baseURL}/owners/my-page`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
+          "ngrok-skip-browser-warning": "true",
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         const followers: Follower[] = response.data.payload.cafes;
         setDataSource(followers);
         // setHasMore(response.data.payload.hasNext);
@@ -121,7 +121,7 @@ const CafeFollowerModal = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };

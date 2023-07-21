@@ -1,7 +1,7 @@
-import { FONT_SIZE_1 } from '../../common/common';
-import { BiSolidCoffeeBean } from 'react-icons/bi';
-import styled from 'styled-components';
-import { MainCafeType } from '../../pages/Main';
+import { FONT_SIZE_1 } from "../../common/common";
+import { BiSolidCoffeeBean } from "react-icons/bi";
+import styled from "styled-components";
+import { MainCafeType } from "../../pages/Main";
 
 const S = {
   GradeImg: styled.img`
@@ -89,16 +89,16 @@ const Cafe = (props: { data: MainCafeType }) => {
   const { data } = props;
   return (
     <S.CafeContainer>
-      <S.CafeImgBox src={data?.image ?? ''} />
+      <S.CafeImgBox src={data?.image ?? ""} />
       <S.CafeInformaiton>
         <S.CafeTitleBox>
-          <S.CafeTitle>{data?.cafeName ?? ''}</S.CafeTitle>
+          <S.CafeTitle>{data?.cafeName ?? ""}</S.CafeTitle>
           <S.CafeRating>
             <BiSolidCoffeeBean size='18' />
             {data?.rating ?? 0}
           </S.CafeRating>
         </S.CafeTitleBox>
-        <S.CafeAddressBox>{data?.address ?? ''}</S.CafeAddressBox>
+        <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>
       </S.CafeInformaiton>
     </S.CafeContainer>
   );

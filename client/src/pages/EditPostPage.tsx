@@ -1,26 +1,26 @@
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { useResetRecoilState } from 'recoil';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
-import { PostCafeAtom, PostItemAtom } from '../recoil/postState';
-import { ReqPostData } from '../types/type';
-import { MoodTagNames } from '../common/tagNames';
-import MoodTag from '../common/tags/MoodTag';
-import { BiSolidCoffeeBean } from 'react-icons/bi';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useResetRecoilState } from "recoil";
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+import { PostCafeAtom, PostItemAtom } from "../recoil/postState";
+import { ReqPostData } from "../types/type";
+import { MoodTagNames } from "../common/tagNames";
+import MoodTag from "../common/tags/MoodTag";
+import { BiSolidCoffeeBean } from "react-icons/bi";
 // import { CiCoffeeBean } from "react-icons/ci";
-import { ConfirmBtn } from '../common/button/button';
-import styled from 'styled-components';
+import { ConfirmBtn } from "../common/button/button";
+import styled from "styled-components";
 import {
   COLOR_1,
   FONT_SIZE_1,
   FONT_SIZE_2,
   FONT_WEIGHT,
-} from '../common/common';
-import { baseURL } from '../common/baseURL';
+} from "../common/common";
+import { baseURL } from "../common/baseURL";
 
 // type PostDataProps = {
 //   postData: PostData;
@@ -129,6 +129,7 @@ const EditPostPage = () => {
   const postCafe = useRecoilValue(PostCafeAtom);
   // const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
+  const navigate = useNavigate();
 
   // const mutation = useMutation(
   //   (postData:PostDataProps) => {
@@ -142,12 +143,11 @@ const EditPostPage = () => {
   //   }
   // )
 
-
-//api
-  const editPost = (post:ReqPostData) =>
+  //api
+  const editPost = (post: ReqPostData) =>
     axios.patch(`${baseURL}/posts/${postId}`, post, {
       headers: {
-        Authorization: localStorage.getItem('access_token'),
+        Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
       },
     });
@@ -162,7 +162,7 @@ const EditPostPage = () => {
   });
   //리코일 데이터: cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
 
-  const {title, starRating, content} =postData; //리코일에서 불러온 데이터
+  const { title, starRating, content } = postData; //리코일에서 불러온 데이터
 
   //수정하기 눌렀을 때
   const submitPost = (e: React.FormEvent<HTMLFormElement>) => {
@@ -176,7 +176,7 @@ const EditPostPage = () => {
   //제목
   const handleTitle = (event: any) => {
     const titleValue: string = event?.target.value;
-    titleValue.length > 30 ? alert('제목은 30자 이하로 적어주세요.') : null;
+    titleValue.length > 30 ? alert("제목은 30자 이하로 적어주세요.") : null;
     setPostData((current) => ({ ...current, title: titleValue })); //리코일: PostItemAtom에 변경된 제목 담기
   };
 
@@ -203,24 +203,23 @@ const EditPostPage = () => {
   //   }
   // };
 
-  const onClickEvent = (tagName:string):void => {
-
+  const onClickEvent = (tagName: string): void => {
     console.log(tagName);
-    const tags = postData?.tags ?? [];
+    const tags = postData?.tagNames ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);
 
     if (findTag) {
-      setPostData((prevState) => ({ ...prevState, tags: [...filterTag]}))
+      setPostData((prevState) => ({ ...prevState, tags: [...filterTag] }));
     }
     if (tags.length >= 3) {
-      alert('태그는 3개까지만 선택해주세요.');
+      alert("태그는 3개까지만 선택해주세요.");
       return;
     }
     if (!findTag) {
-      setPostData((prevState) => ({ ...prevState, tags: [...tags, tagName]}))
+      setPostData((prevState) => ({ ...prevState, tags: [...tags, tagName] }));
     }
-  }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
@@ -250,7 +249,7 @@ const EditPostPage = () => {
       >
         <div>
           <S.CafeNameWrap>
-            <S.CafeName>{postCafe.cafeName}</S.CafeName>
+            <S.CafeName>{postCafe?.cafeName}</S.CafeName>
           </S.CafeNameWrap>
           <S.TitleWrap>
             <S.Title
@@ -267,7 +266,13 @@ const EditPostPage = () => {
           <S.MoodWrap>
             {MoodTagNames.map((el, id) => (
               <S.TagWrap key={id}>
-                <MoodTag text={el} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag>
+                <MoodTag
+                  key={id}
+                  id={id}
+                  text={el}
+                  onClickEvent={onClickEvent}
+                  selected={postData?.tagNames.find((ele) => ele === el)}
+                ></MoodTag>
               </S.TagWrap>
             ))}
           </S.MoodWrap>
@@ -284,10 +289,10 @@ const EditPostPage = () => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const rateValue = e?.target.value;
                 if (Number(rateValue) !== parseInt(rateValue)) {
-                  alert('1 이상 5 이하의 정수만 입력해주세요.');
+                  alert("1 이상 5 이하의 정수만 입력해주세요.");
                 }
                 if (parseInt(rateValue) > 5 || parseInt(rateValue) < 1) {
-                  alert('1 이상 5 이하의 숫자를 입력해주세요.');
+                  alert("1 이상 5 이하의 숫자를 입력해주세요.");
                 }
                 if (parseInt(rateValue) >= 1 && parseInt(rateValue) <= 5) {
                   setPostData((current) => ({
@@ -313,23 +318,36 @@ const EditPostPage = () => {
             setContents={content}
           />
           <S.BtnWrap>
-
             <ConfirmBtn
-            type='button'
-            disabled={disabled}
-            onClick={(e:any)=>{
-              if (title === '') {
-                alert('제목을 입력해주세요.');
-              }
-              if (starRating<1 || starRating>5) {
-                alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
-              }
-              submitPost(e)}} >수정하기</ConfirmBtn>
+              type='button'
+              disabled={disabled}
+              onClick={(e: any) => {
+                // if (title === '') {
+                //   alert('제목을 입력해주세요.');
+                // }
+                if (starRating < 1 || starRating > 5) {
+                  alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
+                }
+                if (content.length < 130) {
+                  alert("내용을 130자 이상 적어주세요.");
+                }
+                // if (!fileList) {
+                //   alert('이미지를 첨부해주세요.');
+                // }
+                submitPost(e);
+              }}
+            >
+              수정하기
+            </ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
-                confirm(
+                const exit = confirm(
                   `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
                 );
+                if (exit) {
+                  // window.history.go(-1);
+                  navigate(-1);
+                }
               }}
             >
               나가기

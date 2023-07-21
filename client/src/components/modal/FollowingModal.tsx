@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
-import { COLOR_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import styled from 'styled-components';
-import { baseURL } from '../../common/baseURL';
+import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { COLOR_1 } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import styled from "styled-components";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   Container: styled.div`
@@ -74,21 +74,21 @@ const FollowingModal = () => {
 
   useEffect(() => {
     fetchData();
-    ('');
+    ("");
   }, []);
 
   const fetchData = () => {
     axios
       .get(`${baseURL}/members/my-page/following`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
+          "ngrok-skip-browser-warning": "true",
           withCredentials: true,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         const followers: Follower[] = response.data.payload.data;
         setDataSource(followers);
         setHasMore(response.data.payload.hasNext);
@@ -96,7 +96,7 @@ const FollowingModal = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };
