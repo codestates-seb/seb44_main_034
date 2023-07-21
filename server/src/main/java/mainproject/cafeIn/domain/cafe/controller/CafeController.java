@@ -3,6 +3,7 @@ package mainproject.cafeIn.domain.cafe.controller;
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.PageCafeRequest;
+import mainproject.cafeIn.domain.cafe.dto.request.PasswordRequest;
 import mainproject.cafeIn.domain.cafe.dto.request.SearchCafeFilterCondition;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeDetailResponse;
 import mainproject.cafeIn.domain.cafe.dto.response.CafeResponse;
@@ -79,9 +80,9 @@ public class CafeController {
     @DeleteMapping("/{cafe-id}")
     @ResponseStatus(OK)
     public ApplicationResponse deleteCafe(@PathVariable("cafe-id") Long cafeId,
-                                          @RequestBody String password) {
+                                          @RequestBody PasswordRequest request) {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        cafeService.deleteCafe(loginId, cafeId, password);
+        cafeService.deleteCafe(loginId, cafeId, request.getPassword());
 
         return new ApplicationResponse<>();
     }
