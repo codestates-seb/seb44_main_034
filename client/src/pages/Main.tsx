@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import Pagination from 'react-js-pagination';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { getCafes } from '../api/mainApi';
-import SearchBox from '../components/main/SearchBox';
-import LocationBox from '../components/main/LocationBox';
-import FilterSearchBox from '../components/main/FilterSearchBox';
-// import Map from '../components/main/Map';
-import styled from 'styled-components';
-import '../Paging.css';
+import { useEffect, useState } from "react";
+import Pagination from "react-js-pagination";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { getCafes } from "../api/mainApi";
+import SearchBox from "../components/main/SearchBox";
+import LocationBox from "../components/main/LocationBox";
+import FilterSearchBox from "../components/main/FilterSearchBox";
+// import Map from "../components/main/Map";
+import styled from "styled-components";
+import "../Paging.css";
 // import Cafe from '../components/main/Cafe';
-import { FONT_SIZE_1 } from '../common/common';
-import { BiSolidCoffeeBean } from 'react-icons/bi';
-import { baseURL } from '../common/baseURL';
-import { FacilitiesAtom, MoodAtom, LocationAtom } from '../recoil/mainState';
-import { HandleSearchAtom } from '../recoil/mainState';
+import { FONT_SIZE_1 } from "../common/common";
+import { BiSolidCoffeeBean } from "react-icons/bi";
+import { baseURL } from "../common/baseURL";
+import { FacilitiesAtom, MoodAtom, LocationAtom } from "../recoil/mainState";
+import { HandleSearchAtom } from "../recoil/mainState";
 // import { HandleSearchBoxAtom } from '../recoil/mainState';
-import { SearchValueAtom } from '../recoil/mainState';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { SearchValueAtom } from "../recoil/mainState";
+import { useRecoilState, useRecoilValue } from "recoil";
 // import { set } from 'react-hook-form';
 
 const S = {
@@ -269,7 +269,7 @@ const Main = () => {
     data,
     // isPreviousData,
   } = useQuery(
-    ['getAllCafes', page, handleSearch],
+    ["getAllCafes", page, handleSearch],
     () => getCafes(searchValue, page, shortaddress, facilities, mood),
 
     {

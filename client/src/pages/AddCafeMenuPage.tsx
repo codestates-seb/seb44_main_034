@@ -38,12 +38,12 @@ const menus = [
 ];
 
 const defaultValues = {
-  signature: [
-    { name: "아이스 아메리카노", price: 5000, menuType: "SIGNATURE" },
-  ],
-  coffee: [{ name: "아이스 아메리카노", price: 5000, menuType: "COFFEE" }],
-  non_Coffee: [{ name: "아이스티", price: 5500, menuType: "NON_COFFEE" }],
-  dessert: [{ name: "빵", price: 10000, menuType: "DESSERT" }],
+  // signature: [
+  //   { name: "아이스 아메리카노", price: 5000, menuType: "SIGNATURE" },
+  // ],
+  // coffee: [{ name: "아이스 아메리카노", price: 5000, menuType: "COFFEE" }],
+  // non_Coffee: [{ name: "아이스티", price: 5500, menuType: "NON_COFFEE" }],
+  // dessert: [{ name: "빵", price: 10000, menuType: "DESSERT" }],
 };
 const AddCafeMenuPage = () => {
   //methods에 useForm 리턴값을 넣어줌
