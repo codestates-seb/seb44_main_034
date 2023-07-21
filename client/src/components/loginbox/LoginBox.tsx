@@ -132,6 +132,7 @@ const LoginBox = () => {
         localStorage.setItem("refresh_token", response.headers.refresh);
         localStorage.setItem("role_token", response.headers.role);
         setIsLogin(true);
+        console.log(response.headers.authorization);
         alert("로그인되었습니다.");
         replace("/main");
         // const waitForTokenExpiration = async (expirationTime: number) => {

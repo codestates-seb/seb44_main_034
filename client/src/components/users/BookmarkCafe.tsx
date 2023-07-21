@@ -2,6 +2,7 @@ import { FONT_SIZE_1 } from "../../common/common";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import styled from "styled-components";
 import { PostType } from "./UserMyPageBox.tsx";
+import { Link } from "react-router-dom";
 
 const S = {
   GradeImg: styled.img`
@@ -88,19 +89,21 @@ const S = {
 const BookmarkCafe = (props: { data: PostType }) => {
   const { data } = props;
   return (
-    <S.CafeContainer>
-      <S.CafeImgBox src={data?.image ?? ""} />
-      <S.CafeInformaiton>
-        <S.CafeTitleBox>
-          <S.CafeTitle>{data?.cafeName ?? ""}</S.CafeTitle>
-          <S.CafeRating>
-            <BiSolidCoffeeBean size='18' />
-            {data?.rating ?? 0}
-          </S.CafeRating>
-        </S.CafeTitleBox>
-        <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>
-      </S.CafeInformaiton>
-    </S.CafeContainer>
+    <Link to={`/cafes/${data?.cafeId}`}>
+      <S.CafeContainer>
+        <S.CafeImgBox src={data?.image ?? ""} />
+        <S.CafeInformaiton>
+          <S.CafeTitleBox>
+            <S.CafeTitle>{data?.cafeName ?? ""}</S.CafeTitle>
+            <S.CafeRating>
+              <BiSolidCoffeeBean size='18' />
+              {data?.rating ?? 0}
+            </S.CafeRating>
+          </S.CafeTitleBox>
+          <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>
+        </S.CafeInformaiton>
+      </S.CafeContainer>
+    </Link>
   );
 };
 

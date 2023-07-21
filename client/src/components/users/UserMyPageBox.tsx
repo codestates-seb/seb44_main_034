@@ -324,6 +324,7 @@ interface UserData {
 
 export interface PostType {
   id?: number;
+  cafeId?: number;
   cafeName?: string;
   image?: string;
   address?: string;
