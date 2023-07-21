@@ -199,7 +199,6 @@ const EditUserMyPageBox = () => {
   }, [image]);
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    const { displayName, password } = data;
     const formData = new FormData();
     formData.append("displayName", data.displayName);
     formData.append("password", data.password);
@@ -217,8 +216,7 @@ const EditUserMyPageBox = () => {
       .patch(
         `${baseURL}/members/update`,
         {
-          displayName: displayName,
-          password: password,
+          formData,
         },
         {
           headers: {

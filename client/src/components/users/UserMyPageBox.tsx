@@ -379,9 +379,9 @@ const UserMyPageBox = () => {
   const [hasMore, setHasMore] = useState(true);
 
   // cafe, post, myPost
-  const [selectedTab, setSelctedTab] = useState<"cafe" | "post" | "my-post">(
-    "cafe"
-  );
+  const [selectedTab, setSelctedTab] = useState<
+    "bookmarked-cafe" | "bookmarked-post" | "my-post"
+  >("bookmarked-cafe");
   //
   // const [modalVisible, setModalVisible] = useState({
   //   new:false,
@@ -538,11 +538,11 @@ const UserMyPageBox = () => {
       <S.BottomBox>
         <S.SandBtn
           onClick={() => {
-            setSelctedTab("cafe");
+            setSelctedTab("bookmarked-cafe");
           }}
           style={{
             backgroundColor:
-              selectedTab === "cafe"
+              selectedTab === "bookmarked-cafe"
                 ? `${COLOR_1.dark_sand}`
                 : `${COLOR_1.ivory}`,
           }}
@@ -551,11 +551,11 @@ const UserMyPageBox = () => {
         </S.SandBtn>
         <S.SandBtn
           onClick={() => {
-            setSelctedTab("post");
+            setSelctedTab("bookmarked-post");
           }}
           style={{
             backgroundColor:
-              selectedTab === "post"
+              selectedTab === "bookmarked-post"
                 ? `${COLOR_1.dark_sand}`
                 : `${COLOR_1.ivory}`,
           }}
@@ -589,9 +589,9 @@ const UserMyPageBox = () => {
           {dataSource.map((el) => {
             return (
               <>
-                {selectedTab === "cafe" ? (
+                {selectedTab === "bookmarked-cafe" ? (
                   <BookmarkCafe data={el} key={el?.id} />
-                ) : selectedTab === "post" ? (
+                ) : selectedTab === "bookmarked-post" ? (
                   <BookmarkPost data={el} key={el?.id} />
                 ) : (
                   <MyPost data={el} key={el?.id} />

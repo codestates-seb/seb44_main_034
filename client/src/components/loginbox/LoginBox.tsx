@@ -138,24 +138,24 @@ const LoginBox = () => {
         setIsLogin(true);
         alert("로그인되었습니다.");
         replace("/main");
-        const waitForTokenExpiration = async (expirationTime: number) => {
-          const currentTime = Date.now();
-          const remainingTime = expirationTime - currentTime;
+        // const waitForTokenExpiration = async (expirationTime: number) => {
+        //   const currentTime = Date.now();
+        //   const remainingTime = expirationTime - currentTime;
 
-          if (remainingTime > 0) {
-            await new Promise((resolve) => setTimeout(resolve, remainingTime));
-            localStorage.removeItem("recoil-persist");
-            localStorage.removeItem("access_token");
-            localStorage.removeItem("refresh_token");
-            localStorage.removeItem("role_token");
-            window.location.replace("/main");
-          } else {
-            console.log("토큰이 이미 만료되었습니다.");
-          }
-        };
-        // 예시: 토큰 만료 시간 설정
-        const expirationTime = Date.now() + 604700000; // 현재 시간으로부터 7일 후
-        waitForTokenExpiration(expirationTime);
+        //   if (remainingTime > 0) {
+        //     await new Promise((resolve) => setTimeout(resolve, remainingTime));
+        //     localStorage.removeItem("recoil-persist");
+        //     localStorage.removeItem("access_token");
+        //     localStorage.removeItem("refresh_token");
+        //     localStorage.removeItem("role_token");
+        //     window.location.replace("/main");
+        //   } else {
+        //     console.log("토큰이 이미 만료되었습니다.");
+        //   }
+        // };
+        // // 예시: 토큰 만료 시간 설정
+        // const expirationTime = Date.now() + 604700000; // 현재 시간으로부터 7일 후
+        // waitForTokenExpiration(expirationTime);
       })
       .catch((error) => {
         // Handle error.
