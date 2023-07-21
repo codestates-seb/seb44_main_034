@@ -7,7 +7,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
-
 import mainproject.cafeIn.domain.member.dto.reponse.*;
 
 import mainproject.cafeIn.domain.member.entity.Follow;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.*;
 
 
 import java.util.List;
+
 
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
@@ -165,16 +165,38 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     @Override
     public void deleteFollowerOrFollowing(Member m) {
 
+        BooleanExpression condition1 = follow.followerId.eq(m);
+        BooleanExpression condition2 = follow.followingId.eq(m);
+
         BooleanBuilder list = new BooleanBuilder();
 
-        list.or(follow.followerId.eq(m));
-        list.or(follow.followingId.eq(m));
+        if (condition1 != null) {
+            list.or(condition1);
+        }
+
+        if (condition2 != null) {
+            list.or(condition2);
+        }
+
 
         queryFactory.delete(follow)
                 .where(list)
                 .execute();
 
     }
+
+    @Override
+    public void deleteCafeBookMarkList(Member m) {
+
+        BooleanExpression condition1 = cafeBookmark.member.eq(m);
+
+        queryFactory.delete(cafeBookmark)
+                .where(condition1)
+                .execute();
+
+    }
+
+
     private BooleanExpression followLtCursorId(Long cursorId) {
         if(cursorId == null) {
             return null;
