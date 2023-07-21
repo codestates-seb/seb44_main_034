@@ -2,6 +2,7 @@ package mainproject.cafeIn.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.comment.dto.response.CommentResponse;
 import mainproject.cafeIn.domain.comment.dto.response.ReplyResponse;
@@ -45,6 +46,7 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final CommentService commentService;
     private final S3ImageService imageService;
+    private final CafeRepository cafeRepository;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
@@ -63,8 +65,6 @@ public class PostService {
 
         Long postId = postRepository.save(post).getPostId();
         post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
-
-        cafe.calculateRating(postRequest.getStarRating());
 
         return postId;
     }
@@ -86,7 +86,9 @@ public class PostService {
             findPost.setImage(storedImageUrl);
         }
 
-        return postId;
+        Long cafeId = findPost.getCafe().getId();
+
+        return cafeId;
     }
 
     // 게시물 삭제
@@ -185,5 +187,26 @@ public class PostService {
         Optional<Post> optionalPost = postRepository.findById(postId);
         return optionalPost.orElseThrow(
                 () -> new CustomException(ErrorCode.POST_NOT_FOUND));
+    }
+
+    public void calculateRating(Long cafeId) {
+        List<Post> posts = postRepository.findPostsByCafeId(cafeId);
+        Cafe cafe = cafeRepository.findById(cafeId).get();
+
+        float rating = 0;
+
+        if (posts == null || posts.isEmpty()) {
+            // 게시물이 없을 경우에는 평점을 0으로 초기화
+            cafe.refreshRating(rating);
+            return;
+        }
+
+        int totalStarRating = 0;
+        for (Post post : posts) {
+            totalStarRating += post.getStarRating();
+        }
+
+        int numberOfPosts = posts.size();
+        cafe.refreshRating((float) (Math.round(totalStarRating / numberOfPosts * 10.0) / 10.0 ));
     }
 }
