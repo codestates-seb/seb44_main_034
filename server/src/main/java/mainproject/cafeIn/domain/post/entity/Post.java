@@ -31,7 +31,7 @@ public class Post extends BaseEntity {
     private int starRating;
 
     @Setter
-    @Column(name = "post_image")
+    @Column(name = "post_image", columnDefinition = "TEXT")
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)

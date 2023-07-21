@@ -47,9 +47,9 @@ public class S3ImageService {
         if(encodeName != changeName) {
            int lengthByte = encodeName.getBytes(StandardCharsets.UTF_8).length;
 
-           if(lengthByte > 320) {
+           if(lengthByte > 900) {
 
-               subName = encodeName.substring(0,320);
+               subName = encodeName.substring(0,900);
            } else {
 
                subName = encodeName;
