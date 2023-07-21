@@ -134,6 +134,7 @@ const Main = () => {
   console.log(setHandleSearch);
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
+  console.log(sortType);
   const [cafeData, setCafeData] = useState<MainCafeType>([]);
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
@@ -190,7 +191,7 @@ const Main = () => {
       // setSearchBox(false);
       const pageData = data.payload.content;
       setCafeData(pageData);
-      console.log(pageData);
+      console.log(11);
     }
   }, []);
 
