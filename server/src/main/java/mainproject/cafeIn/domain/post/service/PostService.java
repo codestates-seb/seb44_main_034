@@ -2,10 +2,9 @@ package mainproject.cafeIn.domain.post.service;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.comment.dto.response.CommentResponse;
-import mainproject.cafeIn.domain.comment.dto.response.ReplyResponse;
-import mainproject.cafeIn.domain.comment.repository.CommentRepository;
 import mainproject.cafeIn.domain.comment.service.CommentService;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class PostService {
     private final PostRepository postRepository;
     private final CafeService cafeService;
@@ -45,6 +44,7 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final CommentService commentService;
     private final S3ImageService imageService;
+    private final CafeRepository cafeRepository;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
@@ -55,8 +55,6 @@ public class PostService {
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
 
-        cafe.calculateRating(postRequest.getStarRating());
-
         // 이미지 업로드 저장
         if (!image.isEmpty()) {
             String storedImageUrl = imageService.upload(image, "posts");
@@ -65,6 +63,7 @@ public class PostService {
 
         Long postId = postRepository.save(post).getPostId();
         post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
+
         return postId;
     }
 
@@ -83,21 +82,28 @@ public class PostService {
         if (!image.isEmpty()) {
             String storedImageUrl = imageService.update(findPost.getImage(), image, "posts");
             findPost.setImage(storedImageUrl);
+            cafeService.calculateRating(findPost.getCafe());
         }
 
-        return postId;
+        Long cafeId = findPost.getCafe().getId();
+
+        return cafeId;
     }
 
     // 게시물 삭제
     @Transactional
     public Long deletePost(Long loginId, Long postId) {
         Post findPost = findVerifiedPostById(postId);
+        Cafe cafe = findPost.getCafe();
 
         // 로그인한 회원과 해당 게시물의 작성자가 일치하는 지 확인
         verifiedPostOwner(findPost.getMember().getId(), loginId);
 
         Long cafeId = findPost.getCafe().getId();
         postRepository.delete(findPost);
+
+        cafeService.calculateRating(cafe);
+
         return cafeId;
     }
 
@@ -184,5 +190,26 @@ public class PostService {
         Optional<Post> optionalPost = postRepository.findById(postId);
         return optionalPost.orElseThrow(
                 () -> new CustomException(ErrorCode.POST_NOT_FOUND));
+    }
+
+    public void calculateRating(Long cafeId) {
+        List<Post> posts = postRepository.findPostsByCafeId(cafeId);
+        Cafe cafe = cafeRepository.findById(cafeId).get();
+
+        float rating = 0;
+
+        if (posts == null || posts.isEmpty()) {
+            // 게시물이 없을 경우에는 평점을 0으로 초기화
+            cafe.refreshRating(rating);
+            return;
+        }
+
+        int totalStarRating = 0;
+        for (Post post : posts) {
+            totalStarRating += post.getStarRating();
+        }
+
+        int numberOfPosts = posts.size();
+        cafe.refreshRating((float) (Math.round(totalStarRating / numberOfPosts * 10.0) / 10.0 ));
     }
 }
