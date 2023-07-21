@@ -1,10 +1,10 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { COLOR_1, FONT_WEIGHT } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import styled from 'styled-components';
-import { baseURL } from '../../common/baseURL';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { COLOR_1, FONT_WEIGHT } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import styled from "styled-components";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   Container: styled.div`
@@ -100,12 +100,12 @@ interface FormValue {
 }
 
 const DeleteAccountBox = () => {
-  const [role, setRole] = useState<string>('');
+  const [role, setRole] = useState<string>("");
   useEffect(() => {
-    if (localStorage.getItem('role_token') === 'owner') {
-      setRole('owners');
-    } else if (localStorage.getItem('role_token') === 'member') {
-      setRole('members');
+    if (localStorage.getItem("role_token") === "owner") {
+      setRole("owners");
+    } else if (localStorage.getItem("role_token") === "member") {
+      setRole("members");
     }
   });
   const {
@@ -117,22 +117,22 @@ const DeleteAccountBox = () => {
     axios
       .delete(`${baseURL}/${role}/sign-out`, {
         headers: {
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
         data: data,
       })
       .then((response) => {
         // Handle success.
         console.log(response);
-        localStorage.removeItem('recoil-persist');
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        alert('탈퇴되었습니다!');
-        window.location.replace('/');
+        localStorage.removeItem("recoil-persist");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        alert("탈퇴되었습니다!");
+        window.location.replace("/");
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
       });
   };
   return (
@@ -144,20 +144,20 @@ const DeleteAccountBox = () => {
             id='password'
             type='password'
             placeholder='비밀번호를 입력하세요'
-            {...register('password', {
-              required: '비밀번호는 필수 입력입니다',
+            {...register("password", {
+              required: "비밀번호는 필수 입력입니다",
               minLength: {
                 value: 8,
-                message: '8자 이상입력바랍니다',
+                message: "8자 이상입력바랍니다",
               },
               maxLength: {
                 value: 16,
-                message: '16자 이하로 입력바랍니다',
+                message: "16자 이하로 입력바랍니다",
               },
               pattern: {
                 value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
                 message:
-                  '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
+                  "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요",
               },
             })}
           />

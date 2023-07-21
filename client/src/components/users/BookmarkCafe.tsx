@@ -1,5 +1,4 @@
 import { FONT_SIZE_1 } from "../../common/common";
-// import coffeeshop2 from "../../assets/coffeeshop2.jpeg";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import styled from "styled-components";
 import { PostType } from "./UserMyPageBox.tsx";
@@ -100,10 +99,6 @@ const BookmarkCafe = (props: { data: PostType }) => {
           </S.CafeRating>
         </S.CafeTitleBox>
         <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>
-        <S.CafeTagBox>
-          <S.CafeTag>24시영업</S.CafeTag>
-          <S.CafeTag>콘센트</S.CafeTag>
-        </S.CafeTagBox>
       </S.CafeInformaiton>
     </S.CafeContainer>
   );

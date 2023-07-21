@@ -5,7 +5,7 @@ import { RecoilRoot } from "recoil";
 import { styled } from "styled-components";
 import Header from "./components/header/Header";
 import Nav from "./components/nav/Nav";
-// import Footer from './components/footer/Footer';
+import StartPage from "./pages/StartPage";
 import Main from "./pages/Main";
 import SignupSelect from "./pages/SignupSelect";
 import SignupAgreement from "./pages/SignupAgreement";
@@ -45,7 +45,8 @@ function App() {
         <Header />
         <Container>
           <Routes>
-            <Route path='/' element={<Main />} />
+            <Route path='/' element={<StartPage />} />
+            <Route path='/main' element={<Main />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signupselect' element={<SignupSelect />} />
             <Route path='/signupagreement' element={<SignupAgreement />} />

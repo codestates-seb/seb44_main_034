@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../../common/common';
-import clienticon from '../../assets/clienticon.svg';
-import ownericon from '../../assets/ownericon.svg';
-import styled from 'styled-components';
+import { Link } from "react-router-dom";
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from "../../common/common";
+import clienticon from "../../assets/clienticon.svg";
+import ownericon from "../../assets/ownericon.svg";
+import styled from "styled-components";
 
 const S = {
   Container: styled.div`

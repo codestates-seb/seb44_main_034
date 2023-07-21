@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { COLOR_1 } from '../common';
+import styled from "styled-components";
+import { COLOR_1 } from "../common";
 
 const S = {
   CommonBeigeBtn: styled.button`

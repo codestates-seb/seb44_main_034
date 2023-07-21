@@ -1,4 +1,4 @@
-import EditUserMyPageBox from '../components/users/EditUserMyPageBox';
+import EditUserMyPageBox from "../components/users/EditUserMyPageBox";
 
 const EditUserMyPage = () => {
   return <EditUserMyPageBox></EditUserMyPageBox>;

@@ -1,18 +1,22 @@
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from '../common';
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_1, FONT_WEIGHT } from "../common";
 
 type PlusBtnProps = {
   text: string;
-  handleEvent: ()=>void;
-}
+  handleEvent: () => void;
+};
 
-const PlusButton = ({text, handleEvent}:PlusBtnProps) => {
+const PlusButton = ({ text, handleEvent }: PlusBtnProps) => {
   return (
-  <S.PlusBtn onClick={() => {handleEvent}} >
-    {text}
-  </S.PlusBtn>
-  )
-}
+    <S.PlusBtn
+      onClick={() => {
+        handleEvent;
+      }}
+    >
+      {text}
+    </S.PlusBtn>
+  );
+};
 
 const S = {
   PlusBtn: styled.button`

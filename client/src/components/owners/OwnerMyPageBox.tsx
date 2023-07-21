@@ -93,7 +93,7 @@ const S = {
     }
     @media screen and (min-width: 786px) {
       width: 300px;
-      height: 200px;
+      height: 210px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -101,16 +101,17 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 210px;
     width: 90vw;
     margin-top: 10px;
     @media screen and (min-width: 786px) {
+      margin-top: 0px;
       width: 350px;
     }
   `,
   ProfileListBox: styled.div`
     display: flex;
-    height: 200px;
+    height: 210px;
     width: 90vw;
     border-radius: 10px;
     background-color: ${COLOR_1.white};
