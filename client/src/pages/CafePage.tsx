@@ -9,7 +9,8 @@ import PostList from "../components/post/PostList";
 import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
-import { BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmarkStarFill } from "react-icons/bs";
+
 const CafePage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [cafeDetail, setCafeDetail] = useState<CafeDetailType | undefined>();
@@ -54,6 +55,7 @@ const CafePage = () => {
         const data = response.data.payload;
         console.log(data);
         setCafeDetail(data.cafeDetail);
+        setIsBookmarked(data.cafeDetail.bookmarked);
         console.log(data.cafeDetail);
         setMenus(data.menus);
         console.log(data.menus);
@@ -65,7 +67,7 @@ const CafePage = () => {
     };
     fetchCafeData();
   }, []);
-
+  console.log(isBookmarked);
   return (
     <>
       {isLoading ? (
@@ -125,19 +127,18 @@ const S = {
   `,
 };
 
-const OnBookmark = styled(BsFillBookmarkFill)`
-  width: 40px;
-  height: 40px;
+const OnBookmark = styled(BsBookmarkStarFill)`
+  width: 60px;
+  height: 65px;
   text-align: end;
-  color: ${COLOR_1.dark_brown};
-  background-color: ${COLOR_1.dark_brown};
+  color: ${COLOR_1.brown};
   cursor: pointer;
 `;
-const OffBookmark = styled(BsFillBookmarkFill)`
-  width: 40px;
-  height: 40px;
+const OffBookmark = styled(BsBookmarkStarFill)`
+  width: 60px;
+  height: 65px;
   text-align: end;
-  background-color: ${COLOR_1.light_gray};
+
   color: ${COLOR_1.light_gray};
   cursor: pointer;
 `;
