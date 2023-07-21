@@ -51,7 +51,7 @@ public class Cafe extends BaseEntity {
     private String notice;
 
     @Setter
-    @Column(name = "cafe_image")
+    @Column(name = "cafe_image", columnDefinition = "TEXT")
     private String image;
 
     @Column(name = "rating")
