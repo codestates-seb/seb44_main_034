@@ -41,11 +41,35 @@ public class S3ImageService {
 
     private String upload(File uploadFile, String dirName) {
 
-        String changeName = uploadFile.getName().replaceAll(" ","_");
+        String changeName = uploadFile.getName().replaceAll(" ","");
         String encodeName = URLEncoder.encode(changeName, StandardCharsets.UTF_8);
+        String subName;
+        if(encodeName != changeName) {
+           int lengthByte = encodeName.getBytes(StandardCharsets.UTF_8).length;
+
+           if(lengthByte > 320) {
+
+               subName = encodeName.substring(0,320);
+           } else {
+
+               subName = encodeName;
+           }
+
+        } else {
+            int lengthByte = encodeName.length();
+            if(lengthByte > 900) {
+
+                subName = encodeName.substring(0, 900);
+            } else {
+
+                subName = encodeName;
+            }
+        }
+
+        log.info("subName: " + subName);
         String uuidName = UUID.randomUUID().toString();
 
-        String fileName = dirName + "/" + uuidName+ "_" + encodeName;
+        String fileName = dirName + "/" + uuidName+ "_" + subName;
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);
@@ -69,7 +93,6 @@ public class S3ImageService {
 
         String decodeName = URLDecoder.decode(imageUrl, StandardCharsets.UTF_8);
 
-        log.info("decodeName: " + decodeName);
         return decodeName.substring(decodeName.lastIndexOf("/"));
     }
 
