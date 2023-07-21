@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -129,6 +129,7 @@ const EditPostPage = () => {
   const postCafe = useRecoilValue(PostCafeAtom);
   // const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
+  const navigate = useNavigate();
 
   // const mutation = useMutation(
   //   (postData:PostDataProps) => {
@@ -206,7 +207,7 @@ const EditPostPage = () => {
   const onClickEvent = (tagName:string):void => {
 
     console.log(tagName);
-    const tags = postData?.tags ?? [];
+    const tags = postData?.tagNames ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);
 
@@ -250,7 +251,7 @@ const EditPostPage = () => {
       >
         <div>
           <S.CafeNameWrap>
-            <S.CafeName>{postCafe.cafeName}</S.CafeName>
+            <S.CafeName>{postCafe?.cafeName}</S.CafeName>
           </S.CafeNameWrap>
           <S.TitleWrap>
             <S.Title
@@ -267,7 +268,7 @@ const EditPostPage = () => {
           <S.MoodWrap>
             {MoodTagNames.map((el, id) => (
               <S.TagWrap key={id}>
-                <MoodTag text={el} onClickEvent={onClickEvent} selected={postData.tags.find(ele=>ele===el)}></MoodTag>
+                <MoodTag key={id} id ={id} text={el} onClickEvent={onClickEvent} selected={postData?.tagNames.find(ele=>ele===el)}></MoodTag>
               </S.TagWrap>
             ))}
           </S.MoodWrap>
@@ -313,23 +314,32 @@ const EditPostPage = () => {
             setContents={content}
           />
           <S.BtnWrap>
-
             <ConfirmBtn
             type='button'
             disabled={disabled}
             onClick={(e:any)=>{
-              if (title === '') {
-                alert('제목을 입력해주세요.');
-              }
+              // if (title === '') {
+              //   alert('제목을 입력해주세요.');
+              // }
               if (starRating<1 || starRating>5) {
                 alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
               }
+              if (content.length<130) {
+                alert('내용을 130자 이상 적어주세요.');
+              }
+              // if (!fileList) {
+              //   alert('이미지를 첨부해주세요.');
+              // }
               submitPost(e)}} >수정하기</ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
-                confirm(
+                const exit = confirm(
                   `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
                 );
+                if (exit) {
+                  // window.history.go(-1);
+                  navigate(-1);
+                }
               }}
             >
               나가기

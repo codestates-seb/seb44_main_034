@@ -65,7 +65,6 @@ const AllPostsPage = () => {
   const {
     isLoading,
     isError,
-    error,
     data,
     // isFetching,
     isPreviousData,
@@ -75,7 +74,7 @@ const AllPostsPage = () => {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>{error as string}</p>;
+  if (isError) return <p>Error</p>;
 
   if (data) {
     const postsData = data.payload.data;

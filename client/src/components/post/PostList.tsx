@@ -12,6 +12,7 @@ import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
 const S = {
   Container: styled.div`
     display: block;
+    
     > ul {
       display: flex;
       justify-content: center;
@@ -31,7 +32,7 @@ const S = {
     justify-content: space-between;
     height: 60px;
     border-bottom: 1px solid ${COLOR_1.dark_brown};
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       font-size: ${FONT_SIZE_1.big_1};
       margin: 10px;
       padding: 2px;
@@ -65,7 +66,7 @@ const PostingList = () => {
       <ul>
         {data.map((el: CafePostList) => (
           <li key={el.postId}>
-            <Link to={`postpage/${el.postId}`} >
+            <Link to={`../postpage/${el.postId}`} >
             <PostThumbnail
               image={el.image}
               title={el.title}

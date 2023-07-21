@@ -6,17 +6,19 @@ import { getCafes } from "../api/mainApi";
 import SearchBox from "../components/main/SearchBox";
 import LocationBox from "../components/main/LocationBox";
 import FilterSearchBox from "../components/main/FilterSearchBox";
-import Map from "../components/main/Map";
+// import Map from '../components/main/Map';
 import styled from "styled-components";
 import "../Paging.css";
-import Cafe from "../components/main/Cafe";
+// import Cafe from '../components/main/Cafe';
 import { FONT_SIZE_1 } from "../common/common";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import { baseURL } from "../common/baseURL";
-import { FacilitiesAtom, LocationAtom } from "../recoil/mainState";
+import { FacilitiesAtom, MoodAtom, LocationAtom } from "../recoil/mainState";
 import { HandleSearchAtom } from "../recoil/mainState";
+// import { HandleSearchBoxAtom } from '../recoil/mainState';
+import { SearchValueAtom } from "../recoil/mainState";
 import { useRecoilState, useRecoilValue } from "recoil";
-// import { set } from "react-hook-form";
+// import { set } from 'react-hook-form';
 
 const S = {
   ListContainer: styled.div`
@@ -116,8 +118,12 @@ export interface MainCafeType {
 const Main = () => {
   const shortaddress = useRecoilValue<string>(LocationAtom);
   const facilities = useRecoilValue<string>(FacilitiesAtom);
+  const mood = useRecoilValue<string>(MoodAtom);
   const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
+  // const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
+  const searchValue = useRecoilValue(SearchValueAtom);
 
+  console.log(setHandleSearch);
   const mockData = [
     {
       cafeId: 1,
@@ -227,8 +233,9 @@ const Main = () => {
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
-  const currentPageData = cafeInfo.slice(startIndex, endIndex);
-  console.log(currentPageData.length);
+  console.log(endIndex);
+  // const currentPageData = cafeInfo.slice(startIndex, endIndex);
+  // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
     console.log(pageNumber);
     setPage(pageNumber);
@@ -253,27 +260,32 @@ const Main = () => {
     sortedData.sort((a, b) => (b.countPost || 0) - (a.countPost || 0));
     setCafeInfo(sortedData);
   };
+
   //카페 목록 요청 (api: ../api/mainApi.tsx)
   const {
     // isLoading,
-    // isError,
-    // error,
+    isError,
+    error,
     data,
     // isPreviousData,
   } = useQuery(
-    ["getAllposts", page, handleSearch],
-    () => getCafes(page, shortaddress, facilities),
+    ["getAllCafes", page, handleSearch],
+    () => getCafes(searchValue, page, shortaddress, facilities, mood),
+
     {
       keepPreviousData: true,
     }
   );
 
   // if (isLoading) return <p>Loading...</p>;
-  // if (isError) return <p>{error as string}</p>
+  if (isError) {
+    // setSearchBox(false);
+    console.log(error);
+  }
 
   /* ☕️카페 데이터 */
   if (data) {
-    setHandleSearch(false); //서치 함수
+    // setSearchBox(false);
     const cafesData = data.payload;
     console.log(cafesData);
     console.log(data);
@@ -349,9 +361,9 @@ const Main = () => {
         </S.ListSubContainer>
       </S.ListContainer>
       <S.ListBox>
-        {currentPageData.map((data) => {
+        {/* {currentPageData.map((data) => {
           return <Cafe data={data} key={data.cafeId} />;
-        })}
+        })} */}
       </S.ListBox>
       <Pagination
         activePage={page}
