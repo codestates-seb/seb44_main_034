@@ -13,6 +13,7 @@ export const getAllPosts = async (pageParam:number) => {
   const res = await createBaseUrl.get(`/posts?page=${pageParam}&size=8`, {
     headers: {
       // 'ngrok-skip-browser-warning': 'true'
+        withCredentials: true,
     }
   });
   // const res = await createBaseUrl.get(`/posts/${Id}`);
@@ -20,14 +21,16 @@ export const getAllPosts = async (pageParam:number) => {
 };
 
 export const getPostDetailAPI = {
-  getPostDetail: async (postId: string|undefined) => {
+  getPostDetail: async (postId: string|undefined|number) => {
     const res = await createBaseUrl.get(`/posts/${postId}`, {
-    //   headers: {
-    //     'ngrok-skip-browser-warning': 'true'
-    //   }
+      headers: {
+        // 'ngrok-skip-browser-warning': 'true'
+          withCredentials: true,
+      }
     });
     // const res = await axios.get(`http://localhost:3001/post`);
-    const { data } = res.data;
-    return data;
+
+    console.log(res.data)
+    return res.data;
   },
 };

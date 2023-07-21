@@ -1,12 +1,13 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-// import { useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
+import { baseURL } from "../../common/baseURL";
 import styled from "styled-components";
 import PostDate from "./PostDate";
-// import { ReqPostData } from "../../types/type";
+import { ReqPostData } from "../../types/type";
 import { ResPostData } from "../../types/type";
-// import { PostItemAtom } from "../../recoil/postState";
+import { PostItemAtom } from "../../recoil/postState";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
@@ -14,49 +15,77 @@ import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
 type PostItemProps = {
   postData: ResPostData;
 };
+
+// type FnProps = {
+//   postId: number;
+// }
+
 const PostItemHead = ({ postData }: PostItemProps) => {
-  const { postId } = postData;
-  // const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
+  const { postId, cafeId, cafeName, authorId, title, author, createdAt, image, content, starRating, tagNames } = postData;
+  console.log(postId);
+  console.log(typeof(postId));
+  const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const navigate = useNavigate();
+
+  const bookmarkMutation = useMutation(async () => {
+    await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
+      headers: {
+        Authorization: localStorage.getItem("access_token"),
+      }
+    })
+  })
+  const deleteMutation = useMutation(async () => {
+    await axios.delete(`${postId}/posts/${postId}`, {
+      headers: {
+        Authorization: localStorage.getItem("access_token"),
+      },
+    });
+  },
+  {
+    onSuccess: () => {
+      console.log('삭제되었습니다.');
+      navigate(-1);
+    }
+  }
+  )
+
+  const clickBookmark = () => {
+    console.log('clicked')
+    bookmarkMutation.mutate();
+  }
 
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
-    // setPostState(postData);
-    // navigate(`/api/posts/${postId}`);
+    const reqData = {
+      cafeId: cafeId,
+      // title: title,
+      image: image,
+      content: content,
+      starRating: starRating,
+      tagNames: tagNames
+    }
+    setPostState(reqData);
     navigate(`/postpage/edit/${postId}`);
-    console.log("clicked");
+    console.log(reqData);
   };
   const handleDelete = () => {
     //if user Id와 지금 userId가 일치하면
     if (confirm("삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")) {
-      useMutation((postId) => {
-        return axios
-          .delete(`/${postId}`, {
-            headers: {
-              Authorization: localStorage.getItem("access_token"),
-            },
-            data: { postId: postId },
-          })
-          .then((res) => {
-            console.log(res);
-            alert("삭제되었습니다.");
-            navigate("/allpostpage");
-          });
-      });
+      deleteMutation.mutate();
     }
-  };
+  }
 
   return (
     <>
       <S.CafeNameWrap>
-        <S.CafeName>{postData.cafeName}</S.CafeName>
+        <Link to={`../cafes/${cafeId}`} ><S.CafeName>{cafeName}</S.CafeName></Link>
       </S.CafeNameWrap>
       <S.TitleWrap>
-        <S.Title>{postData.title}</S.Title>
+        <S.Title>{title}</S.Title>
       </S.TitleWrap>
       <S.FlexDiv>
         <S.InfoWrap>
-          <S.Autor>{postData.author}</S.Autor>
+          <Link to={`../otherusermy/${authorId}`}><S.Autor>{author}</S.Autor></Link>
         </S.InfoWrap>
         <S.CircleWrap>
           <S.Circle>
@@ -64,9 +93,9 @@ const PostItemHead = ({ postData }: PostItemProps) => {
           </S.Circle>
           <S.Circle>
             {postData.isBookmarked ? (
-              <GoBookmarkFill size='30' />
+              <GoBookmarkFill size='30' onClick={()=>{clickBookmark}} />
             ) : (
-              <GoBookmark size='30' />
+              <GoBookmark size='30' onClick={()=>{clickBookmark}} />
             )}
             {/* 북마크 로직 추가해야 함 */}
           </S.Circle>
@@ -75,7 +104,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
       <S.FlexDiv>
         <S.DateWrap>
           <div>
-            <PostDate postDate={postData.createdAt} />
+            <PostDate postDate={createdAt} />
           </div>
         </S.DateWrap>
         <S.EditWrap>
@@ -162,6 +191,9 @@ const S = {
     width: 40px;
     height: 40px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    &:hover {
+      cursor: pointer;
+    }
   `,
   DateWrap: styled.div`
     display: flex;
