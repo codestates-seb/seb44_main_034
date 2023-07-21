@@ -9,7 +9,7 @@ import FilterSearchBox from '../components/main/FilterSearchBox';
 // import Map from '../components/main/Map';
 import styled from 'styled-components';
 import '../Paging.css';
-import Cafe from '../components/main/Cafe';
+// import Cafe from '../components/main/Cafe';
 import { FONT_SIZE_1 } from '../common/common';
 import { BiSolidCoffeeBean } from 'react-icons/bi';
 import { baseURL } from '../common/baseURL';
@@ -123,7 +123,7 @@ const Main = () => {
   // const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
   const searchValue = useRecoilValue(SearchValueAtom);
 
-  // console.log(setHandleSearch);
+  console.log(setHandleSearch);
   const mockData = [
     {
       cafeId: 1,
@@ -233,6 +233,7 @@ const Main = () => {
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
+  console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
