@@ -55,7 +55,7 @@ public class PostService {
         Cafe cafe = cafeService.findCafeById(cafeId);
         Post post = postRequest.toEntity(member, cafe);
 
-//        cafe.calculateRating(postRequest.getStarRating());
+        cafe.calculateRating(postRequest.getStarRating());
 
         // 이미지 업로드 저장
         if (!image.isEmpty()) {
