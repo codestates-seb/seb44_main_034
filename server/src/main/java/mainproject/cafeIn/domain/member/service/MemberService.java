@@ -15,7 +15,6 @@ import mainproject.cafeIn.domain.owner.repository.OwnerRepository;
 
 import mainproject.cafeIn.domain.postbookmark.entity.PostBookmark;
 import mainproject.cafeIn.domain.postbookmark.repository.PostBookmarkRepository;
-import mainproject.cafeIn.domain.postbookmark.service.PostBookmarkService;
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
@@ -301,7 +300,7 @@ public class MemberService {
     // 게시글 북마크 삭제
 
     public void deletePostBookmarks(Long memberId) {
-        Optional<List<PostBookmark>> optionalPostBookmarks = postBookmarkRepository.findPostBookmarkByMemberMemberId(memberId);
+        Optional<List<PostBookmark>> optionalPostBookmarks = postBookmarkRepository.findPostBookmarksByMemberId(memberId);
         if (optionalPostBookmarks.isPresent()) {
             List<PostBookmark> postBookmarks = optionalPostBookmarks.get();
             postBookmarkRepository.deleteInBatch(postBookmarks);
