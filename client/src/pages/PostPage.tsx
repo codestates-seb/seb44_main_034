@@ -76,9 +76,8 @@ const PostPage = () => {
   const params = useParams();
   const postId = params.postId;
 
-  const { data, isLoading, isError } = useQuery(['getPostDetail', postId], () =>
-    getPostDetailAPI.getPostDetail(postId)
-  );
+  console.log(postId);
+  const { data, isLoading, isError } = useQuery(['getPostDetail', 1], () => getPostDetailAPI.getPostDetail(1));
 
   //   const { data, isLoading, isError } = useQuery(
   //   ['getPostDetail'],
@@ -96,8 +95,8 @@ const PostPage = () => {
   if (data) {
     console.log(data);
     
-  const postData = data.payload.data;
-  const tagData = data.payload.data.tags;
+  const postData = data.payload;
+  const tagData = data.payload.tagNames;
 
   return (
     <>
@@ -106,29 +105,29 @@ const PostPage = () => {
         <PostItemHead postData={postData} />
         <S.StarRatingWrap>
           <StarRating
-            starRating={postData.starRating}
+            starRating={postData?.starRating}
             size={FONT_SIZE_2.normal_3}
             color={COLOR_1.brown}
           />
           <div>
-            <span>{` 별점 ${postData.starRating}점`}</span>
+            <span>{` 별점 ${postData?.starRating}점`}</span>
           </div>
         </S.StarRatingWrap>
         <S.TagWrap>
           <ul>
-            {tagData.map((el: string, idx: number) => (
+            {tagData?.map((el: string, idx: number) => (
               <li key={idx}>
-                <MoodTagPost text={`# ${el}`} />
+                <MoodTagPost key={idx} text={`# ${el}`} />
               </li>
             ))}
           </ul>
         </S.TagWrap>
         <S.ImgWrap>
-          <img src={postData.image} />
+          <img src={postData?.image} />
         </S.ImgWrap>
-        <S.ContentWrap>{postData.content}</S.ContentWrap>
+        <S.ContentWrap>{postData?.content}</S.ContentWrap>
       </div>
-      <Comments comments={postData.comments} postId={postData.postId} />
+      <Comments comments={postData?.comments} postId={postData?.postId} />
     </S.Container>
     </>
   );}
