@@ -57,29 +57,29 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
-//                        // owners 권한
-//                        .antMatchers(HttpMethod.POST, "/api/*/sign-up").permitAll()
-//                        .antMatchers("/*/owners/**").hasRole("OWNER")
-//
-//                        // cafes 권한
-//                        .antMatchers(HttpMethod.POST, "/*/cafes/{cafe-id}/Bookmark").hasRole("MEMBER")
-//                        .antMatchers(HttpMethod.GET, "/*/cafes/{cafe-id}/edit").hasRole("OWNER")
-//                        .antMatchers(HttpMethod.GET, "/*/cafes/**").hasAnyRole("OWNER", "MEMBER")
-//                        .antMatchers("/*/cafes/**").hasRole("OWNER")
-//
-//                        // menus 권한
-//                        .antMatchers(HttpMethod.GET,"/*/menus/{menu-id}").hasAnyRole("OWNER, MEMBER")
-//                        .antMatchers("/*/menus/**").hasRole("OWNER")
-//
-//                        // members 권한
-//                        .antMatchers("/*/members/**").hasRole("MEMBER")
-//
-//                        // 비로그인 권한
-//                        .antMatchers(HttpMethod.GET, "/**").permitAll()
-//
-//                        // 나머지 권한
-//                        .antMatchers("/**").hasRole("MEMBER"))
-                        .anyRequest().permitAll())
+                        // owners 권한
+                        .antMatchers(HttpMethod.POST, "/api/*/sign-up").permitAll()
+                        .antMatchers("/*/owners/**").hasRole("OWNER")
+
+                        // cafes 권한
+                        .antMatchers(HttpMethod.POST, "/*/cafes/{cafe-id}/Bookmark").hasRole("MEMBER")
+                        .antMatchers(HttpMethod.GET, "/*/cafes/{cafe-id}/edit").hasRole("OWNER")
+                        .antMatchers(HttpMethod.GET, "/*/cafes/**").hasAnyRole("OWNER", "MEMBER")
+                        .antMatchers("/*/cafes/**").hasRole("OWNER")
+
+                        // menus 권한
+                        .antMatchers(HttpMethod.GET,"/*/menus/{menu-id}").hasAnyRole("OWNER, MEMBER")
+                        .antMatchers("/*/menus/**").hasRole("OWNER")
+
+                        // members 권한
+                        .antMatchers("/*/members/**").hasRole("MEMBER")
+
+                        // 비로그인 권한
+                        .antMatchers(HttpMethod.GET, "/**").permitAll()
+
+                        // 나머지 권한
+                        .antMatchers("/**").hasRole("MEMBER"))
+//                        .anyRequest().permitAll())
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, authorityUtils, memberRepository, memberService))
                 );
