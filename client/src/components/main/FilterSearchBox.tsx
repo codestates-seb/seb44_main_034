@@ -120,11 +120,11 @@ const FilterSearchBox = () => {
 console.log(setMoodIds);
 
   const facilitiesKeys = [
-    "&isopenalltime=true",
-    "&ischargingavailable=true",
-    "&hasparking=true",
-    "&ispetfriendly=true",
-    "&hasdessert=true",
+    "&isOpenAllTime=true",
+    "&isChargingAvailable=true",
+    "&hasParking=true",
+    "&isPetFriendly=true",
+    "&hasDessert=true",
   ];
 
   const [facilAddress, setFacilAddress] = useState<string[]>([]);
