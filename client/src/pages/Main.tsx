@@ -6,7 +6,7 @@ import { getCafes } from "../api/mainApi";
 import SearchBox from "../components/main/SearchBox";
 import LocationBox from "../components/main/LocationBox";
 import FilterSearchBox from "../components/main/FilterSearchBox";
-// import Map from '../components/main/Map';
+import Map from "../components/main/Map";
 import styled from "styled-components";
 import "../Paging.css";
 // import Cafe from '../components/main/Cafe';

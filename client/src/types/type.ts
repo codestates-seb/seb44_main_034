@@ -40,7 +40,7 @@ export interface PostComments {
   authorId?: number | string;
   author?: string;
   content?: string;
-  commentId?: number|undefined;
+  commentId?: number | undefined;
   createdAt?: string;
   updatedAt?: string;
   cafeId?: number;
