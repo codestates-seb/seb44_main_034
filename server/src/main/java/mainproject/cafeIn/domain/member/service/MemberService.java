@@ -13,6 +13,8 @@ import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.repository.OwnerRepository;
 
+import mainproject.cafeIn.domain.postbookmark.entity.PostBookmark;
+import mainproject.cafeIn.domain.postbookmark.repository.PostBookmarkRepository;
 import mainproject.cafeIn.global.auth.utils.CustomAuthorityUtils;
 import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
@@ -40,6 +42,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils authorityUtils;
     private final S3ImageService imageService;
+    private final PostBookmarkRepository postBookmarkRepository;
 
 
 
@@ -198,6 +201,7 @@ public class MemberService {
             imageService.delete("profiles", findMember.getImage());
             memberRepository.deleteFollowerOrFollowing(findMember);
             findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
+            deletePostBookmarks(findMember.getId());
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
@@ -293,5 +297,13 @@ public class MemberService {
         return memberRepository.findByFollowing(id, followingMember);
     }
 
+    // 게시글 북마크 삭제
 
+    public void deletePostBookmarks(Long memberId) {
+        Optional<List<PostBookmark>> optionalPostBookmarks = postBookmarkRepository.findPostBookmarksByMemberId(memberId);
+        if (optionalPostBookmarks.isPresent()) {
+            List<PostBookmark> postBookmarks = optionalPostBookmarks.get();
+            postBookmarkRepository.deleteInBatch(postBookmarks);
+        }
+    }
 }
