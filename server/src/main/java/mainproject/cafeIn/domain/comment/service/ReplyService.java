@@ -12,7 +12,6 @@ import mainproject.cafeIn.global.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,8 +27,7 @@ public class ReplyService {
     // 대댓글 등록
     @Transactional
     public void createReply(Long loginId, Long commentId, CommentRequest commentRequest) {
-        verifyMember(loginId);
-        Member member = memberRepository.findById(loginId).get();
+        Member member = findVerifiedMember(loginId);
         Comment parentComment = commentRepository.findById(commentId).get();
         Comment reply = commentRequest.toEntity(member, parentComment);
         commentRepository.save(reply);
@@ -39,36 +37,45 @@ public class ReplyService {
     // 대댓글 수정
     @Transactional
     public void updateReply(Long loginId, Long replyId, CommentRequest commentRequest) {
-        verifyMember(loginId);
-        verifyReply(replyId);
-        Comment reply = commentRepository.findById(replyId).get();
-        reply.updateComment(commentRequest.getContent());
+        Comment findReply = findVerifiedReplyById(replyId);
+
+        // 작성자 확인
+        verifiedReplyOwner(findReply.getMember().getId(), loginId);
+
+        findReply.updateComment(commentRequest.getContent());
     }
 
     // 대댓글 삭제
     @Transactional
     public void deleteReply(Long loginId, Long replyId) {
-        verifyMember(loginId);
-        verifyReply(replyId);
-        Comment reply = commentRepository.findById(replyId).get();
-        commentRepository.delete(reply);
+        Comment findReply = findVerifiedReplyById(replyId);
+
+        // 작성자 확인
+        verifiedReplyOwner(findReply.getMember().getId(), loginId);
+
+        commentRepository.delete(findReply);
     }
 
     // 로그인 확인
-    public void verifyMember(Long memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
+    public Member findVerifiedMember(Long loginId) {
+        Optional<Member> optionalMember = memberRepository.findById(loginId);
+        return optionalMember.orElseThrow(
+                () -> new CustomException(ErrorCode.MEMBER_NOT_FOUND)
+        );
+    }
 
-        if(!optionalMember.isPresent()) {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND);
+    public void verifiedReplyOwner(Long memberId, Long loginId) {
+        if (!(memberId == loginId)) {
+            throw new CustomException(ErrorCode.NOT_AUTHOR);
         }
     }
 
-    public void verifyReply(Long replyId) {
+    public Comment findVerifiedReplyById(Long replyId) {
         Optional<Comment> optionalReply = commentRepository.findById(replyId);
 
-        if(!optionalReply.isPresent()) {
-            throw new CustomException(ErrorCode.COMMENT_NOT_FOUND);
-        }
+        return optionalReply.orElseThrow(
+                () -> new CustomException(ErrorCode.COMMENT_NOT_FOUND)
+        );
     }
 
     // 대댓글 리스트 기능
