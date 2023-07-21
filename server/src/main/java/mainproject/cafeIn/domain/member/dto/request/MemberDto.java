@@ -1,7 +1,9 @@
 package mainproject.cafeIn.domain.member.dto.request;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.member.entity.Member;
 
 import javax.validation.constraints.Email;
@@ -13,6 +15,7 @@ import javax.validation.constraints.Size;
 public class MemberDto {
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
 
         @NotBlank(message = "이메일을 입력해주세요.")

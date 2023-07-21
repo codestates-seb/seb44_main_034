@@ -9,6 +9,7 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.cafe.repository.CafeRepository;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.owner.service.OwnerService;
+import mainproject.cafeIn.domain.post.entity.Post;
 import mainproject.cafeIn.global.cloud.S3ImageService;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
 import static mainproject.cafeIn.global.exception.ErrorCode.PASSWORD_NOT_MATCH;
@@ -68,6 +70,17 @@ public class CafeService {
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
+    }
+
+    @Transactional
+    public void calculateRating(Cafe cafe) {
+        List<Post> posts = cafe.getPosts();
+        float total = 0;
+        for (Post post : posts) {
+            total += post.getStarRating();
+        }
+
+        cafe.setRating(total / cafe.getPosts().size());
     }
 
     public CafeDetailResponse getCafe(Long cafeId, Long loginId) {
