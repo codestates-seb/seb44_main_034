@@ -128,10 +128,6 @@ const LoginBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("Login successful!");
-        console.log(response);
-        console.log(response.headers.role);
-        console.log(response.headers.refresh);
         localStorage.setItem("access_token", response.headers.authorization);
         localStorage.setItem("refresh_token", response.headers.refresh);
         localStorage.setItem("role_token", response.headers.role);

@@ -201,9 +201,10 @@ const EditUserMyPageBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const formData = new FormData();
     formData.append("displayName", data.displayName);
-    formData.append("password", data.password);
-
-    // 사용자가 선택한 이미지를 가져와서 formData에 추가
+    formData.append("password", data.passwordConfirm);
+    const json = JSON.stringify(data);
+    const info = new Blob([json], { type: "application/json" });
+    formData.append("dto", info);
     const image = watch("image");
     if (image && image.length > 0) {
       const file = image[0];
@@ -220,6 +221,7 @@ const EditUserMyPageBox = () => {
         },
         {
           headers: {
+            withCredentials: true,
             Authorization: localStorage.getItem("access_token"),
           },
         }
@@ -261,7 +263,6 @@ const EditUserMyPageBox = () => {
               type='text'
               placeholder='닉네임을 입력하세요'
               {...register("displayName", {
-                required: "닉네임은 필수 입력입니다",
                 minLength: {
                   value: 2,
                   message: "2자이상 입력바랍니다",
@@ -281,7 +282,6 @@ const EditUserMyPageBox = () => {
               type='password'
               placeholder='비밀번호를 입력하세요'
               {...register("password", {
-                required: "비밀번호는 필수 입력입니다",
                 minLength: {
                   value: 8,
                   message: "8자 이상입력바랍니다",
@@ -310,7 +310,6 @@ const EditUserMyPageBox = () => {
               type='password'
               placeholder='비밀번호를 입력하세요'
               {...register("passwordConfirm", {
-                required: "비밀번호 확인은 필수 입력입니다.",
                 validate: {
                   matchesPreviousPassword: (value) => {
                     const { password } = watch();

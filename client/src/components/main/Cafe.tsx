@@ -92,7 +92,7 @@ const Cafe = (props: { data: MainCafeType }) => {
       <S.CafeImgBox src={data?.image ?? ""} />
       <S.CafeInformaiton>
         <S.CafeTitleBox>
-          <S.CafeTitle>{data?.cafeName ?? ""}</S.CafeTitle>
+          <S.CafeTitle>{data?.name ?? ""}</S.CafeTitle>
           <S.CafeRating>
             <BiSolidCoffeeBean size='18' />
             {data?.rating ?? 0}

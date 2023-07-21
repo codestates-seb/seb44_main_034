@@ -1,14 +1,14 @@
-import { useParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
-import styled from 'styled-components';
-import { getPostDetailAPI } from '../api/postApi';
-import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from '../common/common';
-import PostItemHead from '../components/post/postItemHead';
-import MoodTagPost from '../common/tags/MoodTagPost';
+import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import styled from "styled-components";
+import { getPostDetailAPI } from "../api/postApi";
+import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from "../common/common";
+import PostItemHead from "../components/post/postItemHead";
+import MoodTagPost from "../common/tags/MoodTagPost";
 // import { data } from '../mockData/post.json'
 // import { PostData } from '../types/type';
-import StarRating from '../components/starRating';
-import Comments from '../components/comments/Comments';
+import StarRating from "../components/starRating";
+import Comments from "../components/comments/Comments";
 
 const S = {
   Container: styled.div`
@@ -77,7 +77,9 @@ const PostPage = () => {
   const postId = params.postId;
 
   console.log(postId);
-  const { data, isLoading, isError } = useQuery(['getPostDetail', 1], () => getPostDetailAPI.getPostDetail(1));
+  const { data, isLoading, isError } = useQuery(["getPostDetail", 1], () =>
+    getPostDetailAPI.getPostDetail(1)
+  );
 
   //   const { data, isLoading, isError } = useQuery(
   //   ['getPostDetail'],
@@ -94,43 +96,44 @@ const PostPage = () => {
 
   if (data) {
     console.log(data);
-    
-  const postData = data.payload;
-  const tagData = data.payload.tagNames;
 
-  return (
-    <>
-    <S.Container>
-      <div>
-        <PostItemHead postData={postData} />
-        <S.StarRatingWrap>
-          <StarRating
-            starRating={postData?.starRating}
-            size={FONT_SIZE_2.normal_3}
-            color={COLOR_1.brown}
-          />
+    const postData = data.payload;
+    const tagData = data.payload.tagNames;
+
+    return (
+      <>
+        <S.Container>
           <div>
-            <span>{` 별점 ${postData?.starRating}점`}</span>
+            <PostItemHead postData={postData} />
+            <S.StarRatingWrap>
+              <StarRating
+                starRating={postData?.starRating}
+                size={FONT_SIZE_2.normal_3}
+                color={COLOR_1.brown}
+              />
+              <div>
+                <span>{` 별점 ${postData?.starRating}점`}</span>
+              </div>
+            </S.StarRatingWrap>
+            <S.TagWrap>
+              <ul>
+                {tagData?.map((el: string, idx: number) => (
+                  <li key={idx}>
+                    <MoodTagPost key={idx} text={`# ${el}`} />
+                  </li>
+                ))}
+              </ul>
+            </S.TagWrap>
+            <S.ImgWrap>
+              <img src={postData?.image} />
+            </S.ImgWrap>
+            <S.ContentWrap>{postData?.content}</S.ContentWrap>
           </div>
-        </S.StarRatingWrap>
-        <S.TagWrap>
-          <ul>
-            {tagData?.map((el: string, idx: number) => (
-              <li key={idx}>
-                <MoodTagPost key={idx} text={`# ${el}`} />
-              </li>
-            ))}
-          </ul>
-        </S.TagWrap>
-        <S.ImgWrap>
-          <img src={postData?.image} />
-        </S.ImgWrap>
-        <S.ContentWrap>{postData?.content}</S.ContentWrap>
-      </div>
-      <Comments comments={postData?.comments} postId={postData?.postId} />
-    </S.Container>
-    </>
-  );}
-}
+          <Comments comments={postData?.comments} postId={postData?.postId} />
+        </S.Container>
+      </>
+    );
+  }
+};
 
 export default PostPage;
