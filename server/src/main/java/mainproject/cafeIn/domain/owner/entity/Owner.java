@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter // UserDetails 만드는데 필요
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "owner")
 public class Owner extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
