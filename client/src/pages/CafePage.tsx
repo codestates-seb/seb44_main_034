@@ -5,7 +5,7 @@ import { FONT_SIZE_1, COLOR_1 } from "../common/common";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
-import PostList from "../components/post/PostList"
+import PostList from "../components/post/PostList";
 import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
@@ -82,7 +82,7 @@ const CafePage = () => {
           <S.Title>
             {/* Post
             <div></div> */}
-            <PostList postData={posts}/>
+            <PostList postData={posts} />
           </S.Title>
         </S.Container>
       )}
@@ -110,7 +110,6 @@ const S = {
     }
     @media screen and (max-width: 767px) {
       text-align: center;
-      
     }
   `,
   BookmarkDiv: styled.div`

@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 // import { PostData } from '../types/type';
-import { baseURL } from '../common/baseURL';
+import { baseURL } from "../common/baseURL";
 
 export const postPageList = {};
 
@@ -9,28 +9,28 @@ export const createBaseUrl = axios.create({
   // baseURL: 'http://3.39.32.53:8080/api'
 });
 
-export const getAllPosts = async (pageParam:number) => {
+export const getAllPosts = async (pageParam: number) => {
   const res = await createBaseUrl.get(`/posts?page=${pageParam}&size=8`, {
     headers: {
       // 'ngrok-skip-browser-warning': 'true'
-        withCredentials: true,
-    }
+      withCredentials: true,
+    },
   });
   // const res = await createBaseUrl.get(`/posts/${Id}`);
   return res.data;
 };
 
 export const getPostDetailAPI = {
-  getPostDetail: async (postId: string|undefined|number) => {
+  getPostDetail: async (postId: string | undefined | number) => {
     const res = await createBaseUrl.get(`/posts/${postId}`, {
       headers: {
         // 'ngrok-skip-browser-warning': 'true'
-          withCredentials: true,
-      }
+        withCredentials: true,
+      },
     });
     // const res = await axios.get(`http://localhost:3001/post`);
 
-    console.log(res.data)
+    console.log(res.data);
     return res.data;
   },
 };
