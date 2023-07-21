@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostDetailResponse {
     private Long postId;
+    private String title;
     private Long cafeId;
     private String cafeName;
     private Long authorId;
@@ -28,8 +29,9 @@ public class PostDetailResponse {
     private List<CommentResponse> comments;
 
 
-    public PostDetailResponse(Long postId, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked, List<CommentResponse> comments) {
+    public PostDetailResponse(Long postId, String title, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked, List<CommentResponse> comments) {
         this.postId = postId;
+        this.title = title;
         this.cafeId = cafeId;
         this.cafeName = cafeName;
         this.authorId = authorId;
