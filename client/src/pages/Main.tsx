@@ -328,7 +328,7 @@ const Main = () => {
       <SearchBox />
       <LocationBox />
       <FilterSearchBox />
-      <Map />
+      {/* <Map /> */}
       <S.ListContainer>
         <S.ListSubContainer>
           <S.SubTitle>Cafe</S.SubTitle>
