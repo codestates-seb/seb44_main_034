@@ -1,4 +1,4 @@
-import SignupSelectBox from '../components/signupselectbox/SignupSelectBox';
+import SignupSelectBox from "../components/signupselectbox/SignupSelectBox";
 
 const SignupSelect = () => {
   return (

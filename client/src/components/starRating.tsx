@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
-import { BiSolidCoffeeBean } from 'react-icons/bi';
-import { CiCoffeeBean } from 'react-icons/ci';
+import { styled } from "styled-components";
+import { BiSolidCoffeeBean } from "react-icons/bi";
+import { CiCoffeeBean } from "react-icons/ci";
 
 type StarRatingProps = {
   starRating: number;

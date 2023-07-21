@@ -1,25 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import axios from 'axios';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import FollowerModal from '../modal/FollowerModal';
-import FollowingModal from '../modal/FollowingModal';
-import BookmarkCafe from './BookmarkCafe';
-import BookmarkPost from './BookmarkPost';
-import MyPost from './MyPost';
-import profileimg from '../../assets/profileimg.svg';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { baseURL } from '../../common/baseURL';
-import coffeebean from '../../assets/coffeebean.svg';
-import greenbean from '../../assets/greenbean.svg';
-import espresso from '../../assets/espresso.svg';
+import { useState, useEffect, useRef } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import axios from "axios";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import FollowerModal from "../modal/FollowerModal";
+import FollowingModal from "../modal/FollowingModal";
+import BookmarkCafe from "./BookmarkCafe";
+import BookmarkPost from "./BookmarkPost";
+import MyPost from "./MyPost";
+import profileimg from "../../assets/profileimg.svg";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { baseURL } from "../../common/baseURL";
+import coffeebean from "../../assets/coffeebean.svg";
+import greenbean from "../../assets/greenbean.svg";
+import espresso from "../../assets/espresso.svg";
 // import { useNavigate } from 'react-router-dom';
 
 const defaultHeader = {
-  'ngrok-skip-browser-warning': 'true',
-  'Access-Control-Allow-Origin': '*',
+  "ngrok-skip-browser-warning": "true",
+  "Access-Control-Allow-Origin": "*",
 };
 
 const S = {
@@ -336,21 +336,21 @@ const UserMyPageBox = () => {
   const mockData = [
     {
       id: 1,
-      cafeName: '동대문 카페',
+      cafeName: "동대문 카페",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
     {
       id: 2,
-      cafeName: '동대문 카페1',
+      cafeName: "동대문 카페1",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
     // {
     //   id: 3,
@@ -379,9 +379,9 @@ const UserMyPageBox = () => {
   const [hasMore, setHasMore] = useState(true);
 
   // cafe, post, myPost
-  const [selectedTab, setSelctedTab] = useState<'cafe' | 'post' | 'my-post'>(
-    'cafe'
-  );
+  const [selectedTab, setSelctedTab] = useState<
+    "bookmarked-cafe" | "bookmarked-post" | "my-post"
+  >("bookmarked-cafe");
   //
   // const [modalVisible, setModalVisible] = useState({
   //   new:false,
@@ -432,10 +432,10 @@ const UserMyPageBox = () => {
         setFollowingIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', followModalhandler);
+    document.addEventListener("mousedown", followModalhandler);
 
     return () => {
-      document.removeEventListener('mousedown', followModalhandler);
+      document.removeEventListener("mousedown", followModalhandler);
     };
   }, []);
   // const replace = useNavigate();
@@ -443,21 +443,21 @@ const UserMyPageBox = () => {
     axios
       .get(`${baseURL}/members/my-page`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          'Access-Control-Allow-Origin': '*',
+          "ngrok-skip-browser-warning": "true",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         setUserInfo(response.data.payload);
       })
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, []);
@@ -467,12 +467,12 @@ const UserMyPageBox = () => {
       .get(`${baseURL}/members/my-page/${selectedTab}`, {
         headers: {
           ...defaultHeader,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         const MyPost: PostType[] = response.data.payload.data;
         setDataSource(MyPost);
         setHasMore(response.data.payload.hasNext);
@@ -480,7 +480,7 @@ const UserMyPageBox = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, [selectedTab]);
@@ -504,27 +504,27 @@ const UserMyPageBox = () => {
             <S.TitleInformaiton>팔로잉</S.TitleInformaiton>
           </S.TitleInformaitonBox>
           <S.InformaitonBox ref={dropdownRef}>
-            <S.Informaiton>{userInfo ? userInfo.email : '-'}</S.Informaiton>
+            <S.Informaiton>{userInfo ? userInfo.email : "-"}</S.Informaiton>
             <S.Informaiton>
-              {userInfo ? userInfo.displayName : '-'}
+              {userInfo ? userInfo.displayName : "-"}
             </S.Informaiton>
             <S.Informaiton>
               <S.GradeImg
                 src={
-                  userInfo?.grade === 'GRADE_COFFEE_BEAN'
+                  userInfo?.grade === "GRADE_COFFEE_BEAN"
                     ? coffeebean
-                    : userInfo?.grade === 'GRADE_ESPRESSO'
+                    : userInfo?.grade === "GRADE_ESPRESSO"
                     ? espresso
                     : greenbean
                 }
               />
             </S.Informaiton>
             <S.FollowerInformaiton onClick={openFollowerModal}>
-              {userInfo ? userInfo.countFollower : '0'}
+              {userInfo ? userInfo.countFollower : "0"}
             </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
             <S.FollowingInformaiton onClick={openFollowingModal}>
-              {userInfo ? userInfo.countFollower : '0'}
+              {userInfo ? userInfo.countFollower : "0"}
             </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>
@@ -538,11 +538,11 @@ const UserMyPageBox = () => {
       <S.BottomBox>
         <S.SandBtn
           onClick={() => {
-            setSelctedTab('cafe');
+            setSelctedTab("bookmarked-cafe");
           }}
           style={{
             backgroundColor:
-              selectedTab === 'cafe'
+              selectedTab === "bookmarked-cafe"
                 ? `${COLOR_1.dark_sand}`
                 : `${COLOR_1.ivory}`,
           }}
@@ -551,11 +551,11 @@ const UserMyPageBox = () => {
         </S.SandBtn>
         <S.SandBtn
           onClick={() => {
-            setSelctedTab('post');
+            setSelctedTab("bookmarked-post");
           }}
           style={{
             backgroundColor:
-              selectedTab === 'post'
+              selectedTab === "bookmarked-post"
                 ? `${COLOR_1.dark_sand}`
                 : `${COLOR_1.ivory}`,
           }}
@@ -564,11 +564,11 @@ const UserMyPageBox = () => {
         </S.SandBtn>
         <S.SandBtn
           onClick={() => {
-            setSelctedTab('my-post');
+            setSelctedTab("my-post");
           }}
           style={{
             backgroundColor:
-              selectedTab === 'my-post'
+              selectedTab === "my-post"
                 ? `${COLOR_1.dark_sand}`
                 : `${COLOR_1.ivory}`,
           }}
@@ -589,9 +589,9 @@ const UserMyPageBox = () => {
           {dataSource.map((el) => {
             return (
               <>
-                {selectedTab === 'cafe' ? (
+                {selectedTab === "bookmarked-cafe" ? (
                   <BookmarkCafe data={el} key={el?.id} />
-                ) : selectedTab === 'post' ? (
+                ) : selectedTab === "bookmarked-post" ? (
                   <BookmarkPost data={el} key={el?.id} />
                 ) : (
                   <MyPost data={el} key={el?.id} />

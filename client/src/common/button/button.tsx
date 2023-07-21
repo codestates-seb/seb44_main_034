@@ -1,6 +1,6 @@
-import { styled } from 'styled-components';
-import { COLOR_1 } from '../common';
-import { FONT_SIZE_1 } from '../common';
+import { styled } from "styled-components";
+import { COLOR_1 } from "../common";
+import { FONT_SIZE_1 } from "../common";
 
 export const ConfirmBtn = styled.button`
   width: 100px;
@@ -48,21 +48,21 @@ const Button = ({
   text,
   onClick,
   theme,
-  type = 'button',
+  type = "button",
 }: {
   text: string;
   onClick?: () => void;
-  theme: 'Confirm' | 'Cancel';
-  type?: 'submit' | 'button';
+  theme: "Confirm" | "Cancel";
+  type?: "submit" | "button";
 }) => {
   return (
     <>
-      {theme === 'Confirm' && (
+      {theme === "Confirm" && (
         <ConfirmBtn onClick={onClick} type={type}>
           {text}
         </ConfirmBtn>
       )}
-      {theme === 'Cancel' && (
+      {theme === "Cancel" && (
         <CancelButton onClick={onClick} type={type}>
           {text}
         </CancelButton>

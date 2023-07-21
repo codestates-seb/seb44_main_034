@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import profileimg from '../../assets/profileimg.svg';
-import { baseURL } from '../../common/baseURL';
-import coffeebean from '../../assets/coffeebean.svg';
-import greenbean from '../../assets/greenbean.svg';
-import espresso from '../../assets/espresso.svg';
-import { PostType } from '../users/UserMyPageBox';
-import MyPost from '../users/MyPost';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import profileimg from "../../assets/profileimg.svg";
+import { baseURL } from "../../common/baseURL";
+import coffeebean from "../../assets/coffeebean.svg";
+import greenbean from "../../assets/greenbean.svg";
+import espresso from "../../assets/espresso.svg";
+import { PostType } from "../users/UserMyPageBox";
+import MyPost from "../users/MyPost";
+import styled from "styled-components";
 
 const S = {
   Container: styled.div`
@@ -179,6 +179,28 @@ const S = {
       color: white;
     }
   `,
+  FollowingButton: styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 160px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: ${COLOR_1.dark_sand};
+    background-color: #a57d52;
+    border: solid 1px ${COLOR_1.dark_brown};
+    cursor: pointer;
+    &:hover {
+      background-color: #764f26;
+      color: white;
+    }
+    &:active {
+      box-shadow: 0px 0px 1px 5px #e1e1e1;
+      color: white;
+    }
+  `,
   ListBox: styled.div`
     display: flex;
     flex-direction: column;
@@ -263,45 +285,48 @@ const OtherUserMyPageBox = () => {
   const mockData = [
     {
       id: 1,
-      cafeName: '동대문 카페',
+      cafeName: "동대문 카페",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
     {
       id: 2,
-      cafeName: '동대문 카페1',
+      cafeName: "동대문 카페1",
       image: undefined,
-      address: '서울시 동대문구',
+      address: "서울시 동대문구",
       rating: 1,
-      title: '먹자',
-      author: '주인장',
+      title: "먹자",
+      author: "주인장",
     },
   ];
   // const replace = useNavigate();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<PostType[]>(mockData);
   const [hasMore, setHasMore] = useState(true);
+
+  //특정회원 팔로우하기
   const followingHandler = () => {
     axios
       .post(`${baseURL}/members/1/follow`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
+          "ngrok-skip-browser-warning": "true",
           withCredentials: true,
-          Authorization: localStorage.getItem('access_token'),
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
-        setMemberInfo(response.data.payload);
+        console.log(response);
+        setIsFollowing(!isFollowing);
       })
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };
@@ -320,20 +345,20 @@ const OtherUserMyPageBox = () => {
   };
   useEffect(() => {
     fetchData();
-    ('');
+    ("");
   }, []);
-
+  //특정회원 포스터 불러오기
   const fetchData = () => {
     axios
-      .get(`${baseURL}/members/my-page/follower`, {
+      .get(`${baseURL}/members/my-page/post`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
+          "ngrok-skip-browser-warning": "true",
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         const followers: PostType[] = response.data.payload.data;
         setDataSource(followers);
         setHasMore(response.data.payload.hasNext);
@@ -341,27 +366,29 @@ const OtherUserMyPageBox = () => {
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   };
+  //특정회원 정보 불러오기
   useEffect(() => {
     axios
       .get(`${baseURL}/members/1`, {
         headers: {
-          'ngrok-skip-browser-warning': 'true',
-          Authorization: localStorage.getItem('access_token'),
+          "ngrok-skip-browser-warning": "true",
+          Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log('success');
+        console.log("success");
         setMemberInfo(response.data.payload);
+        setIsFollowing(response.data.payload.folling);
       })
       .catch((error) => {
         // Handle error.
 
-        console.log('An error occurred:', error.response);
+        console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, []);
@@ -385,14 +412,14 @@ const OtherUserMyPageBox = () => {
             </S.TitleInformaitonBox>
             <S.InformaitonBox>
               <S.Informaiton>
-                {memberInfo ? memberInfo.displayName : '-'}
+                {memberInfo ? memberInfo.displayName : "-"}
               </S.Informaiton>
               <S.Informaiton>
                 <S.GradeImg
                   src={
-                    memberInfo?.grade === 'GRADE_COFFEE_BEAN'
+                    memberInfo?.grade === "GRADE_COFFEE_BEAN"
                       ? coffeebean
-                      : memberInfo?.grade === 'GRADE_ESPRESSO'
+                      : memberInfo?.grade === "GRADE_ESPRESSO"
                       ? espresso
                       : greenbean
                   }
@@ -400,7 +427,15 @@ const OtherUserMyPageBox = () => {
               </S.Informaiton>
             </S.InformaitonBox>
           </S.MiddleTopBox>
-          <S.FollowButton onClick={followingHandler}>팔로우하기</S.FollowButton>
+          {!isFollowing ? (
+            <S.FollowButton onClick={followingHandler}>
+              팔로우하기
+            </S.FollowButton>
+          ) : (
+            <S.FollowingButton onClick={followingHandler}>
+              언팔로우하기
+            </S.FollowingButton>
+          )}
         </S.ProfileListBox>
       </S.MiddleBox>
       <S.EditButtonBox></S.EditButtonBox>

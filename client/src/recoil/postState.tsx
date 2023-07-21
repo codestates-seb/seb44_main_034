@@ -1,21 +1,21 @@
-import { atom } from 'recoil';
-import { ReqPostData } from '../types/type';
-import { PostCafeType } from '../types/type';
+import { atom } from "recoil";
+import { ReqPostData } from "../types/type";
+import { PostCafeType } from "../types/type";
 
 export const PostItemAtom = atom<ReqPostData>({
-  key:'postItemAtom',
-  default:{
-    title: '',
-    content: '',
+  key: "postItemAtom",
+  default: {
+    title: "",
+    content: "",
     starRating: 0,
-    tagNames:[],
-  }
-})
+    tagNames: [],
+  },
+});
 
 export const PostCafeAtom = atom<PostCafeType>({
-  key:'editPostAtom',
-  default:{
-    cafeName: '',
-    cafeId: '',
-  }
-})
+  key: "editPostAtom",
+  default: {
+    cafeName: "",
+    cafeId: "",
+  },
+});

@@ -21,9 +21,21 @@ type PostItemProps = {
 // }
 
 const PostItemHead = ({ postData }: PostItemProps) => {
-  const { postId, cafeId, cafeName, authorId, title, author, createdAt, image, content, starRating, tagNames } = postData;
+  const {
+    postId,
+    cafeId,
+    cafeName,
+    authorId,
+    title,
+    author,
+    createdAt,
+    image,
+    content,
+    starRating,
+    tagNames,
+  } = postData;
   console.log(postId);
-  console.log(typeof(postId));
+  console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const navigate = useNavigate();
 
@@ -31,28 +43,29 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
       headers: {
         Authorization: localStorage.getItem("access_token"),
-      }
-    })
-  })
-  const deleteMutation = useMutation(async () => {
-    await axios.delete(`${postId}/posts/${postId}`, {
-      headers: {
-        Authorization: localStorage.getItem("access_token"),
       },
     });
-  },
-  {
-    onSuccess: () => {
-      console.log('삭제되었습니다.');
-      navigate(-1);
+  });
+  const deleteMutation = useMutation(
+    async () => {
+      await axios.delete(`${postId}/posts/${postId}`, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+    },
+    {
+      onSuccess: () => {
+        console.log("삭제되었습니다.");
+        navigate(-1);
+      },
     }
-  }
-  )
+  );
 
   const clickBookmark = () => {
-    console.log('clicked')
+    console.log("clicked");
     bookmarkMutation.mutate();
-  }
+  };
 
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
@@ -62,8 +75,8 @@ const PostItemHead = ({ postData }: PostItemProps) => {
       image: image,
       content: content,
       starRating: starRating,
-      tagNames: tagNames
-    }
+      tagNames: tagNames,
+    };
     setPostState(reqData);
     navigate(`/postpage/edit/${postId}`);
     console.log(reqData);
@@ -73,19 +86,23 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     if (confirm("삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")) {
       deleteMutation.mutate();
     }
-  }
+  };
 
   return (
     <>
       <S.CafeNameWrap>
-        <Link to={`../cafes/${cafeId}`} ><S.CafeName>{cafeName}</S.CafeName></Link>
+        <Link to={`../cafes/${cafeId}`}>
+          <S.CafeName>{cafeName}</S.CafeName>
+        </Link>
       </S.CafeNameWrap>
       <S.TitleWrap>
         <S.Title>{title}</S.Title>
       </S.TitleWrap>
       <S.FlexDiv>
         <S.InfoWrap>
-          <Link to={`../otherusermy/${authorId}`}><S.Autor>{author}</S.Autor></Link>
+          <Link to={`../otherusermy/${authorId}`}>
+            <S.Autor>{author}</S.Autor>
+          </Link>
         </S.InfoWrap>
         <S.CircleWrap>
           <S.Circle>
@@ -93,9 +110,19 @@ const PostItemHead = ({ postData }: PostItemProps) => {
           </S.Circle>
           <S.Circle>
             {postData.isBookmarked ? (
-              <GoBookmarkFill size='30' onClick={()=>{clickBookmark}} />
+              <GoBookmarkFill
+                size='30'
+                onClick={() => {
+                  clickBookmark;
+                }}
+              />
             ) : (
-              <GoBookmark size='30' onClick={()=>{clickBookmark}} />
+              <GoBookmark
+                size='30'
+                onClick={() => {
+                  clickBookmark;
+                }}
+              />
             )}
             {/* 북마크 로직 추가해야 함 */}
           </S.Circle>

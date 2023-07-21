@@ -1,5 +1,5 @@
-import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from '../common';
-import styled from 'styled-components';
+import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from "../common";
+import styled from "styled-components";
 
 type PostThumbnailProps = {
   image: string;
@@ -100,5 +100,5 @@ const S = {
       font-size: ${FONT_SIZE_1.normal_1};
     }
   `,
-  }
+};
 export default PostThumbnail;
