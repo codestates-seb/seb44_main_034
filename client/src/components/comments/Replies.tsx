@@ -2,20 +2,20 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-// import {data as co} from '../../mockData/comments.json';
-import CommentItem from "./CommentItem";
+// import { data as co } from "../../mockData/comments.json";
+// import ReplyItem from "./CommentItem";
 import CommentsPagination from "./CommentsPagination";
 import { baseURL } from "../../common/baseURL";
-import { PostComments } from "../../types/type";
+import { PostReplies } from "../../types/type";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 // import { CommentType } from "../../recoil/recoil";
 
-type CommentData = {
-  comments: PostComments[];
-  postId: number | string | undefined;
+type ReplyItemProps = {
+  replies: PostReplies[];
+  commentId: number | undefined;
+  // currentPosts: PostComments[];
 };
-
 type InputData = {
   content: string;
 };
@@ -23,11 +23,6 @@ type InputData = {
 type WriteComment = {
   content: string;
 };
-
-// type EditComment = {
-//   content: string;
-//   commentId: number;
-// }
 
 const S = {
   Container: styled.div`
@@ -87,28 +82,6 @@ const S = {
         cursor: pointer;
         background-color: ${COLOR_1.green};
       }
-      height: 140px;
-      width: 100%;
-      justify-content: space-between;
-      align-items: center;
-      > input {
-        width: 80%;
-        min-height: 80px;
-        min-width: 200px;
-      }
-      > button {
-        margin-left: 8px;
-        width: 18%;
-        height: 30px;
-        min-width: 70px;
-        border-radius: 4px;
-        border: 1px solid ${COLOR_1.dark_brown};
-        background-color: ${COLOR_1.white};
-        &:hover {
-          cursor: pointer;
-          background-color: ${COLOR_1.green};
-        }
-      }
     }
   `,
   Comments: styled.div`
@@ -145,15 +118,14 @@ const S = {
     font-size: 14px;
   `,
 };
-const Comments = ({ comments, postId }: CommentData) => {
+const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const comments = co.comments;
-  // const postId = 1;
   // const Comments = ({comments, postId}:CommentData) => {
   // const [commentsData, setCommentsData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [commentsPerPage, setCommentsPerPage] = useState(10);
   // const [isEditing, setIsEditing] = useState(false);
-
+  console.log(currentPage);
   const {
     register,
     handleSubmit,
@@ -166,12 +138,12 @@ const Comments = ({ comments, postId }: CommentData) => {
   // });
 
   // const writeComment = (comment:WriteComment) => axios.post(`${baseURL}/post-comments/${cafeId}`, comment,
-  const writeComment = (comment: WriteComment) =>
-    axios.post(`${baseURL}/post-comments/${postId}`, comment, {
+  const writeReply = (reply: WriteComment) =>
+    axios.post(`${baseURL}/post-comments/${commentId}`, reply, {
       headers: { Authorization: localStorage.getItem("access_token") },
     });
   const writeCommentMutation = useMutation({
-    mutationFn: writeComment,
+    mutationFn: writeReply,
     onSuccess: (data, context) => {
       console.log(context);
       console.log(data);
@@ -179,79 +151,18 @@ const Comments = ({ comments, postId }: CommentData) => {
     },
   });
 
-  // const showEditComment = (commentId:number) => {
-  //   console.log(commentId);
-  //   //수정 창 보여주기
-  // }
-
-  // // const editComment = (comment:WriteComment) => axios.patch(`${baseURL}/post-comments/${commentId}`, comment,
-  // const editComment = (comment:EditComment) => axios.patch(`${baseURL}/post-comments/${comment.commentId}`, comment.content, {
-  //   headers: {Authorization:localStorage.getItem('access_token')}
-  // });
-  // const editCommentMutation = useMutation({
-  //   mutationFn: editComment,
-  //   onSuccess: (data, context)=>{
-  //     console.log(context);
-  //     console.log(data);
-  //     reset();
-  //   }
-  // })
-
-  // const deleteComment = (commentId:number) => {
-  //   //if user Id와 지금 userId가 일치하면
-  //   if (confirm('삭제하신 댓글은 복구되지 않습니다. 정말로 삭제하시겠습니까?')) {
-  //     useMutation((commentId) => {
-  //       // return axios.delete(`/${commentId}`, {
-  //         return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //         headers: {
-  //           Authorization: localStorage.getItem('access_token'),
-  //         },
-  //         data: { commentId : commentId}
-  //       }
-  //       ).then((res) => {
-  //         console.log(res);
-  //         alert('삭제되었습니다.');
-  //       });
-  //     })
-  //   }
-  // }
-
-  // const deleteCommentMutation = useMutation((commentId: number) => {
-  //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //     headers: {
-  //       Authorization: localStorage.getItem('access_token'),
-  //     },
-  //     data: { commentId: commentId }
-  //   }).then((res) => {
-  //     console.log(res);
-  //     alert('삭제되었습니다.');
-  //   });
-  // });
-
-  // const deleteCommentMutation = useMutation((commentId: number) => {
-  //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //     headers: {
-  //       Authorization: localStorage.getItem('access_token'),
-  //     },
-  //     data: { commentId: commentId }
-  //   }).then((res) => {
-  //     console.log(res);
-  //     alert('삭제되었습니다.');
-  //   });
-  // });
-
   const onSubmit = (content: InputData) => {
-    const comment = { ...content };
-    console.log(comment); // 폼 데이터 콘솔에 출력 (여기서는 댓글 데이터를 처리하는 로직을 추가하면 됩니다.)
-    writeCommentMutation.mutate(comment);
+    const reply = { ...content };
+    console.log(reply); // 폼 데이터 콘솔에 출력 (여기서는 댓글 데이터를 처리하는 로직을 추가하면 됩니다.)
+    writeCommentMutation.mutate(reply);
   };
 
-  const commentData = comments;
+  // const replyData = co.comments; //대댓글데이터
 
   //페이지네이션
-  const lastPostIndex = currentPage * commentsPerPage;
-  const firstPostIndex = lastPostIndex - commentsPerPage;
-  const currentPosts = commentData.slice(firstPostIndex, lastPostIndex);
+  // const lastPostIndex = currentPage * commentsPerPage;
+  // const firstPostIndex = lastPostIndex - commentsPerPage;
+  // const currentPosts = replyData.slice(firstPostIndex, lastPostIndex);
   console.log(setCommentsPerPage);
 
   return (
@@ -263,14 +174,14 @@ const Comments = ({ comments, postId }: CommentData) => {
 
       <S.Comments>
         <ul>
-          {currentPosts.map((el, idx) => (
-            <CommentItem key={idx} comment={el} />
-          ))}
+          {/* {currentPosts.map((el, idx) => (
+            // <ReplyItem key={idx} reply={el} />
+          ))} */}
         </ul>
       </S.Comments>
       {/* <CommentItem comment={commentData}/> */}
       <CommentsPagination
-        totalComments={comments.length}
+        totalComments={replies.length}
         commentsPerPage={commentsPerPage}
         setCurrentPage={setCurrentPage}
         // currentPage={currentPage}
@@ -279,4 +190,4 @@ const Comments = ({ comments, postId }: CommentData) => {
   );
 };
 
-export default Comments;
+export default Replies;
