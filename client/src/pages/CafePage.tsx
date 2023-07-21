@@ -34,6 +34,7 @@ const CafePage = () => {
       console.error("Error sending bookmark request:", error);
     }
   };
+
   useEffect(() => {
     const fetchCafeData = async () => {
       try {
@@ -68,7 +69,7 @@ const CafePage = () => {
           <S.BookmarkDiv>
             <Bookmark
               onClick={handleBookmarkClick}
-              isBookmarked={isBookmarked}
+              isbookmarked={isBookmarked}
             />
           </S.BookmarkDiv>
 
@@ -122,14 +123,15 @@ const Bookmark = styled(BsFillBookmarkFill)`
   width: 40px;
   height: 40px;
   text-align: end;
-  color: ${COLOR_1.dark_brown};
+  color: white;
+  border: 1px soild ${COLOR_1.dark_brown};
   cursor: pointer;
 
   /* 클릭된 상태일 때 색상 변경 */
-  ${({ isBookmarked }) =>
-    isBookmarked &&
+  ${({ isbookmarked }) =>
+    isbookmarked &&
     css`
-      color: white; /* 클릭된 상태일 때 색상 */
+      color: ${COLOR_1.dark_brown}; /* 클릭된 상태일 때 색상 */
       border: 1px soild ${COLOR_1.dark_brown};
     `}
 `;

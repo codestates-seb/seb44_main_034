@@ -23,6 +23,7 @@ const CafeInfo = () => {
     name: "",
     address: "",
     contact: "",
+    shortAddress: "",
     latitude: 0,
     longitude: 0,
     notice: "",
@@ -103,6 +104,7 @@ const CafeInfo = () => {
         setCafeData((prevCafeData) => ({
           ...prevCafeData,
           address: coordinates.address_name,
+          shortAddress: coordinates.region_2depth_name,
           latitude: coordinates.y,
           longitude: coordinates.x,
         }));
@@ -117,6 +119,7 @@ const CafeInfo = () => {
     console.log(imageFile);
     console.log(CafeData.latitude);
     console.log(CafeData.longitude);
+    console.log(CafeData.shortAddress);
     const formData = new FormData();
     if (imageFile) {
       formData.append("cafeImage", imageFile);
