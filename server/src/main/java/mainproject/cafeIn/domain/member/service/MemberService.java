@@ -201,8 +201,10 @@ public class MemberService {
         if (passwordEncoder.matches(password, findMember.getPassword())) {
             imageService.delete("profiles", findMember.getImage());
             memberRepository.deleteFollowerOrFollowing(findMember);
-            findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
             deletePostBookmarks(findMember.getId());
+            memberRepository.deleteCafeBookMarkList(findMember);
+            findMember.deleteMember("********", "*************","**********************", MEMBER_QUIT,null);
+
         } else {
             throw new CustomException(PASSWORD_NOT_MATCH);
         }
