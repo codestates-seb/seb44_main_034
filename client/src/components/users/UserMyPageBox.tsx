@@ -36,7 +36,7 @@ const S = {
     align-items: center;
     height: 400px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       flex-direction: row;
       width: 700px;
     }
@@ -47,7 +47,7 @@ const S = {
     margin-top: 20px;
     width: 90vw;
     margin-bottom: 20px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -57,7 +57,7 @@ const S = {
     height: 60px;
     width: 90vw;
     border-bottom: solid 1px ${COLOR_1.light_gray};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -85,7 +85,7 @@ const S = {
   `,
   ProfileImg: styled.img`
     width: 170px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 200px;
     }
   `,
@@ -96,7 +96,7 @@ const S = {
     align-items: center;
     height: 200px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -108,7 +108,7 @@ const S = {
     background-color: ${COLOR_1.white};
     border: solid 2px ${COLOR_1.green};
     box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -118,7 +118,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 20vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 80px;
     }
   `,
@@ -127,7 +127,7 @@ const S = {
     margin-top: 5px;
     text-align: center;
     color: ${COLOR_1.brown};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 60px;
     }
   `,
@@ -140,7 +140,7 @@ const S = {
     &:hover {
       color: ${COLOR_1.light_red};
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -153,7 +153,7 @@ const S = {
     &:hover {
       color: ${COLOR_1.light_red};
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -163,7 +163,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 60vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -172,7 +172,7 @@ const S = {
     width: 60vw;
     margin-top: 5px;
     color: black;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -193,7 +193,7 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       font-size: ${FONT_SIZE_1.normal_2};
       width: 200px;
     }
@@ -204,7 +204,7 @@ const S = {
     align-items: center;
     justify-content: center;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -227,7 +227,7 @@ const S = {
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 330px;
     }
   `,
@@ -235,7 +235,7 @@ const S = {
     height: 140px;
     width: 90vw;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 330px;
     }
   `,
@@ -246,7 +246,7 @@ const S = {
     justify-content: center;
     height: 60px;
     width: 80vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -254,7 +254,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 75vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -278,7 +278,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 60vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,

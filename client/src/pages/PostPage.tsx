@@ -77,8 +77,8 @@ const PostPage = () => {
   const postId = params.postId;
 
   console.log(postId);
-  const { data, isLoading, isError } = useQuery(["getPostDetail", 1], () =>
-    getPostDetailAPI.getPostDetail(1)
+  const { data, isLoading, isError } = useQuery(["getPostDetail", postId], () =>
+    getPostDetailAPI.getPostDetail(postId)
   );
 
   //   const { data, isLoading, isError } = useQuery(

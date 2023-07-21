@@ -131,7 +131,6 @@ const Main = () => {
   // const [searchBox, setSearchBox] = useRecoilState(HandleSearchBoxAtom);
   const searchValue = useRecoilValue(SearchValueAtom);
 
-  console.log(setHandleSearch);
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
   console.log(sortType);
@@ -147,21 +146,25 @@ const Main = () => {
   };
   // 북마크 순으로 정렬하는 함수
   const sortByBookmark = () => {
-    setSortType("sortTpye=scountBookmark");
+    setSortType("&sortType=countBookmark");
+    setHandleSearch((prev) => !prev);
   };
   // 평점 순으로 정렬하는 함수
   const sortByRating = () => {
-    setSortType("sortTpye=rating");
+    setSortType("&sortType=rating");
+    setHandleSearch((prev) => !prev);
   };
 
   // 카페 ID 순으로 정렬하는 함수
   const sortByCafeId = () => {
-    setSortType("sortTpye=countPost");
+    setSortType("&sortType=countPost");
+    setHandleSearch((prev) => !prev);
   };
 
   // 게시물 수 순으로 정렬하는 함수
   const sortByCountPost = () => {
-    setSortType("sortTpye=createdAt");
+    setSortType("&sortType=createdAt");
+    setHandleSearch((prev) => !prev);
   };
   //카페 목록 요청 (api: ../api/mainApi.tsx)
   const {
@@ -172,7 +175,7 @@ const Main = () => {
     // isPreviousData,
   } = useQuery(
     ["getAllCafes", page, handleSearch],
-    () => getCafes(searchValue, page, shortaddress, facilities, mood),
+    () => getCafes(searchValue, page, shortaddress, facilities, mood, sortType),
 
     {
       keepPreviousData: true,
