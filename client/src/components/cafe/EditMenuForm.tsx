@@ -34,23 +34,18 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
     name: type,
     control,
   });
-  const onUpdateMenu = async (menuId: number) => {
+  const onUpdateMenu = async (menuId: number, menu: any) => {
     try {
-      const copiedMenu = getValues();
-      console.log(copiedMenu);
-      const response = await axios.patch(
-        `${baseURL}/menus/${menuId}`,
-        copiedMenu,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "ngrok-skip-browser-warning": "true",
-            // 'Content-Type': 'application/json',
-            withCredentials: true,
-            Authorization: localStorage.getItem("access_token"),
-          },
-        }
-      );
+      console.log(menu);
+      const response = await axios.patch(`${baseURL}/menus/${menuId}`, menu, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          withCredentials: true,
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
       console.log(menuId);
       console.log(response.data);
     } catch (error) {
@@ -73,15 +68,24 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
       console.error(error);
     }
   };
-  const onAddMenu = async (menu: any) => {
+
+  const onAddMenu = async (data: any) => {
+    console.log(data);
     try {
-      const response = await axios.post(`${baseURL}/menus/${id}`, menu);
+      const response = await axios.post(`${baseURL}/menus/${id}`, [data], {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <div>
       <S.MainDiv>
@@ -124,15 +128,17 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
                     <S.EditBtn
                       type='button'
                       onClick={() =>
-                        onUpdateMenu(getValues(`${type}[${index}].menuId`))
+                        onUpdateMenu(
+                          getValues(`${type}[${index}].menuId`),
+                          getValues(`${type}[${index}]`)
+                        )
                       }
-                      // fields[index].menuId 였는데 저걸로 바꿨음 내일 아침에 서버켜지면 해보기
                     />
                     <S.RemoveBtn
                       type='button'
                       onClick={() => {
-                        remove(index);
                         onDeleteMenu(getValues(`${type}[${index}].menuId`));
+                        remove(index);
                       }}
                     />
                   </>
@@ -140,7 +146,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
                   <>
                     <S.AddBtn
                       type='button'
-                      onClick={() => onAddMenu(fields[index])}
+                      onClick={() => onAddMenu(getValues(`${type}[${index}]`))}
                     />
                     <S.RemoveBtn
                       type='button'

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../common/button/button";
 import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from "../../common/common";
@@ -18,6 +18,7 @@ const facilityName = [
 const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
   const navigate = useNavigate();
+  const { id } = useParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [editData, setEditData] = useState<cafeType>({
@@ -111,6 +112,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
             },
           }
         );
+        if (response.data.payload.image) {
+          setPreviewImage(response.data.payload.image); // 이미지 URL 설정
+        }
         console.log(response.data.payload);
         setEditData(response.data.payload);
         // if (response.data.payload.image) { 변환해줘야됨
@@ -147,9 +151,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     console.log(imageFile);
 
     const formData = new FormData();
-    if (imageFile) {
-      formData.append("cafeImage", imageFile);
-    }
+    // if (imageFile) {
+    formData.append("cafeImage", imageFile); //이미지 수정 안했을 때 이미지 그대로 다시 해야되는거 수정
+    // }
     const json = JSON.stringify(editData);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
@@ -176,7 +180,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
 
       console.log(response);
       alert("카페 수정이 완료 되었습니다.");
-      navigate("/");
+      navigate(`/cafes/${id}`);
       //   } else {
       //     throw new Error('Image upload failed');
       //   }
@@ -513,7 +517,7 @@ const RemoveImgButton = styled.button`
   height: 20px;
   font-size: ${FONT_SIZE_1.small_3};
   position: absolute;
-  top: 310px;
+  top: 620px;
   border: 2px solid ${COLOR_1.green};
   background-color: white;
   border-radius: 10px;
@@ -523,7 +527,7 @@ const RemoveImgButton = styled.button`
     cursor: pointer;
   }
   @media screen and (max-width: 767px) {
-    top: 185px;
+    top: 295px;
     width: 70px;
     height: 18px;
     font-size: ${FONT_SIZE_1.small_2};
