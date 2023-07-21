@@ -12,10 +12,11 @@ import org.hibernate.annotations.OnDelete;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.FetchType.LAZY;
-import static mainproject.cafeIn.global.exception.ErrorCode.*;
+import static mainproject.cafeIn.global.exception.ErrorCode.NONE_AUTHORIZATION_TOKEN;
 import static org.hibernate.annotations.OnDeleteAction.CASCADE;
 
 @Getter
@@ -136,7 +137,7 @@ public class Cafe extends BaseEntity {
     }
 
     public void validateOwner(Long ownerId) {
-        if (!owner.getOwnerId().equals(ownerId)) {
+        if (!Objects.equals(this.owner.getOwnerId(), ownerId)) {
             throw new CustomException(NONE_AUTHORIZATION_TOKEN);
         }
     }
