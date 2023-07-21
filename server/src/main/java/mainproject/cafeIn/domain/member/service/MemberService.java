@@ -194,6 +194,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public Member signOut(Long id, String password) {
 
         Member findMember = findById(id);
