@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "cafeBookmarks")
+@Table(name = "cafe_bookmarks")
 public class CafeBookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -81,16 +81,6 @@ public class CafeService {
         return cafeRepository.findCafesByFilterCondition(loginId, searchCafeFilterCondition, pageable);
     }
 
-    public Page<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable) {
-
-        return cafeRepository.findCafesByName(loginId, name, pageable);
-    }
-
-    public Page<CafeResponse> findCafesByMenu(Long loginId, String name, Pageable pageable) {
-
-        return cafeRepository.findCafesByMenu(loginId, name, pageable);
-    }
-
     public Cafe findCafeById(Long cafeId) {
 
         return cafeRepository.findById(cafeId)

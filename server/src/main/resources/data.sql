@@ -1,3 +1,5 @@
+
+
 INSERT INTO tag(tag_id,tag_name)
 VALUES ('1', '감성적'),
 ('2', '낭만적'),
