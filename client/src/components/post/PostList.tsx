@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-<<<<<<< HEAD
-// import {data as dataAll} from '../../mockData/cafePost.json'
-=======
 // import { data as dataAll } from "../../mockData/cafePost.json";
->>>>>>> f116b82024e8e25e5d3b674b8617211d76b4d4e3
 import { PostCafeAtom } from "../../recoil/postState";
 import { CafePostList } from "../../types/type";
 import { PostCafeType } from "../../types/type";
@@ -20,10 +16,6 @@ type PostData = {
 const S = {
   Container: styled.div`
     display: block;
-<<<<<<< HEAD
-
-=======
->>>>>>> f116b82024e8e25e5d3b674b8617211d76b4d4e3
     > ul {
       display: flex;
       justify-content: center;

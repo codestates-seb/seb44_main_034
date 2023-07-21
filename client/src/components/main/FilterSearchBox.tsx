@@ -139,21 +139,10 @@ const FilterSearchBox = () => {
     setHandleSearch((cur) => !cur);
   };
 
-<<<<<<< HEAD
-  const handleSearchClick = () => {
-    setHandleSearch((cur) => !cur);
-  };
-
   const saveFacil = () => {
     setFacilitiesAtom(facilAddress.join(""));
   };
 
-=======
-  const saveFacil = () => {
-    setFacilitiesAtom(facilAddress.join(""));
-  };
-
->>>>>>> f116b82024e8e25e5d3b674b8617211d76b4d4e3
   const saveMood = () => {
     const moodToIds = moodIds.join();
     setMoodAtom(`&tags=${moodToIds}`);

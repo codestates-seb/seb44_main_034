@@ -44,7 +44,7 @@ export interface PostComments {
   createdAt?: string;
   updatedAt?: string;
   cafeId?: number;
-  replies?: PostReplies;
+  replies?: PostReplies[];
 }
 
 export interface PostComment {
