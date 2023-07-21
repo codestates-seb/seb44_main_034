@@ -87,6 +87,28 @@ const S = {
         cursor: pointer;
         background-color: ${COLOR_1.green};
       }
+      height: 140px;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      > input {
+        width: 80%;
+        min-height: 80px;
+        min-width: 200px;
+      }
+      > button {
+        margin-left: 8px;
+        width: 18%;
+        height: 30px;
+        min-width: 70px;
+        border-radius: 4px;
+        border: 1px solid ${COLOR_1.dark_brown};
+        background-color: ${COLOR_1.white};
+        &:hover {
+          cursor: pointer;
+          background-color: ${COLOR_1.green};
+        }
+      }
     }
   `,
   Comments: styled.div`
@@ -131,7 +153,6 @@ const Comments = ({ comments, postId }: CommentData) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [commentsPerPage, setCommentsPerPage] = useState(10);
   // const [isEditing, setIsEditing] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -160,9 +181,6 @@ const Comments = ({ comments, postId }: CommentData) => {
   // const showEditComment = (commentId:number) => {
   //   console.log(commentId);
   //   //수정 창 보여주기
-
-  // }
-
   // // const editComment = (comment:WriteComment) => axios.patch(`${baseURL}/post-comments/${commentId}`, comment,
   // const editComment = (comment:EditComment) => axios.patch(`${baseURL}/post-comments/${comment.commentId}`, comment.content, {
   //   headers: {Authorization:localStorage.getItem('access_token')}
@@ -194,6 +212,18 @@ const Comments = ({ comments, postId }: CommentData) => {
   //     })
   //   }
   // }
+
+  // const deleteCommentMutation = useMutation((commentId: number) => {
+  //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {
+  //     headers: {
+  //       Authorization: localStorage.getItem('access_token'),
+  //     },
+  //     data: { commentId: commentId }
+  //   }).then((res) => {
+  //     console.log(res);
+  //     alert('삭제되었습니다.');
+  //   });
+  // });
 
   // const deleteCommentMutation = useMutation((commentId: number) => {
   //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {

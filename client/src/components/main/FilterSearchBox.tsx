@@ -135,7 +135,6 @@ const FilterSearchBox = () => {
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
 
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
-
   const handleSearchClick = () => {
     setHandleSearch((cur) => !cur);
   };

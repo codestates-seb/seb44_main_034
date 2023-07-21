@@ -5,8 +5,8 @@ import { FONT_SIZE_1, COLOR_1 } from "../common/common";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
-import PostList from "../components/post/PostList"
-import { CafeDetailType, MenuDataType } from "../types/type";
+import PostList from "../components/post/PostList";
+import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
 import { BsFillBookmarkFill } from "react-icons/bs";
@@ -14,6 +14,7 @@ const CafePage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [cafeDetail, setCafeDetail] = useState<CafeDetailType | undefined>();
   const [menus, setMenus] = useState<MenuDataType[][] | undefined>();
+  const [posts, setPosts] = useState<CafePostList[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
   const handleBookmarkClick = async () => {
@@ -51,6 +52,7 @@ const CafePage = () => {
         setMenus(data.menus);
         console.log(data.menus);
         setIsLoading(false);
+        setPosts(data.posts);
       } catch (error) {
         console.error("Error fetching cafe data:", error);
       }
@@ -80,7 +82,7 @@ const CafePage = () => {
           <S.Title>
             {/* Post
             <div></div> */}
-            <PostList />
+            <PostList postData={posts} />
           </S.Title>
         </S.Container>
       )}
@@ -108,7 +110,6 @@ const S = {
     }
     @media screen and (max-width: 767px) {
       text-align: center;
-      
     }
   `,
   BookmarkDiv: styled.div`

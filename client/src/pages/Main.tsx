@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Pagination from "react-js-pagination";
 import { useQuery } from "@tanstack/react-query";
-// import axios from "axios";
 import { getCafes } from "../api/mainApi";
 import SearchBox from "../components/main/SearchBox";
 import LocationBox from "../components/main/LocationBox";

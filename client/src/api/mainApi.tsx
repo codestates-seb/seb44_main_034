@@ -37,9 +37,7 @@ export const getCafes = async (
     }
   );
   // const res = await createBaseUrl.get(`/posts/${Id}`);
-  console.log("!1111");
   console.log(res.data);
-  console.log("!1111");
   return res.data;
 };
 
