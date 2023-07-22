@@ -23,6 +23,7 @@ import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.member.entity.QFollow.follow;
 import static mainproject.cafeIn.domain.member.entity.QMember.member;
+import static mainproject.cafeIn.domain.member.entity.enums.MemberGrade.*;
 import static mainproject.cafeIn.domain.member.entity.enums.MemberStatus.MEMBER_ACTIVE;
 import static mainproject.cafeIn.domain.post.entity.QPost.post;
 import static mainproject.cafeIn.domain.postbookmark.entity.QPostBookmark.postBookmark;
@@ -194,6 +195,54 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .where(condition1)
                 .execute();
 
+    }
+
+    @Override
+    public List<MemberGrade> memberGradeCoffeeBean() {
+
+        List<MemberGrade> list = queryFactory
+                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
+                .from(member)
+                .leftJoin(member.followings, follow)
+                .leftJoin(member.posts, post)
+                .where(member.grade.ne(GRADE_COFFEE_BEAN), member.status.eq(MEMBER_ACTIVE))
+                .groupBy(member.id)
+                .having(follow.followingId.count().goe(10L), follow.followingId.count().lt(50L),post.member.count().goe(3L))
+                .fetch();
+
+        return list;
+    }
+
+    @Override
+    public List<MemberGrade> memberGradeRoastedBean() {
+
+        List<MemberGrade> list = queryFactory
+                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
+                .from(member)
+                .leftJoin(member.followings, follow)
+                .leftJoin(member.posts, post)
+                .where(member.grade.ne(GRADE_ROASTED_BEAN), member.status.eq(MEMBER_ACTIVE))
+                .groupBy(member.id)
+                .having(follow.followingId.count().goe(50), follow.followingId.count().lt(100L),post.member.count().goe(3L))
+                .fetch();
+
+        return list;
+    }
+
+    @Override
+    public List<MemberGrade> memberGradeEspresso() {
+
+        List<MemberGrade> list = queryFactory
+                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
+                .from(member)
+                .leftJoin(member.followings, follow)
+                .leftJoin(member.posts, post)
+                .where(member.grade.ne(GRADE_ESPRESSO), member.status.eq(MEMBER_ACTIVE))
+                .groupBy(member.id)
+                .having(follow.followingId.count().goe(100L), post.member.count().goe(3L))
+                .fetch();
+
+        return list;
     }
 
 

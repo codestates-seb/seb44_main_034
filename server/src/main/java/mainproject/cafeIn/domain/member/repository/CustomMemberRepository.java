@@ -3,10 +3,7 @@ package mainproject.cafeIn.domain.member.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import mainproject.cafeIn.domain.cafe.entity.CafeBookmark;
-import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkCafeList;
-import mainproject.cafeIn.domain.member.dto.reponse.MyBookMarkPostList;
-import mainproject.cafeIn.domain.member.dto.reponse.MyPagePostList;
-import mainproject.cafeIn.domain.member.dto.reponse.SearchFollow;
+import mainproject.cafeIn.domain.member.dto.reponse.*;
 import mainproject.cafeIn.domain.member.entity.Follow;
 import mainproject.cafeIn.domain.member.entity.Member;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +36,12 @@ public interface CustomMemberRepository {
     public void deleteFollowerOrFollowing(Member m);
 
     public void deleteCafeBookMarkList(Member m);
+
+    public List<MemberGrade> memberGradeCoffeeBean();
+
+    public List<MemberGrade> memberGradeRoastedBean();
+
+    public List<MemberGrade> memberGradeEspresso();
 
 
 }
