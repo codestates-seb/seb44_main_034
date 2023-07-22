@@ -189,24 +189,33 @@ public class PostService {
                 () -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
+    @Transactional
     public void calculateRating(Long cafeId) {
-        List<Post> posts = postRepository.findPostsByCafeId(cafeId);
+        Optional<List<Post>> optionalPosts = postRepository.findPostsByCafeId(cafeId);
         Cafe cafe = cafeRepository.findById(cafeId).get();
 
         float rating = 0;
 
-        if (posts == null || posts.isEmpty()) {
+        if (!optionalPosts.isPresent() || optionalPosts.get().isEmpty()) {
             // 게시물이 없을 경우에는 평점을 0으로 초기화
-            cafe.refreshRating(rating);
+            if (cafe != null) {
+                cafe.refreshRating(rating);
+            }
             return;
         }
 
+        List<Post> posts = optionalPosts.get();
         int totalStarRating = 0;
         for (Post post : posts) {
             totalStarRating += post.getStarRating();
         }
 
         int numberOfPosts = posts.size();
-        cafe.refreshRating((float) (Math.round(totalStarRating / numberOfPosts * 10.0) / 10.0 ));
+        if (numberOfPosts > 0) {
+            cafe.refreshRating((float) (Math.round(totalStarRating / (float) numberOfPosts * 10.0) / 10.0));
+        } else {
+            // numberOfPosts가 0인 경우에 대한 처리
+            cafe.refreshRating(rating);
+        }
     }
 }
