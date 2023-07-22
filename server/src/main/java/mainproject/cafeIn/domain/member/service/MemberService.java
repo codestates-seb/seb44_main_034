@@ -74,17 +74,17 @@ public class MemberService {
 
         Member member = checkDisplayName(patch, findmember);
 
-        if (patch.getPassword() != null ) {
+        if (patch.getPassword() != null) {
             String pass = patch.getPassword();
             String encryptedPassword = passwordEncoder.encode(pass);
             member.updatePassword(encryptedPassword);
         }
 
-        if (!image.isEmpty() && findmember.getImage() == null) {
+        if (!image.isEmpty() && !image.equals("") && findmember.getImage() == null) {
 
             String storedImageUrl = imageService.upload(image, "profiles");
             member.updateImage(storedImageUrl);
-        } else if (!image.isEmpty() && findmember.getImage() != null) {
+        } else if (!image.isEmpty() && !image.equals("") && findmember.getImage() != null) {
 
             String storedImageUrl = imageService.update(findmember.getImage(), image, "profiles");
             member.updateImage(storedImageUrl);
