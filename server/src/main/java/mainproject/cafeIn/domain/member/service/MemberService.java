@@ -199,7 +199,8 @@ public class MemberService {
 
         Member findMember = findById(id);
         if (passwordEncoder.matches(password, findMember.getPassword())) {
-            imageService.delete("profiles", findMember.getImage());
+
+            if (findMember.getImage() != null) imageService.delete("profiles", findMember.getImage());
             memberRepository.deleteFollowerOrFollowing(findMember);
             deletePostBookmarks(findMember.getId());
             memberRepository.deleteCafeBookMarkList(findMember);
