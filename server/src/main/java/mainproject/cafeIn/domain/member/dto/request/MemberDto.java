@@ -13,9 +13,10 @@ import javax.validation.constraints.Size;
 
 
 public class MemberDto {
+
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
     @AllArgsConstructor
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Post {
 
         @NotBlank(message = "이메일을 입력해주세요.")
@@ -44,6 +45,7 @@ public class MemberDto {
 
     }
 
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
     @AllArgsConstructor
     public static class Patch {
@@ -60,7 +62,7 @@ public class MemberDto {
 
     }
 
-
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
     public static class checkPassword {
 
