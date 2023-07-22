@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.member.entity.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -60,10 +61,12 @@ public class MemberDto {
 
 
 
+
     }
 
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     @Getter
+    @AllArgsConstructor
     public static class checkPassword {
 
         private String password;
