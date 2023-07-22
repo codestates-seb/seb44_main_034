@@ -9,6 +9,4 @@ import org.springframework.data.domain.Pageable;
 public interface CafeRepositoryCustom {
     CafeDetailResponse getCafe(Long cafeId, Long loginId);
     Page<CafeResponse> findCafesByFilterCondition(Long loginId, SearchCafeFilterCondition searchCafeFilterCondition, Pageable pageable);
-    Page<CafeResponse> findCafesByName(Long loginId, String name, Pageable pageable);
-    Page<CafeResponse> findCafesByMenu(Long loginId, String menu, Pageable pageable);
 }
