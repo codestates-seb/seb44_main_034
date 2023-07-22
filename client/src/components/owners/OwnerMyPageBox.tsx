@@ -303,8 +303,8 @@ const UserMyPageBox = () => {
       <S.EditButtonBox>
         <Link to='/ownermy/edit/:id'>
           <S.EditButton>내 정보 수정하기</S.EditButton>
-          {cafeInfo ? <DeleteCafe cafeId={cafeInfo?.cafeId} /> : undefined}
         </Link>
+        {cafeInfo ? <DeleteCafe cafeId={cafeInfo?.cafeId} /> : undefined}
       </S.EditButtonBox>
       <S.BottomBox>
         <S.SandButton onClick={() => navigate(`/cafes/${cafeInfo?.cafeId}`)}>
