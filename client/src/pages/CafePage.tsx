@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
 import { styled, css } from "styled-components";
 import { FONT_SIZE_1, COLOR_1 } from "../common/common";
+import { PostCafeType } from "../types/type";
+import { PostCafeAtom } from "../recoil/postState";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
@@ -10,6 +13,7 @@ import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
 import { BsFillBookmarkFill } from "react-icons/bs";
+
 const CafePage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [cafeDetail, setCafeDetail] = useState<CafeDetailType | undefined>();

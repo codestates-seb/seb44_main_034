@@ -8,6 +8,7 @@ import PostDate from "./PostDate";
 import { ReqPostData } from "../../types/type";
 import { ResPostData } from "../../types/type";
 import { PostItemAtom } from "../../recoil/postState";
+import { GetPostAtom } from "../../recoil/postState";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
@@ -37,15 +38,22 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   console.log(postId);
   console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
+  const setGetItem = useSetRecoilState(GetPostAtom);
+
   const navigate = useNavigate();
 
-  const bookmarkMutation = useMutation(async () => {
-    await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
-      headers: {
-        Authorization: localStorage.getItem("access_token"),
-      },
-    });
-  });
+  const clickBookmark = async () => {
+    try {
+      await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+      setGetItem((prev) => !prev);
+    } catch (error) {
+      alert("일시적인 오류가 발생했습니다. 잠시 후, 다시 시도해주세요.");
+    }
+  };
   const deleteMutation = useMutation(
     async () => {
       await axios.delete(`${postId}/posts/${postId}`, {
@@ -57,25 +65,20 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     {
       onSuccess: () => {
         console.log("삭제되었습니다.");
-        navigate(-1);
+        navigate("/");
       },
     }
   );
-
-  const clickBookmark = () => {
-    console.log("clicked");
-    bookmarkMutation.mutate();
-  };
 
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
     const reqData = {
       cafeId: cafeId,
-      // title: title,
+      title: title,
       image: image,
       content: content,
       starRating: starRating,
-      tagNames: tagNames,
+      tags: tagNames,
     };
     setPostState(reqData);
     navigate(`/postpage/edit/${postId}`);

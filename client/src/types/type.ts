@@ -33,7 +33,7 @@ export interface ReqPostData {
   image?: string | File;
   content: string;
   starRating: number;
-  tagNames: string[];
+  tags: string[];
 }
 
 export interface PostComments {

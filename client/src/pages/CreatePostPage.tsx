@@ -16,6 +16,7 @@ import { ConfirmBtn } from "../common/button/button";
 import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_1 } from "../common/common";
 import { baseURL } from "../common/baseURL";
+import { useNavigate } from "react-router-dom";
 
 // type PostDataProps = {
 //   postData: PostData;
@@ -44,6 +45,12 @@ const S = {
     @media screen and (max-width: 500px) {
       min-height: 1100px;
     }
+  `,
+  HeadWrap: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: 400px;
   `,
   MoodAskWrap: styled.div`
     text-align: left;
@@ -84,11 +91,30 @@ const S = {
     background-color: #f0f0f0;
     border-radius: 4px;
     cursor: pointer;
+    margin: 10px 0;
   `,
-  AddImg: styled.input``,
+  AddImg: styled.input`
+    display: none;
+  `,
   BtnWrap: styled.div`
     display: flex;
     justify-content: flex-start;
+    margin: 10px 0 20px 0;
+  `,
+  ImgPreview: styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+    height: 30%;
+    margin: 10px 0;
+    > img {
+      width: 100%;
+      height: 100%;
+      margin: 10px 0;
+    }
+    label {
+    }
   `,
 };
 
@@ -96,28 +122,19 @@ const CreatePostPage = () => {
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
   const postCafe = useRecoilValue<PostCafeType>(PostCafeAtom);
-
+  const [file, setFile] = useState<File | null>(null);
+  const [previewImgUrl, setPreviewImgUrl] = useState<null | string>(null);
   const [correctValue, setCorrectValue] = useState({
     correctTitle: false,
     correctStarRating: false,
   });
   const resetPostItem = useResetRecoilState(PostItemAtom);
-  // const mutation = useMutation(
-  //   (postData:PostDataProps) => {
-  //     return axios.post('http://localhost3001/cafePost', postData),
-  //     {
-  //       onSuccess: () => {
-  //         // refetch the comments list for our blog post
-  //         // queryClient.invalidateQueries(['posts', id, 'comments'])
-  //         console.log(mutation.data);
-  //       },
-  //   }
-  // )
+  const navigate = useNavigate();
+  console.log(postCafe);
 
   //api
-
-  const createPost = (post: ReqPostData) =>
-    axios.post(`${baseURL}/posts/${post.cafeId}`, post, {
+  const createPost = (formData: FormData) =>
+    axios.post(`${baseURL}/posts/${postCafe.cafeId}`, formData, {
       headers: {
         Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
@@ -130,20 +147,14 @@ const CreatePostPage = () => {
       console.log(context);
       console.log(data);
       resetPostItem();
+      navigate(`./postpage/${"data.postId as string"}`);
+      //이동 로직 추가 해함(postId 받아와야 함)
+    },
+    onError: () => {
+      alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setDisabled(false);
     },
   });
-
-  // in the component
-
-  // const {data, isLoading, mutate, mutateAsync } = useMutation(mutationFn, options);
-
-  //api(이미지)
-  // const saveImage = async(formData: FormData) => {
-  //   return (await axios.post('/api/postId', formData)).data;
-  // }
-
-  // const saveImageMutation = useMutation((formData: FormData)=> saveImage(formData), {})
-  // const { mutate } = saveImageMutation;
 
   // const { cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment } = postData;
 
@@ -158,25 +169,51 @@ const CreatePostPage = () => {
     e.preventDefault();
     setDisabled(true);
     // setPostData(postData);
-    // console.log(postData);
-    createPostMutation.mutate(postData);
+    const formData = new FormData();
+    const json = JSON.stringify(postData);
+    const post = new Blob([json], {
+      type: "application/json",
+    });
+    console.log(postData);
+    formData.append("dto", post);
+    if (file) {
+      formData.append("postImage", file);
+    }
+    for (const entry of formData.entries()) {
+      console.log(entry[0] + ": " + entry[1]);
+    }
+    createPostMutation.mutate(formData);
   };
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   // const fileList = event.target.files;
-  //   // if (fileList) {
-  //     // 파일 처리 로직
-  //     // const formData = new FormData();
-  //     // console.log(fileList);
-  //     // mutate(formData, {
-  //     //   onSuccess: (data) => {
-  //     //     console.log(data);
-  //     //   }
-  //     // })
-  //   // }
-  // };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    // const previewImgHandler = (e) => {
+    const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
+    const fileReader = new FileReader();
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      if (file.size > 1024 * 1024 * 4) {
+        alert("4MB 이상의 이미지는 업로드 할 수 없습니다.");
+        return;
+      }
+      if (!file.name.match(correctForm)) {
+        alert(
+          "이미지 파일만 업로드가 가능합니다. (*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *heic)"
+        );
+      } else {
+        fileReader.readAsDataURL(file);
+        setFile(file);
+      }
+      fileReader.onload = () => {
+        if (typeof fileReader.result === "string") {
+          setPreviewImgUrl(fileReader.result);
+        }
+      };
+    }
+  };
+
   const handleContent = (contentValue: string) => {
-    // let contentValue = e.target.value;
-    console.log(typeof contentValue);
     setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
   };
   console.log(postData);
@@ -188,50 +225,57 @@ const CreatePostPage = () => {
         }}
       >
         <div>
-          <PostHead cafeName={postCafe.cafeName} />
-          <PostMood />
-          <S.RatingWrap>
-            <BiSolidCoffeeBean
-              size={FONT_SIZE_1.big_5}
-              color={COLOR_1.dark_brown}
-            />
-            <S.Rate
-              type='number'
-              max='5'
-              min='1'
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                // const rateValue = parseInt(e.target.value);
-                // if (rateValue > 5 || rateValue < 1) {
-                //   alert('1 이상 5 이하의 숫자를 입력해주세요.');
-                // }
-                // if (rateValue>=1 && rateValue<=5) {
-                //   setPostData((prev)=>({...prev, starRating:rateValue}));
-                // }
-                const rateValue = e?.target.value;
-                if (Number(rateValue) !== parseInt(rateValue)) {
-                  alert("1 이상 5 이하의 정수만 입력해주세요.");
-                }
-                if (parseInt(rateValue) > 5 || parseInt(rateValue) < 1) {
-                  alert("1 이상 5 이하의 숫자를 입력해주세요.");
-                }
-                if (parseInt(rateValue) >= 1 && parseInt(rateValue) <= 5) {
-                  setPostData((current) => ({
-                    ...current,
-                    starRating: parseInt(rateValue),
-                  }));
-                }
-              }}
-            />
-            {/*<CiCoffeeBean size={FONT_SIZE_1.big_5} color={COLOR_1.dark_brown}/> */}
-            {` / 5`}
-          </S.RatingWrap>
+          <S.HeadWrap>
+            <PostHead cafeName={postCafe.cafeName} />
+            <PostMood />
+            <S.RatingWrap>
+              <BiSolidCoffeeBean
+                size={FONT_SIZE_1.big_5}
+                color={COLOR_1.dark_brown}
+              />
+              <S.Rate
+                type='number'
+                max='5'
+                min='1'
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const rateValue = e?.target.value;
+                  if (Number(rateValue) !== parseInt(rateValue)) {
+                    alert("1 이상 5 이하의 정수만 입력해주세요.");
+                  }
+                  if (parseInt(rateValue) > 5 || parseInt(rateValue) < 1) {
+                    alert("1 이상 5 이하의 숫자를 입력해주세요.");
+                  }
+                  if (parseInt(rateValue) >= 1 && parseInt(rateValue) <= 5) {
+                    setPostData((current) => ({
+                      ...current,
+                      starRating: parseInt(rateValue),
+                    }));
+                  }
+                }}
+              />
+              {/*<CiCoffeeBean size={FONT_SIZE_1.big_5} color={COLOR_1.dark_brown}/> */}
+              {` / 5`}
+            </S.RatingWrap>
+          </S.HeadWrap>
+          {!previewImgUrl && (
+            <S.UploadBtn htmlFor='fileUpload'>사진 추가하기</S.UploadBtn>
+          )}
           <S.AddImg
-            id='file-upload'
+            id='fileUpload'
             type='file'
             accept='image/*'
-            // onChange={handleFileChange}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleFileChange(e)
+            }
           ></S.AddImg>
-          {/* <S.UploadBtn htmlFor="file-upload">사진 추가하기</S.UploadBtn> */}
+          {previewImgUrl && (
+            <S.ImgPreview>
+              <img src={previewImgUrl} />
+            </S.ImgPreview>
+          )}
+          {previewImgUrl && (
+            <S.UploadBtn htmlFor='fileUpload'>사진 수정하기</S.UploadBtn>
+          )}
           <SunEditor height='300px' onChange={handleContent} />
           <S.BtnWrap>
             <ConfirmBtn
@@ -242,26 +286,29 @@ const CreatePostPage = () => {
                   alert("제목을 입력해주세요.");
                 } else {
                   setCorrectValue({ ...correctValue, correctTitle: true });
+                  if (starRating < 1 || starRating > 5) {
+                    alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
+                  } else {
+                    setCorrectValue({
+                      ...correctValue,
+                      correctStarRating: true,
+                    });
+                    submitPost(e);
+                  }
                 }
-                if (starRating < 1 || starRating > 5) {
-                  alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
-                } else {
-                  setCorrectValue({ ...correctValue, correctStarRating: true });
-                }
-                // if () {
-                //   alert('별점은 1점 이상 5점 이하의 정수만 넣어주세요.');
-                // }
-
-                submitPost(e);
               }}
             >
               출간하기
             </ConfirmBtn>
             <ConfirmBtn
               onClick={() => {
-                confirm(
-                  `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
-                );
+                if (
+                  confirm(
+                    `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
+                  )
+                ) {
+                  navigate(`../cafes/${postCafe.cafeId}`);
+                }
               }}
             >
               나가기
