@@ -125,4 +125,8 @@ public class Member extends BaseEntity {
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
+
+    public void updateGrade(MemberGrade grade) {
+        this.grade = grade;
+    }
 }
