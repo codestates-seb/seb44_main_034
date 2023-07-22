@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.post.controller;
 
 import lombok.RequiredArgsConstructor;
+import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -31,6 +32,7 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long postId = postService.createPost(loginId, cafeId, request, image);
+        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(postId);
     }
@@ -43,7 +45,8 @@ public class PostController {
                                                @RequestPart(value = "postImage", required = false) MultipartFile image) throws IOException {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
-        postService.updatePost(loginId, postId, request, image);
+        Long cafeId = postService.updatePost(loginId, postId, request, image);
+        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(postId);
     }
@@ -77,6 +80,7 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = postService.deletePost(loginId, postId);
+        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(cafeId);
     }
