@@ -118,11 +118,10 @@ const DeleteAccountBox = () => {
     console.log(localStorage.getItem("access_token"));
     if (role === "members") {
       axios
-        .patch(`${baseURL}/${role}/sign-out`, {
+        .patch(`${baseURL}/${role}/sign-out`, data, {
           headers: {
             Authorization: localStorage.getItem("access_token"),
           },
-          password: password,
         })
         .then((response) => {
           // Handle success.

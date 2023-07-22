@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SyncLoader from "react-spinners/SyncLoader";
 import axios from "axios";
 import { COLOR_1 } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
@@ -15,6 +16,7 @@ import { baseURL } from "../../common/baseURL";
 import coffeebean from "../../assets/coffeebean.svg";
 import greenbean from "../../assets/greenbean.svg";
 import espresso from "../../assets/espresso.svg";
+import React from "react";
 // import { useNavigate } from 'react-router-dom';
 
 const defaultHeader = {
@@ -85,8 +87,10 @@ const S = {
   `,
   ProfileImg: styled.img`
     width: 170px;
+    border-radius: 85px;
     @media screen and (min-width: 768px) {
       width: 200px;
+      border-radius: 100px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -289,6 +293,15 @@ const S = {
     border-radius: 10px;
     font-size: 10px;
   `,
+  LoadingBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    height: 50px;
+    @media screen and (min-width: 768px) {
+      width: 700px;
+    }
+  `,
 };
 
 interface UserData {
@@ -300,29 +313,7 @@ interface UserData {
   image?: File | string;
 }
 
-// interface BookmarkCafeData {
-//   cafeId: number;
-//   cafeName: string;
-//   image: File;
-//   address: string;
-//   rating: number;
-// }
-
-// interface BookmarkPostData {
-//   postId: number;
-//   title: string;
-//   author: string;
-//   image: File;
-// }
-
-// interface MyPostData {
-//   postId: number;
-//   title: string;
-//   author: string;
-//   image: File;
-// }
-
-export interface PostType {
+export interface ListType {
   id?: number;
   cafeId?: number;
   cafeName?: string;
@@ -338,35 +329,15 @@ const UserMyPageBox = () => {
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserData | undefined>();
 
-  const [dataSource, setDataSource] = useState<PostType[]>([]);
+  const [dataSource, setDataSource] = useState<ListType[]>([]);
+  const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
 
   // cafe, post, myPost
   const [selectedTab, setSelctedTab] = useState<
     "bookmarked-cafe" | "bookmarked-post" | "my-post"
   >("bookmarked-cafe");
-  //
-  // const [modalVisible, setModalVisible] = useState({
-  //   new:false,
-  //   edit:false,
-  //   submit:false,
-  //   submitBefore:false,
-  // });
-  //
-  // setModalVisible((prevState)=> ({...prevState, submit:true}));
 
-  const fetchMoreData = () => {
-    if (dataSource.length < 15) {
-      setTimeout(() => {
-        // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
-        setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 1 }))
-        );
-      }, 500);
-    } else {
-      setHasMore(false);
-    }
-  };
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
       setFollowerIsOpen(true);
@@ -427,7 +398,7 @@ const UserMyPageBox = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/my-page/${selectedTab}`, {
+      .get(`${baseURL}/members/my-page/${selectedTab}?size=4&id`, {
         headers: {
           ...defaultHeader,
           Authorization: localStorage.getItem("access_token"),
@@ -437,7 +408,8 @@ const UserMyPageBox = () => {
         // Handle success.
         console.log("success");
         console.log(response);
-        const MyPost: PostType[] = response.data.payload.data;
+        const MyPost: ListType[] = response.data.payload.data;
+        setLastId(response.data.payload.data[3].cafeBookMarkId);
         setDataSource(MyPost);
         setHasMore(response.data.payload.hasNext);
       })
@@ -448,7 +420,38 @@ const UserMyPageBox = () => {
         // replace('/');
       });
   }, [selectedTab]);
+  const fetchMoreData = () => {
+    if (hasMore) {
+      axios
+        .get(`${baseURL}/members/my-page/${selectedTab}?size=1&id=${lastId}`, {
+          headers: {
+            ...defaultHeader,
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          setTimeout(() => {
+            console.log("success");
+            console.log(response);
+            setDataSource((prevData) => [
+              ...prevData,
+              ...response.data.payload.data,
+            ]);
+            setLastId(response.data.payload.data[0].cafeBookMarkId);
+            setHasMore(response.data.payload.hasNext);
+          }, 500);
+        })
 
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+          // replace('/');
+        });
+    } else {
+      setHasMore(false);
+    }
+  };
   return (
     <S.Container>
       <S.MiddleBox>
@@ -544,25 +547,31 @@ const UserMyPageBox = () => {
       </S.BottomBox>
 
       <InfiniteScroll
-        dataLength={dataSource.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<p>Loading...</p>}
-        endMessage={<p>You are all set!</p>}
+        dataLength={dataSource.length} //반복되는 컴포넌트의 개수
+        next={fetchMoreData} //스크롤이 화면 맨 아래에 닿았을때 부르는 함수
+        hasMore={hasMore} // 추가 데이터가 있는지 여부
+        loader={
+          <S.LoadingBox>
+            <SyncLoader color='#36d759' />
+          </S.LoadingBox>
+        }
+        endMessage={<p>마지막 리스트입니다</p>}
         height={400}
       >
         <S.ListBox>
           {dataSource.map((el) => {
+            // 각 데이터 요소마다 고유한 식별자를 가져옵니다.
+            const key = el?.id || el?.cafeId || el?.postId;
             return (
-              <>
+              <React.Fragment key={key}>
                 {selectedTab === "bookmarked-cafe" ? (
-                  <BookmarkCafe data={el} key={el?.id} />
+                  <BookmarkCafe data={el} />
                 ) : selectedTab === "bookmarked-post" ? (
-                  <BookmarkPost data={el} key={el?.id} />
+                  <BookmarkPost data={el} />
                 ) : (
-                  <MyPost data={el} key={el?.id} />
+                  <MyPost data={el} />
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </S.ListBox>

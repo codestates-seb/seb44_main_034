@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import DeleteAccountBox from "../deleteaccoutbox/DeleteAccoutBox";
@@ -199,14 +199,23 @@ const EditUserMyPageBox = () => {
       setAvatarPreview(URL.createObjectURL(file));
     }
   }, [image]);
+  // const fileInputRef = useRef();
+  // const defaultFilePath = "client/src/assets/profileimg.svg";
+  // useEffect(() => {
+  //   // 컴포넌트가 마운트된 후에 파일 input의 value를 설정합니다.
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.value = defaultFilePath;
+  //   }
+  // }, []);
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { displayName } = data;
     const formData1 = new FormData();
 
     const image = watch("image");
-    if (image && image.length > 0) {
+    if ((image && image.length > 0) || image === null) {
       const file = image[0];
       const imageFile: Blob | null = file;
+      console.log("null이지롱");
       formData1.append("image", imageFile);
     } else {
       const imageFile1: File = null;
@@ -258,6 +267,7 @@ const EditUserMyPageBox = () => {
                 id='profileImg'
                 type='file'
                 accept='image/*'
+                // ref={fileInputRef}
                 {...register("image")}
               />
             </S.ProfileImgBox>

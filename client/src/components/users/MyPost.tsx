@@ -1,6 +1,6 @@
 import { FONT_SIZE_1 } from "../../common/common";
 import styled from "styled-components";
-import { PostType } from "./UserMyPageBox.tsx";
+import { ListType } from "./UserMyPageBox.tsx";
 import { Link } from "react-router-dom";
 
 const S = {
@@ -66,7 +66,7 @@ const S = {
   `,
 };
 
-const MyPost = (props: { data: PostType }) => {
+const MyPost = (props: { data: ListType }) => {
   const { data } = props;
   return (
     <Link to={`/postpage/${data?.cafeId}`}>

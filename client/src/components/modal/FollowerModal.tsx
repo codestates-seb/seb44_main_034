@@ -52,25 +52,14 @@ const S = {
 };
 
 interface Follower {
-  id: number;
-  displayName: string;
-  image: string | null;
+  id?: number;
+  displayName?: string;
+  image?: string | null;
 }
 const FollowerModal = () => {
   const [dataSource, setDataSource] = useState<Follower[]>(Array.from([]));
+  const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
-  const fetchMoreData = () => {
-    if (dataSource.length < 100) {
-      setTimeout(() => {
-        // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
-        setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 10 }))
-        );
-      }, 500);
-    } else {
-      setHasMore(false);
-    }
-  };
 
   useEffect(() => {
     fetchData();
@@ -79,7 +68,7 @@ const FollowerModal = () => {
 
   const fetchData = () => {
     axios
-      .get(`${baseURL}/members/my-page/follower`, {
+      .get(`${baseURL}/members/my-page/follower?size=4&id`, {
         headers: {
           "ngrok-skip-browser-warning": "true",
           withCredentials: true,
@@ -90,6 +79,7 @@ const FollowerModal = () => {
         // Handle success.
         console.log("success");
         const followers: Follower[] = response.data.payload.data;
+        setLastId(response.data.payload.data[3].id);
         setDataSource(followers);
         setHasMore(response.data.payload.hasNext);
       })
@@ -100,7 +90,36 @@ const FollowerModal = () => {
         // replace('/');
       });
   };
-
+  const fetchMoreData = () => {
+    if (hasMore) {
+      axios
+        .get(`${baseURL}/members/my-page/follower?size=4&id${lastId}`, {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          setTimeout(() => {
+            console.log("success");
+            console.log(response);
+            setDataSource((prevData) => [
+              ...prevData,
+              ...response.data.payload.data,
+            ]);
+            setLastId(response.data.payload.data[0].id);
+            setHasMore(response.data.payload.hasNext);
+          }, 500);
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+          // replace('/');
+        });
+    } else {
+      setHasMore(false);
+    }
+  };
   return (
     <S.Container>
       <S.SubContainer>

@@ -7,7 +7,7 @@ import CafeFollowerModal from "../modal/CafeFollowerModal";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { baseURL } from "../../common/baseURL";
-
+import DeleteCafe from "../cafe/DeleteCafe";
 const S = {
   Container: styled.div`
     width: 90vw;
@@ -24,7 +24,7 @@ const S = {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 400px;
+    height: 300px;
     width: 90vw;
     @media screen and (min-width: 500px) {
       width: 480px;
@@ -50,6 +50,7 @@ const S = {
   EditButtonBox: styled.div`
     display: flex;
     justify-content: right;
+    align-items: center;
     height: 60px;
     width: 90vw;
     @media screen and (min-width: 500px) {
@@ -71,7 +72,8 @@ const S = {
     border-radius: 20px;
     color: ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.ivory};
-    border: solid 1px ${COLOR_1.dark_brown};
+    /* border: solid 1px ${COLOR_1.dark_brown}; */
+    box-shadow: 1px 1px 2px #a57d52;
     cursor: pointer;
     &:hover {
       background-color: #a57d52;
@@ -185,25 +187,29 @@ const S = {
     }
   `,
   SandButton: styled.button`
-    height: 5vh;
+    height: 50px;
     width: 290px;
     border-radius: 15px;
     border: none;
     margin-top: 10px;
+    margin-bottom: 4px;
     background-color: ${COLOR_1.ivory};
     color: ${COLOR_1.dark_brown};
+    font-family: "TheJamsil5Bold";
     font-size: ${FONT_SIZE_1.normal_2};
-    font-weight: bold;
-    border: solid 1px ${COLOR_1.dark_brown};
+    box-shadow: 2px 2px 4px #a57d52;
+    /* border: double 3px ${COLOR_1.dark_brown}; */
     cursor: pointer;
     &:hover {
       background-color: #a57d52;
+      color: whitesmoke;
     }
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
   `,
 };
+
 interface OwnerData {
   email: string;
   displayName: string;
@@ -297,6 +303,7 @@ const UserMyPageBox = () => {
       <S.EditButtonBox>
         <Link to='/ownermy/edit/:id'>
           <S.EditButton>내 정보 수정하기</S.EditButton>
+          {cafeInfo ? <DeleteCafe cafeId={cafeInfo?.cafeId} /> : undefined}
         </Link>
       </S.EditButtonBox>
       <S.BottomBox>
