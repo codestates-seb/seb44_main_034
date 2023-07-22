@@ -91,6 +91,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
         setEditData((prevEditData) => ({
           ...prevEditData,
           address: coordinates.address_name,
+          shortAddress: coordinates.region_2depth_name,
           latitude: coordinates.y,
           longitude: coordinates.x,
         }));
