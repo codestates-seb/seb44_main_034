@@ -64,6 +64,8 @@ public class PostService {
         Long postId = postRepository.save(post).getPostId();
         post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
 
+        cafeService.calculateRating(cafe);
+
         return postId;
     }
 
@@ -82,8 +84,9 @@ public class PostService {
         if (!image.isEmpty()) {
             String storedImageUrl = imageService.update(findPost.getImage(), image, "posts");
             findPost.setImage(storedImageUrl);
-            cafeService.calculateRating(findPost.getCafe());
         }
+
+        cafeService.calculateRating(findPost.getCafe());
 
         Long cafeId = findPost.getCafe().getId();
 
@@ -192,33 +195,4 @@ public class PostService {
                 () -> new CustomException(ErrorCode.POST_NOT_FOUND));
     }
 
-    @Transactional
-    public void calculateRating(Long cafeId) {
-        Optional<List<Post>> optionalPosts = postRepository.findPostsByCafeId(cafeId);
-        Cafe cafe = cafeRepository.findById(cafeId).get();
-
-        float rating = 0;
-
-        if (!optionalPosts.isPresent() || optionalPosts.get().isEmpty()) {
-            // 게시물이 없을 경우에는 평점을 0으로 초기화
-            if (cafe != null) {
-                cafe.refreshRating(rating);
-            }
-            return;
-        }
-
-        List<Post> posts = optionalPosts.get();
-        int totalStarRating = 0;
-        for (Post post : posts) {
-            totalStarRating += post.getStarRating();
-        }
-
-        int numberOfPosts = posts.size();
-        if (numberOfPosts > 0) {
-            cafe.refreshRating((float) (Math.round(totalStarRating / (float) numberOfPosts * 10.0) / 10.0));
-        } else {
-            // numberOfPosts가 0인 경우에 대한 처리
-            cafe.refreshRating(rating);
-        }
-    }
 }
