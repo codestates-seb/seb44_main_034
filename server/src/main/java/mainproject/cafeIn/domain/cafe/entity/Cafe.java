@@ -145,4 +145,8 @@ public class Cafe extends BaseEntity {
     public void refreshRating(float rating) {
         this.rating = rating;
     }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
 }
