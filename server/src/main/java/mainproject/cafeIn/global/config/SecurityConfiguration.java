@@ -29,8 +29,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration implements WebMvcConfigurer {
@@ -64,11 +62,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         // cafes 권한
                         .antMatchers(HttpMethod.POST, "/*/cafes/{cafe-id}/Bookmark").hasRole("MEMBER")
                         .antMatchers(HttpMethod.GET, "/*/cafes/{cafe-id}/edit").hasRole("OWNER")
-                        .antMatchers(HttpMethod.GET, "/*/cafes/**").hasAnyRole("OWNER", "MEMBER")
+                        .antMatchers(HttpMethod.GET, "/*/cafes/**").permitAll()
                         .antMatchers("/*/cafes/**").hasRole("OWNER")
 
                         // menus 권한
-                        .antMatchers(HttpMethod.GET,"/*/menus/{menu-id}").hasAnyRole("OWNER, MEMBER")
+                        .antMatchers(HttpMethod.GET,"/*/menus/{menu-id}").permitAll()
                         .antMatchers("/*/menus/**").hasRole("OWNER")
 
                         // members 권한
