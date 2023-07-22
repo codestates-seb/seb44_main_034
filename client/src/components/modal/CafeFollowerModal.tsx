@@ -56,34 +56,7 @@ interface Follower {
   image?: string;
 }
 const CafeFollowerModal = () => {
-  const mockData = [
-    {
-      id: 1,
-      displayName: "커피나라1",
-      image: undefined,
-    },
-    {
-      id: 2,
-      displayName: "커피2",
-      image: undefined,
-    },
-    {
-      id: 2,
-      displayName: "커피3",
-      image: undefined,
-    },
-    {
-      id: 4,
-      displayName: "커피4",
-      image: undefined,
-    },
-    {
-      id: 5,
-      displayName: "커피6",
-      image: undefined,
-    },
-  ];
-  const [dataSource, setDataSource] = useState<Follower[]>(mockData);
+  const [dataSource, setDataSource] = useState<Follower[]>();
   const [hasMore, setHasMore] = useState(true);
   const fetchMoreData = () => {
     if (dataSource.length < 100) {
