@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSetRecoilState } from "recoil";
-import { styled, css } from "styled-components";
+import { styled } from "styled-components";
 import { FONT_SIZE_1, COLOR_1 } from "../common/common";
-import { PostCafeType } from "../types/type";
-import { PostCafeAtom } from "../recoil/postState";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
@@ -12,7 +9,7 @@ import PostList from "../components/post/PostList";
 import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
-import { BsFillBookmarkFill } from "react-icons/bs";
+import { BsBookmarkStarFill } from "react-icons/bs";
 
 const CafePage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -32,8 +29,14 @@ const CafePage = () => {
           },
         }
       );
-      setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
-      console.log(response.data);
+      console.log(response);
+      if (isBookmarked) {
+        setIsBookmarked(false);
+      } else {
+        setIsBookmarked(true);
+      }
+
+      console.log(isBookmarked);
     } catch (error) {
       console.error("Error sending bookmark request:", error);
     }
@@ -52,6 +55,7 @@ const CafePage = () => {
         const data = response.data.payload;
         console.log(data);
         setCafeDetail(data.cafeDetail);
+        setIsBookmarked(data.cafeDetail.bookmarked);
         console.log(data.cafeDetail);
         setMenus(data.menus);
         console.log(data.menus);
@@ -63,7 +67,7 @@ const CafePage = () => {
     };
     fetchCafeData();
   }, []);
-
+  console.log(isBookmarked);
   return (
     <>
       {isLoading ? (
@@ -71,10 +75,11 @@ const CafePage = () => {
       ) : (
         <S.Container>
           <S.BookmarkDiv>
-            <Bookmark
-              onClick={handleBookmarkClick}
-              isbookmarked={isBookmarked}
-            />
+            {isBookmarked ? (
+              <OnBookmark onClick={handleBookmarkClick} />
+            ) : (
+              <OffBookmark onClick={handleBookmarkClick} />
+            )}
           </S.BookmarkDiv>
 
           {cafeDetail && <CafeDetailsInfo cafeDetail={cafeDetail} />}
@@ -126,20 +131,20 @@ const S = {
   `,
 };
 
-const Bookmark = styled(BsFillBookmarkFill)`
-  width: 40px;
-  height: 40px;
+const OnBookmark = styled(BsBookmarkStarFill)`
+  width: 60px;
+  height: 65px;
   text-align: end;
-  color: white;
-  border: 1px soild ${COLOR_1.dark_brown};
+  color: ${COLOR_1.brown};
   cursor: pointer;
-
-  /* 클릭된 상태일 때 색상 변경 */
-  ${({ isbookmarked }) =>
-    isbookmarked &&
-    css`
-      color: ${COLOR_1.dark_brown}; /* 클릭된 상태일 때 색상 */
-      border: 1px soild ${COLOR_1.dark_brown};
-    `}
 `;
+const OffBookmark = styled(BsBookmarkStarFill)`
+  width: 60px;
+  height: 65px;
+  text-align: end;
+
+  color: ${COLOR_1.light_gray};
+  cursor: pointer;
+`;
+
 export default CafePage;

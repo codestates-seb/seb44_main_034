@@ -35,7 +35,7 @@ const CafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<string | Blob>("");
+  const [imageFile, setImageFile] = useState<string | Blob | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,6 +123,8 @@ const CafeInfo = () => {
     const formData = new FormData();
     if (imageFile) {
       formData.append("cafeImage", imageFile);
+    } else {
+      formData.append("cafeImage", null);
     }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
