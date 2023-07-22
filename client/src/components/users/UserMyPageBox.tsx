@@ -297,7 +297,7 @@ interface UserData {
   grade?: string;
   countFollower?: number;
   countFollowing?: number;
-  image?: File;
+  image?: File | string;
 }
 
 // interface BookmarkCafeData {
@@ -334,49 +334,11 @@ export interface PostType {
   author?: string;
 }
 const UserMyPageBox = () => {
-  const mockData = [
-    {
-      id: 1,
-      cafeName: "동대문 카페",
-      image: undefined,
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-    {
-      id: 2,
-      cafeName: "동대문 카페1",
-      image: undefined,
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-    // {
-    //   id: 3,
-    //   cafeName: '동대문 카페2',
-    //   image: undefined,
-    //   address: '서울시 동대문구',
-    //   rating: 1,
-    //   title: '먹자',
-    //   author: '주인장',
-    // },
-    // {
-    //   id: 4,
-    //   cafeName: '동대문 카페3',
-    //   image: undefined,
-    //   address: '서울시 동대문구',
-    //   rating: 1,
-    //   title: '먹자',
-    //   author: '주인장',
-    // },
-  ];
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserData | undefined>();
 
-  const [dataSource, setDataSource] = useState<PostType[]>(mockData);
+  const [dataSource, setDataSource] = useState<PostType[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
   // cafe, post, myPost
@@ -394,11 +356,11 @@ const UserMyPageBox = () => {
   // setModalVisible((prevState)=> ({...prevState, submit:true}));
 
   const fetchMoreData = () => {
-    if (dataSource.length < 100) {
+    if (dataSource.length < 15) {
       setTimeout(() => {
         // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
         setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 10 }))
+          prevDataSource.concat(Array.from({ length: 1 }))
         );
       }, 500);
     } else {
@@ -452,7 +414,7 @@ const UserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("success");
+        console.log("유저마이페이지 리스트업로드");
         setUserInfo(response.data.payload);
       })
       .catch((error) => {
@@ -474,6 +436,7 @@ const UserMyPageBox = () => {
       .then((response) => {
         // Handle success.
         console.log("success");
+        console.log(response);
         const MyPost: PostType[] = response.data.payload.data;
         setDataSource(MyPost);
         setHasMore(response.data.payload.hasNext);
@@ -492,7 +455,9 @@ const UserMyPageBox = () => {
         <S.ProfileImgBox>
           <S.ProfileImg
             src={
-              userInfo?.image ? URL.createObjectURL(userInfo.image) : profileimg
+              userInfo?.image instanceof File
+                ? URL.createObjectURL(userInfo?.image)
+                : userInfo?.image || profileimg
             }
           ></S.ProfileImg>
         </S.ProfileImgBox>

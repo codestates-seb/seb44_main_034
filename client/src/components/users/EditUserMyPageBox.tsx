@@ -169,7 +169,7 @@ interface FormValue {
   displayName: string;
   password: string;
   passwordConfirm: string;
-  image: FileList;
+  image?: FileList | null;
 }
 
 const EditUserMyPageBox = () => {
@@ -182,13 +182,15 @@ const EditUserMyPageBox = () => {
       setIsOpen(false);
     }
   };
-  const [avatarPreview, setAvatarPreview] = useState("");
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<FormValue>();
+
+  // image1은 File 객체이므로 원하는 작업을 수행할 수 있습니다.
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   const image = watch("image");
   useEffect(() => {
@@ -197,41 +199,44 @@ const EditUserMyPageBox = () => {
       setAvatarPreview(URL.createObjectURL(file));
     }
   }, [image]);
-
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    const formData = new FormData();
-    formData.append("displayName", data.displayName);
-    formData.append("password", data.passwordConfirm);
-    const json = JSON.stringify(data);
-    const info = new Blob([json], { type: "application/json" });
-    formData.append("dto", info);
+    const { displayName } = data;
+    const formData1 = new FormData();
+
     const image = watch("image");
     if (image && image.length > 0) {
       const file = image[0];
-      formData.append("image", file);
+      const imageFile: Blob | null = file;
+      formData1.append("image", imageFile);
+    } else {
+      const imageFile1: File = null;
+      formData1.append("image", imageFile1);
     }
-    for (const [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+
+    // for (const [key, value] of formData1.entries()) {
+    //   console.log(key, value);
+    // }
+    // formData.append("displayName", data.displayName);
+    const json = JSON.stringify({ displayName: displayName });
+    console.log(json);
+    const info = new Blob([json], { type: "application/json" });
+    formData1.append("dto", info);
+    const image1 = formData1.get("image");
+
+    console.log("image", image1);
+
     axios
-      .patch(
-        `${baseURL}/members/update`,
-        {
-          formData,
+      .patch(`${baseURL}/members/update`, formData1, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
         },
-        {
-          headers: {
-            withCredentials: true,
-            Authorization: localStorage.getItem("access_token"),
-          },
-        }
-      )
+      })
       .then((response) => {
         // Handle success.
         console.log("Well done!");
         console.log("User profile", response);
         alert("수정이 완료되었습니디.");
-        replace("/");
+        replace("/usermy");
       })
       .catch((error) => {
         // Handle error.
@@ -249,7 +254,6 @@ const EditUserMyPageBox = () => {
               ) : (
                 <S.ProfileImg src={profileimg} />
               )}
-
               <input
                 id='profileImg'
                 type='file'

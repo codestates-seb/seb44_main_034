@@ -1,6 +1,7 @@
 import { FONT_SIZE_1 } from "../../common/common";
-import coffeeshop3 from "../../assets/coffeeshop3.jpeg";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { PostType } from "../users/UserMyPageBox";
 
 const S = {
   PostContainer: styled.div`
@@ -64,19 +65,22 @@ const S = {
   `,
 };
 
-const UserPost = () => {
+const UserPost = (props: { data: PostType }) => {
+  const { data } = props;
   return (
-    <S.PostContainer>
-      <S.PostImgBox src={coffeeshop3} />
-      <S.PostInformaiton>
-        <S.PostTitleBox>
-          <S.PostTitle>스타벅스</S.PostTitle>
-        </S.PostTitleBox>
-        <S.PostWriterBox>
-          <S.Writer>나</S.Writer>
-        </S.PostWriterBox>
-      </S.PostInformaiton>
-    </S.PostContainer>
+    <Link to={`/postpage/${data?.cafeId}`}>
+      <S.PostContainer>
+        <S.PostImgBox src={data?.image ?? ""} />
+        <S.PostInformaiton>
+          <S.PostTitleBox>
+            <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
+          </S.PostTitleBox>
+          <S.PostWriterBox>
+            <S.Writer>-{data?.author ?? ""}</S.Writer>
+          </S.PostWriterBox>
+        </S.PostInformaiton>
+      </S.PostContainer>
+    </Link>
   );
 };
 

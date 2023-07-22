@@ -27,7 +27,7 @@ const S = {
     align-items: center;
     height: 400px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       flex-direction: row;
       width: 700px;
     }
@@ -36,7 +36,7 @@ const S = {
     display: flex;
     height: 150px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -46,7 +46,7 @@ const S = {
     margin-top: 20px;
     width: 90vw;
     margin-bottom: 20px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -56,13 +56,13 @@ const S = {
     height: 60px;
     width: 90vw;
     border-bottom: solid 1px ${COLOR_1.light_gray};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
   ProfileImg: styled.img`
     width: 170px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 200px;
     }
   `,
@@ -73,7 +73,7 @@ const S = {
     align-items: center;
     height: 200px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -87,7 +87,7 @@ const S = {
     background-color: ${COLOR_1.white};
     border: solid 2px ${COLOR_1.green};
     box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -97,7 +97,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 30vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 80px;
     }
   `,
@@ -106,7 +106,7 @@ const S = {
     margin-top: 5px;
     text-align: center;
     color: ${COLOR_1.brown};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 60px;
     }
   `,
@@ -117,7 +117,7 @@ const S = {
     align-items: center;
     width: 70vw;
     font-weight: 200;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -126,7 +126,7 @@ const S = {
     width: 60vw;
     margin-top: 5px;
     color: black;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -148,7 +148,7 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       font-size: ${FONT_SIZE_1.normal_2};
       width: 200px;
     }
@@ -207,7 +207,7 @@ const S = {
     align-items: center;
     justify-content: center;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -282,30 +282,10 @@ interface UserData {
 }
 
 const OtherUserMyPageBox = () => {
-  const mockData = [
-    {
-      id: 1,
-      cafeName: "동대문 카페",
-      image: undefined,
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-    {
-      id: 2,
-      cafeName: "동대문 카페1",
-      image: undefined,
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-  ];
   // const replace = useNavigate();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [dataSource, setDataSource] = useState<PostType[]>(mockData);
+  const [dataSource, setDataSource] = useState<PostType[]>([]);
   const [hasMore, setHasMore] = useState(true);
 
   //특정회원 팔로우하기
