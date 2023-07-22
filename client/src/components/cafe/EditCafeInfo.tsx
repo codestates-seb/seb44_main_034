@@ -38,7 +38,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<string | Blob>("");
+  const [imageFile, setImageFile] = useState<null | string | Blob>(null);
   const [previewImage, setPreviewImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +91,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
         setEditData((prevEditData) => ({
           ...prevEditData,
           address: coordinates.address_name,
+          shortAddress: coordinates.region_2depth_name,
           latitude: coordinates.y,
           longitude: coordinates.x,
         }));
@@ -152,8 +153,11 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
 
     const formData = new FormData();
     // if (imageFile) {
-    formData.append("cafeImage", imageFile); //이미지 수정 안했을 때 이미지 그대로 다시 해야되는거 수정
-    // }
+    if (imageFile) {
+      formData.append("cafeImage", imageFile); //이미지 수정 안했을 때 이미지 그대로 다시 해야되는거 수정
+    } else {
+      formData.append("cafeImage", null);
+    }
     const json = JSON.stringify(editData);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
