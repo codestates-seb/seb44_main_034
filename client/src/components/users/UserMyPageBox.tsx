@@ -337,7 +337,7 @@ const UserMyPageBox = () => {
     {
       id: 1,
       cafeName: "동대문 카페",
-      image: undefined,
+      image: "",
       address: "서울시 동대문구",
       rating: 1,
       title: "먹자",
@@ -346,7 +346,7 @@ const UserMyPageBox = () => {
     {
       id: 2,
       cafeName: "동대문 카페1",
-      image: undefined,
+      image: "",
       address: "서울시 동대문구",
       rating: 1,
       title: "먹자",
