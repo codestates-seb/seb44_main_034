@@ -1,12 +1,16 @@
 package mainproject.cafeIn.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mainproject.cafeIn.domain.member.dto.reponse.MemberGrade;
 import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.global.exception.CustomException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,14 +19,17 @@ import static mainproject.cafeIn.global.exception.ErrorCode.MEMBER_NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class MemberGradeScheduler {
 
     private final MemberRepository memberRepository;
 
+    @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
+    @Transactional
     public void updateMemberCoffeeBean() {
 
         List<MemberGrade> memberGradeList = memberRepository.memberGradeCoffeeBean();
-
+        log.info("start schedule1 : " + LocalDateTime.now());
         //포스트 3개
         //팔로워 10명 - 커피콩
         //팔로워 50명 - 원두
@@ -43,10 +50,13 @@ public class MemberGradeScheduler {
 
     }
 
+    @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
+    @Transactional
     public void updateMemberRostedBean() {
 
         List<MemberGrade> memberGradeList = memberRepository.memberGradeRoastedBean();
 
+        log.info("start schedule2 : " + LocalDateTime.now());
         if (memberGradeList != null) {
             for (MemberGrade member : memberGradeList) {
 
@@ -64,10 +74,13 @@ public class MemberGradeScheduler {
         }
     }
 
+    @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
+    @Transactional
     public void updateMemberEspresso() {
 
         List<MemberGrade> memberGradeList = memberRepository.memberGradeEspresso();
 
+        log.info("start schedule3 : " + LocalDateTime.now());
         if (memberGradeList != null) {
             for (MemberGrade member : memberGradeList) {
 
