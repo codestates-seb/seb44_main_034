@@ -1,7 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import axios from "axios";
-import GoogleLoginButton from "../googleoauth/GoogleOauth";
 import { COLOR_1, FONT_WEIGHT } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
 import styled from "styled-components";
@@ -13,7 +12,7 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 560px;
+    height: 520px;
     width: 90vw;
     border-radius: 20px;
     background-color: #fafafa;
@@ -44,11 +43,12 @@ const S = {
   `,
   InputInformation: styled.p`
     height: 5px;
-    width: 250px;
+    width: 280px;
     color: ${COLOR_1.light_red};
     font-size: ${FONT_SIZE_1.small_2};
     @media screen and (min-width: 550px) {
       font-size: ${FONT_SIZE_1.small_3};
+      width: 300px;
     }
   `,
   SubmitButton: styled.button`
@@ -225,7 +225,6 @@ const OwnerSignupBox = () => {
         </S.SubMiniBox>
         <S.SubmitButton type='submit'>사업자 회원가입</S.SubmitButton>
       </form>
-      <GoogleLoginButton />
     </S.Container>
   );
 };

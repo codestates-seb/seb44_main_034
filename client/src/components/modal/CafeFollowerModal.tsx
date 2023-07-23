@@ -56,20 +56,9 @@ interface Follower {
   image?: string;
 }
 const CafeFollowerModal = () => {
-  const [dataSource, setDataSource] = useState<Follower[]>();
+  const [dataSource, setDataSource] = useState<Follower[]>(Array.from([]));
+  const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
-  const fetchMoreData = () => {
-    if (dataSource.length < 100) {
-      setTimeout(() => {
-        // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
-        setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 10 }))
-        );
-      }, 500);
-    } else {
-      setHasMore(false);
-    }
-  };
 
   useEffect(() => {
     fetchData();
@@ -78,9 +67,10 @@ const CafeFollowerModal = () => {
 
   const fetchData = () => {
     axios
-      .get(`${baseURL}/owners/my-page`, {
+      .get(`${baseURL}/owners/my-page?size=4&id`, {
         headers: {
           "ngrok-skip-browser-warning": "true",
+          withCredentials: true,
           Authorization: localStorage.getItem("access_token"),
         },
       })
@@ -88,8 +78,9 @@ const CafeFollowerModal = () => {
         // Handle success.
         console.log("success");
         const followers: Follower[] = response.data.payload.cafes;
+        setLastId(response.data.payload.cafes[3].id);
         setDataSource(followers);
-        // setHasMore(response.data.payload.hasNext);
+        setHasMore(response.data.payload.hasNext);
       })
       .catch((error) => {
         // Handle error.
@@ -97,6 +88,36 @@ const CafeFollowerModal = () => {
         console.log("An error occurred:", error.response);
         // replace('/');
       });
+  };
+  const fetchMoreData = () => {
+    if (hasMore) {
+      axios
+        .get(`${baseURL}/owners/my-page?size=4&id${lastId}`, {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          setTimeout(() => {
+            console.log("success");
+            console.log(response);
+            setDataSource((prevData) => [
+              ...prevData,
+              ...response.data.payload.cafes,
+            ]);
+            setLastId(response.data.payload.cafes[0].id);
+            setHasMore(response.data.payload.hasNext);
+          }, 500);
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+          // replace('/');
+        });
+    } else {
+      setHasMore(false);
+    }
   };
   return (
     <S.Container>

@@ -15,7 +15,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -29,7 +29,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 766px) {
       flex-direction: row;
       width: 700px;
     }
@@ -57,7 +57,7 @@ const S = {
       width: 480px;
     }
     border-bottom: solid 1px ${COLOR_1.light_gray};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -93,7 +93,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 300px;
       height: 210px;
     }
@@ -106,7 +106,7 @@ const S = {
     height: 210px;
     width: 90vw;
     margin-top: 10px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       margin-top: 0px;
       width: 350px;
     }
@@ -122,7 +122,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -135,7 +135,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 80px;
     }
   `,
@@ -147,7 +147,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 100px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 800px;
     }
   `,
@@ -163,7 +163,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 200px;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,

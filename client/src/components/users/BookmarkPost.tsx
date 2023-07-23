@@ -1,6 +1,7 @@
 import { FONT_SIZE_1 } from "../../common/common";
 import styled from "styled-components";
-import { PostType } from "./UserMyPageBox.tsx";
+import { ListType } from "./UserMyPageBox.tsx";
+import { Link } from "react-router-dom";
 
 const S = {
   PostContainer: styled.div`
@@ -65,20 +66,22 @@ const S = {
   `,
 };
 
-const BookmarkPost = (props: { data: PostType }) => {
+const BookmarkPost = (props: { data: ListType }) => {
   const { data } = props;
   return (
-    <S.PostContainer>
-      <S.PostImgBox src={data?.image ?? ""} />
-      <S.PostInformaiton>
-        <S.PostTitleBox>
-          <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
-        </S.PostTitleBox>
-        <S.PostWriterBox>
-          <S.Writer>-{data?.author ?? ""}</S.Writer>
-        </S.PostWriterBox>
-      </S.PostInformaiton>
-    </S.PostContainer>
+    <Link to={`/postpage/${data?.postId}`}>
+      <S.PostContainer>
+        <S.PostImgBox src={data?.image ?? ""} />
+        <S.PostInformaiton>
+          <S.PostTitleBox>
+            <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
+          </S.PostTitleBox>
+          <S.PostWriterBox>
+            <S.Writer>-{data?.author ?? ""}</S.Writer>
+          </S.PostWriterBox>
+        </S.PostInformaiton>
+      </S.PostContainer>
+    </Link>
   );
 };
 
