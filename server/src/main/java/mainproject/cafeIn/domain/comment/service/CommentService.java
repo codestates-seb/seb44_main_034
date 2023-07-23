@@ -92,6 +92,7 @@ public class CommentService {
                         comment.getId(),
                         comment.getMember().getId(),
                         comment.getMember().getDisplayName(),
+                        comment.getMember().getGrade().getGrade(),
                         comment.getContent(),
                         comment.getCreatedAt(),
                         comment.getUpdatedAt(),

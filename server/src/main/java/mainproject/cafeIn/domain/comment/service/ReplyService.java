@@ -86,6 +86,7 @@ public class ReplyService {
                         reply.getId(),
                         reply.getMember().getId(),
                         reply.getMember().getDisplayName(),
+                        reply.getMember().getGrade().getGrade(),
                         reply.getContent(),
                         reply.getCreatedAt(),
                         reply.getUpdatedAt()
