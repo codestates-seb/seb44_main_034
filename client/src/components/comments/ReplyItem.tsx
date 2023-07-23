@@ -4,19 +4,20 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostReplies } from "../../types/type";
+import { PostReply } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
 type ReplyItemProps = {
-  reply: PostReplies;
+  reply: PostReply;
   // currentPosts: PostComments[];
 };
 type InputData = {
   content: string;
 };
 
-type EditComment = {
+type EditedReply = {
   content: string;
 };
 
@@ -100,8 +101,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
     setEditing(true);
   };
 
-  const editReply = (editedContent: EditComment) =>
-    axios.patch(`${baseURL}/replys/${"replyId"}`, editedContent, {
+  const editReply = (content: EditedReply) =>
+    axios.patch(`${baseURL}/replys/${"replyId"}`, reply, {
       //replyId
       headers: { Authorization: localStorage.getItem("access_token") },
     });
@@ -135,8 +136,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       deleteReplyMutation.mutate();
     }
   };
-  const onSubmitEdit = (editedContent: InputData) => {
-    const reply = { ...editedContent };
+  const onSubmitEdit = (content: InputData) => {
+    const reply = { ...content };
     console.log(reply);
     editReplyMutation.mutate(reply);
   };

@@ -12,6 +12,11 @@ export const PostItemAtom = atom<ReqPostData>({
   },
 });
 
+export const PostImgAtom = atom<string | null>({
+  key: "postImgAtom",
+  default: "",
+});
+
 export const PostCafeAtom = atom<PostCafeType>({
   key: "editPostAtom",
   default: {

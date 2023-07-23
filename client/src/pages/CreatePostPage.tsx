@@ -147,7 +147,7 @@ const CreatePostPage = () => {
       console.log(context);
       console.log(data);
       resetPostItem();
-      navigate(`./postpage/${"data.postId as string"}`);
+      navigate(`../cafes/${postCafe.cafeId}`);
       //이동 로직 추가 해함(postId 받아와야 함)
     },
     onError: () => {

@@ -136,6 +136,8 @@ const FilterSearchBox = () => {
 
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
   const handleSearchClick = () => {
+    //로직 추가하여야 함
+    //태그인지, 주소인지 클릭하였을 때 값을 넣을 수 있어야 함.
     setHandleSearch((cur) => !cur);
   };
 
@@ -185,14 +187,6 @@ const FilterSearchBox = () => {
       setMoodTags(() => [...moodTags, tagText]);
     }
   };
-
-  useEffect(() => {
-    saveFacil();
-  }, [facilAddress]);
-
-  useEffect(() => {
-    saveMood();
-  }, [moodIds]);
 
   console.log(facilities, moodTags);
   console.log(moodIds);

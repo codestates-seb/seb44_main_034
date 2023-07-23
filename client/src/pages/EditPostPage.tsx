@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { useResetRecoilState } from "recoil";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
-import { PostCafeAtom, PostItemAtom } from "../recoil/postState";
+import { PostCafeAtom, PostItemAtom, PostImgAtom } from "../recoil/postState";
 import { ReqPostData } from "../types/type";
 import { PostCafeType } from "../types/type";
 import { MoodTagNames } from "../common/tagNames";
@@ -123,7 +123,9 @@ const S = {
     cursor: pointer;
     margin: 10px 0 20px 0;
   `,
-  AddImg: styled.input``,
+  AddImg: styled.input`
+    display: none;
+  `,
   BtnWrap: styled.div`
     display: flex;
     justify-content: flex-start;
@@ -150,16 +152,24 @@ const EditPostPage = () => {
   const postId = useParams();
   const [disabled, setDisabled] = useState(false);
   const [postData, setPostData] = useRecoilState<ReqPostData>(PostItemAtom);
+  const postImg = useRecoilValue<string | null>(PostImgAtom);
   const postCafe = useRecoilValue<PostCafeType>(PostCafeAtom);
   const [file, setFile] = useState<File | null>(null);
-  const [previewImgUrl, setPreviewImgUrl] = useState<null | string>(null);
+  const [previewImgUrl, setPreviewImgUrl] = useState<null | string>(postImg);
+  const [isResImg, setIsResImg] = useState(true);
   // const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
   const navigate = useNavigate();
+  console.log(postId.postId);
+  console.log(previewImgUrl);
+  //카페 아이디를 새로고침 해도 저장할 수  있게 객체 새로 복사
+  //게시글 수정 시  이미지 업로드
+  //이미지가 업로드 되어 있을 때  보내지 않고
+  //이미지가 업로드 되어 있지 않을 때  보냄
 
   //api
   const editPost = (formData: FormData) =>
-    axios.patch(`${baseURL}/posts/${postId}`, formData, {
+    axios.patch(`${baseURL}/posts/${postId.postId}`, formData, {
       headers: {
         Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
@@ -171,8 +181,12 @@ const EditPostPage = () => {
     onSuccess: (data, context) => {
       console.log(context);
       console.log(data);
-      resetPostItem();
       navigate(`./postpage/${postId}`);
+      resetPostItem();
+    },
+    onError: () => {
+      alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      setDisabled(false);
     },
   });
   //리코일 데이터: cafeId, cafeName, title, createdAt, updatedAt, authorId, author, image, content, starRating, isBookmarked, tag, comment
@@ -183,7 +197,7 @@ const EditPostPage = () => {
   const submitPost = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setDisabled(true);
-    // setPostData(postData);
+    // setPostData((prev) => prev);
     const formData = new FormData();
     const json = JSON.stringify(postData);
     const post = new Blob([json], {
@@ -193,14 +207,16 @@ const EditPostPage = () => {
     formData.append("dto", post);
     if (file) {
       formData.append("postImage", file);
+    } else {
+      formData.append("postImage", null);
     }
     for (const entry of formData.entries()) {
       console.log(entry[0] + ": " + entry[1]);
     }
     editPostMutation.mutate(formData);
   };
-  //제목
 
+  //제목
   const handleTitle = (event: any) => {
     const titleValue: string = event?.target.value;
     titleValue.length > 30 ? alert("제목은 30자 이하로 적어주세요.") : null;
@@ -208,7 +224,6 @@ const EditPostPage = () => {
   };
 
   //태그
-
   // const saveTag = () => {
   //   setTags(tags);
   //   setPostData((current) => ({ ...current, tag: tags })); //리코일: PostItemAtom에 선택된 태그 담기
@@ -255,7 +270,7 @@ const EditPostPage = () => {
     const fileReader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
-
+      setIsResImg(false);
       if (file.size > 1024 * 1024 * 4) {
         alert("4MB 이상의 이미지는 업로드 할 수 없습니다.");
         return;
@@ -352,7 +367,7 @@ const EditPostPage = () => {
             <S.UploadBtn htmlFor='fileUpload'>사진 추가하기</S.UploadBtn>
           )}
           <S.AddImg
-            id='file-upload'
+            id='fileupload'
             type='file'
             accept='image/*'
             onChange={handleFileChange}
@@ -383,11 +398,11 @@ const EditPostPage = () => {
                   alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
                   return;
                 }
-                if (content.length < 130) {
-                  alert("내용을 130자 이상 적어주세요.");
-                  return;
-                }
-                if (!file) {
+                // if (content.length < 130) {
+                //   alert("내용을 130자 이상 적어주세요.");
+                //   return;
+                // }
+                if (!previewImgUrl) {
                   alert("이미지를 첨부해주세요.");
                   return;
                 }
@@ -402,8 +417,7 @@ const EditPostPage = () => {
                   `지금 나가시면 작성된 내용은 저장이 안 됩니다. 정말로 나가시겠습니까?`
                 );
                 if (exit) {
-                  // window.history.go(-1);
-                  navigate(`../${postId}`);
+                  navigate(`../postpage/${postId.postId}`);
                 }
               }}
             >

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -112,6 +113,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       console.log(data);
       console.log(comment.commentId);
       reset();
+      setEditing(false);
     },
   });
 
@@ -135,8 +137,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       deleteCommentMutation.mutate();
     }
   };
-  const onSubmitEdit = (editedContent: InputData) => {
-    const comment = { ...editedContent };
+  const onSubmit = (content: InputData) => {
+    console.log(content);
+    const comment = { ...content };
     console.log(comment);
     editCommentMutation.mutate(comment);
   };
@@ -149,8 +152,11 @@ const CommentItem = ({ comment }: CommentItemProps) => {
             <li key={comment.commentId}>
               <S.FlexWrap>
                 <S.Author>
-                  <span>{comment.author}</span>
+                  <Link to={`../otherusermy/${comment.authorId}`}>
+                    <span>{comment.author}</span>{" "}
+                  </Link>
                 </S.Author>
+
                 <S.Edit>
                   <span
                     onClick={() => {
@@ -170,21 +176,14 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               </S.FlexWrap>
               {comment.content}
               <S.EditForm
-                onSubmit={handleSubmit(onSubmitEdit)}
+                onSubmit={handleSubmit(onSubmit)}
                 // className={comment.commentId ? "active" : ""}
               >
                 <input
                   type='text'
                   {...register("content", { required: true })}
                 />
-                <button
-                  type='submit'
-                  onClick={() => {
-                    setEditing(false);
-                  }}
-                >
-                  댓글 수정
-                </button>
+                <button type='submit'>댓글 수정</button>
               </S.EditForm>
               {/* <Replies
                 replies={comment?.replies}
@@ -198,9 +197,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           <ul>
             <li key={comment.commentId}>
               <S.FlexWrap>
-                <S.Author>
-                  <span>{comment.author}</span>
-                </S.Author>
+                <Link to={`../otherusermy/${comment.authorId}`}>
+                  <span>{comment.author}</span>{" "}
+                </Link>
                 <S.Edit>
                   <span
                     onClick={() => {
