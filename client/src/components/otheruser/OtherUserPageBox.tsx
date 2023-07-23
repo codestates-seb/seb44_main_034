@@ -352,7 +352,7 @@ const OtherUserMyPageBox = () => {
   //특정회원 포스터 불러오기
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/my-page/?size&id`, {
+      .get(`${baseURL}/members/${id}/post?size&id`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
@@ -361,6 +361,7 @@ const OtherUserMyPageBox = () => {
         // Handle success.
         console.log("여기");
         const myList: ListType[] = response.data.payload.data;
+        console.log(response);
         const myListLength = myList.length;
         setLastId(response.data.payload.data[myListLength - 1].postId);
         setHasMore(response.data.payload.hasNext);
@@ -377,7 +378,7 @@ const OtherUserMyPageBox = () => {
   const fetchMoreData = () => {
     if (hasMore) {
       axios
-        .get(`${baseURL}/members/my-page/?size=1&id=${lastId}`, {
+        .get(`${baseURL}/members/${id}/post?size=1&id=${lastId}`, {
           headers: {
             Authorization: localStorage.getItem("access_token"),
           },
@@ -385,7 +386,6 @@ const OtherUserMyPageBox = () => {
         .then((response) => {
           // Handle success.
           setTimeout(() => {
-            console.log("팔로어");
             console.log(response);
             setDataSource((prevData) => [
               ...prevData,
