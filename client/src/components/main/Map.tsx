@@ -50,7 +50,6 @@ const S = {
 
 const createMarkerAndInfowindow = (map: any, cafe: any) => {
   const markerPosition = new kakao.maps.LatLng(cafe.latitude, cafe.longitude);
-  console.log(cafe.latitude);
   const marker = new kakao.maps.Marker({
     position: markerPosition,
   });
@@ -58,8 +57,8 @@ const createMarkerAndInfowindow = (map: any, cafe: any) => {
 
   const iwContent = `<div style="padding:5px; border:1px solid green; ">
   ${cafe.name} 
-  <div style="font-size:5px">${cafe.address}</div>
-  <a href="https://cafein34.vercel.app/cafes/${cafe.cafeId}" style="color:green; font-size:10px;" target="_blank">카페 보러가기</a>
+  <div style="font-size:5px; width:152px; ">${cafe.address}</div>
+  <a href="https://cafein34.vercel.app/cafes/${cafe.cafeId}" style="color:green; font-size:10px; " target="_blank">카페 보러가기</a>
   </div> `;
   const iwPosition = new kakao.maps.LatLng(cafe.latitude, cafe.longitude);
   const iwRemoveable = true;
