@@ -115,9 +115,7 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    if (imageFile === "") {
-      alert("이미지를 등록해주세요! ");
-    }
+
     console.log(imageFile);
     console.log(CafeData.latitude);
     console.log(CafeData.longitude);
