@@ -22,7 +22,7 @@ const S = {
   `,
   PostImgBox: styled.img`
     height: 140px;
-    width: 90vw;
+    width: 80vw;
     border-radius: 10px 10px 0px 0px;
     @media screen and (min-width: 500px) {
       width: 330px;

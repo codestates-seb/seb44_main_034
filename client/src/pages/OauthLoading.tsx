@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { LoginState } from "../recoil/recoil";
 import { styled } from "styled-components";
 import { useRecoilState } from "recoil";
@@ -10,25 +10,26 @@ const Loading = styled.div`
   text-align: center;
 `;
 const OauthLoading = () => {
-  // const replace = useNavigate();
+  const replace = useNavigate();
   //Oauth로그인시
   const [login, setLogin] = useRecoilState(LoginState);
-  console.log(login);
   const [authorization, setAuthorization] = useState<string | null>("");
   useEffect(() => {
     const url = new URL(window.location.href);
     const urlAccessToken = url.searchParams.get("access_token");
     setAuthorization(urlAccessToken);
+    console.log(authorization);
     if (urlAccessToken !== null && urlAccessToken.length >= 10) {
-      localStorage.setItem("access_token", "Bearer " + authorization || "");
-      console.log(localStorage.getItem("assess_token"));
+      localStorage.setItem("access_token", "Bearer " + authorization);
       localStorage.setItem("role_token", "member");
-      console.log("Oauth등록11");
-      // replace("/main");
-      setLogin(true);
+      setTimeout(() => {
+        setLogin(true);
+      }, 1000);
     }
   });
-  console.log(localStorage.getItem("assess_token"));
+  if (login) {
+    replace("/main");
+  }
   return (
     <Loading>
       <SyncLoader color='#36d759'></SyncLoader>

@@ -72,6 +72,7 @@ const S = {
 
 interface Follower {
   id?: number;
+  memberId?: number;
   displayName?: string;
   image?: string | null;
 }
@@ -151,7 +152,7 @@ const FollowerModal = () => {
         >
           {dataSource.map((item) => {
             return (
-              <Link key={item.id} to={`/otherusermy/${item?.id}`}>
+              <Link key={item.id} to={`/otherusermy/${item?.memberId}`}>
                 <S.UserBox>
                   <S.UserImg src={item.image || profileimg} />
                   <S.UserName>{item.displayName}</S.UserName>
