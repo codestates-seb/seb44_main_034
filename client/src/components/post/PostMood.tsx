@@ -37,12 +37,12 @@ const PostMood = () => {
   // }
   const onClickEvent = (tagName: string): void => {
     console.log(tagName);
-    const tags = postData?.tagNames ?? [];
+    const tags = postData?.tags ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);
 
     if (findTag) {
-      setPostData((prevState) => ({ ...prevState, tagNames: [...filterTag] }));
+      setPostData((prevState) => ({ ...prevState, tags: [...filterTag] }));
     }
     if (tags.length >= 3) {
       alert("태그는 3개까지만 선택해주세요.");
@@ -51,7 +51,7 @@ const PostMood = () => {
     if (!findTag) {
       setPostData((prevState) => ({
         ...prevState,
-        tagNames: [...tags, tagName],
+        tags: [...tags, tagName],
       }));
     }
   };
@@ -73,7 +73,7 @@ const PostMood = () => {
               text={el}
               id={id}
               onClickEvent={onClickEvent}
-              selected={postData.tagNames.find((ele) => ele === el)}
+              selected={postData.tags.find((ele) => ele === el)}
             ></MoodTag>
           </S.TagWrap>
         ))}

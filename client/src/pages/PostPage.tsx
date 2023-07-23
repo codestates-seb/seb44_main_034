@@ -1,7 +1,8 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import styled from "styled-components";
+import { useRecoilValue } from "recoil";
 import { getPostDetailAPI } from "../api/postApi";
+import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from "../common/common";
 import PostItemHead from "../components/post/postItemHead";
 import MoodTagPost from "../common/tags/MoodTagPost";
@@ -9,10 +10,12 @@ import MoodTagPost from "../common/tags/MoodTagPost";
 // import { PostData } from '../types/type';
 import StarRating from "../components/starRating";
 import Comments from "../components/comments/Comments";
+import { GetPostAtom } from "../recoil/postState";
 
 const S = {
   Container: styled.div`
     display: block;
+    width: 96%;
     > div {
       display: flex;
       flex-direction: column;
@@ -75,10 +78,12 @@ const S = {
 const PostPage = () => {
   const params = useParams();
   const postId = params.postId;
+  const getItem = useRecoilValue(GetPostAtom);
 
   console.log(postId);
-  const { data, isLoading, isError } = useQuery(["getPostDetail", postId], () =>
-    getPostDetailAPI.getPostDetail(postId)
+  const { data, isLoading, isError } = useQuery(
+    ["getPostDetail", postId, getItem],
+    () => getPostDetailAPI.getPostDetail(postId)
   );
 
   //   const { data, isLoading, isError } = useQuery(

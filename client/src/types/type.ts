@@ -6,7 +6,7 @@ export interface CafePostList {
 }
 
 export type PostCafeType = {
-  cafeName: string;
+  cafeName?: string;
   cafeId?: number | string;
 };
 
@@ -19,7 +19,7 @@ export interface ResPostData {
   updatedAt?: string;
   authorId?: number | string;
   author: string;
-  image?: string | File;
+  image?: string;
   content: string;
   starRating: number;
   isBookmarked?: boolean;
@@ -30,10 +30,10 @@ export interface ResPostData {
 export interface ReqPostData {
   cafeId?: number | string;
   title?: string;
-  image?: string | File;
+  image?: string | null;
   content: string;
   starRating: number;
-  tagNames: string[];
+  tags: string[];
 }
 
 export interface PostComments {
