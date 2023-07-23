@@ -32,7 +32,6 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long postId = postService.createPost(loginId, cafeId, request, image);
-        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(postId);
     }
@@ -46,7 +45,6 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = postService.updatePost(loginId, postId, request, image);
-        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(postId);
     }
@@ -80,7 +78,6 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = postService.deletePost(loginId, postId);
-        postService.calculateRating(cafeId);
 
         return new ApplicationResponse<>(cafeId);
     }
