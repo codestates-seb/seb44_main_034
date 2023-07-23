@@ -187,7 +187,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
         if (StringUtils.isBlank(menuName)) {
             return null;
         }
-        return cafe.menus.any().name.eq(menuName);
+        return cafe.menus.any().name.contains(menuName);
     }
 
     private OrderSpecifier<?> orderType(String sortType) {
