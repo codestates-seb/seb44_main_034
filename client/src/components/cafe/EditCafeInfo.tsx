@@ -153,7 +153,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
 
     const formData = new FormData();
 
-    formData.append("cafeImage", imageFile); //현재 이미지가 없으므로 ''가 전송
+    if (imageFile) {
+      formData.append("cafeImage", imageFile);
+    }
 
     const json = JSON.stringify(editData);
     const info = new Blob([json], { type: "application/json" });

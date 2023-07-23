@@ -123,9 +123,9 @@ const CafeInfo = () => {
     console.log(CafeData.longitude);
     console.log(CafeData.shortAddress);
     const formData = new FormData();
-
-    formData.append("cafeImage", imageFile);
-
+    if (imageFile) {
+      formData.append("cafeImage", imageFile);
+    }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
