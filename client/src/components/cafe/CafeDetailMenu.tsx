@@ -111,7 +111,10 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
       console.error(error);
     }
   };
-
+  const isCurrentUserCommentAuthor = (authorId) => {
+    // 현재 토큰으로 받아온 id와 글쓴이의 id를 비교하여 같으면 true, 다르면 false를 반환합니다.
+    return userId === authorId;
+  };
   return (
     <S.Container>
       <>
@@ -147,7 +150,15 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
                   {showComment.map((comment, index) => (
                     <S.Comment key={index}>
                       <p>{comment.content}</p>
-                      <span>{comment.author}</span>
+                      <div>
+                        <span>{comment.author}</span>
+                        {isCurrentUserCommentAuthor(comment.memberId) && (
+                          <div>
+                            <S.Edit>수정</S.Edit>
+                            <S.Delete>삭제</S.Delete>
+                          </div>
+                        )}
+                      </div>
                     </S.Comment>
                   ))}
                 </S.CommentDiv>
@@ -262,7 +273,7 @@ const S = {
     display: flex;
     flex-direction: column;
     border: 2px solid ${COLOR_1.sand};
-    overflow: scroll;
+    overflow-y: auto;
 
     border-radius: 5px;
     @media screen and (max-width: 767px) {
@@ -277,7 +288,7 @@ const S = {
     /* border-bottom: 2px solid ${COLOR_1.brown}; */
 
     @media screen and (max-width: 767px) {
-      font-size: 4px;
+      font-size: 2px;
     }
   `,
   Comment: styled.div`
@@ -287,12 +298,35 @@ const S = {
 
     flex-direction: column;
     justify-content: start;
+    > div {
+      display: flex;
+      justify-content: space-between;
+    }
     > p {
       font-size: 16px;
     }
     > span {
       font-size: 12px;
       color: ${COLOR_1.dark_brown};
+    }
+  `,
+  Edit: styled.span`
+    font-size: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    margin-right: 2px;
+    &:hover {
+      background-color: ${COLOR_1.light_green};
+      cursor: pointer;
+    }
+  `,
+  Delete: styled.span`
+    font-size: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    &:hover {
+      background-color: ${COLOR_1.light_red};
+      cursor: pointer;
     }
   `,
   CommentInput: styled.input`
