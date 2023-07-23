@@ -158,24 +158,24 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
               <S.Author>
                 <span>{reply.author}</span>
               </S.Author>
-              {/* {user === reply.authorId ? ( */}
-              <S.Edit>
-                <span
-                  onClick={() => {
-                    showEditReply();
-                  }}
-                >
-                  수정
-                </span>
-                <span
-                  onClick={() => {
-                    deleteReply();
-                  }}
-                >
-                  삭제
-                </span>
-              </S.Edit>
-              {/* ) : null} */}
+              {user === reply.authorId ? (
+                <S.Edit>
+                  <span
+                    onClick={() => {
+                      showEditReply();
+                    }}
+                  >
+                    수정
+                  </span>
+                  <span
+                    onClick={() => {
+                      deleteReply();
+                    }}
+                  >
+                    삭제
+                  </span>
+                </S.Edit>
+              ) : null}
             </S.FlexWrap>
             {reply.content}
             {editing && (
