@@ -168,6 +168,7 @@ const LoginBox = () => {
     if (urlAccessToken !== null && urlAccessToken.length >= 10) {
       localStorage.setItem("access_token", authorization || "");
       localStorage.setItem("role_token", "member");
+      console.log("Oauth등록");
       setIsLogin(true);
     }
   });

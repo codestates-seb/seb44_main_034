@@ -14,6 +14,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { baseURL } from "../../common/baseURL";
 import coffeebean from "../../assets/coffeebean.svg";
+import roastedbean from "../../assets/roastedbean.svg";
 import greenbean from "../../assets/greenbean.svg";
 import espresso from "../../assets/espresso.svg";
 import React from "react";
@@ -412,6 +413,10 @@ const UserMyPageBox = () => {
           setLastId(
             response.data.payload.data[myListLength - 1].cafeBookMarkId
           );
+        } else if (selectedTab === "bookmarked-post") {
+          setLastId(
+            response.data.payload.data[myListLength - 1].postBookMarkId
+          );
         } else {
           setLastId(response.data.payload.data[myListLength - 1].postId);
         }
@@ -492,6 +497,8 @@ const UserMyPageBox = () => {
                 src={
                   userInfo?.grade === "GRADE_COFFEE_BEAN"
                     ? coffeebean
+                    : userInfo?.grade === "GRADE_ROASTED_BEAN"
+                    ? roastedbean
                     : userInfo?.grade === "GRADE_ESPRESSO"
                     ? espresso
                     : greenbean
