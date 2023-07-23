@@ -135,7 +135,7 @@ const Main = () => {
   const [sortType, setSortType] = useState<string>("");
   // console.log(sortType);
   const [cafeData, setCafeData] = useState<MainCafeType>([]);
-  const cafePerPage = 6;
+  const cafePerPage = 4;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
   console.log(endIndex);
@@ -242,7 +242,7 @@ const Main = () => {
       <Pagination
         activePage={page}
         itemsCountPerPage={cafePerPage}
-        totalItemsCount={cafeData.length}
+        totalItemsCount={100}
         pageRangeDisplayed={5}
         prevPageText={"‹"}
         nextPageText={"›"}

@@ -27,6 +27,7 @@ import Login from "./pages/Login";
 import AddCafeInfoPage from "./pages/AddCafeInfoPage";
 import AddCafeMenuPage from "./pages/AddCafeMenuPage";
 import EditMenuCafe from "./pages/EditMenuCafePage";
+import OauthLoading from "./pages/OauthLoading";
 
 const queryClient = new QueryClient();
 const Container = styled.div`
@@ -73,6 +74,7 @@ function App() {
             <Route path='/postpage/create' element={<CreatePostPage />} />
             <Route path='/postpage/edit/:postId' element={<EditPostPage />} />
             <Route path='/allposts' element={<AllPostsPage />} />
+            <Route path='/loading' element={<OauthLoading />} />
           </Routes>
         </Container>
         <Nav />

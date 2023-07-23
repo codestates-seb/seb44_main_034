@@ -44,11 +44,12 @@ const S = {
   `,
   InputInformation: styled.p`
     height: 5px;
-    width: 250px;
+    width: 270px;
     color: ${COLOR_1.light_red};
     font-size: ${FONT_SIZE_1.small_2};
     @media screen and (min-width: 550px) {
       font-size: ${FONT_SIZE_1.small_3};
+      width: 300px;
     }
   `,
   SubmitButton: styled.button`
