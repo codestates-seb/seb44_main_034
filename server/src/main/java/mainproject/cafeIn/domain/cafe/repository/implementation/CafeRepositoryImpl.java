@@ -55,7 +55,8 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .selectFrom(cafeBookmark)
                                 .where(cafeBookmark.cafe.id.eq(cafeId),
                                         cafeBookmark.member.id.eq(loginId))
-                                .fetchFirst() != null)
+                                .limit(1)
+                                .fetchOne() != null)
                 ))
                 .from(cafe)
                 .where(cafe.id.eq(cafeId))
@@ -79,7 +80,8 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
                                 .leftJoin(cafe)
-                                .fetchFirst() != null),
+                                .limit(1)
+                                .fetchOne() != null),
                         cafe.cafeBookmarks.size(),
                         cafe.posts.size()
                 ))
