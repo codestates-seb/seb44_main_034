@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Pagination from "react-js-pagination";
 import { useQuery } from "@tanstack/react-query";
 import { getCafes } from "../api/mainApi";
@@ -136,7 +136,9 @@ const Main = () => {
   // console.log(sortType);
 
   const [cafeData, setCafeData] = useState<MainCafeType[]>([]);
-  const cafePerPage = 4;
+
+  // const [cafeData, setCafeData] = useState<MainCafeType>([]);
+  const cafePerPage = 8;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
 
@@ -183,7 +185,6 @@ const Main = () => {
     }
   );
 
-  // if (isLoading) return <p>Loading...</p>;
   if (isError) {
     console.log(error);
   }
@@ -199,8 +200,8 @@ const Main = () => {
   // }, []);
 
   if (data) {
-    console.log(data.payload);
-    const cafeData: MainCafeType[] = data.payload.content;
+    const cafeData = data.payload.content;
+    const totalPages = data.payload.totalPages;
     return (
       <S.Container>
         <SearchBox />
@@ -241,15 +242,15 @@ const Main = () => {
           </S.ListSubContainer>
         </S.ListContainer>
         <S.ListBox>
-          {cafeData.map((data) => {
+          {cafeData.map((data: MainCafeType) => {
             return <Cafe data={data} key={data.cafeId} />;
           })}
         </S.ListBox>
         <Pagination
           activePage={page}
           itemsCountPerPage={cafePerPage}
-          totalItemsCount={cafeData.length}
-          pageRangeDisplayed={5}
+          totalItemsCount={100}
+          pageRangeDisplayed={totalPages}
           prevPageText={"‹"}
           nextPageText={"›"}
           onChange={handlePageChange}
@@ -257,62 +258,6 @@ const Main = () => {
       </S.Container>
     );
   }
-
-  return (
-    <S.Container>
-      <SearchBox />
-      <LocationBox />
-      <FilterSearchBox />
-      <S.MapBox>
-        <Map />
-      </S.MapBox>
-      <S.ListContainer>
-        <S.ListSubContainer>
-          <S.SubTitle>Cafe</S.SubTitle>
-          <S.SubButtonBox onClick={sortByBookmark}>
-            <S.FilterButton>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>북마크순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByRating}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>별점순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByCountPost}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>포스트순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByCafeId}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>신규순</S.IconTextBox>
-            </S.FilterButton>
-          </S.SubButtonBox>
-        </S.ListSubContainer>
-      </S.ListContainer>
-      <S.ListBox>
-        {cafeData.map((data) => {
-          return <Cafe data={data} key={data.cafeId} />;
-        })}
-      </S.ListBox>
-      <Pagination
-        activePage={page}
-        itemsCountPerPage={cafePerPage}
-        totalItemsCount={100}
-        pageRangeDisplayed={5}
-        prevPageText={"‹"}
-        nextPageText={"›"}
-        onChange={handlePageChange}
-      />
-    </S.Container>
-  );
 };
 
 export default Main;
