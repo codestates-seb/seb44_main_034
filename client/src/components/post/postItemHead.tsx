@@ -40,7 +40,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const setPostImg = useSetRecoilState<string>(PostImgAtom);
-  const setGetItem = useSetRecoilState(GetPostAtom);
+  // const setGetItem = useSetRecoilState(GetPostAtom);
   const navigate = useNavigate();
 
   const clickBookmark = async () => {

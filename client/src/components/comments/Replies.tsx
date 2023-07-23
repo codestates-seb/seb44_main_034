@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 // import { data as co } from "../../mockData/comments.json";
 import ReplyItem from "./ReplyItem";
-import CommentsPagination from "./CommentsPagination";
+// import CommentsPagination from "./CommentsPagination";
 import { baseURL } from "../../common/baseURL";
 import { PostReplies } from "../../types/type";
 import { styled } from "styled-components";

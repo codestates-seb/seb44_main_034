@@ -162,6 +162,7 @@ const EditPostPage = () => {
   const navigate = useNavigate();
   console.log(postId.postId);
   console.log(previewImgUrl);
+  console.log(isResImg);
   //카페 아이디를 새로고침 해도 저장할 수  있게 객체 새로 복사
   //게시글 수정 시  이미지 업로드
   //이미지가 업로드 되어 있을 때  보내지 않고

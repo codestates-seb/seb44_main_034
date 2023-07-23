@@ -4,7 +4,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostReplies } from "../../types/type";
-import { PostReply } from "../../types/type";
+// import { PostReply } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
