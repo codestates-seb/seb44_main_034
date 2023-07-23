@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -47,7 +47,11 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
-  setUser(decodedPayLoad.userId);
+  useEffect(() => {
+    if (token) {
+      setUser(decodedPayLoad.userId);
+    }
+  }, []);
   const clickBookmark = async () => {
     try {
       const response = await axios.post(

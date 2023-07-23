@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -92,7 +92,11 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
   // const [editedText, setEditedText] = useState(comment.content);
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
-  setUser(decodedPayLoad.userId);
+  useEffect(() => {
+    if (token) {
+      setUser(decodedPayLoad.userId);
+    }
+  }, []);
   const {
     register,
     handleSubmit,
@@ -156,23 +160,25 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
               <S.Author>
                 <span>{reply.author}</span>
               </S.Author>
-              {user === reply.authorId ? (
-                <S.Edit>
-                  <span
-                    onClick={() => {
-                      showEditReply();
-                    }}
-                  >
-                    수정
-                  </span>
-                  <span
-                    onClick={() => {
-                      deleteReply();
-                    }}
-                  >
-                    삭제
-                  </span>
-                </S.Edit>
+              {user ? (
+                user === reply.authorId ? (
+                  <S.Edit>
+                    <span
+                      onClick={() => {
+                        showEditReply();
+                      }}
+                    >
+                      수정
+                    </span>
+                    <span
+                      onClick={() => {
+                        deleteReply();
+                      }}
+                    >
+                      삭제
+                    </span>
+                  </S.Edit>
+                ) : null
               ) : null}
             </S.FlexWrap>
             {reply.content}
