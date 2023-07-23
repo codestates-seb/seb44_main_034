@@ -212,7 +212,9 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
                         <S.EditInput
                           type='text'
                           value={editedContent}
-                          onChange={(e) => setEditedContent(e.target.value)}
+                          onChange={(e: any) =>
+                            setEditedContent(e.target.value)
+                          }
                         />
                       )}
                       <div>
