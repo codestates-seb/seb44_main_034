@@ -494,7 +494,7 @@ const UserMyPageBox = () => {
                     ? coffeebean
                     : userInfo?.grade === "GRADE_ESPRESSO"
                     ? espresso
-                    : greenbean
+                    : coffeebean
                 }
               />
             </S.Informaiton>
