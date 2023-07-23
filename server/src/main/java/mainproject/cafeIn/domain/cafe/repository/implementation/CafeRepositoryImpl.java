@@ -125,7 +125,13 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
             return null;
         }
 
-        return cafe.postTags.any().tag.tagId.in(tags);
+        BooleanExpression allTagsPresent = null;
+        for (Long tagId : tags) {
+            BooleanExpression tagPresent = cafe.postTags.any().tag.tagId.eq(tagId);
+            allTagsPresent = (allTagsPresent == null) ? tagPresent : allTagsPresent.and(tagPresent);
+        }
+
+        return allTagsPresent;
     }
 
     private BooleanExpression eqAddress(String shortAddress) {
