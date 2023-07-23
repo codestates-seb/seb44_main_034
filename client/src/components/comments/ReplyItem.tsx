@@ -4,6 +4,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostReplies } from "../../types/type";
+// import { PostReply } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
@@ -16,7 +17,7 @@ type InputData = {
   content: string;
 };
 
-type EditComment = {
+type EditedReply = {
   content: string;
 };
 
@@ -100,8 +101,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
     setEditing(true);
   };
 
-  const editReply = (editedContent: EditComment) =>
-    axios.patch(`${baseURL}/replys/${"replyId"}`, editedContent, {
+  const editReply = (editedReply: EditedReply) =>
+    axios.patch(`${baseURL}/replys/${reply.replyId}`, editedReply, {
       //replyId
       headers: { Authorization: localStorage.getItem("access_token") },
     });
@@ -111,13 +112,14 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       console.log(context);
       console.log(data);
       reset();
+      setEditing(false);
     },
   });
+  console.log(reply);
 
   const deleteReplyMutation = useMutation(() => {
     return axios
-      .delete(`${baseURL}/replys/${"replyId"}`, {
-        //replyId
+      .delete(`${baseURL}/replys/${reply.replyId}`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
@@ -135,8 +137,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       deleteReplyMutation.mutate();
     }
   };
-  const onSubmitEdit = (editedContent: InputData) => {
-    const reply = { ...editedContent };
+  const onSubmitEdit = (content: InputData) => {
+    const reply = { ...content };
     console.log(reply);
     editReplyMutation.mutate(reply);
   };
@@ -177,14 +179,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                   type='text'
                   {...register("content", { required: true })}
                 />
-                <button
-                  type='submit'
-                  onClick={() => {
-                    setEditing(false);
-                  }}
-                >
-                  댓글 수정
-                </button>
+                <button type='submit'>댓글 수정</button>
               </S.EditForm>
             </li>
           }

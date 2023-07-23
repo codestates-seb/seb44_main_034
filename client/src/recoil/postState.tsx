@@ -8,8 +8,13 @@ export const PostItemAtom = atom<ReqPostData>({
     title: "",
     content: "",
     starRating: 0,
-    tagNames: [],
+    tags: [],
   },
+});
+
+export const PostImgAtom = atom<string | null>({
+  key: "postImgAtom",
+  default: "",
 });
 
 export const PostCafeAtom = atom<PostCafeType>({
@@ -18,4 +23,9 @@ export const PostCafeAtom = atom<PostCafeType>({
     cafeName: "",
     cafeId: "",
   },
+});
+
+export const GetPostAtom = atom({
+  key: "getPostAtom",
+  default: false,
 });
