@@ -52,7 +52,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                         cafe.hasDessert,
                         Expressions.asBoolean(queryFactory
                                 .selectFrom(cafeBookmark)
-                                .where(cafeBookmark.cafe.id.eq(cafe.id),
+                                .where(cafeBookmark.cafe.id.eq(cafeId),
                                         cafeBookmark.member.id.eq(loginId))
                                 .fetchFirst() != null)
                 ))
@@ -77,6 +77,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .selectFrom(cafeBookmark)
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
+                                .leftJoin(cafe)
                                 .fetchFirst() != null),
                         cafe.cafeBookmarks.size(),
                         cafe.posts.size()
