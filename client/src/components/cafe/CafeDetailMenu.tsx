@@ -18,20 +18,16 @@ const menuTypeName = ["시그니처", "커피", "논커피", "디저트"];
 const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   // const [isLoading, setLoading] = useState(true);
   const [userId, setUserId] = useState("");
-  const [modifiedMenu, setModifiedMenu] = useState<MenuDataType[][]>([...menu]);
+  // const [modifiedMenu, setModifiedMenu] = useState<MenuDataType[][]>([...menu]);
   const [selectedMenu, setSelectedMenu] = useState<MenuDataType | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showComment, setShowComment] = useState([]);
   const [comment, setComment] = useState("");
   // const [userId, setUserId] = useState([]);
-
+  const modifiedMenu = [...menu];
   useEffect(() => {
-    // 로컬 스토리지에서 토큰을 가져옵니다.
     const token = localStorage.getItem("access_token");
-    // 토큰을 디코드하여 payload 정보를 가져옵니다.
     const decodedPayload = decodeToken(token);
-
-    // 디코드된 payload 정보를 상태로 저장합니다.
     setUserId(decodedPayload.userId);
   }, []);
 
@@ -111,7 +107,7 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
       console.error(error);
     }
   };
-  const isCurrentUserCommentAuthor = (authorId) => {
+  const isCurrentUserCommentAuthor = (authorId: string) => {
     // 현재 토큰으로 받아온 id와 글쓴이의 id를 비교하여 같으면 true, 다르면 false를 반환합니다.
     return userId === authorId;
   };
