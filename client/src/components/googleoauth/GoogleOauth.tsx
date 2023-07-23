@@ -30,7 +30,7 @@ const S = {
 
 const GoogleLoginButton: React.FC = () => {
   return (
-    <Link to={`${baseURL}/oauth2/authorization/google`}>
+    <Link to='https://cafein.site/oauth2/authorization/google'>
       <S.Oauthbutton>
         <FcGoogle size='20' />
         Log in with Google
