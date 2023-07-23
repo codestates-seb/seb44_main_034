@@ -128,6 +128,8 @@ const CafeInfo = () => {
     }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
+    console.log(json);
+    console.log(CafeData);
     formData.append("dto", info);
     try {
       for (const entry of formData.entries()) {

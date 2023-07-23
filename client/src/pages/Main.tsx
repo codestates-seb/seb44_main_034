@@ -194,7 +194,7 @@ const Main = () => {
         <LocationBox />
         <FilterSearchBox />
         <S.MapBox>
-          <Map />
+          <Map cafeData={cafeData} />
         </S.MapBox>
         <S.ListContainer>
           <S.ListSubContainer>
