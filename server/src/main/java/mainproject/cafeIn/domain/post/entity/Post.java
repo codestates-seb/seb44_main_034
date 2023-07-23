@@ -67,15 +67,24 @@ public class Post extends BaseEntity {
 
 
 
-    public void updatePostWithTags(List<PostTag> postTags) {
+    public void updatePostTags(List<PostTag> postTags) {
         this.postTags = postTags;
+
     }
 
-    public void updatePost(Post post) {
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.starRating = post.getStarRating();
-        this.image = post.getImage();
-        this.postTags = post.getPostTags();
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateStarRating(int starRating) {
+        this.starRating = starRating;
+    }
+
+    public void updateImage(String image) {
+        this.image = image;
     }
 }

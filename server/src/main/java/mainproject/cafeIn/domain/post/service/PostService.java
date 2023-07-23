@@ -44,7 +44,6 @@ public class PostService {
     private final MemberRepository memberRepository;
     private final CommentService commentService;
     private final S3ImageService imageService;
-    private final CafeRepository cafeRepository;
 
     // 게시물 생성(+ PostTag 생성)
     @Transactional
@@ -56,13 +55,13 @@ public class PostService {
         Post post = postRequest.toEntity(member, cafe);
 
         // 이미지 업로드 저장
-        if (!image.isEmpty()) {
+        if (image != null && !image.isEmpty()) {
             String storedImageUrl = imageService.upload(image, "posts");
             post.setImage(storedImageUrl);
         }
 
         Long postId = postRepository.save(post).getPostId();
-        post.updatePostWithTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
+        post.updatePostTags(postTagService.createPostTag(postRequest.getTags(), post, cafe));
 
         cafeService.calculateRating(cafe);
 
@@ -72,25 +71,37 @@ public class PostService {
     // 게시물 수정(+ PostTag 초기화, 수정)
     @Transactional
     public Long updatePost(Long loginId, Long postId, PostRequest postRequest, MultipartFile image) throws IOException {
+
         Post findPost = findVerifiedPostById(postId);
+
+        findPost.updateTitle(postRequest.getTitle());
+        findPost.updateContent(postRequest.getContent());
+        findPost.updateStarRating(postRequest.getStarRating());
 
         // 로그인한 사용자가 게시물 작성자와 일치하는지 확인
         verifiedPostOwner(findPost.getMember().getId(), loginId);
 
-        updatePostTags(postId, postRequest, findPost);
-        findPost.updatePost(postRequest.toEntity());
-
-        // 이미지 수정 구현
-        if (!image.isEmpty()) {
-            String storedImageUrl = imageService.update(findPost.getImage(), image, "posts");
-            findPost.setImage(storedImageUrl);
+        if (postRequest.getTags() != null) {
+            List<PostTag> postTags = checkPostTags(postId, postRequest, findPost);
+            findPost.updatePostTags(postTags);
         }
 
-        cafeService.calculateRating(findPost.getCafe());
+        // 이미지 수정 구현
+        if (image != null && !image.isEmpty()) {
 
-        Long cafeId = findPost.getCafe().getId();
+            if(findPost.getImage() == null) {
+                String storedImageUrl = imageService.upload(image, "posts");
+                findPost.setImage(storedImageUrl);
+            } else {
+                String storedImageUrl = imageService.update(findPost.getImage(), image, "posts");
+                findPost.setImage(storedImageUrl);
+            }
+        }
 
-        return cafeId;
+        // 에러 검증 때문에 컨트롤러 메서드로 옮김
+//        cafeService.calculateRating(findPost.getCafe());
+
+        postRepository.save(findPost);
     }
 
     // 게시물 삭제
@@ -103,9 +114,13 @@ public class PostService {
         verifiedPostOwner(findPost.getMember().getId(), loginId);
 
         Long cafeId = findPost.getCafe().getId();
+
+        imageService.delete("posts", findPost.getImage());
+
         postRepository.delete(findPost);
 
-        cafeService.calculateRating(cafe);
+        // 에러 검증 때문에 컨트롤러 메서드로 옮김
+//        cafeService.calculateRating(cafe);
 
         return cafeId;
     }
@@ -130,6 +145,7 @@ public class PostService {
                 findPost.getCafe().getName(),
                 findPost.getMember().getId(),
                 findPost.getMember().getDisplayName(),
+                findPost.getMember().getGrade().getGrade(),
                 findPost.getImage(),
                 findPost.getContent(),
                 findPost.getStarRating(),
@@ -151,21 +167,22 @@ public class PostService {
                         post.getPostId(),
                         post.getTitle(),
                         post.getMember().getDisplayName(),
+                        post.getMember().getGrade().getGrade(),
                         post.getImage()))
                 .collect(Collectors.toList());
         return new MultiPostResponse<>(posts, postPage);
     }
 
     // postTag 업데이트 로직 분리
-    public void updatePostTags(Long postId, PostRequest postRequest, Post post) {
-        if (postRequest.getTags() != null) {
-            Optional<List<PostTag>> optionalPostTags = postTagRepository.findPostTagsByPostPostId(postId);
-            if (optionalPostTags.isPresent()) {
-                List<PostTag> postTags = optionalPostTags.get();
-                postTagRepository.deleteInBatch(postTags);
-            }
-            postTagService.createPostTag(postRequest.getTags(), post, post.getCafe());
+    public List<PostTag> checkPostTags(Long postId, PostRequest postRequest, Post post) {
+        Optional<List<PostTag>> optionalPostTags = postTagRepository.findPostTagsByPostPostId(postId);
+        if (optionalPostTags.isPresent()) {
+            List<PostTag> postTags = optionalPostTags.get();
+            postTagRepository.deleteInBatch(postTags);
         }
+        List<PostTag> postTags = postTagService.createPostTag(postRequest.getTags(), post, post.getCafe());
+
+        return postTags;
     }
 
     // 카페 게시물 집계
