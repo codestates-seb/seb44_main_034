@@ -23,7 +23,7 @@ const OauthLoading = () => {
       localStorage.setItem("access_token", "Bearer " + authorization || "");
       console.log(localStorage.getItem("assess_token"));
       localStorage.setItem("role_token", "member");
-      console.log("Oauth등록");
+      console.log("Oauth등록11");
       // replace("/main");
       setLogin(true);
     }

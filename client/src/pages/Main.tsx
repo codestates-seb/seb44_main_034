@@ -135,7 +135,7 @@ const Main = () => {
   const [sortType, setSortType] = useState<string>("");
   // console.log(sortType);
   // const [cafeData, setCafeData] = useState<MainCafeType>([]);
-  const cafePerPage = 4;
+  const cafePerPage = 8;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
   console.log(endIndex);

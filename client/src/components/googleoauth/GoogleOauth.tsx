@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { FONT_SIZE_1 } from "../../common/common";
 import { FcGoogle } from "react-icons/fc";
 import { styled } from "styled-components";
-import { baseURL } from "../../common/baseURL";
 
 const S = {
   Oauthbutton: styled.button`
