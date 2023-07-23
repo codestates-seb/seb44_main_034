@@ -1,6 +1,14 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { SearchValueAtom } from "../../recoil/mainState";
+import { SearchValueStateAtom } from "../../recoil/mainState";
+import { LocationAtom, LocationStateAtom } from "../../recoil/mainState";
+import {
+  FacilitiesAtom,
+  FacilitiesStateAtom,
+  MoodAtom,
+  MoodStateAtom,
+} from "../../recoil/mainState";
 import { HandleSearchAtom } from "../../recoil/mainState";
 import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 import { BsSearch } from "react-icons/bs";
@@ -75,9 +83,17 @@ const SearchBox = () => {
   const [toggleName, setToggleName] = useState<string>("카페이름");
   const [inputValue, setInputValue] = useState<string>("");
   const [searchValue, setSearchValue] = useRecoilState<string>(SearchValueAtom);
+  const location = useRecoilValue(LocationStateAtom);
+  const setLocation = useSetRecoilState(LocationAtom);
+  const moodAtom = useRecoilValue<string>(MoodStateAtom);
+  const setMoodAtom = useSetRecoilState<string>(MoodAtom);
+  const facilitiesAtom = useRecoilValue<string>(FacilitiesStateAtom);
+  const setFacilitiesAtom = useSetRecoilState<string>(FacilitiesAtom);
+  const [serchValueState, setSearchValueState] =
+    useRecoilState<string>(SearchValueStateAtom);
   const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
 
-  console.log(handleSearch);
+  // console.log(handleSearch);
 
   const handleToggleName = () => {
     setToggleName(toggleName === "카페이름" ? "메뉴이름" : "카페이름");
@@ -87,14 +103,18 @@ const SearchBox = () => {
   };
   const handleSearchIcon = (toggle: string) => {
     if (toggle === "카페이름") {
-      setSearchValue(`/search-cafe/${inputValue}`);
+      setSearchValueState(`&cafeName=${inputValue}`);
     }
     if (toggle === "메뉴이름") {
-      setSearchValue(`/search-menu/${inputValue}`);
+      setSearchValueState(`&menuName=${inputValue}`);
     }
+    setSearchValue(searchValue);
+    setLocation(location);
+    setMoodAtom(moodAtom);
+    setFacilitiesAtom(facilitiesAtom);
     setHandleSearch((prev) => !prev);
   };
-  console.log(searchValue);
+  // console.log(searchValue);
   return (
     <S.Container>
       <S.InputBox>

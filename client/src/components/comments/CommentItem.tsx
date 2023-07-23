@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostComments } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
-// import Replies from "./Replies";
+import Replies from "./Replies";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
@@ -185,10 +185,10 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                 />
                 <button type='submit'>댓글 수정</button>
               </S.EditForm>
-              {/* <Replies
+              <Replies
                 replies={comment?.replies}
                 commentId={comment?.commentId}
-              /> */}
+              />
             </li>
           }
         </ul>
@@ -218,6 +218,10 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                 </S.Edit>
               </S.FlexWrap>
               {comment.content}
+              <Replies
+                replies={comment?.replies}
+                commentId={comment?.commentId}
+              />
             </li>
           </ul>
         </S.Comments>

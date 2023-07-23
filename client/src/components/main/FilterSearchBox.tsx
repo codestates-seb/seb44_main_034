@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useResetRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from "recoil";
 import { FacilitiesAtom } from "../../recoil/mainState";
 import { MoodAtom } from "../../recoil/mainState";
+import { SearchValueAtom, SearchValueStateAtom } from "../../recoil/mainState";
+import { LocationAtom, LocationStateAtom } from "../../recoil/mainState";
+import { FacilitiesStateAtom, MoodStateAtom } from "../../recoil/mainState";
 import { HandleSearchAtom } from "../../recoil/mainState";
 import { FacilitiesTagNames, MoodTagNames } from "../../common/tagNames";
 import FacilitiesTag from "../../common/tags/FacilitiesTag";
@@ -16,8 +24,8 @@ const S = {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 300px;
-    margin-top: 10px;
+    height: 270px;
+    margin-top: 2px;
     align-items: center;
     width: 95%;
     @media screen and (min-width: 768px) {
@@ -117,9 +125,6 @@ const FilterSearchBox = () => {
   const [facilities, setFacilities] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
   const [moodIds, setMoodIds] = useState<number[]>([]);
-
-  console.log(setMoodIds);
-
   const facilitiesKeys = [
     "&isopenalltime=true",
     "&ischargingavailable=true",
@@ -133,11 +138,33 @@ const FilterSearchBox = () => {
   const [facilitiesAtom, setFacilitiesAtom] =
     useRecoilState<string>(FacilitiesAtom);
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
-
+  const facilitisState = useRecoilValue(FacilitiesAtom);
+  const moodState = useRecoilValue(MoodStateAtom);
+  const resetMoodTags = useResetRecoilState(MoodAtom);
+  const resetFacilities = useResetRecoilState(FacilitiesAtom);
+  const location = useRecoilValue(LocationStateAtom);
+  const setLocation = useSetRecoilState(LocationAtom);
+  const searchValue = useRecoilValue(SearchValueStateAtom);
+  const setSearchValue = useSetRecoilState(SearchValueAtom);
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
   const handleSearchClick = () => {
     //로직 추가하여야 함
     //태그인지, 주소인지 클릭하였을 때 값을 넣을 수 있어야 함.
+
+    if (facilAddress.length > 0) {
+      saveFacil();
+    }
+    if (facilAddress.length === 0) {
+      resetFacilities();
+    }
+    if (moodIds.length > 0) {
+      saveMood();
+    }
+    if (moodIds.length === 0) {
+      resetMoodTags();
+    }
+    setSearchValue(searchValue);
+    setLocation(location);
     setHandleSearch((cur) => !cur);
   };
 
@@ -150,9 +177,9 @@ const FilterSearchBox = () => {
     setMoodAtom(`&tags=${moodToIds}`);
   };
 
-  // console.log(facilAddress);
-  console.log(facilitiesAtom);
-  console.log(moodAtom);
+  console.log("시설 아톰" + facilitiesAtom);
+  console.log("무드 아톰" + moodAtom);
+  // console.log(moodAtom);
   // if (facilities === '전체') {
   //   setShortAddress('');
   // }
@@ -169,28 +196,33 @@ const FilterSearchBox = () => {
     if (findTag) {
       setFacilities(() => [...filterTag]);
       setFacilAddress(() => [...filterFacil]);
+      setFacilitiesAtom(facilAddress.join(""));
     }
     if (!findTag) {
       setFacilities(() => [...facilities, tagText]);
       setFacilAddress(() => [...facilAddress, address]);
+      setMoodAtom(`&tags=${moodIds}`);
     }
   };
 
-  const handleMoodTagClick = (tagText: string): void => {
+  const handleMoodTagClick = (tagText: string, id: number): void => {
     const findTag = moodTags.find((el) => el === tagText);
     const filterTag = moodTags.filter((el) => el !== tagText);
+    const filterMoodIds = moodIds.filter((el) => el !== id);
 
     if (findTag) {
       setMoodTags(() => [...filterTag]);
+      setMoodIds(() => [...filterMoodIds]);
     }
     if (!findTag) {
       setMoodTags(() => [...moodTags, tagText]);
+      setMoodIds(() => [...moodIds, id]);
     }
   };
 
   console.log(facilities, moodTags);
-  console.log(moodIds);
-  console.log(moodIds.join());
+  // console.log(moodIds);
+  // console.log(moodIds.join());
 
   return (
     <S.Container>

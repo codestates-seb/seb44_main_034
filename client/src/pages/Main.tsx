@@ -133,12 +133,12 @@ const Main = () => {
 
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
-  console.log(sortType);
+  // console.log(sortType);
   const [cafeData, setCafeData] = useState<MainCafeType>([]);
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
-  console.log(endIndex);
+  // console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
@@ -177,7 +177,6 @@ const Main = () => {
   } = useQuery(
     ["getAllCafes", page, handleSearch],
     () => getCafes(searchValue, page, shortaddress, facilities, mood, sortType),
-
     {
       keepPreviousData: true,
     }
@@ -185,13 +184,11 @@ const Main = () => {
 
   // if (isLoading) return <p>Loading...</p>;
   if (isError) {
-    // setSearchBox(false);
     console.log(error);
   }
   /* ☕️카페 데이터 */
   useEffect(() => {
     if (data) {
-      // setSearchBox(false);
       const pageData = data.payload.content;
       setCafeData(pageData);
       console.log(11);
