@@ -202,6 +202,7 @@ const Main = () => {
   if (data) {
     const cafeData = data.payload.content;
     const totalPages = data.payload.totalPages;
+    console.log("검색");
     return (
       <S.Container>
         <SearchBox />
