@@ -10,11 +10,13 @@ public class SearchFollow {
     private long id;
     private String displayName;
     private String image;
+    private long memberId;
 
     @QueryProjection
-    public SearchFollow(long id, String displayName, String image) {
+    public SearchFollow(long id, String displayName, String image, long memberId) {
         this.id = id;
         this.displayName = displayName;
         this.image = image;
+        this.memberId = memberId;
     }
 }
