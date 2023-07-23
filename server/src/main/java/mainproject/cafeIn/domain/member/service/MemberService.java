@@ -80,14 +80,18 @@ public class MemberService {
             member.updatePassword(encryptedPassword);
         }
 
-        if (!image.isEmpty() && !image.equals("") && findmember.getImage() == null) {
 
-            String storedImageUrl = imageService.upload(image, "profiles");
-            member.updateImage(storedImageUrl);
-        } else if (!image.isEmpty() && !image.equals("") && findmember.getImage() != null) {
+        if(image != null && !image.isEmpty()) {
 
-            String storedImageUrl = imageService.update(findmember.getImage(), image, "profiles");
-            member.updateImage(storedImageUrl);
+            if (findmember.getImage() == null) {
+
+                String storedImageUrl = imageService.upload(image, "profiles");
+                member.updateImage(storedImageUrl);
+            } else {
+
+                String storedImageUrl = imageService.update(findmember.getImage(), image, "profiles");
+                member.updateImage(storedImageUrl);
+            }
         }
 
         memberRepository.save(member);
