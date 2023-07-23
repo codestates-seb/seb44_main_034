@@ -248,7 +248,6 @@ const EditOwnerMyPageBox = () => {
               type='password'
               placeholder='비밀번호를 입력하세요'
               {...register("password", {
-                required: "비밀번호는 필수 입력입니다",
                 minLength: {
                   value: 8,
                   message: "8자 이상입력바랍니다",
@@ -277,7 +276,6 @@ const EditOwnerMyPageBox = () => {
               type='password'
               placeholder='비밀번호를 입력하세요'
               {...register("passwordConfirm", {
-                required: "비밀번호 확인은 필수 입력입니다.",
                 validate: {
                   matchesPreviousPassword: (value) => {
                     const { password } = watch();

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SyncLoader from "react-spinners/SyncLoader";
 import axios from "axios";
 import { COLOR_1 } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
@@ -13,8 +14,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { baseURL } from "../../common/baseURL";
 import coffeebean from "../../assets/coffeebean.svg";
+import roastedbean from "../../assets/roastedbean.svg";
 import greenbean from "../../assets/greenbean.svg";
 import espresso from "../../assets/espresso.svg";
+import React from "react";
 // import { useNavigate } from 'react-router-dom';
 
 const defaultHeader = {
@@ -36,7 +39,7 @@ const S = {
     align-items: center;
     height: 400px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       flex-direction: row;
       width: 700px;
     }
@@ -47,7 +50,7 @@ const S = {
     margin-top: 20px;
     width: 90vw;
     margin-bottom: 20px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -57,7 +60,7 @@ const S = {
     height: 60px;
     width: 90vw;
     border-bottom: solid 1px ${COLOR_1.light_gray};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
     }
   `,
@@ -85,8 +88,10 @@ const S = {
   `,
   ProfileImg: styled.img`
     width: 170px;
-    @media screen and (min-width: 786px) {
+    border-radius: 85px;
+    @media screen and (min-width: 768px) {
       width: 200px;
+      border-radius: 100px;
     }
   `,
   ProfileImgBox: styled.div`
@@ -96,7 +101,7 @@ const S = {
     align-items: center;
     height: 200px;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -108,7 +113,7 @@ const S = {
     background-color: ${COLOR_1.white};
     border: solid 2px ${COLOR_1.green};
     box-shadow: 2px 2px 2px 2px ${COLOR_1.light_green};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 350px;
     }
   `,
@@ -118,7 +123,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 20vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 80px;
     }
   `,
@@ -127,7 +132,7 @@ const S = {
     margin-top: 5px;
     text-align: center;
     color: ${COLOR_1.brown};
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 60px;
     }
   `,
@@ -140,7 +145,7 @@ const S = {
     &:hover {
       color: ${COLOR_1.light_red};
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -153,7 +158,7 @@ const S = {
     &:hover {
       color: ${COLOR_1.light_red};
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -163,7 +168,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 60vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -172,7 +177,7 @@ const S = {
     width: 60vw;
     margin-top: 5px;
     color: black;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -193,7 +198,7 @@ const S = {
     &:active {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       font-size: ${FONT_SIZE_1.normal_2};
       width: 200px;
     }
@@ -204,7 +209,7 @@ const S = {
     align-items: center;
     justify-content: center;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -227,7 +232,7 @@ const S = {
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 330px;
     }
   `,
@@ -235,7 +240,7 @@ const S = {
     height: 140px;
     width: 90vw;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 330px;
     }
   `,
@@ -246,7 +251,7 @@ const S = {
     justify-content: center;
     height: 60px;
     width: 80vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -254,7 +259,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 75vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -278,7 +283,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     width: 60vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -289,6 +294,16 @@ const S = {
     border-radius: 10px;
     font-size: 10px;
   `,
+  LoadingBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    height: 50px;
+    margin-top: 10px;
+    @media screen and (min-width: 768px) {
+      width: 700px;
+    }
+  `,
 };
 
 interface UserData {
@@ -297,33 +312,12 @@ interface UserData {
   grade?: string;
   countFollower?: number;
   countFollowing?: number;
-  image?: File;
+  image?: File | string;
 }
 
-// interface BookmarkCafeData {
-//   cafeId: number;
-//   cafeName: string;
-//   image: File;
-//   address: string;
-//   rating: number;
-// }
-
-// interface BookmarkPostData {
-//   postId: number;
-//   title: string;
-//   author: string;
-//   image: File;
-// }
-
-// interface MyPostData {
-//   postId: number;
-//   title: string;
-//   author: string;
-//   image: File;
-// }
-
-export interface PostType {
+export interface ListType {
   id?: number;
+  cafeId?: number;
   cafeName?: string;
   image?: string;
   address?: string;
@@ -333,77 +327,18 @@ export interface PostType {
   author?: string;
 }
 const UserMyPageBox = () => {
-  const mockData = [
-    {
-      id: 1,
-      cafeName: "동대문 카페",
-      image: "",
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-    {
-      id: 2,
-      cafeName: "동대문 카페1",
-      image: "",
-      address: "서울시 동대문구",
-      rating: 1,
-      title: "먹자",
-      author: "주인장",
-    },
-    // {
-    //   id: 3,
-    //   cafeName: '동대문 카페2',
-    //   image: undefined,
-    //   address: '서울시 동대문구',
-    //   rating: 1,
-    //   title: '먹자',
-    //   author: '주인장',
-    // },
-    // {
-    //   id: 4,
-    //   cafeName: '동대문 카페3',
-    //   image: undefined,
-    //   address: '서울시 동대문구',
-    //   rating: 1,
-    //   title: '먹자',
-    //   author: '주인장',
-    // },
-  ];
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserData | undefined>();
-
-  const [dataSource, setDataSource] = useState<PostType[]>(mockData);
+  const [dataSource, setDataSource] = useState<ListType[]>([]);
+  const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
 
   // cafe, post, myPost
   const [selectedTab, setSelctedTab] = useState<
     "bookmarked-cafe" | "bookmarked-post" | "my-post"
   >("bookmarked-cafe");
-  //
-  // const [modalVisible, setModalVisible] = useState({
-  //   new:false,
-  //   edit:false,
-  //   submit:false,
-  //   submitBefore:false,
-  // });
-  //
-  // setModalVisible((prevState)=> ({...prevState, submit:true}));
 
-  const fetchMoreData = () => {
-    if (dataSource.length < 100) {
-      setTimeout(() => {
-        // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
-        setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 10 }))
-        );
-      }, 500);
-    } else {
-      setHasMore(false);
-    }
-  };
   const openFollowerModal = () => {
     if (!isFollowerOpen) {
       setFollowerIsOpen(true);
@@ -451,7 +386,6 @@ const UserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("success");
         setUserInfo(response.data.payload);
       })
       .catch((error) => {
@@ -464,7 +398,7 @@ const UserMyPageBox = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/my-page/${selectedTab}`, {
+      .get(`${baseURL}/members/my-page/${selectedTab}?size&id`, {
         headers: {
           ...defaultHeader,
           Authorization: localStorage.getItem("access_token"),
@@ -472,26 +406,76 @@ const UserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("success");
-        const MyPost: PostType[] = response.data.payload.data;
-        setDataSource(MyPost);
+        console.log(response);
+        const myList: ListType[] = response.data.payload.data;
+        const myListLength = myList.length;
+        if (selectedTab === "bookmarked-cafe") {
+          setLastId(
+            response.data.payload.data[myListLength - 1].cafeBookMarkId
+          );
+        } else if (selectedTab === "bookmarked-post") {
+          setLastId(
+            response.data.payload.data[myListLength - 1].postBookMarkId
+          );
+        } else {
+          setLastId(response.data.payload.data[myListLength - 1].postId);
+        }
         setHasMore(response.data.payload.hasNext);
+        setDataSource(myList);
       })
       .catch((error) => {
         // Handle error.
-
+        setHasMore(false);
+        setDataSource([]);
         console.log("An error occurred:", error.response);
         // replace('/');
       });
   }, [selectedTab]);
+  const fetchMoreData = () => {
+    if (hasMore) {
+      axios
+        .get(`${baseURL}/members/my-page/${selectedTab}?size=1&id=${lastId}`, {
+          headers: {
+            ...defaultHeader,
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          setTimeout(() => {
+            console.log("success");
+            console.log(response);
+            setDataSource((prevData) => [
+              ...prevData,
+              ...response.data.payload.data,
+            ]);
+            if (selectedTab === "bookmarked-cafe") {
+              setLastId(response.data.payload.data[0].cafeBookMarkId);
+            } else {
+              setLastId(response.data.payload.data[0].postId);
+            }
+            setHasMore(response.data.payload.hasNext);
+          }, 500);
+        })
 
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+          // replace('/');
+        });
+    } else {
+      setHasMore(false);
+    }
+  };
   return (
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
           <S.ProfileImg
             src={
-              userInfo?.image ? URL.createObjectURL(userInfo.image) : profileimg
+              userInfo?.image instanceof File
+                ? URL.createObjectURL(userInfo?.image)
+                : userInfo?.image || profileimg
             }
           ></S.ProfileImg>
         </S.ProfileImgBox>
@@ -513,6 +497,8 @@ const UserMyPageBox = () => {
                 src={
                   userInfo?.grade === "GRADE_COFFEE_BEAN"
                     ? coffeebean
+                    : userInfo?.grade === "GRADE_ROASTED_BEAN"
+                    ? roastedbean
                     : userInfo?.grade === "GRADE_ESPRESSO"
                     ? espresso
                     : greenbean
@@ -524,7 +510,7 @@ const UserMyPageBox = () => {
             </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
             <S.FollowingInformaiton onClick={openFollowingModal}>
-              {userInfo ? userInfo.countFollower : "0"}
+              {userInfo ? userInfo.countFollowing : "0"}
             </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>
@@ -578,25 +564,31 @@ const UserMyPageBox = () => {
       </S.BottomBox>
 
       <InfiniteScroll
-        dataLength={dataSource.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<p>Loading...</p>}
-        endMessage={<p>You are all set!</p>}
+        dataLength={dataSource.length} //반복되는 컴포넌트의 개수
+        next={fetchMoreData} //스크롤이 화면 맨 아래에 닿았을때 부르는 함수
+        hasMore={hasMore} // 추가 데이터가 있는지 여부
+        loader={
+          <S.LoadingBox>
+            <SyncLoader color='#36d759' />
+          </S.LoadingBox>
+        }
+        endMessage={<p>마지막 리스트입니다</p>}
         height={400}
       >
         <S.ListBox>
           {dataSource.map((el) => {
+            // 각 데이터 요소마다 고유한 식별자를 가져옵니다.
+            const key = el?.id || el?.cafeId || el?.postId;
             return (
-              <>
+              <React.Fragment key={key}>
                 {selectedTab === "bookmarked-cafe" ? (
-                  <BookmarkCafe data={el} key={el?.id} />
+                  <BookmarkCafe data={el} />
                 ) : selectedTab === "bookmarked-post" ? (
-                  <BookmarkPost data={el} key={el?.id} />
+                  <BookmarkPost data={el} />
                 ) : (
-                  <MyPost data={el} key={el?.id} />
+                  <MyPost data={el} />
                 )}
-              </>
+              </React.Fragment>
             );
           })}
         </S.ListBox>

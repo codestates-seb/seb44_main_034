@@ -113,7 +113,7 @@ export interface MainCafeType {
     arg0: (data: any) => import("react/jsx-runtime").JSX.Element
   ): import("react").ReactNode;
   cafeId?: number;
-  cafeName?: string;
+  name?: string;
   image?: string;
   address?: string;
   rating?: number;
@@ -142,7 +142,6 @@ const Main = () => {
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
-    console.log(pageNumber);
     setPage(pageNumber);
   };
   // 북마크 순으로 정렬하는 함수
@@ -189,9 +188,10 @@ const Main = () => {
   /* ☕️카페 데이터 */
   useEffect(() => {
     if (data) {
+      // setSearchBox(false);
+      console.log("카페리스트업로드");
       const pageData = data.payload.content;
       setCafeData(pageData);
-      console.log(11);
     }
   }, []);
 

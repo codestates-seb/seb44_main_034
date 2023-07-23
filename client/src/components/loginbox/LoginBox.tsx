@@ -128,14 +128,11 @@ const LoginBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("Login successful!");
-        console.log(response);
-        console.log(response.headers.role);
-        console.log(response.headers.refresh);
         localStorage.setItem("access_token", response.headers.authorization);
         localStorage.setItem("refresh_token", response.headers.refresh);
         localStorage.setItem("role_token", response.headers.role);
         setIsLogin(true);
+        console.log(response.headers.authorization);
         alert("로그인되었습니다.");
         replace("/main");
         // const waitForTokenExpiration = async (expirationTime: number) => {
@@ -171,6 +168,7 @@ const LoginBox = () => {
     if (urlAccessToken !== null && urlAccessToken.length >= 10) {
       localStorage.setItem("access_token", authorization || "");
       localStorage.setItem("role_token", "member");
+      console.log("Oauth등록");
       setIsLogin(true);
     }
   });

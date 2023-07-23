@@ -13,11 +13,12 @@ const S = {
     height: 200px;
     width: 200px;
     margin-bottom: 287px;
-    border-radius: 8px;
+    border-radius: 20px;
     border-style: solid;
     right: 0;
-    border-color: ${COLOR_1.dark_brown};
+    border-color: #525252;
     background-color: ${COLOR_1.white};
+    box-shadow: 0px 3px 10px 3px #878787;
     @media screen and (min-width: 786px) {
       margin-right: 0;
       right: auto;
@@ -25,39 +26,44 @@ const S = {
   `,
   TopBox: styled.div`
     text-align: center;
-    height: 150px;
+    height: 130px;
     width: 200px;
   `,
   ButtonBox: styled.div`
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin-left: 13px;
     height: 30px;
-    width: 200px;
+    width: 175px;
   `,
   ProfileImg: styled.img`
     height: 50px;
     width: 50px;
   `,
-  DisplayName: styled.div``,
+  DisplayName: styled.div`
+    margin-top: 20px;
+    font-size: ${FONT_SIZE_1.normal_2};
+    font-weight: ${FONT_WEIGHT.weight_600};
+  `,
   Position: styled.div``,
   ModalLeftBox: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
     height: 29px;
-    width: 100px;
-    color: ${COLOR_1.dark_brown};
-    background-color: ${COLOR_1.green};
+    width: 80px;
+    color: ${COLOR_1.black};
+    background-color: ${COLOR_1.white};
     font-weight: ${FONT_WEIGHT.weight_800};
     font-size: ${FONT_SIZE_1.normal_2};
-    border-radius: 0px 0px 0px 6px;
-    border-top: solid 1px ${COLOR_1.dark_brown};
-    border-right: solid 1px ${COLOR_1.dark_brown};
+    border-radius: 10px;
+    border: solid 1px black;
+    box-shadow: 0px 0cqw 7px 0px #8c8c8c;
     &:hover {
-      background-color: #bfcdbf;
+      background-color: #c6c6c6;
     }
     &:active {
-      background-color: #b3cbb3;
+      background-color: #bcc9bc;
     }
   `,
   ModalRightBox: styled.div`
@@ -65,18 +71,19 @@ const S = {
     justify-content: center;
     align-items: center;
     height: 29px;
-    width: 99px;
-    color: ${COLOR_1.dark_brown};
-    background-color: ${COLOR_1.green};
+    width: 80px;
+    color: ${COLOR_1.black};
+    background-color: ${COLOR_1.white};
     font-weight: ${FONT_WEIGHT.weight_800};
     font-size: ${FONT_SIZE_1.normal_2};
-    border-radius: 0px 0px 6px 0px;
-    border-top: solid 1px ${COLOR_1.dark_brown};
+    border-radius: 10px;
+    border: solid 1px black;
+    box-shadow: 0px 0px 7px 0px #8c8c8c;
     &:hover {
-      background-color: #bfcdbf;
+      background-color: #c6c6c6;
     }
     &:active {
-      background-color: #b3cbb3;
+      background-color: #bcc9bc;
     }
   `,
   IconBox: styled.div`
@@ -113,9 +120,13 @@ const ProfileModal = () => {
       <S.TopBox>
         <S.ProfileImg src={profileimg}></S.ProfileImg>
         {!login ? (
-          <S.DisplayName>안녕하세요 카페인입니다!</S.DisplayName>
+          <S.DisplayName>
+            안녕하세요<br></br> 카페인입니다!
+          </S.DisplayName>
         ) : (
-          <S.DisplayName>{role}님 안녕하세요!</S.DisplayName>
+          <S.DisplayName>
+            {role}님 <br></br>안녕하세요!
+          </S.DisplayName>
         )}
       </S.TopBox>
       {!login ? (

@@ -114,26 +114,49 @@ const DeleteAccountBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    axios
-      .delete(`${baseURL}/${role}/sign-out`, {
-        headers: {
-          Authorization: localStorage.getItem("access_token"),
-        },
-        data: data,
-      })
-      .then((response) => {
-        // Handle success.
-        console.log(response);
-        localStorage.removeItem("recoil-persist");
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        alert("탈퇴되었습니다!");
-        window.location.replace("/");
-      })
-      .catch((error) => {
-        // Handle error.
-        console.log("An error occurred:", error.response);
-      });
+    console.log(localStorage.getItem("access_token"));
+    if (role === "members") {
+      axios
+        .patch(`${baseURL}/${role}/sign-out`, data, {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          console.log(response);
+          localStorage.removeItem("recoil-persist");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          alert("탈퇴되었습니다!");
+          window.location.replace("/");
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+        });
+    } else {
+      axios
+        .delete(`${baseURL}/${role}/sign-out`, {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+          data: data,
+        })
+        .then((response) => {
+          // Handle success.
+          console.log(response);
+          localStorage.removeItem("recoil-persist");
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          alert("탈퇴되었습니다!");
+          window.location.replace("/");
+        })
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+        });
+    }
   };
   return (
     <S.Container>

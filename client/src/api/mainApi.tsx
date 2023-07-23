@@ -33,11 +33,13 @@ export const getCafes = async (
     {
       headers: {
         // 'ngrok-skip-browser-warning': 'true'
+        Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
       },
     }
   );
   // const res = await createBaseUrl.get(`/posts/${Id}`);
+  console.log("여기");
   console.log(res.data);
   return res.data;
 };

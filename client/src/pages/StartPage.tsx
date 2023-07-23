@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_1 } from "../common/common";
 import mainimage from "../assets/mainimage.jpeg";
 import postimage from "../assets/postimage.jpeg";
+import iphone14 from "../assets/iphone14.png";
 import Footer from "../components/footer/Footer";
 import { Link } from "react-router-dom";
 
@@ -53,13 +54,34 @@ const S = {
     }
   `,
   ImageBox: styled.img`
-    height: 60vw;
+    height: 70vw;
     width: 90vw;
     border-radius: 10px;
     box-shadow: 0px 5px 5px 5px #b0b0b0;
     margin-top: 10px;
     @media screen and (min-width: 550px) {
       width: 500px;
+      height: 400px;
+    }
+  `,
+  ImageBox2: styled.img`
+    height: 70vw;
+    width: 90vw;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px 5px #b0b0b0;
+    margin-top: 10px;
+    @media screen and (min-width: 550px) {
+      width: 500px;
+      height: 400px;
+    }
+  `,
+  ImageBox3: styled.img`
+    height: 90vw;
+    width: 40vw;
+    border-radius: 25px;
+    margin-top: 10px;
+    @media screen and (min-width: 550px) {
+      width: 200px;
       height: 400px;
     }
   `,
@@ -132,7 +154,11 @@ const StartPage = () => {
       </S.Container>
       <S.Container>
         <S.TextBox2>카페를 이용하고 포스트를 써 공유해봐!</S.TextBox2>
-        <S.ImageBox src={postimage}></S.ImageBox>
+        <S.ImageBox2 src={postimage} />
+      </S.Container>
+      <S.Container>
+        <S.TextBox2>모바일로 더 편하게 사용해봐!</S.TextBox2>
+        <S.ImageBox3 src={iphone14} />
       </S.Container>
       <Footer />
     </S.AllContainer>
