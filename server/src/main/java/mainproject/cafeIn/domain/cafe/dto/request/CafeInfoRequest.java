@@ -8,6 +8,7 @@ import mainproject.cafeIn.domain.cafe.entity.Cafe;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,6 +21,7 @@ public class CafeInfoRequest {
 
     private String shortAddress;
 
+    @Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$", message = "올바르지 않은 전화번호 형식입니다.")
     private String contact;
 
     @NotNull
