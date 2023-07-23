@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import static mainproject.cafeIn.global.exception.ErrorCode.CAFE_NOT_FOUND;
@@ -39,7 +41,7 @@ public class CafeService {
         Owner owner = ownerService.findVerifiedOwner(loginId);
         Cafe cafe = cafeInfoRequest.toEntity(owner);
 
-        if (!image.isEmpty()) {
+        if (image != null && !image.isEmpty()) {
             String storedImageUrl = imageService.upload(image, "cafes");
             cafe.setImage(storedImageUrl);
         }
@@ -53,7 +55,7 @@ public class CafeService {
         cafe.validateOwner(loginId);
         cafe.updateCafe(cafeInfoRequest.toEntity());
 
-        if (!image.isEmpty()) {
+        if (image != null && !image.isEmpty()) {
             String storedImageUrl = imageService.update(cafe.getImage(), image, "cafes");
             cafe.setImage(storedImageUrl);
         }
@@ -75,12 +77,19 @@ public class CafeService {
     @Transactional
     public void calculateRating(Cafe cafe) {
         List<Post> posts = cafe.getPosts();
+        if (posts.size() == 0) {
+            cafe.setRating(0);
+            return;
+        }
+
         float total = 0;
         for (Post post : posts) {
             total += post.getStarRating();
         }
+        float newRating = total / cafe.getPosts().size();
+        BigDecimal roundedRating = new BigDecimal(Float.toString(newRating)).setScale(2, RoundingMode.DOWN);
 
-        cafe.setRating(total / cafe.getPosts().size());
+        cafe.setRating(roundedRating.floatValue());
     }
 
     public CafeDetailResponse getCafe(Long cafeId, Long loginId) {
