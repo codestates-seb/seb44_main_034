@@ -89,9 +89,8 @@ const SearchBox = () => {
   const setMoodAtom = useSetRecoilState<string>(MoodAtom);
   const facilitiesAtom = useRecoilValue<string>(FacilitiesStateAtom);
   const setFacilitiesAtom = useSetRecoilState<string>(FacilitiesAtom);
-  const [serchValueState, setSearchValueState] =
-    useRecoilState<string>(SearchValueStateAtom);
-  const [handleSearch, setHandleSearch] = useRecoilState(HandleSearchAtom);
+  const setSearchValueState = useSetRecoilState<string>(SearchValueStateAtom);
+  const setHandleSearch = useSetRecoilState(HandleSearchAtom);
 
   // console.log(handleSearch);
 

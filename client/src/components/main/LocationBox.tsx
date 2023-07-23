@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { LocationAtom } from "../../recoil/mainState";
 import { LocationStateAtom } from "../../recoil/mainState";
 import styled from "styled-components";
@@ -52,10 +52,11 @@ const S = {
 
 const LocationBox = () => {
   const locationName = ["전체", "강서구", "양천구", "영등포구", "마포구"];
-  const [shortAddress, setShortAddress] = useRecoilState<string>(LocationAtom);
+  const shortAddress = useRecoilValue<string>(LocationAtom);
   const [locationState, setLocationState] =
     useRecoilState<string>(LocationStateAtom);
   const [location, setLocation] = useState<string>("");
+  console.log(setLocation);
   const handleClickEvent = (el: string) => {
     // setLocation(el);
     console.log(el);

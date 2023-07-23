@@ -138,10 +138,12 @@ const FilterSearchBox = () => {
   const [facilitiesAtom, setFacilitiesAtom] =
     useRecoilState<string>(FacilitiesAtom);
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
-  const facilitisState = useRecoilValue(FacilitiesAtom);
-  const moodState = useRecoilValue(MoodStateAtom);
+  const setFacilitiesState = useSetRecoilState(FacilitiesStateAtom);
+  const setMoodState = useSetRecoilState(MoodStateAtom);
   const resetMoodTags = useResetRecoilState(MoodAtom);
   const resetFacilities = useResetRecoilState(FacilitiesAtom);
+  const resetMoodState = useResetRecoilState(MoodStateAtom);
+  const resetFacilitiesState = useResetRecoilState(FacilitiesStateAtom);
   const location = useRecoilValue(LocationStateAtom);
   const setLocation = useSetRecoilState(LocationAtom);
   const searchValue = useRecoilValue(SearchValueStateAtom);
@@ -196,12 +198,10 @@ const FilterSearchBox = () => {
     if (findTag) {
       setFacilities(() => [...filterTag]);
       setFacilAddress(() => [...filterFacil]);
-      setFacilitiesAtom(facilAddress.join(""));
     }
     if (!findTag) {
       setFacilities(() => [...facilities, tagText]);
       setFacilAddress(() => [...facilAddress, address]);
-      setMoodAtom(`&tags=${moodIds}`);
     }
   };
 
@@ -219,6 +219,25 @@ const FilterSearchBox = () => {
       setMoodIds(() => [...moodIds, id]);
     }
   };
+
+  const saveState = () => {
+    if (facilAddress.length > 0) {
+      setFacilitiesState(facilAddress.join(""));
+    }
+    if (facilAddress.length === 0) {
+      resetFacilitiesState();
+    }
+    if (moodIds.length > 0) {
+      setMoodState(`&tags=${moodIds}`);
+    }
+    if (moodIds.length === 0) {
+      resetMoodState();
+    }
+  };
+
+  useEffect(() => {
+    saveState();
+  }, [facilAddress, moodIds]);
 
   console.log(facilities, moodTags);
   // console.log(moodIds);

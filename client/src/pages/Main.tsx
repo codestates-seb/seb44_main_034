@@ -138,7 +138,7 @@ const Main = () => {
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
-  // console.log(endIndex);
+  console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
