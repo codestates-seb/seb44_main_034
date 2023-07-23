@@ -126,11 +126,11 @@ const FilterSearchBox = () => {
   const [moodTags, setMoodTags] = useState<string[]>([]);
   const [moodIds, setMoodIds] = useState<number[]>([]);
   const facilitiesKeys = [
-    "&isopenalltime=true",
-    "&ischargingavailable=true",
-    "&hasparking=true",
-    "&ispetfriendly=true",
-    "&hasdessert=true",
+    "&isOpenAllTime=true",
+    "&isChargingAvailable=true",
+    "&hasParking=true",
+    "&isPetfriendly=true",
+    "&hasDessert=true",
   ];
 
   const [facilAddress, setFacilAddress] = useState<string[]>([]);
