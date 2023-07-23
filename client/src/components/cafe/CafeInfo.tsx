@@ -115,9 +115,7 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    if (imageFile === "") {
-      alert("이미지를 등록해주세요! ");
-    }
+
     console.log(imageFile);
     console.log(CafeData.latitude);
     console.log(CafeData.longitude);
@@ -128,6 +126,8 @@ const CafeInfo = () => {
     }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
+    console.log(json);
+    console.log(CafeData);
     formData.append("dto", info);
     try {
       for (const entry of formData.entries()) {
