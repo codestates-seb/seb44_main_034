@@ -26,7 +26,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     address: "",
     contact: "",
     notice: "",
-    short_Address: "",
+    shortAddress: "",
     latitude: 0,
     longitude: 0,
     image: "",
@@ -62,7 +62,6 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
         {
           headers: {
             Authorization: "KakaoAK 39c175a34af51dbed869e39dfcb03014",
-            withCredentials: true,
           },
           params: {
             query: address,
@@ -91,7 +90,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
         setEditData((prevEditData) => ({
           ...prevEditData,
           address: coordinates.address_name,
-          short_Address: coordinates.region_2depth_name,
+          shortAddress: coordinates.region_2depth_name,
           latitude: coordinates.y,
           longitude: coordinates.x,
         }));
