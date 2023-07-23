@@ -15,6 +15,7 @@ const DeleteCafe = ({ cafeId }: { cafeId: string | undefined }) => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setPassword("");
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,10 +33,11 @@ const DeleteCafe = ({ cafeId }: { cafeId: string | undefined }) => {
       })
       .then((response) => {
         console.log("카페 삭제 요청 성공:", response.data);
+        window.location.reload();
       })
       .catch((error) => {
         console.error("카페 삭제 요청 실패:", error);
-
+        alert("비밀번호가 일치하지 않습니다");
         // 삭제 요청이 실패했을 때 비밀번호가 틀렸다 안내
       });
 
