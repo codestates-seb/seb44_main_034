@@ -32,8 +32,10 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   const modifiedMenu = [...menu];
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-    const decodedPayload = decodeToken(token);
-    setUserId(decodedPayload.userId);
+    if (token) {
+      const decodedPayload = decodeToken(token);
+      setUserId(decodedPayload.userId);
+    }
   }, []);
 
   const getComments = async (menuId: number) => {
