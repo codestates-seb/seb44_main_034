@@ -23,6 +23,11 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
   const [showModal, setShowModal] = useState(false);
   const [showComment, setShowComment] = useState([]);
   const [comment, setComment] = useState("");
+  const [editedContent, setEditedContent] = useState("");
+  const [editingComments, setEditingComments] = useState<{
+    [key: number]: boolean;
+  }>({});
+
   // const [userId, setUserId] = useState([]);
   const modifiedMenu = [...menu];
   useEffect(() => {
@@ -37,11 +42,12 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
       const menuDetailData = response.data.payload;
       console.log("처음 모달창 열었을 때:", menuDetailData);
       setShowComment(menuDetailData.comments);
-      // if (userId.length < 0) {
-      //   menuDetailData.comments.map((item: any) => {
-      //     setUserId((prevUserId) => [...prevUserId, item.memberId]);
-      //   });
-      // }
+
+      const editingCommentsInit: { [key: number]: boolean } = {};
+      menuDetailData.comments.forEach((comment: any) => {
+        editingCommentsInit[comment.id] = false;
+      });
+      setEditingComments(editingCommentsInit);
     } catch (error) {
       console.error(error);
     }
@@ -60,6 +66,14 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
+  };
+  const handleEditButtonClick = (commentId: number, content: string) => {
+    // 댓글 내용을 상태 변수에 저장합니다.
+    setEditedContent(content);
+    setEditingComments((prevEditingComments) => ({
+      ...prevEditingComments,
+      [commentId]: true,
+    }));
   };
 
   const addComment = async () => {
@@ -107,8 +121,54 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
       console.error(error);
     }
   };
+  const handleSaveButtonClick = async (commentId: number) => {
+    try {
+      // 댓글을 업데이트하는 PATCH 요청을 보냅니다.
+      await axios.patch(
+        `${baseURL}/menu-comments/${commentId}`,
+        { content: editedContent }, // 수정된 댓글 내용을 전송합니다.
+        {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        }
+      );
+
+      // 상태의 댓글을 새로운 내용으로 업데이트합니다.
+      setShowComment((prevComments) =>
+        prevComments.map((comment: any) =>
+          comment.id === commentId
+            ? { ...comment, content: editedContent }
+            : comment
+        )
+      );
+
+      // 댓글의 수정 상태를 false로 변경합니다.
+      setEditingComments((prevEditingComments) => ({
+        ...prevEditingComments,
+        [commentId]: false,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await axios.delete(`${baseURL}/menu-comments/${commentId}`, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+
+      setShowComment((prevComments) =>
+        prevComments.filter((comment: any) => comment.id !== commentId)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const isCurrentUserCommentAuthor = (authorId: string) => {
-    // 현재 토큰으로 받아온 id와 글쓴이의 id를 비교하여 같으면 true, 다르면 false를 반환합니다.
     return userId === authorId;
   };
   return (
@@ -145,13 +205,46 @@ const CafeDetailMenu = ({ menu }: MenuDetailsInfoProps) => {
                 <S.CommentDiv>
                   {showComment.map((comment, index) => (
                     <S.Comment key={index}>
-                      <p>{comment.content}</p>
+                      {!editingComments[comment.id] ? (
+                        <p>{comment.content}</p>
+                      ) : (
+                        // 수정 중일 때는 입력 필드를 보여줍니다.
+                        <S.EditInput
+                          type='text'
+                          value={editedContent}
+                          onChange={(e) => setEditedContent(e.target.value)}
+                        />
+                      )}
                       <div>
                         <span>{comment.author}</span>
                         {isCurrentUserCommentAuthor(comment.memberId) && (
                           <div>
-                            <S.Edit>수정</S.Edit>
-                            <S.Delete>삭제</S.Delete>
+                            {!editingComments[comment.id] ? (
+                              <S.Edit
+                                onClick={() =>
+                                  handleEditButtonClick(
+                                    comment.id,
+                                    comment.content
+                                  )
+                                }
+                              >
+                                수정
+                              </S.Edit>
+                            ) : (
+                              <S.Edit
+                                onClick={() =>
+                                  handleSaveButtonClick(comment.id)
+                                }
+                              >
+                                저장
+                              </S.Edit>
+                            )}
+                            {/* Delete Button */}
+                            <S.Delete
+                              onClick={() => handleDeleteComment(comment.id)}
+                            >
+                              삭제
+                            </S.Delete>
                           </div>
                         )}
                       </div>
@@ -324,6 +417,10 @@ const S = {
       background-color: ${COLOR_1.light_red};
       cursor: pointer;
     }
+  `,
+  EditInput: styled.input`
+    height: 30px;
+    padding: 5px;
   `,
   CommentInput: styled.input`
     border: none;
