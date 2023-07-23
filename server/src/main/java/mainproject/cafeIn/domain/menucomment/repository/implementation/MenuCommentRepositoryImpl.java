@@ -19,6 +19,7 @@ public class MenuCommentRepositoryImpl implements MenuCommentRepositoryCustom {
     public List<MenuCommentResponse> getMenuComments(Long menuId) {
         return queryFactory
                 .select(new QMenuCommentResponse(
+                        menuComment.id,
                         menuComment.content,
                         member.id,
                         member.displayName
