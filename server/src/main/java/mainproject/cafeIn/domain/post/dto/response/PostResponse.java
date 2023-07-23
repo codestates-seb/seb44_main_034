@@ -11,13 +11,15 @@ public class PostResponse {
     private Long postId;
     private String title;
     private String author;
+    private String grade;
     private String image;
 
     @QueryProjection
-    public PostResponse(Long postId, String title, String author, String image) {
+    public PostResponse(Long postId, String title, String author, String grade, String image) {
         this.postId = postId;
         this.title = title;
         this.author = author;
+        this.grade = grade;
         this.image = image;
     }
 }
