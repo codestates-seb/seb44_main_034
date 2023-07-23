@@ -48,7 +48,9 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
   useEffect(() => {
-    setUser(decodedPayLoad.userId);
+    if (token) {
+      setUser(decodedPayLoad.userId);
+    }
   }, []);
   const clickBookmark = async () => {
     try {

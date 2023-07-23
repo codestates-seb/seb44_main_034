@@ -32,13 +32,18 @@ const S = {
     align-items: center;
   `,
   Toggle: styled.div`
-    text-align: right;
-    width: 90px;
-    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 28px;
     border: 1px solid ${COLOR_1.light_gray};
     border-radius: 4px;
+    &:hover {
+      cursor: pointer;
+    }
     > span {
-      text-align: right;
+      text-align: center;
       font-size: ${FONT_SIZE_1.normal_1};
     }
   `,

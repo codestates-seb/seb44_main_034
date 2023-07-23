@@ -95,7 +95,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
   useEffect(() => {
-    setUser(decodedPayLoad.userId);
+    if (token) {
+      setUser(decodedPayLoad.userId);
+    }
   }, []);
 
   const showEditComment = () => {
@@ -160,23 +162,25 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                 <span>{comment.author}</span>{" "}
               </Link>
             </S.Author>
-            {user === comment.authorId ? (
-              <S.Edit>
-                <span
-                  onClick={() => {
-                    showEditComment();
-                  }}
-                >
-                  수정
-                </span>
-                <span
-                  onClick={() => {
-                    deleteComment();
-                  }}
-                >
-                  삭제
-                </span>
-              </S.Edit>
+            {user ? (
+              user === comment.authorId ? (
+                <S.Edit>
+                  <span
+                    onClick={() => {
+                      showEditComment();
+                    }}
+                  >
+                    수정
+                  </span>
+                  <span
+                    onClick={() => {
+                      deleteComment();
+                    }}
+                  >
+                    삭제
+                  </span>
+                </S.Edit>
+              ) : null
             ) : null}
           </S.FlexWrap>
           {comment.content}

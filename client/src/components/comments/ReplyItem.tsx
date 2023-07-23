@@ -93,7 +93,9 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
   useEffect(() => {
-    setUser(decodedPayLoad.userId);
+    if (token) {
+      setUser(decodedPayLoad.userId);
+    }
   }, []);
   const {
     register,
@@ -158,23 +160,25 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
               <S.Author>
                 <span>{reply.author}</span>
               </S.Author>
-              {user === reply.authorId ? (
-                <S.Edit>
-                  <span
-                    onClick={() => {
-                      showEditReply();
-                    }}
-                  >
-                    수정
-                  </span>
-                  <span
-                    onClick={() => {
-                      deleteReply();
-                    }}
-                  >
-                    삭제
-                  </span>
-                </S.Edit>
+              {user ? (
+                user === reply.authorId ? (
+                  <S.Edit>
+                    <span
+                      onClick={() => {
+                        showEditReply();
+                      }}
+                    >
+                      수정
+                    </span>
+                    <span
+                      onClick={() => {
+                        deleteReply();
+                      }}
+                    >
+                      삭제
+                    </span>
+                  </S.Edit>
+                ) : null
               ) : null}
             </S.FlexWrap>
             {reply.content}
