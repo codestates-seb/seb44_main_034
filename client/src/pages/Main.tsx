@@ -134,11 +134,12 @@ const Main = () => {
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
   // console.log(sortType);
-  const [cafeData, setCafeData] = useState<MainCafeType>([]);
+  const [cafeData, setCafeData] = useState<MainCafeType[]>([]);
   const cafePerPage = 6;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
-  console.log(endIndex);
+
+  // console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
@@ -185,71 +186,76 @@ const Main = () => {
   if (isError) {
     console.log(error);
   }
-  /* ☕️카페 데이터 */
-  useEffect(() => {
-    if (data) {
-      // setSearchBox(false);
-      console.log("카페리스트업로드");
-      const pageData = data.payload.content;
-      setCafeData(pageData);
-    }
-  }, []);
 
-  return (
-    <S.Container>
-      <SearchBox />
-      <LocationBox />
-      <FilterSearchBox />
-      <S.MapBox>
-        <Map />
-      </S.MapBox>
-      <S.ListContainer>
-        <S.ListSubContainer>
-          <S.SubTitle>Cafe</S.SubTitle>
-          <S.SubButtonBox onClick={sortByBookmark}>
-            <S.FilterButton>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>북마크순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByRating}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>별점순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByCountPost}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>포스트순</S.IconTextBox>
-            </S.FilterButton>
-            <S.FilterButton onClick={sortByCafeId}>
-              <S.Iconbox>
-                <BiSolidCoffeeBean size='30' color='#4f2500' />
-              </S.Iconbox>
-              <S.IconTextBox>신규순</S.IconTextBox>
-            </S.FilterButton>
-          </S.SubButtonBox>
-        </S.ListSubContainer>
-      </S.ListContainer>
-      <S.ListBox>
-        {cafeData.map((data) => {
-          return <Cafe data={data} key={data.cafeId} />;
-        })}
-      </S.ListBox>
-      <Pagination
-        activePage={page}
-        itemsCountPerPage={cafePerPage}
-        totalItemsCount={cafeData.length}
-        pageRangeDisplayed={5}
-        prevPageText={"‹"}
-        nextPageText={"›"}
-        onChange={handlePageChange}
-      />
-    </S.Container>
-  );
+  /* ☕️카페 데이터 */
+  // useEffect(() => {
+  //   if (data) {
+  //     // setSearchBox(false);
+  //     console.log("카페리스트업로드");
+  //     const pageData = data.payload.content;
+  //     setCafeData(pageData);
+  //   }
+  // }, []);
+
+  if (data) {
+    console.log(data.payload);
+    const cafeData: MainCafeType[] = data.payload.content;
+    return (
+      <S.Container>
+        <SearchBox />
+        <LocationBox />
+        <FilterSearchBox />
+        <S.MapBox>
+          <Map />
+        </S.MapBox>
+        <S.ListContainer>
+          <S.ListSubContainer>
+            <S.SubTitle>Cafe</S.SubTitle>
+            <S.SubButtonBox onClick={sortByBookmark}>
+              <S.FilterButton>
+                <S.Iconbox>
+                  <BiSolidCoffeeBean size='30' color='#4f2500' />
+                </S.Iconbox>
+                <S.IconTextBox>북마크순</S.IconTextBox>
+              </S.FilterButton>
+              <S.FilterButton onClick={sortByRating}>
+                <S.Iconbox>
+                  <BiSolidCoffeeBean size='30' color='#4f2500' />
+                </S.Iconbox>
+                <S.IconTextBox>별점순</S.IconTextBox>
+              </S.FilterButton>
+              <S.FilterButton onClick={sortByCountPost}>
+                <S.Iconbox>
+                  <BiSolidCoffeeBean size='30' color='#4f2500' />
+                </S.Iconbox>
+                <S.IconTextBox>포스트순</S.IconTextBox>
+              </S.FilterButton>
+              <S.FilterButton onClick={sortByCafeId}>
+                <S.Iconbox>
+                  <BiSolidCoffeeBean size='30' color='#4f2500' />
+                </S.Iconbox>
+                <S.IconTextBox>신규순</S.IconTextBox>
+              </S.FilterButton>
+            </S.SubButtonBox>
+          </S.ListSubContainer>
+        </S.ListContainer>
+        <S.ListBox>
+          {cafeData.map((data) => {
+            return <Cafe data={data} key={data.cafeId} />;
+          })}
+        </S.ListBox>
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={cafePerPage}
+          totalItemsCount={cafeData.length}
+          pageRangeDisplayed={5}
+          prevPageText={"‹"}
+          nextPageText={"›"}
+          onChange={handlePageChange}
+        />
+      </S.Container>
+    );
+  }
 };
 
 export default Main;
