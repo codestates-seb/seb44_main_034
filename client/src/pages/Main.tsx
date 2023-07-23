@@ -134,10 +134,12 @@ const Main = () => {
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
   // console.log(sortType);
+
   // const [cafeData, setCafeData] = useState<MainCafeType>([]);
   const cafePerPage = 8;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
+
   console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
@@ -185,9 +187,20 @@ const Main = () => {
     console.log(error);
   }
 
+  /* ☕️카페 데이터 */
+  // useEffect(() => {
+  //   if (data) {
+  //     // setSearchBox(false);
+  //     console.log("카페리스트업로드");
+  //     const pageData = data.payload.content;
+  //     setCafeData(pageData);
+  //   }
+  // }, []);
+
   if (data) {
     const cafeData = data.payload.content;
     const totalPages = data.payload.totalPages;
+    console.log("검색");
     return (
       <S.Container>
         <SearchBox />
