@@ -12,17 +12,15 @@ public class CommentResponse {
     private Long commentId;
     private Long authorId;
     private String author;
-    private String grade;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<ReplyResponse> replies;
 
-    public CommentResponse(Long commentId, Long authorId, String author, String grade, String content, LocalDateTime createdAt, LocalDateTime updatedAt, List<ReplyResponse> replies) {
+    public CommentResponse(Long commentId, Long authorId, String author, String content, LocalDateTime createdAt, LocalDateTime updatedAt, List<ReplyResponse> replies) {
         this.commentId = commentId;
         this.authorId = authorId;
         this.author = author;
-        this.grade = grade;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
