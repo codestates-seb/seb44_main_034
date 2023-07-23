@@ -183,6 +183,7 @@ const Main = () => {
     }
   );
 
+  console.log(sortType);
   if (isError) {
     console.log(error);
   }
@@ -200,7 +201,8 @@ const Main = () => {
   if (data) {
     const cafeData = data.payload.content;
     const totalPages = data.payload.totalPages;
-    console.log("검색");
+    console.log(sortType);
+
     return (
       <S.Container>
         <SearchBox />
@@ -212,8 +214,8 @@ const Main = () => {
         <S.ListContainer>
           <S.ListSubContainer>
             <S.SubTitle>Cafe</S.SubTitle>
-            <S.SubButtonBox onClick={sortByBookmark}>
-              <S.FilterButton>
+            <S.SubButtonBox>
+              <S.FilterButton onClick={sortByBookmark}>
                 <S.Iconbox>
                   <BiSolidCoffeeBean size='30' color='#4f2500' />
                 </S.Iconbox>

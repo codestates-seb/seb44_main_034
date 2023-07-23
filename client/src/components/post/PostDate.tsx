@@ -20,7 +20,7 @@ const S = {
 const PostDate = ({ postDate }: PostDateProps) => {
   console.log(postDate);
   // const dateValue = new Date(postDate);
-  const dateValue = new Date("2023-12-30T13:00:00");
+  const dateValue = new Date(postDate);
   const year = dateValue.getFullYear();
   const month =
     dateValue.getMonth() < 9

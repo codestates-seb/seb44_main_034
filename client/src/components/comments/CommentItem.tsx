@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { PostComments } from "../../types/type";
 import { baseURL } from "../../common/baseURL";
 import Replies from "./Replies";
+import { decodeToken } from "../../common/token/decodeToken";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
@@ -84,14 +85,16 @@ const S = {
 
 const CommentItem = ({ comment }: CommentItemProps) => {
   const [editing, setEditing] = useState(false);
-  // const [editedText, setEditedText] = useState(comment.content);
-
   const {
     register,
     handleSubmit,
     reset,
     // formState: { errors }
   } = useForm<InputData>();
+  const [user, setUser] = useState("");
+  const token = localStorage.getItem("access_token");
+  const decodedPayLoad = decodeToken(token);
+  setUser(decodedPayLoad.userId);
 
   const showEditComment = () => {
     //수정 창 보여주기
@@ -146,60 +149,56 @@ const CommentItem = ({ comment }: CommentItemProps) => {
 
   return (
     <div>
-      {editing ? (
-        <ul>
-          {
-            <li key={comment.commentId}>
-              <S.FlexWrap>
-                <S.Author>
-                  <Link to={`../otherusermy/${comment.authorId}`}>
-                    <span>{comment.author}</span>{" "}
-                  </Link>
-                </S.Author>
-
-                <S.Edit>
-                  <span
-                    onClick={() => {
-                      showEditComment();
-                    }}
-                  >
-                    수정
-                  </span>
-                  <span
-                    onClick={() => {
-                      deleteComment();
-                    }}
-                  >
-                    삭제
-                  </span>
-                </S.Edit>
-              </S.FlexWrap>
-              {comment.content}
-              <S.EditForm
-                onSubmit={handleSubmit(onSubmit)}
-                // className={comment.commentId ? "active" : ""}
-              >
-                <input
-                  type='text'
-                  {...register("content", { required: true })}
-                />
-                <button type='submit'>댓글 수정</button>
-              </S.EditForm>
-              <Replies
-                replies={comment?.replies}
-                commentId={comment?.commentId}
-              />
-            </li>
-          }
-        </ul>
-      ) : (
-        <S.Comments>
+      {/* {editing ? ( */}
+      <ul>
+        <li key={comment.commentId}>
+          <S.FlexWrap>
+            <S.Author>
+              <Link to={`../otherusermy/${comment.authorId}`}>
+                <span>{comment.author}</span>{" "}
+              </Link>
+            </S.Author>
+            {user === comment.authorId ? (
+              <S.Edit>
+                <span
+                  onClick={() => {
+                    showEditComment();
+                  }}
+                >
+                  수정
+                </span>
+                <span
+                  onClick={() => {
+                    deleteComment();
+                  }}
+                >
+                  삭제
+                </span>
+              </S.Edit>
+            ) : null}
+          </S.FlexWrap>
+          {comment.content}
+          {editing && (
+            <S.EditForm
+              onSubmit={handleSubmit(onSubmit)}
+              // className={comment.commentId ? "active" : ""}
+            >
+              <input type='text' {...register("content", { required: true })} />
+              <button type='submit'>등록</button>
+            </S.EditForm>
+          )}
+          <Replies replies={comment?.replies} commentId={comment?.commentId} />
+        </li>
+      </ul>
+      {/* ) : ( */}
+      {/* <S.Comments>
           <ul>
             <li key={comment.commentId}>
               <S.FlexWrap>
                 <Link to={`../otherusermy/${comment.authorId}`}>
                   <span>{comment.author}</span>{" "}
                 </Link>
+
                 <S.Edit>
                   <span
                     onClick={() => {
@@ -225,7 +224,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
             </li>
           </ul>
         </S.Comments>
-      )}
+      )} */}
     </div>
   );
 };
