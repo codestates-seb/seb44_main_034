@@ -80,7 +80,6 @@ public class MemberService {
             member.updatePassword(encryptedPassword);
         }
 
-
         if(image != null && !image.isEmpty()) {
 
             if (findmember.getImage() == null) {
