@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostReplies } from "../../types/type";
 // import { PostReply } from "../../types/type";
+import { decodeToken } from "../../common/token/decodeToken";
 import { baseURL } from "../../common/baseURL";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
@@ -87,8 +88,11 @@ const S = {
 
 const ReplyItem = ({ reply }: ReplyItemProps) => {
   const [editing, setEditing] = useState(false);
+  const [user, setUser] = useState("");
   // const [editedText, setEditedText] = useState(comment.content);
-
+  const token = localStorage.getItem("access_token");
+  const decodedPayLoad = decodeToken(token);
+  setUser(decodedPayLoad.userId);
   const {
     register,
     handleSubmit,
@@ -145,14 +149,14 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
 
   return (
     <div>
-      {editing ? (
-        <ul>
-          {
-            <li key={reply.replyId}>
-              <S.FlexWrap>
-                <S.Author>
-                  <span>{reply.author}</span>
-                </S.Author>
+      <ul>
+        {
+          <li key={reply.replyId}>
+            <S.FlexWrap>
+              <S.Author>
+                <span>{reply.author}</span>
+              </S.Author>
+              {user === reply.authorId ? (
                 <S.Edit>
                   <span
                     onClick={() => {
@@ -169,8 +173,10 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                     삭제
                   </span>
                 </S.Edit>
-              </S.FlexWrap>
-              {reply.content}
+              ) : null}
+            </S.FlexWrap>
+            {reply.content}
+            {editing && (
               <S.EditForm
                 onSubmit={handleSubmit(onSubmitEdit)}
                 // className={comment.commentId ? "active" : ""}
@@ -179,41 +185,12 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                   type='text'
                   {...register("content", { required: true })}
                 />
-                <button type='submit'>댓글 수정</button>
+                <button type='submit'>등록</button>
               </S.EditForm>
-            </li>
-          }
-        </ul>
-      ) : (
-        <S.Comments>
-          <ul>
-            <li key={reply.replyId}>
-              <S.FlexWrap>
-                <S.Author>
-                  <span>{reply.author}</span>
-                </S.Author>
-                <S.Edit>
-                  <span
-                    onClick={() => {
-                      showEditReply();
-                    }}
-                  >
-                    수정
-                  </span>
-                  <span
-                    onClick={() => {
-                      deleteReply();
-                    }}
-                  >
-                    삭제
-                  </span>
-                </S.Edit>
-              </S.FlexWrap>
-              {reply.content}
-            </li>
-          </ul>
-        </S.Comments>
-      )}
+            )}
+          </li>
+        }
+      </ul>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -10,6 +11,7 @@ import { ResPostData } from "../../types/type";
 import { PostItemAtom } from "../../recoil/postState";
 import { PostImgAtom } from "../../recoil/postState";
 // import { GetPostAtom } from "../../recoil/postState";
+import { decodeToken } from "../../common/token/decodeToken";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
@@ -40,9 +42,12 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const setPostImg = useSetRecoilState<string>(PostImgAtom);
+  const [user, setUser] = useState("");
   // const setGetItem = useSetRecoilState(GetPostAtom);
   const navigate = useNavigate();
-
+  const token = localStorage.getItem("access_token");
+  const decodedPayLoad = decodeToken(token);
+  setUser(decodedPayLoad.userId);
   const clickBookmark = async () => {
     try {
       const response = await axios.post(
@@ -78,7 +83,6 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   );
 
   const handleEdit = () => {
-    //if user Id와 지금 userId가 일치하면
     const reqData = {
       // cafeId: cafeId,
       title: title,
@@ -145,16 +149,18 @@ const PostItemHead = ({ postData }: PostItemProps) => {
             <PostDate postDate={createdAt} />
           </div>
         </S.DateWrap>
-        <S.EditWrap>
-          <S.Edit onClick={handleEdit}>수정</S.Edit>
-          <S.Edit
-            onClick={() => {
-              handleDelete();
-            }}
-          >
-            삭제
-          </S.Edit>
-        </S.EditWrap>
+        {user === authorId ? (
+          <S.EditWrap>
+            <S.Edit onClick={handleEdit}>수정</S.Edit>
+            <S.Edit
+              onClick={() => {
+                handleDelete();
+              }}
+            >
+              삭제
+            </S.Edit>
+          </S.EditWrap>
+        ) : null}
       </S.FlexDiv>
     </>
   );

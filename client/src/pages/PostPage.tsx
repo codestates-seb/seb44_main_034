@@ -81,6 +81,7 @@ const PostPage = () => {
   const getItem = useRecoilValue(GetPostAtom);
 
   console.log(postId);
+
   const { data, isLoading, isError } = useQuery(
     ["getPostDetail", postId, getItem],
     () => getPostDetailAPI.getPostDetail(postId)
@@ -104,6 +105,10 @@ const PostPage = () => {
 
     const postData = data.payload;
     const tagData = data.payload.tagNames;
+
+    const createMarkup = () => {
+      return { __html: postData?.content };
+    };
 
     return (
       <>
@@ -132,7 +137,9 @@ const PostPage = () => {
             <S.ImgWrap>
               <img src={postData?.image} />
             </S.ImgWrap>
-            <S.ContentWrap>{postData?.content}</S.ContentWrap>
+            <S.ContentWrap
+              dangerouslySetInnerHTML={createMarkup()}
+            ></S.ContentWrap>
           </div>
           <Comments comments={postData?.comments} postId={postData?.postId} />
         </S.Container>
