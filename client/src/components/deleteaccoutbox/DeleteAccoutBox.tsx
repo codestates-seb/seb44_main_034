@@ -114,7 +114,6 @@ const DeleteAccountBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    const { password } = data;
     console.log(localStorage.getItem("access_token"));
     if (role === "members") {
       axios

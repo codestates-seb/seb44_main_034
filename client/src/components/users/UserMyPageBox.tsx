@@ -405,7 +405,7 @@ const UserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("success");
+        console.log(response);
         const myList: ListType[] = response.data.payload.data;
         const myListLength = myList.length;
         if (selectedTab === "bookmarked-cafe") {
