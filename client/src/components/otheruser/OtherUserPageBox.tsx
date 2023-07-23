@@ -10,6 +10,7 @@ import { baseURL } from "../../common/baseURL";
 import coffeebean from "../../assets/coffeebean.svg";
 import greenbean from "../../assets/greenbean.svg";
 import espresso from "../../assets/espresso.svg";
+import roastedbean from "../../assets/roastedbean.svg";
 import { ListType } from "../users/UserMyPageBox";
 import MyPost from "../users/MyPost";
 import styled from "styled-components";
@@ -432,6 +433,8 @@ const OtherUserMyPageBox = () => {
                   src={
                     memberInfo?.grade === "GRADE_COFFEE_BEAN"
                       ? coffeebean
+                      : memberInfo?.grade === "GRADE_ROASTED_BEAN"
+                      ? roastedbean
                       : memberInfo?.grade === "GRADE_ESPRESSO"
                       ? espresso
                       : greenbean
