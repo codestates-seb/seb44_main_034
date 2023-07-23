@@ -34,7 +34,7 @@ spring:
           google:
             clientId: ${CLIENT_ID} # EC2 환경변수 설정하기
             clientSecret: ${CLIENT_SECRET}  #EC2 환경변수 설정하기
-            redirect-uri: https://fe-dev-cafein.vercel.app/login/oauth2/code/google
+            redirect-uri: https://cafein34.vercel.app/login/oauth2/code/google
             scope:
               - email
               - profile
@@ -45,7 +45,7 @@ logging.level:
 jwt:
   key: ${JWT_SECRET_KEY} # EC2 환경변수 설정하기
   access-token-expiration-minutes: 1440
-  refresh-token-expiration-minutes: 420
+  refresh-token-expiration-minutes: 14400
 
 cloud:
   aws:
