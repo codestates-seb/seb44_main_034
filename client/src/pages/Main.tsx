@@ -113,7 +113,7 @@ export interface MainCafeType {
     arg0: (data: any) => import("react/jsx-runtime").JSX.Element
   ): import("react").ReactNode;
   cafeId?: number;
-  cafeName?: string;
+  name?: string;
   image?: string;
   address?: string;
   rating?: number;
@@ -133,16 +133,15 @@ const Main = () => {
 
   const [page, setPage] = useState<PageType>(1);
   const [sortType, setSortType] = useState<string>("");
-  console.log(sortType);
+  // console.log(sortType);
   const [cafeData, setCafeData] = useState<MainCafeType>([]);
-  const cafePerPage = 6;
+  const cafePerPage = 4;
   const startIndex = (page - 1) * cafePerPage;
   const endIndex = startIndex + cafePerPage;
   console.log(endIndex);
   // const currentPageData = cafeInfo.slice(startIndex, endIndex);
   // console.log(currentPageData.length);
   const handlePageChange = (pageNumber: number) => {
-    console.log(pageNumber);
     setPage(pageNumber);
   };
   // 북마크 순으로 정렬하는 함수
@@ -177,7 +176,6 @@ const Main = () => {
   } = useQuery(
     ["getAllCafes", page, handleSearch],
     () => getCafes(searchValue, page, shortaddress, facilities, mood, sortType),
-
     {
       keepPreviousData: true,
     }
@@ -185,16 +183,15 @@ const Main = () => {
 
   // if (isLoading) return <p>Loading...</p>;
   if (isError) {
-    // setSearchBox(false);
     console.log(error);
   }
   /* ☕️카페 데이터 */
   useEffect(() => {
     if (data) {
       // setSearchBox(false);
+      console.log("카페리스트업로드");
       const pageData = data.payload.content;
       setCafeData(pageData);
-      console.log(11);
     }
   }, []);
 
@@ -245,7 +242,7 @@ const Main = () => {
       <Pagination
         activePage={page}
         itemsCountPerPage={cafePerPage}
-        totalItemsCount={cafeData.length}
+        totalItemsCount={100}
         pageRangeDisplayed={5}
         prevPageText={"‹"}
         nextPageText={"›"}

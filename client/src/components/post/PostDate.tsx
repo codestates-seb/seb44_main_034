@@ -18,12 +18,14 @@ const S = {
 };
 
 const PostDate = ({ postDate }: PostDateProps) => {
-  const dateValue = new Date(postDate);
+  console.log(postDate);
+  // const dateValue = new Date(postDate);
+  const dateValue = new Date("2023-12-30T13:00:00");
   const year = dateValue.getFullYear();
   const month =
-    dateValue.getMonth() < 10
-      ? `0${dateValue.getMonth()}`
-      : dateValue.getMonth();
+    dateValue.getMonth() < 9
+      ? `0${dateValue.getMonth() + 1}`
+      : dateValue.getMonth() + 1;
   const date =
     dateValue.getDate() < 10 ? `0${dateValue.getDate()}` : dateValue.getDate();
   const hours =
@@ -34,6 +36,11 @@ const PostDate = ({ postDate }: PostDateProps) => {
     dateValue.getMinutes() < 10
       ? `0${dateValue.getMinutes()}`
       : dateValue.getMinutes();
+  // console.log(dateValue);
+  // console.log(date);
+  // console.log(dateValue.getMonth());
+  // console.log(hours);
+  // console.log(minutes);
   return (
     <S.Date>
       {year}. {month}. {date}. {hours} : {minutes}

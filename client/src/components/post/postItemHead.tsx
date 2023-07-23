@@ -8,6 +8,8 @@ import PostDate from "./PostDate";
 import { ReqPostData } from "../../types/type";
 import { ResPostData } from "../../types/type";
 import { PostItemAtom } from "../../recoil/postState";
+import { PostImgAtom } from "../../recoil/postState";
+// import { GetPostAtom } from "../../recoil/postState";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { COLOR_1, FONT_SIZE_2, FONT_WEIGHT } from "../../common/common";
@@ -37,18 +39,31 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   console.log(postId);
   console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
+  const setPostImg = useSetRecoilState<string>(PostImgAtom);
+  // const setGetItem = useSetRecoilState(GetPostAtom);
   const navigate = useNavigate();
 
-  const bookmarkMutation = useMutation(async () => {
-    await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
-      headers: {
-        Authorization: localStorage.getItem("access_token"),
-      },
-    });
-  });
+  const clickBookmark = async () => {
+    try {
+      const response = await axios.post(
+        `${baseURL}/posts/${postId}/bookmark`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        }
+      );
+      // setGetItem((prev) => !prev);
+      console.log("clicked");
+      console.log(response.data);
+    } catch (error) {
+      alert("일시적인 오류가 발생했습니다. 잠시 후, 다시 시도해주세요.");
+    }
+  };
   const deleteMutation = useMutation(
     async () => {
-      await axios.delete(`${postId}/posts/${postId}`, {
+      await axios.delete(`${baseURL}/posts/${postId}`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
@@ -56,33 +71,30 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     },
     {
       onSuccess: () => {
-        console.log("삭제되었습니다.");
-        navigate(-1);
+        alert("삭제되었습니다. 메인페이지로 이동합니다.");
+        navigate("../main");
       },
     }
   );
 
-  const clickBookmark = () => {
-    console.log("clicked");
-    bookmarkMutation.mutate();
-  };
-
   const handleEdit = () => {
     //if user Id와 지금 userId가 일치하면
     const reqData = {
-      cafeId: cafeId,
-      // title: title,
-      image: image,
+      // cafeId: cafeId,
+      title: title,
+      // image: image,
       content: content,
       starRating: starRating,
-      tagNames: tagNames,
+      tags: tagNames,
     };
     setPostState(reqData);
+    setPostImg(image);
     navigate(`/postpage/edit/${postId}`);
     console.log(reqData);
   };
   const handleDelete = () => {
     //if user Id와 지금 userId가 일치하면
+    console.log("clicked");
     if (confirm("삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")) {
       deleteMutation.mutate();
     }
@@ -113,18 +125,17 @@ const PostItemHead = ({ postData }: PostItemProps) => {
               <GoBookmarkFill
                 size='30'
                 onClick={() => {
-                  clickBookmark;
+                  clickBookmark();
                 }}
               />
             ) : (
               <GoBookmark
                 size='30'
                 onClick={() => {
-                  clickBookmark;
+                  clickBookmark();
                 }}
               />
             )}
-            {/* 북마크 로직 추가해야 함 */}
           </S.Circle>
         </S.CircleWrap>
       </S.FlexDiv>
@@ -138,7 +149,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
           <S.Edit onClick={handleEdit}>수정</S.Edit>
           <S.Edit
             onClick={() => {
-              handleDelete;
+              handleDelete();
             }}
           >
             삭제

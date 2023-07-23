@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 // import { data as dataAll } from "../../mockData/cafePost.json";
 import { PostCafeAtom } from "../../recoil/postState";
 import { CafePostList } from "../../types/type";
@@ -9,8 +9,10 @@ import PlusButton from "../../common/post/PlusButton";
 import styled from "styled-components";
 import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 
-type PostData = {
+type PostDataProp = {
   postData: CafePostList[];
+  cafeName?: string;
+  cafeId?: number;
 };
 
 const S = {
@@ -53,21 +55,30 @@ const S = {
   `,
 };
 
-const PostingList = ({ postData }: PostData) => {
+const PostList = ({ postData, cafeName, cafeId }: PostDataProp) => {
   // const data= dataAll.post;
   const data = postData;
-  const setPostData = useSetRecoilState<PostCafeType>(PostCafeAtom);
+  const [cafe, setPostData] = useRecoilState<PostCafeType>(PostCafeAtom);
+  const navigate = useNavigate();
 
-  const handleBtnCafeName = (): void => {
-    setPostData((prev) => ({ ...prev, cafeName: "카페이름모름" })); //카페 이름과 id를 추가하여야 함.
+  const handleClick = () => {
+    setPostData((prev) => ({
+      ...prev,
+      cafeName: cafeName,
+      cafeId: cafeId?.toString(),
+    })); //카페 이름 받아오는 함수
+    navigate("../postpage/create");
+    console.log("clicked");
   };
+  // const handleBtnCafeName = (): void => {};
+  console.log(cafe);
   return (
     <S.Container>
       <S.PostStart>
         <span>POST</span>
-        <Link to='/postpage/create'>
-          <PlusButton text={"+"} handleEvent={handleBtnCafeName} />
-        </Link>
+        {/* <Link to='/postpage/create'> */}
+        <PlusButton text={"+"} handleClick={handleClick} />
+        {/* </Link> */}
       </S.PostStart>
       <ul>
         {data.map((el: CafePostList) => (
@@ -86,4 +97,4 @@ const PostingList = ({ postData }: PostData) => {
   );
 };
 
-export default PostingList;
+export default PostList;

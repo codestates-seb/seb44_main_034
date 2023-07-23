@@ -129,7 +129,6 @@ const CafeInfo = () => {
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
-
     try {
       for (const entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);

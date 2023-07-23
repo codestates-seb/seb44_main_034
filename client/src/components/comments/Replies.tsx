@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 // import { data as co } from "../../mockData/comments.json";
-// import ReplyItem from "./CommentItem";
-import CommentsPagination from "./CommentsPagination";
+import ReplyItem from "./ReplyItem";
+// import CommentsPagination from "./CommentsPagination";
 import { baseURL } from "../../common/baseURL";
 import { PostReplies } from "../../types/type";
 import { styled } from "styled-components";
@@ -122,10 +122,10 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const comments = co.comments;
   // const Comments = ({comments, postId}:CommentData) => {
   // const [commentsData, setCommentsData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [commentsPerPage, setCommentsPerPage] = useState(10);
-  // const [isEditing, setIsEditing] = useState(false);
-  console.log(currentPage);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [commentsPerPage, setCommentsPerPage] = useState(10);
+  const [isEditing, setIsEditing] = useState(false);
+  // console.log(currentPage);
   const {
     register,
     handleSubmit,
@@ -133,13 +133,8 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
     // formState: { errors }
   } = useForm<InputData>();
 
-  // const { data, isLoading, isError } = useQuery(['getcoment'], () => {
-  //   return fetch('http://localhost:3001/comment').then(res => res.json());
-  // });
-
-  // const writeComment = (comment:WriteComment) => axios.post(`${baseURL}/post-comments/${cafeId}`, comment,
   const writeReply = (reply: WriteComment) =>
-    axios.post(`${baseURL}/post-comments/${commentId}`, reply, {
+    axios.post(`${baseURL}/replys/${commentId}`, reply, {
       headers: { Authorization: localStorage.getItem("access_token") },
     });
   const writeCommentMutation = useMutation({
@@ -148,6 +143,9 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
       console.log(context);
       console.log(data);
       reset();
+    },
+    onError: () => {
+      alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
     },
   });
 
@@ -163,29 +161,37 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const lastPostIndex = currentPage * commentsPerPage;
   // const firstPostIndex = lastPostIndex - commentsPerPage;
   // const currentPosts = replyData.slice(firstPostIndex, lastPostIndex);
-  console.log(setCommentsPerPage);
-
+  // console.log(setCommentsPerPage);
+  console.log(replies);
   return (
     <S.Container>
-      <S.WriteFrom onSubmit={handleSubmit(onSubmit)}>
-        <input type='text' {...register("content", { required: true })} />
-        <button type='submit'>댓글 작성</button>
-      </S.WriteFrom>
-
+      <span
+        onClick={() => {
+          setIsEditing((cur) => !cur);
+        }}
+      >
+        대댓글
+      </span>
+      {isEditing && (
+        <S.WriteFrom onSubmit={handleSubmit(onSubmit)}>
+          <input type='text' {...register("content", { required: true })} />
+          <button type='submit'>댓글 작성</button>
+        </S.WriteFrom>
+      )}
       <S.Comments>
         <ul>
-          {/* {currentPosts.map((el, idx) => (
-            // <ReplyItem key={idx} reply={el} />
-          ))} */}
+          {replies.map((el, idx) => (
+            <ReplyItem key={idx} reply={el} />
+          ))}
         </ul>
       </S.Comments>
       {/* <CommentItem comment={commentData}/> */}
-      <CommentsPagination
+      {/* <CommentsPagination
         totalComments={replies.length}
         commentsPerPage={commentsPerPage}
         setCurrentPage={setCurrentPage}
         // currentPage={currentPage}
-      />
+      /> */}
     </S.Container>
   );
 };
