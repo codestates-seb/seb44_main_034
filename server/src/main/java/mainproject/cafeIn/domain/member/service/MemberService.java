@@ -169,7 +169,7 @@ public class MemberService {
     @Transactional
     public SliceResponse<MyPagePostList> postList(Long id, Long cursorId, Pageable pageable) {
 
-
+        Member userMember = findById(id);
         Slice<MyPagePostList> postList = memberRepository.findByPostList(id, cursorId, pageable);
         List<MyPagePostList> list = postList.getContent();
         boolean hasNext = postList.hasNext();
