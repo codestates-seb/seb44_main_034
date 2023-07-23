@@ -37,6 +37,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                         cafe.id,
                         cafe.name,
                         cafe.address,
+                        cafe.shortAddress,
                         cafe.latitude,
                         cafe.longitude,
                         cafe.contact,
