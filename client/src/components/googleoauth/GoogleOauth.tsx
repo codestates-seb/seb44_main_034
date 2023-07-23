@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FONT_SIZE_1 } from "../../common/common";
 import { FcGoogle } from "react-icons/fc";
 import { styled } from "styled-components";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   Oauthbutton: styled.button`
@@ -29,7 +30,7 @@ const S = {
 
 const GoogleLoginButton: React.FC = () => {
   return (
-    <Link to='https://cafein.site/oauth2/authorization/google'>
+    <Link to={`${baseURL}/oauth2/authorization/google`}>
       <S.Oauthbutton>
         <FcGoogle size='20' />
         Log in with Google

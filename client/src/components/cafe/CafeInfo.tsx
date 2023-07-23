@@ -35,7 +35,7 @@ const CafeInfo = () => {
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<string | Blob | null>(null);
+  const [imageFile, setImageFile] = useState<string | Blob>("");
   const [previewImage, setPreviewImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +115,7 @@ const CafeInfo = () => {
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    if (imageFile === null) {
+    if (imageFile === "") {
       alert("이미지를 등록해주세요! ");
     }
     console.log(imageFile);
@@ -125,8 +125,6 @@ const CafeInfo = () => {
     const formData = new FormData();
     if (imageFile) {
       formData.append("cafeImage", imageFile);
-    } else {
-      formData.append("cafeImage", null);
     }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });

@@ -39,7 +39,7 @@ export const getCafes = async (
     }
   );
   // const res = await createBaseUrl.get(`/posts/${Id}`);
-  console.log("여기");
+  console.log("검색");
   console.log(res.data);
   return res.data;
 };

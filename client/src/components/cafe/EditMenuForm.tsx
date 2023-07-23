@@ -48,6 +48,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
       });
       console.log(menuId);
       console.log(response.data);
+      alert("메뉴가 수정되었습니다.");
     } catch (error) {
       console.error(error);
     }
@@ -63,6 +64,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
           Authorization: localStorage.getItem("access_token"),
         },
       });
+      alert("메뉴가 삭제되었습니다.");
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -82,6 +84,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
       });
 
       console.log(response.data);
+      alert("메뉴가 추가되었습니다.");
     } catch (error) {
       console.error(error);
     }
