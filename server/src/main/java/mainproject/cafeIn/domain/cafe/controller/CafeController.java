@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class CafeController {
     // 카페 등록
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(CREATED)
-    public ApplicationResponse<Long> createCafe(@RequestPart(value = "dto") CafeInfoRequest request,
+    public ApplicationResponse<Long> createCafe(@Valid @RequestPart(value = "dto") CafeInfoRequest request,
                                                 @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = cafeService.createCafe(loginId, request, image);
@@ -54,7 +55,7 @@ public class CafeController {
     @PatchMapping(value = "/{cafe-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(OK)
     public ApplicationResponse updateCafe(@PathVariable("cafe-id") Long cafeId,
-                                          @RequestPart(value = "dto") CafeInfoRequest request,
+                                          @Valid @RequestPart(value = "dto") CafeInfoRequest request,
                                           @RequestPart(value = "cafeImage", required = false) MultipartFile image) throws IOException {
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         cafeService.updateCafe(loginId, cafeId, request, image);
