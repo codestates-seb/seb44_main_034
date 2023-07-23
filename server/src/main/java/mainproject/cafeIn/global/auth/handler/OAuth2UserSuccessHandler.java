@@ -107,7 +107,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .newInstance()
                 .scheme("https")
                 .host("cafein34.vercel.app")
-                .path("/main")
+                .path("/loading")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
