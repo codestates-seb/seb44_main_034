@@ -65,7 +65,7 @@ const LocationBox = () => {
       // setShortAddress("");
     }
     if (el !== "전체") {
-      setLocationState(`shortaddress=${el}`);
+      setLocationState(`shortAddress=${el}`);
       // setShortAddress(`shortaddress=${el}`);
     }
   };
