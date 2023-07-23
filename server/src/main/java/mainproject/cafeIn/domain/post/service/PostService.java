@@ -102,6 +102,8 @@ public class PostService {
 //        cafeService.calculateRating(findPost.getCafe());
 
         postRepository.save(findPost);
+
+        return findPost.getCafe().getId();
     }
 
     // 게시물 삭제
@@ -145,7 +147,6 @@ public class PostService {
                 findPost.getCafe().getName(),
                 findPost.getMember().getId(),
                 findPost.getMember().getDisplayName(),
-                findPost.getMember().getGrade().getGrade(),
                 findPost.getImage(),
                 findPost.getContent(),
                 findPost.getStarRating(),
@@ -167,7 +168,6 @@ public class PostService {
                         post.getPostId(),
                         post.getTitle(),
                         post.getMember().getDisplayName(),
-                        post.getMember().getGrade().getGrade(),
                         post.getImage()))
                 .collect(Collectors.toList());
         return new MultiPostResponse<>(posts, postPage);

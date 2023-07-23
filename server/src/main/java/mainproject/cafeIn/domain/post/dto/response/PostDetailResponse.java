@@ -19,7 +19,6 @@ public class PostDetailResponse {
     private String cafeName;
     private Long authorId;
     private String author;
-    private String grade;
     private String image;
     private String content;
     private int starRating;
@@ -30,14 +29,13 @@ public class PostDetailResponse {
     private List<CommentResponse> comments;
 
 
-    public PostDetailResponse(Long postId, String title, Long cafeId, String cafeName, Long authorId, String author, String grade, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked, List<CommentResponse> comments) {
+    public PostDetailResponse(Long postId, String title, Long cafeId, String cafeName, Long authorId, String author, String image, String content, int starRating, LocalDateTime createdAt, LocalDateTime updatedAt, List<String> tagNames, Boolean isBookmarked, List<CommentResponse> comments) {
         this.postId = postId;
         this.title = title;
         this.cafeId = cafeId;
         this.cafeName = cafeName;
         this.authorId = authorId;
         this.author = author;
-        this.grade = grade;
         this.image = image;
         this.content = content;
         this.starRating = starRating;
