@@ -2,6 +2,7 @@ package mainproject.cafeIn.domain.post.controller;
 
 import lombok.RequiredArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.cafe.service.CafeService;
 import mainproject.cafeIn.domain.post.dto.request.PostRequest;
 import mainproject.cafeIn.domain.post.dto.response.MultiPostResponse;
 import mainproject.cafeIn.domain.post.dto.response.PostDetailResponse;
@@ -23,6 +24,8 @@ import java.io.IOException;
 public class PostController {
     private final PostService postService;
     private final PostBookmarkService postBookmarkService;
+    private final CafeService cafeService;
+
     // 게시물 등록
     @PostMapping(value = "/{cafe-id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
@@ -45,6 +48,9 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = postService.updatePost(loginId, postId, request, image);
+
+        // 오류 파악용으로 컨트롤러 메서드로 옮김
+        cafeService.calculateRating(cafeService.findCafeById(cafeId));
 
         return new ApplicationResponse<>(postId);
     }
@@ -78,6 +84,9 @@ public class PostController {
 
         Long loginId = JwtParseInterceptor.getAuthenticatedUserId();
         Long cafeId = postService.deletePost(loginId, postId);
+
+        // 오류 파악용으로 컨트롤러 메서드로 옮김
+        cafeService.calculateRating(cafeService.findCafeById(cafeId));
 
         return new ApplicationResponse<>(cafeId);
     }
