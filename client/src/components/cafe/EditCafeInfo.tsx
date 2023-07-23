@@ -152,9 +152,8 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     console.log(imageFile);
 
     const formData = new FormData();
-    // if (imageFile) {
 
-    formData.append("cafeImage", imageFile); //이미지 수정 안했을 때 이미지 그대로 다시 해야되는거 수정
+    formData.append("cafeImage", imageFile); //현재 이미지가 없으므로 ''가 전송
 
     const json = JSON.stringify(editData);
     const info = new Blob([json], { type: "application/json" });

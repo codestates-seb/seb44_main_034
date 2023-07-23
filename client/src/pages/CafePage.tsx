@@ -84,7 +84,7 @@ const CafePage = () => {
 
           {cafeDetail && <CafeDetailsInfo cafeDetail={cafeDetail} />}
           <S.Title>
-            Menu
+            Menu <p>메뉴를 클릭해 댓글을 작성해보세요!</p>
             <div></div>
           </S.Title>
           {menus && <CafeDetailMenu menu={menus} />}
@@ -112,10 +112,15 @@ const S = {
     }
   `,
   Title: styled.div`
-    font-size: ${FONT_SIZE_1.big_6};
+    font-size: ${FONT_SIZE_1.big_5};
     margin-top: 2%;
     > div {
       border-bottom: 1px solid ${COLOR_1.green};
+    }
+    > p {
+      color: ${COLOR_1.light_red};
+      font-size: 3px;
+      /* text-shadow: 1px 1px 4px ${COLOR_1.light_red}; */
     }
     @media screen and (max-width: 767px) {
       text-align: center;
