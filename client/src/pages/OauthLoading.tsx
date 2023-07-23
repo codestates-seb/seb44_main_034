@@ -21,9 +21,10 @@ const OauthLoading = () => {
     console.log(authorization);
     if (urlAccessToken !== null && urlAccessToken.length >= 10) {
       localStorage.setItem("access_token", "Bearer " + authorization);
-      console.log(localStorage.getItem("assess_token"));
       localStorage.setItem("role_token", "member");
-      setLogin(true);
+      setTimeout(() => {
+        setLogin(true);
+      }, 1000);
     }
   });
   if (login) {
