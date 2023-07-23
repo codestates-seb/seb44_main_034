@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -94,7 +94,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
   const [user, setUser] = useState("");
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
-  setUser(decodedPayLoad.userId);
+  useEffect(() => {
+    setUser(decodedPayLoad.userId);
+  }, []);
 
   const showEditComment = () => {
     //수정 창 보여주기
@@ -158,24 +160,24 @@ const CommentItem = ({ comment }: CommentItemProps) => {
                 <span>{comment.author}</span>{" "}
               </Link>
             </S.Author>
-            {user === comment.authorId ? (
-              <S.Edit>
-                <span
-                  onClick={() => {
-                    showEditComment();
-                  }}
-                >
-                  수정
-                </span>
-                <span
-                  onClick={() => {
-                    deleteComment();
-                  }}
-                >
-                  삭제
-                </span>
-              </S.Edit>
-            ) : null}
+            {/* {user === comment.authorId ? ( */}
+            <S.Edit>
+              <span
+                onClick={() => {
+                  showEditComment();
+                }}
+              >
+                수정
+              </span>
+              <span
+                onClick={() => {
+                  deleteComment();
+                }}
+              >
+                삭제
+              </span>
+            </S.Edit>
+            {/* ) : null} */}
           </S.FlexWrap>
           {comment.content}
           {editing && (

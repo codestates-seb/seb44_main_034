@@ -33,11 +33,12 @@ const S = {
   `,
   Toggle: styled.div`
     text-align: right;
-    width: 40px;
-    height: 20px;
+    width: 90px;
+    height: 24px;
     border: 1px solid ${COLOR_1.light_gray};
     border-radius: 4px;
     > span {
+      text-align: right;
       font-size: ${FONT_SIZE_1.normal_1};
     }
   `,
