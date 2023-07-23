@@ -159,7 +159,8 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     const json = JSON.stringify(editData);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
-
+    console.log(json);
+    console.log(info);
     try {
       for (const entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);
@@ -187,7 +188,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
       //     throw new Error('Image upload failed');
       //   }
     } catch (error) {
-      alert("Image upload failed");
+      alert("수정 실패");
     }
     // saveCafe(editData);
     // console.log(cafes);

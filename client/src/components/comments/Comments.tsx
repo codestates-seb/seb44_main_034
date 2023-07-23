@@ -182,67 +182,6 @@ const Comments = ({ comments, postId }: CommentData) => {
     },
   });
 
-  // const showEditComment = (commentId:number) => {
-  //   console.log(commentId);
-  //   //수정 창 보여주기
-  // }
-
-  // // const editComment = (comment:WriteComment) => axios.patch(`${baseURL}/post-comments/${commentId}`, comment,
-  // const editComment = (comment:EditComment) => axios.patch(`${baseURL}/post-comments/${comment.commentId}`, comment.content, {
-  //   headers: {Authorization:localStorage.getItem('access_token')}
-  // });
-  // const editCommentMutation = useMutation({
-  //   mutationFn: editComment,
-  //   onSuccess: (data, context)=>{
-  //     console.log(context);
-  //     console.log(data);
-  //     reset();
-  //   }
-  // })
-
-  // const deleteComment = (commentId:number) => {
-  //   //if user Id와 지금 userId가 일치하면
-  //   if (confirm('삭제하신 댓글은 복구되지 않습니다. 정말로 삭제하시겠습니까?')) {
-  //     useMutation((commentId) => {
-  //       // return axios.delete(`/${commentId}`, {
-  //         return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //         headers: {
-  //           Authorization: localStorage.getItem('access_token'),
-  //         },
-  //         data: { commentId : commentId}
-  //       }
-  //       ).then((res) => {
-  //         console.log(res);
-  //         alert('삭제되었습니다.');
-  //       });
-  //     })
-  //   }
-  // }
-
-  // const deleteCommentMutation = useMutation((commentId: number) => {
-  //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //     headers: {
-  //       Authorization: localStorage.getItem('access_token'),
-  //     },
-  //     data: { commentId: commentId }
-  //   }).then((res) => {
-  //     console.log(res);
-  //     alert('삭제되었습니다.');
-  //   });
-  // });
-
-  // const deleteCommentMutation = useMutation((commentId: number) => {
-  //   return axios.delete(`${baseURL}/post-comments/${commentId}`, {
-  //     headers: {
-  //       Authorization: localStorage.getItem('access_token'),
-  //     },
-  //     data: { commentId: commentId }
-  //   }).then((res) => {
-  //     console.log(res);
-  //     alert('삭제되었습니다.');
-  //   });
-  // });
-
   const onSubmit = (content: InputData) => {
     const comment = { ...content };
     console.log(comment); // 폼 데이터 콘솔에 출력 (여기서는 댓글 데이터를 처리하는 로직을 추가하면 됩니다.)

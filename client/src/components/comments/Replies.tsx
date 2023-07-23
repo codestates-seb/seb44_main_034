@@ -8,7 +8,7 @@ import ReplyItem from "./ReplyItem";
 import { baseURL } from "../../common/baseURL";
 import { PostReplies } from "../../types/type";
 import { styled } from "styled-components";
-import { COLOR_1 } from "../../common/common";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 // import { CommentType } from "../../recoil/recoil";
 
 type ReplyItemProps = {
@@ -30,6 +30,16 @@ const S = {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+  `,
+  Toggle: styled.div`
+    text-align: right;
+    width: 40px;
+    height: 20px;
+    border: 1px solid ${COLOR_1.light_gray};
+    border-radius: 4px;
+    > span {
+      font-size: ${FONT_SIZE_1.normal_1};
+    }
   `,
   WriteFrom: styled.form`
     height: 140px;
@@ -165,17 +175,19 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   console.log(replies);
   return (
     <S.Container>
-      <span
-        onClick={() => {
-          setIsEditing((cur) => !cur);
-        }}
-      >
-        대댓글
-      </span>
+      <S.Toggle>
+        <span
+          onClick={() => {
+            setIsEditing((cur) => !cur);
+          }}
+        >
+          답글 작성
+        </span>
+      </S.Toggle>
       {isEditing && (
         <S.WriteFrom onSubmit={handleSubmit(onSubmit)}>
           <input type='text' {...register("content", { required: true })} />
-          <button type='submit'>댓글 작성</button>
+          <button type='submit'>등록</button>
         </S.WriteFrom>
       )}
       <S.Comments>

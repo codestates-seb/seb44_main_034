@@ -29,7 +29,7 @@ export const getCafes = async (
   // }
   // if (!searchBox) {
   const res = await createBaseUrl.get(
-    `/cafes${searchValue}?${shortAddress}${facilities}${mood}${sortType}&page=${pageParam}&size=8`,
+    `/cafes?${searchValue}${shortAddress}${facilities}${mood}${sortType}&page=${pageParam}&size=8`,
     {
       headers: {
         // 'ngrok-skip-browser-warning': 'true'
