@@ -84,7 +84,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
         QMember m = new QMember("m");
 
         List<SearchFollow> followings = queryFactory
-                .select(new QSearchFollow(follow.id, m.displayName, m.image))
+                .select(new QSearchFollow(follow.id, m.displayName, m.image, m.id))
                 .from(m)
                 .innerJoin(m.followings, follow)
                 .innerJoin(follow.followerId, member)
@@ -102,7 +102,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
         QMember m = new QMember("m");
         List<SearchFollow> followers = queryFactory
-                .select(new QSearchFollow(follow.id, m.displayName, m.image))
+                .select(new QSearchFollow(follow.id, m.displayName, m.image, m.id))
                 .from(m)
                 .innerJoin(m.followers, follow)
                 .innerJoin(follow.followingId, member)
