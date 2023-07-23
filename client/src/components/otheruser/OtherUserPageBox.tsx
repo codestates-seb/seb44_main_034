@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import InfiniteScroll from "react-infinite-scroll-component";
+import SyncLoader from "react-spinners/SyncLoader";
+import { useParams } from "react-router-dom";
 import { COLOR_1 } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
 import profileimg from "../../assets/profileimg.svg";
@@ -8,7 +10,7 @@ import { baseURL } from "../../common/baseURL";
 import coffeebean from "../../assets/coffeebean.svg";
 import greenbean from "../../assets/greenbean.svg";
 import espresso from "../../assets/espresso.svg";
-import { PostType } from "../users/UserMyPageBox";
+import { ListType } from "../users/UserMyPageBox";
 import MyPost from "../users/MyPost";
 import styled from "styled-components";
 
@@ -179,7 +181,7 @@ const S = {
       color: white;
     }
   `,
-  FollowingButton: styled.div`
+  UnFollowButton: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -188,7 +190,7 @@ const S = {
     margin-top: 10px;
     margin-bottom: 10px;
     border-radius: 20px;
-    color: ${COLOR_1.dark_sand};
+    color: white;
     background-color: #a57d52;
     border: solid 1px ${COLOR_1.dark_brown};
     cursor: pointer;
@@ -273,6 +275,21 @@ const S = {
     width: 70px;
     font-size: ${FONT_SIZE_1.normal_1};
   `,
+  EndMessageBox: styled.div`
+    width: 180;
+    text-align: center;
+    margin-top: 10px;
+  `,
+  LoadingBox: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    height: 50px;
+    margin-top: 10px;
+    @media screen and (min-width: 768px) {
+      width: 700px;
+    }
+  `,
 };
 
 interface UserData {
@@ -283,18 +300,38 @@ interface UserData {
 
 const OtherUserMyPageBox = () => {
   // const replace = useNavigate();
+  const { id } = useParams();
   const [memberInfo, setMemberInfo] = useState<UserData | undefined>();
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
-  const [dataSource, setDataSource] = useState<PostType[]>([]);
+  const [dataSource, setDataSource] = useState<ListType[]>([]);
+  const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
+  //특정회원 정보 불러오기
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/members/${id}`, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log("아더유저");
+        setMemberInfo(response.data.payload);
+        setIsFollowing(response.data.payload.following);
+      })
+      .catch((error) => {
+        // Handle error.
 
+        console.log("An error occurred:", error.response);
+        // replace('/');
+      });
+  }, []);
   //특정회원 팔로우하기
   const followingHandler = () => {
     axios
-      .post(`${baseURL}/members/1/follow`, {
+      .post(`${baseURL}/members/${id}/follow`, null, {
         headers: {
-          "ngrok-skip-browser-warning": "true",
-          withCredentials: true,
           Authorization: localStorage.getItem("access_token"),
         },
       })
@@ -311,67 +348,63 @@ const OtherUserMyPageBox = () => {
       });
   };
 
+  //특정회원 포스터 불러오기
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/members/my-page/?size&id`, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log("여기");
+        const myList: ListType[] = response.data.payload.data;
+        const myListLength = myList.length;
+        setLastId(response.data.payload.data[myListLength - 1].postId);
+        setHasMore(response.data.payload.hasNext);
+        setDataSource(myList);
+      })
+      .catch((error) => {
+        // Handle error.
+        setHasMore(false);
+        setDataSource([]);
+        console.log("An error occurred:", error.response);
+        // replace('/');
+      });
+  }, []);
   const fetchMoreData = () => {
-    if (dataSource.length < 100) {
-      setTimeout(() => {
-        // 데이터 요청 로직을 직접 구현하거나 필요에 따라 수정
-        setDataSource((prevDataSource) =>
-          prevDataSource.concat(Array.from({ length: 10 }))
-        );
-      }, 500);
+    if (hasMore) {
+      axios
+        .get(`${baseURL}/members/my-page/?size=1&id=${lastId}`, {
+          headers: {
+            Authorization: localStorage.getItem("access_token"),
+          },
+        })
+        .then((response) => {
+          // Handle success.
+          setTimeout(() => {
+            console.log("팔로어");
+            console.log(response);
+            setDataSource((prevData) => [
+              ...prevData,
+              ...response.data.payload.data,
+            ]);
+            setLastId(response.data.payload.data[0].postId);
+            setHasMore(response.data.payload.hasNext);
+          }, 500);
+        })
+
+        .catch((error) => {
+          // Handle error.
+          console.log("An error occurred:", error.response);
+          // replace('/');
+        });
     } else {
       setHasMore(false);
     }
   };
-  useEffect(() => {
-    fetchData();
-    ("");
-  }, []);
-  //특정회원 포스터 불러오기
-  const fetchData = () => {
-    axios
-      .get(`${baseURL}/members/my-page/post`, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: localStorage.getItem("access_token"),
-        },
-      })
-      .then((response) => {
-        // Handle success.
-        console.log("success");
-        const followers: PostType[] = response.data.payload.data;
-        setDataSource(followers);
-        setHasMore(response.data.payload.hasNext);
-      })
-      .catch((error) => {
-        // Handle error.
 
-        console.log("An error occurred:", error.response);
-        // replace('/');
-      });
-  };
-  //특정회원 정보 불러오기
-  useEffect(() => {
-    axios
-      .get(`${baseURL}/members/1`, {
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-          Authorization: localStorage.getItem("access_token"),
-        },
-      })
-      .then((response) => {
-        // Handle success.
-        console.log("success");
-        setMemberInfo(response.data.payload);
-        setIsFollowing(response.data.payload.folling);
-      })
-      .catch((error) => {
-        // Handle error.
-
-        console.log("An error occurred:", error.response);
-        // replace('/');
-      });
-  }, []);
   return (
     <S.Container>
       <S.MiddleBox>
@@ -412,9 +445,9 @@ const OtherUserMyPageBox = () => {
               팔로우하기
             </S.FollowButton>
           ) : (
-            <S.FollowingButton onClick={followingHandler}>
+            <S.UnFollowButton onClick={followingHandler}>
               언팔로우하기
-            </S.FollowingButton>
+            </S.UnFollowButton>
           )}
         </S.ProfileListBox>
       </S.MiddleBox>
@@ -427,8 +460,12 @@ const OtherUserMyPageBox = () => {
         dataLength={dataSource.length}
         next={fetchMoreData}
         hasMore={hasMore}
-        loader={<p>Loading...</p>}
-        endMessage={<p>You are all set!</p>}
+        loader={
+          <S.LoadingBox>
+            <SyncLoader color='#36d759' />
+          </S.LoadingBox>
+        }
+        endMessage={<S.EndMessageBox>불러올 포스트가 없습니다</S.EndMessageBox>}
         height={400}
       >
         <S.ListBox>

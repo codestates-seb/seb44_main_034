@@ -1,7 +1,7 @@
 import { FONT_SIZE_1 } from "../../common/common";
 import { BiSolidCoffeeBean } from "react-icons/bi";
 import styled from "styled-components";
-import { PostType } from "./UserMyPageBox.tsx";
+import { ListType } from "./UserMyPageBox.tsx";
 import { Link } from "react-router-dom";
 
 const S = {
@@ -86,7 +86,7 @@ const S = {
   `,
 };
 
-const BookmarkCafe = (props: { data: PostType }) => {
+const BookmarkCafe = (props: { data: ListType }) => {
   const { data } = props;
   return (
     <Link to={`/cafes/${data?.cafeId}`}>
@@ -96,8 +96,8 @@ const BookmarkCafe = (props: { data: PostType }) => {
           <S.CafeTitleBox>
             <S.CafeTitle>{data?.cafeName ?? ""}</S.CafeTitle>
             <S.CafeRating>
-              <BiSolidCoffeeBean size='18' />
               {data?.rating ?? 0}
+              <BiSolidCoffeeBean size='18' />
             </S.CafeRating>
           </S.CafeTitleBox>
           <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>

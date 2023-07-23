@@ -96,8 +96,8 @@ const Cafe = (props: { data: MainCafeType }) => {
           <S.CafeTitleBox>
             <S.CafeTitle>{data?.name ?? ""}</S.CafeTitle>
             <S.CafeRating>
-              <BiSolidCoffeeBean size='18' />
               {data?.rating ?? 0}
+              <BiSolidCoffeeBean size='18' />
             </S.CafeRating>
           </S.CafeTitleBox>
           <S.CafeAddressBox>{data?.address ?? ""}</S.CafeAddressBox>

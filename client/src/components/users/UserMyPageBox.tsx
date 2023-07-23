@@ -298,6 +298,7 @@ const S = {
     justify-content: center;
     width: 90vw;
     height: 50px;
+    margin-top: 10px;
     @media screen and (min-width: 768px) {
       width: 700px;
     }
@@ -328,7 +329,6 @@ const UserMyPageBox = () => {
   const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [isFollowingOpen, setFollowingIsOpen] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserData | undefined>();
-
   const [dataSource, setDataSource] = useState<ListType[]>([]);
   const [lastId, setLastId] = useState<number>();
   const [hasMore, setHasMore] = useState(true);
@@ -385,7 +385,6 @@ const UserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log("유저마이페이지 리스트업로드");
         setUserInfo(response.data.payload);
       })
       .catch((error) => {
@@ -398,7 +397,7 @@ const UserMyPageBox = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/my-page/${selectedTab}?size=4&id`, {
+      .get(`${baseURL}/members/my-page/${selectedTab}?size&id`, {
         headers: {
           ...defaultHeader,
           Authorization: localStorage.getItem("access_token"),
@@ -407,15 +406,22 @@ const UserMyPageBox = () => {
       .then((response) => {
         // Handle success.
         console.log("success");
-        console.log(response);
-        const MyPost: ListType[] = response.data.payload.data;
-        setLastId(response.data.payload.data[3].cafeBookMarkId);
-        setDataSource(MyPost);
+        const myList: ListType[] = response.data.payload.data;
+        const myListLength = myList.length;
+        if (selectedTab === "bookmarked-cafe") {
+          setLastId(
+            response.data.payload.data[myListLength - 1].cafeBookMarkId
+          );
+        } else {
+          setLastId(response.data.payload.data[myListLength - 1].postId);
+        }
         setHasMore(response.data.payload.hasNext);
+        setDataSource(myList);
       })
       .catch((error) => {
         // Handle error.
-
+        setHasMore(false);
+        setDataSource([]);
         console.log("An error occurred:", error.response);
         // replace('/');
       });
@@ -438,7 +444,11 @@ const UserMyPageBox = () => {
               ...prevData,
               ...response.data.payload.data,
             ]);
-            setLastId(response.data.payload.data[0].cafeBookMarkId);
+            if (selectedTab === "bookmarked-cafe") {
+              setLastId(response.data.payload.data[0].cafeBookMarkId);
+            } else {
+              setLastId(response.data.payload.data[0].postId);
+            }
             setHasMore(response.data.payload.hasNext);
           }, 500);
         })
@@ -493,7 +503,7 @@ const UserMyPageBox = () => {
             </S.FollowerInformaiton>
             {isFollowerOpen ? <FollowerModal /> : null}
             <S.FollowingInformaiton onClick={openFollowingModal}>
-              {userInfo ? userInfo.countFollower : "0"}
+              {userInfo ? userInfo.countFollowing : "0"}
             </S.FollowingInformaiton>
             {isFollowingOpen ? <FollowingModal /> : null}
           </S.InformaitonBox>
