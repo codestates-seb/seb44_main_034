@@ -413,6 +413,10 @@ const UserMyPageBox = () => {
           setLastId(
             response.data.payload.data[myListLength - 1].cafeBookMarkId
           );
+        } else if (selectedTab === "bookmarked-post") {
+          setLastId(
+            response.data.payload.data[myListLength - 1].postBookMarkId
+          );
         } else {
           setLastId(response.data.payload.data[myListLength - 1].postId);
         }

@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { COLOR_1 } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
-import CafeFollowerModal from "../modal/CafeFollowerModal";
-// import coffeeshop2 from "../../assets/coffeeshop2.jpeg";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { baseURL } from "../../common/baseURL";
@@ -29,7 +27,7 @@ const S = {
     @media screen and (min-width: 500px) {
       width: 480px;
     }
-    @media screen and (min-width: 766px) {
+    @media screen and (min-width: 768px) {
       flex-direction: row;
       width: 700px;
     }
@@ -173,7 +171,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 60vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -182,7 +180,7 @@ const S = {
     width: 60vw;
     margin-top: 5px;
     color: black;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
       width: 270px;
     }
   `,
@@ -222,34 +220,11 @@ interface CafeData {
   image?: string | Blob;
 }
 const UserMyPageBox = () => {
-  const [isFollowerOpen, setFollowerIsOpen] = useState<boolean>(false);
   const [ownerInfo, setOwnerInfo] = useState<OwnerData | undefined>();
   const [cafeInfo, setCafeInfo] = useState<CafeData | undefined>();
   const navigate = useNavigate();
-  const openFollowerModal = () => {
-    if (!isFollowerOpen) {
-      setFollowerIsOpen(true);
-    } else {
-      setFollowerIsOpen(false);
-    }
-  };
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const followModalhandler = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setFollowerIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", followModalhandler);
-
-    return () => {
-      document.removeEventListener("mousedown", followModalhandler);
-    };
-  }, []);
   useEffect(() => {
     axios
       .get(`${baseURL}/owners/my-page`, {
@@ -293,10 +268,9 @@ const UserMyPageBox = () => {
               {ownerInfo ? ownerInfo.displayName : "-"}
             </S.Informaiton>
             <S.Informaiton>{cafeInfo ? cafeInfo.cafeName : "-"}</S.Informaiton>
-            <S.FollowerInformaiton onClick={openFollowerModal}>
+            <S.FollowerInformaiton>
               {cafeInfo ? cafeInfo.countBookmarked : "0"}
             </S.FollowerInformaiton>
-            {isFollowerOpen ? <CafeFollowerModal /> : null}
           </S.InformaitonBox>
         </S.ProfileListBox>
       </S.MiddleBox>
