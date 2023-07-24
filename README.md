@@ -25,7 +25,7 @@ GIF Images
 
 |   HTML    | JavaScript |  React   |   CSS   |  JAVA   |
 | :-------: | :--------: | :------: | :-----: | :-----: |
-|  ![html]  |   ![ts]    | ![react] | ![css]  | ![java] |
+|  ![html]  |   ![js]    | ![react] | ![css]  | ![java] |
 
 <br>
 
