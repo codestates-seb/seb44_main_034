@@ -52,11 +52,11 @@
 
 ## 🔎기능별 담당자 소개
 
-### 프론트엔드 담당자
+### 프론트엔드
 
 <br>
 
-### 백엔드 담당자
+### 백엔드
 |조하얀|김현희|노성윤|김득렬|
 |:-------:|:-------:|:-------:|:-------:|
 | 카페 CRUD <br> 메뉴 CRUD<br>  메뉴 댓글 CRUD <br> 동적 쿼리를 이용한 필터, 정렬 기능 <br> S3 이미지 업로드 <br> 인프라(도메인, 로드밸런서, https)<br> | 회원 CRUD<br>  follow 기능 <br>| Security<br>  JWT <br>  OAuth2 구글로그인 <br>  점주CRUD <br>| 포스트 CRUD<br>  댓글 CRUD<br> 대댓글 CRUD <br>  포스트 북마크<br> 포스트 태그<br> 초기 SQL 설정<br>|
@@ -77,19 +77,19 @@ GIF Images
 
 ## 💎기술 스택
 
-### 프론트 엔드 기술 스택
+### 프론트엔드
 
 |   HTML    | JavaScript |  React   |   CSS   |
 | :-------: | :--------: | :------: | :-----: | 
 |  ![html]  |   ![js]    | ![react] | ![css]  | 
 
 
-### 백엔드 기술 스택
+### 백엔드
 |  JAVA   |SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
 | :-----: | :-------: | :--------: | :------: | :-----: | :-----: | 
 | ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="80" height ="50">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="80" height ="50">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="80" height ="50">  |
 
-### 공통 기술 스택 
+### 공통
 |   Amazon| Git hub | 
 | :-------: | :--------: | 
 | <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/056f2c19-eba1-43b3-ae39-860b30aaee1e" width ="80" height ="80">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/d8741c52-c5b5-4280-b1d9-cf5a13d66b6f" width ="80" height ="50"> |
