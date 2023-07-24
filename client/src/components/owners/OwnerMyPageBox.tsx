@@ -88,6 +88,7 @@ const S = {
     border: solid 2px black;
     border-radius: 10px;
     box-shadow: 0px 2px 2px 2px gray;
+    object-fit: cover;
     @media screen and (min-width: 500px) {
       width: 480px;
     }
