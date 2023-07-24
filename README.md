@@ -52,7 +52,14 @@
 
 ## 🔎기능별 담당자 소개
 
+### 프론트엔드 담당자
+
 <br>
+
+### 백엔드 담당자
+|조하얀|김현희|노성윤|김득렬|
+|:-------:|:-------:|:-------:|:-------:|
+| 카페 CRUD <br> 메뉴 CRUD<br>  메뉴 댓글 CRUD <br> 동적 쿼리를 이용한 필터, 정렬 기능 <br> S3 이미지 업로드 <br> 인프라(도메인, 로드밸런서, https)<br> | 회원 CRUD<br>  follow 기능 <br>| Security<br>  JWT <br>  OAuth2 구글로그인 <br>  점주CRUD <br>| 포스트 CRUD<br>  댓글 CRUD<br> 대댓글 CRUD <br>  포스트 북마크<br> 포스트 태그<br> 초기 SQL 설정<br>|
 
 ## 프로젝트 소개
 
@@ -91,7 +98,6 @@ GIF Images
 
 
 <br>
-![Uploading github-color.svg…]()
 
 ## 구현 기능
 
