@@ -7,6 +7,7 @@ import mainproject.cafeIn.domain.member.entity.Member;
 import mainproject.cafeIn.domain.member.repository.MemberRepository;
 import mainproject.cafeIn.global.exception.CustomException;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,29 +35,6 @@ public class MemberGradeScheduler {
         //팔로워 10명 - 커피콩
         //팔로워 50명 - 원두
         //팔로워 100명 - 에스프레소
-        if(memberGradeList != null) {
-            for(MemberGrade member : memberGradeList) {
-
-                Long memberId = member.getId();
-                Member findMember = memberRepository.findById(memberId)
-                        .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-
-                findMember.updateGrade(GRADE_COFFEE_BEAN);
-
-                memberRepository.save(findMember);
-
-            }
-        }
-
-    }
-
-    @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
-    @Transactional
-    public void updateMemberRostedBean() {
-
-        List<MemberGrade> memberGradeList = memberRepository.memberGradeRoastedBean();
-
-        log.info("start schedule2 : " + LocalDateTime.now());
         if (memberGradeList != null) {
             for (MemberGrade member : memberGradeList) {
 
@@ -64,37 +42,36 @@ public class MemberGradeScheduler {
                 Member findMember = memberRepository.findById(memberId)
                         .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
 
-                findMember.updateGrade(GRADE_ROASTED_BEAN);
 
-                memberRepository.save(findMember);
+                if(member.getPostCount()>=3) {
 
-            }
-
-
-        }
-    }
-
-    @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
-    @Transactional
-    public void updateMemberEspresso() {
-
-        List<MemberGrade> memberGradeList = memberRepository.memberGradeEspresso();
-
-        log.info("start schedule3 : " + LocalDateTime.now());
-        if (memberGradeList != null) {
-            for (MemberGrade member : memberGradeList) {
-
-                Long memberId = member.getId();
-                Member findMember = memberRepository.findById(memberId)
-                        .orElseThrow(() -> new CustomException(MEMBER_NOT_FOUND));
-
-                findMember.updateGrade(GRADE_ESPRESSO);
-
-                memberRepository.save(findMember);
+                    if(member.getFollowerCount()>= 100) {
+                       findMember.updateGrade(GRADE_ESPRESSO);
+                       memberRepository.save(findMember);
+                    } else if(member.getFollowerCount()>=50 && member.getFollowerCount()<100) {
+                        findMember.updateGrade(GRADE_ROASTED_BEAN);
+                        memberRepository.save(findMember);
+                    } else if(member.getFollowerCount()>=10 && member.getFollowerCount()< 50) {
+                        findMember.updateGrade(GRADE_COFFEE_BEAN);
+                    } else {
+                        findMember.updateGrade(GRADE_GREEN_BEAN);
+                    }
+                }
 
             }
-
-
         }
+
     }
+
+//    public void updateMemberRostedBean() {
+//
+//
+//    }
+//
+//
+//    public void updateMemberEspresso() {
+//
+//
+//
+//    }
 }

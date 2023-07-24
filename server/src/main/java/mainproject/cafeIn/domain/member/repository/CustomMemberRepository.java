@@ -39,9 +39,6 @@ public interface CustomMemberRepository {
 
     public List<MemberGrade> memberGradeCoffeeBean();
 
-    public List<MemberGrade> memberGradeRoastedBean();
-
-    public List<MemberGrade> memberGradeEspresso();
 
 
 }

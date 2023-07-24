@@ -4,6 +4,8 @@ package mainproject.cafeIn.domain.member.repository.implementation;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -200,50 +202,30 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     @Override
     public List<MemberGrade> memberGradeCoffeeBean() {
 
+
         List<MemberGrade> list = queryFactory
-                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
+                .select(new QMemberGrade(member.id,
+                        JPAExpressions
+                        .select(follow.followingId.count().coalesce(0L))
+                        .from(follow)
+                        .leftJoin(follow.followerId, member)
+                        .where(follow.followingId.member.id.eq(member.id))
+                        ,
+                        JPAExpressions
+                        .select(post.member.count().coalesce(0L))
+                        .from(post)
+                        .leftJoin(post.member, member)
+                        .where(post.member.id.eq(member.id))
+                ))
                 .from(member)
-                .leftJoin(member.followings, follow)
-                .leftJoin(member.posts, post)
-                .where(member.grade.ne(GRADE_COFFEE_BEAN), member.status.eq(MEMBER_ACTIVE))
-                .groupBy(member.id)
-                .having(follow.followingId.count().goe(10L), follow.followingId.count().lt(50L),post.member.count().goe(3L))
+                .where(member.status.eq(MEMBER_ACTIVE))
                 .fetch();
+
+
 
         return list;
     }
 
-    @Override
-    public List<MemberGrade> memberGradeRoastedBean() {
-
-        List<MemberGrade> list = queryFactory
-                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
-                .from(member)
-                .leftJoin(member.followings, follow)
-                .leftJoin(member.posts, post)
-                .where(member.grade.ne(GRADE_ROASTED_BEAN), member.status.eq(MEMBER_ACTIVE))
-                .groupBy(member.id)
-                .having(follow.followingId.count().goe(50), follow.followingId.count().lt(100L),post.member.count().goe(3L))
-                .fetch();
-
-        return list;
-    }
-
-    @Override
-    public List<MemberGrade> memberGradeEspresso() {
-
-        List<MemberGrade> list = queryFactory
-                .select(new QMemberGrade(member.id, follow.followingId.count(), post.member.count()))
-                .from(member)
-                .leftJoin(member.followings, follow)
-                .leftJoin(member.posts, post)
-                .where(member.grade.ne(GRADE_ESPRESSO), member.status.eq(MEMBER_ACTIVE))
-                .groupBy(member.id)
-                .having(follow.followingId.count().goe(100L), post.member.count().goe(3L))
-                .fetch();
-
-        return list;
-    }
 
 
     private BooleanExpression followLtCursorId(Long cursorId) {
