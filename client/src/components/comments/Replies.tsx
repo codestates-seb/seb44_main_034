@@ -168,6 +168,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
       console.log(context);
       console.log(data);
       reset();
+      setIsEditing(false);
       setGetItem((prev) => !prev);
     },
     onError: () => {
