@@ -21,6 +21,7 @@ import org.springframework.data.domain.*;
 import java.util.List;
 
 
+import static com.querydsl.core.types.ExpressionUtils.count;
 import static mainproject.cafeIn.domain.cafe.entity.QCafe.cafe;
 import static mainproject.cafeIn.domain.cafe.entity.QCafeBookmark.cafeBookmark;
 import static mainproject.cafeIn.domain.member.entity.QFollow.follow;
@@ -202,23 +203,21 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     @Override
     public List<MemberGrade> memberGradeCoffeeBean() {
 
-
+        QMember m = new QMember("m");
         List<MemberGrade> list = queryFactory
-                .select(new QMemberGrade(member.id,
+                .select(new QMemberGrade(m.id,
                         JPAExpressions
-                        .select(follow.followingId.count().coalesce(0L))
+                        .select(count(follow.followingId))
                         .from(follow)
-                        .leftJoin(follow.followerId, member)
-                        .where(follow.followingId.member.id.eq(member.id))
+                        .where(follow.followingId.eq(m))
                         ,
                         JPAExpressions
-                        .select(post.member.count().coalesce(0L))
+                        .select(count(post.member))
                         .from(post)
-                        .leftJoin(post.member, member)
-                        .where(post.member.id.eq(member.id))
+                        .where(post.member.eq(m))
                 ))
-                .from(member)
-                .where(member.status.eq(MEMBER_ACTIVE))
+                .from(m)
+                .where(m.status.eq(MEMBER_ACTIVE))
                 .fetch();
 
 
