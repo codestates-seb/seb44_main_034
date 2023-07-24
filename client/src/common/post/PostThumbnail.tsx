@@ -29,13 +29,19 @@ const PostThumbnail = ({ image, title, author }: PostThumbnailProps) => {
 
 const S = {
   Container: styled.div`
+    display: flex;
+    flex-direction: column;
     width: 300px;
     height: 240px;
     border-radius: 20px;
     box-shadow: 0 4px 3px ${COLOR_1.dark_brown};
+    color: ${COLOR_1.dark_brown};
     @media screen and (max-width: 767px) {
       min-width: 300px;
       min-height: 240px;
+    }
+    &:hover {
+      color: ${COLOR_1.dark_sand};
     }
   `,
   ImgWrap: styled.div`
@@ -56,13 +62,12 @@ const S = {
     }
   `,
   Div: styled.div`
-    /* width: 100%; */
-    height: 60px;
-    /* display: flex; */
+    height: 50px;
+    /* display: block; */
     /* flex-direction: column; */
     /* justify-content: space-between; */
     margin: 0;
-    padding: 0 4px;
+    padding: 4px;
     /* height: 30%; */
     @media screen and (max-width: 767px) {
       /* height: 30%; */
@@ -70,11 +75,13 @@ const S = {
     }
   `,
   TitleWrap: styled.div`
-    height: 30px;
-    margin: -20px auto 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    margin: 4px;
   `,
   Title: styled.span`
-    color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_2.normal_3};
     @media screen and (max-width: 280px) {
       font-size: ${FONT_SIZE_1.small_3};
@@ -86,15 +93,14 @@ const S = {
   AuthorWrap: styled.div`
     /* display: flex; */
     /* justify-content: end; */
-    height: 20px;
-    margin: 0 12px 8px auto;
+    height: 16px;
+    margin: 0 12px 6px auto;
     text-align: right;
     @media screen and (max-width: 767px) {
-      margin: 8px 12px 8px auto;
+      margin: 0px 12px 6px 0;
     }
   `,
   Author: styled.span`
-    color: ${COLOR_1.brown};
     font-size: ${FONT_SIZE_1.normal_1};
     @media screen and (max-width: 767px) {
       font-size: ${FONT_SIZE_1.normal_1};

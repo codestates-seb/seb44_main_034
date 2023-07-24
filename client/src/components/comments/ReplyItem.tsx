@@ -111,13 +111,20 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     // formState: { errors }
   } = useForm<InputData>();
 
   const showEditReply = () => {
     //수정 창 보여주기
-    setEditing(true);
+    setEditing((cur) => !cur);
   };
+
+  useEffect(() => {
+    if (editing) {
+      setValue("content", reply.content);
+    }
+  }, [editing, setValue]);
 
   const editReply = (editedReply: EditedReply) =>
     axios.patch(`${baseURL}/replys/${reply.replyId}`, editedReply, {
@@ -197,8 +204,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                 ) : null
               ) : null}
             </S.FlexWrap>
-            <S.Content>{reply.content}</S.Content>
-            {editing && (
+
+            {editing ? (
               <S.EditForm
                 onSubmit={handleSubmit(onSubmitEdit)}
                 // className={comment.commentId ? "active" : ""}
@@ -209,6 +216,8 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                 />
                 <button type='submit'>등록</button>
               </S.EditForm>
+            ) : (
+              <S.Content>{reply.content}</S.Content>
             )}
           </li>
         }
