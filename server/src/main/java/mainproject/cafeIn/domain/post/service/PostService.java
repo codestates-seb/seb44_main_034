@@ -117,7 +117,10 @@ public class PostService {
 
         Long cafeId = findPost.getCafe().getId();
 
-        imageService.delete("posts", findPost.getImage());
+
+        if (findPost.getImage() != null) {
+            imageService.delete("posts", findPost.getImage());
+        }
 
         postRepository.delete(findPost);
 
