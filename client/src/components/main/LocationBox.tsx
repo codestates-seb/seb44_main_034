@@ -27,13 +27,15 @@ const S = {
     }
   `,
   LocationButton: styled.button`
-    height: 30px;
+    height: 28px;
     padding: 0 10px;
     border-radius: 25px;
-    box-shadow: 0px 1px 1px 1px gray;
+    box-shadow: 0px 2px 4px rgba(96, 64, 64, 0.5);
     font-size: ${FONT_SIZE_1.small_3};
     border: none;
     background-color: ${COLOR_1.ivory};
+    font-family: "TheJamsil5Bold";
+    color: ${COLOR_1.dark_brown};
     @media screen and (min-width: 767px) {
       font-size: ${FONT_SIZE_1.normal_1};
     }
@@ -46,6 +48,9 @@ const S = {
       transform: translateY(4px);
       box-shadow: none;
       cursor: pointer;
+    }
+    &.location {
+      background-color: ${COLOR_1.dark_sand};
     }
   `,
 };
@@ -62,10 +67,12 @@ const LocationBox = () => {
     console.log(el);
     if (el === "전체") {
       setLocationState("");
+      setLocation("전체");
       // setShortAddress("");
     }
     if (el !== "전체") {
       setLocationState(`shortAddress=${el}`);
+      setLocation(el);
       // setShortAddress(`shortaddress=${el}`);
     }
   };
@@ -88,6 +95,7 @@ const LocationBox = () => {
             onClick={() => {
               handleClickEvent(el);
             }}
+            className={location === el ? "location" : ""}
           >
             {el}
           </S.LocationButton>
