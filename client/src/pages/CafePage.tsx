@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { FONT_SIZE_1, COLOR_1 } from "../common/common";
 import CafeDetailMenu from "../components/cafe/CafeDetailMenu";
 import CafeDetailsInfo from "../components/cafe/CafeDetailsInfo";
 import Loading from "../components/Loading";
 import PostList from "../components/post/PostList";
-import { CafeDetailType, MenuDataType, CafePostList } from "../types/type";
+import PlusButton from "../common/post/PlusButton";
+import {
+  CafeDetailType,
+  MenuDataType,
+  CafePostList,
+  PostCafeType,
+} from "../types/type";
+import { PostCafeAtom } from "../recoil/postState";
 import { baseURL } from "../common/baseURL";
 import { useParams } from "react-router-dom";
 import { BsBookmarkStarFill } from "react-icons/bs";
@@ -17,7 +26,10 @@ const CafePage = () => {
   const [menus, setMenus] = useState<MenuDataType[][] | undefined>();
   const [posts, setPosts] = useState<CafePostList[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [postData, setPostData] = useRecoilState<PostCafeType>(PostCafeAtom);
   const { id } = useParams();
+  const navigate = useNavigate();
+  console.log(postData);
   const handleBookmarkClick = async () => {
     try {
       const response = await axios.post(
@@ -68,6 +80,17 @@ const CafePage = () => {
     fetchCafeData();
   }, []);
   console.log(isBookmarked);
+
+  // const data = posts;
+  const handleClick = () => {
+    setPostData((prev) => ({
+      ...prev,
+      cafeName: cafeDetail.name,
+      cafeId: cafeDetail.cafeId?.toString(),
+    })); //카페 이름 받아오는 함수
+    navigate("../postpage/create");
+    console.log("clicked");
+  };
   return (
     <>
       {isLoading ? (
@@ -90,6 +113,7 @@ const CafePage = () => {
           {menus && <CafeDetailMenu menu={menus} />}
           <S.Title>
             Post
+            <PlusButton text={"+"} handleClick={handleClick} />
             <div></div>
             <PostList
               postData={posts}

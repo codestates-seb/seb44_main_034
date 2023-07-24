@@ -161,7 +161,7 @@ const Comments = ({ comments, postId }: CommentData) => {
   const [commentsPerPage, setCommentsPerPage] = useState(10);
   const lastPostIndex = currentPage * commentsPerPage;
   const firstPostIndex = lastPostIndex - commentsPerPage;
-  const currentPosts = commentData.slice(firstPostIndex, lastPostIndex);
+  const currentComments = commentData.slice(firstPostIndex, lastPostIndex);
   console.log(setCommentsPerPage);
   // const [isEditing, setIsEditing] = useState(false);
 
@@ -209,7 +209,7 @@ const Comments = ({ comments, postId }: CommentData) => {
 
       <S.Comments>
         <ul>
-          {currentPosts.map((el, idx) => (
+          {currentComments.map((el, idx) => (
             <CommentItem key={idx} comment={el} />
           ))}
         </ul>

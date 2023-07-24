@@ -53,7 +53,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
   };
   const handleRemoveImageButtonClick = () => {
     setImageFile("");
-    setPreviewImage(null);
+    setPreviewImage("");
   };
   const convertAddressToCoordinates = async (address: string) => {
     try {

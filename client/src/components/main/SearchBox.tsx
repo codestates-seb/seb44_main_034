@@ -127,9 +127,9 @@ const SearchBox = () => {
         >
           <span>{toggleName}</span>
           {triangle ? (
-            <GoTriangleDown color='#23ec00' />
+            <GoTriangleDown color='#8be87b' />
           ) : (
-            <GoTriangleUp color='#23ec00' />
+            <GoTriangleUp color='#8be87b' />
           )}
         </S.Toggle>
         <input
@@ -141,7 +141,7 @@ const SearchBox = () => {
       <S.IconBox>
         <BsSearch
           size='24'
-          color='#23ec00'
+          color='#8be87b'
           onClick={() => handleSearchIcon(toggleName)}
         />
       </S.IconBox>

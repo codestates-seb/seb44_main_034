@@ -24,11 +24,15 @@ const S = {
     color: ${COLOR_1.black};
     font-size: ${FONT_SIZE_1.big_4};
     font-weight: ${FONT_WEIGHT.weight_600};
-    height: 50px;
-    width: 50px;
+    height: 44px;
+    width: 44px;
+    margin: 2px 2px 8px 16px;
     border: none;
     border-radius: 50%;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    &:hover {
+      cursor: pointer;
+    }
     @media screen and (max-width: 500px) {
       width: 40px;
       height: 40px;
