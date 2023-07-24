@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
 // import {data as co} from '../../mockData/comments.json';
 import CommentItem from "./CommentItem";
-import CommentsPagination from "./CommentsPagination";
+import StablePagination from "../../common/post/StablePagination";
+import { GetPostAtom } from "../../recoil/postState";
 import { baseURL } from "../../common/baseURL";
 import { PostComments } from "../../types/type";
 import { styled } from "styled-components";
@@ -150,8 +152,17 @@ const Comments = ({ comments, postId }: CommentData) => {
   // const postId = 1;
   // const Comments = ({comments, postId}:CommentData) => {
   // const [commentsData, setCommentsData] = useState([]);
+  const setGetItem = useSetRecoilState(GetPostAtom);
+
+  const commentData = comments;
+
+  //페이지네이션
   const [currentPage, setCurrentPage] = useState(1);
   const [commentsPerPage, setCommentsPerPage] = useState(10);
+  const lastPostIndex = currentPage * commentsPerPage;
+  const firstPostIndex = lastPostIndex - commentsPerPage;
+  const currentPosts = commentData.slice(firstPostIndex, lastPostIndex);
+  console.log(setCommentsPerPage);
   // const [isEditing, setIsEditing] = useState(false);
 
   const {
@@ -176,6 +187,7 @@ const Comments = ({ comments, postId }: CommentData) => {
       console.log(context);
       console.log(data);
       reset();
+      setGetItem((prev) => !prev);
     },
     onError: () => {
       alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -187,14 +199,6 @@ const Comments = ({ comments, postId }: CommentData) => {
     console.log(comment); // 폼 데이터 콘솔에 출력 (여기서는 댓글 데이터를 처리하는 로직을 추가하면 됩니다.)
     writeCommentMutation.mutate(comment);
   };
-
-  const commentData = comments;
-
-  //페이지네이션
-  const lastPostIndex = currentPage * commentsPerPage;
-  const firstPostIndex = lastPostIndex - commentsPerPage;
-  const currentPosts = commentData.slice(firstPostIndex, lastPostIndex);
-  console.log(setCommentsPerPage);
 
   return (
     <S.Container>
@@ -211,11 +215,11 @@ const Comments = ({ comments, postId }: CommentData) => {
         </ul>
       </S.Comments>
       {/* <CommentItem comment={commentData}/> */}
-      <CommentsPagination
-        totalComments={comments.length}
-        commentsPerPage={commentsPerPage}
+      <StablePagination
+        totalElements={comments.length}
+        elementsPerPage={commentsPerPage}
         setCurrentPage={setCurrentPage}
-        // currentPage={currentPage}
+        currentPage={currentPage}
       />
     </S.Container>
   );

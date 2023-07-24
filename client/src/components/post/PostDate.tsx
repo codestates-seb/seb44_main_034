@@ -21,22 +21,29 @@ const PostDate = ({ postDate }: PostDateProps) => {
   console.log(postDate);
   // const dateValue = new Date(postDate);
   const dateValue = new Date(postDate);
-  const year = dateValue.getFullYear();
+  const timeDifferenceHours = 9;
+  // const currentDate = new Date();
+  const modifiedDate = new Date(
+    dateValue.getTime() + timeDifferenceHours * 60 * 60 * 1000
+  );
+  const year = modifiedDate.getFullYear();
   const month =
-    dateValue.getMonth() < 9
-      ? `0${dateValue.getMonth() + 1}`
-      : dateValue.getMonth() + 1;
+    modifiedDate.getMonth() < 9
+      ? `0${modifiedDate.getMonth() + 1}`
+      : modifiedDate.getMonth() + 1;
   const date =
-    dateValue.getDate() < 10 ? `0${dateValue.getDate()}` : dateValue.getDate();
+    modifiedDate.getDate() < 10
+      ? `0${modifiedDate.getDate()}`
+      : modifiedDate.getDate();
   const hours =
-    dateValue.getHours() < 10
-      ? `0${dateValue.getHours()}`
-      : dateValue.getHours();
+    modifiedDate.getHours() < 10
+      ? `0${modifiedDate.getHours()}`
+      : modifiedDate.getHours();
   const minutes =
-    dateValue.getMinutes() < 10
-      ? `0${dateValue.getMinutes()}`
-      : dateValue.getMinutes();
-  // console.log(dateValue);
+    modifiedDate.getMinutes() < 10
+      ? `0${modifiedDate.getMinutes()}`
+      : modifiedDate.getMinutes();
+  console.log(modifiedDate);
   // console.log(date);
   // console.log(dateValue.getMonth());
   // console.log(hours);

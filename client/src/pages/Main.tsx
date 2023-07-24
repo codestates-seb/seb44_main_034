@@ -80,6 +80,7 @@ const S = {
   IconTextBox: styled.div`
     height: 20px;
     width: 40px;
+    font-family: 돋움;
     text-align: center;
     color: black;
     font-size: ${FONT_SIZE_1.small_2};

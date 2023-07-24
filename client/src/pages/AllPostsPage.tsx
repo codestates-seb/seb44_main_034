@@ -49,11 +49,24 @@ const S = {
     }
   `,
   Nav: styled.nav`
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 20px 0;
     > button {
       background-color: ${COLOR_1.white};
+      margin: 3px;
       border-radius: 4px;
       border: 1px solid ${COLOR_1.dark_brown};
       box-shadow: 0 4px 4px ${COLOR_1.brown};
+      &.active {
+        background-color: ${COLOR_1.brown};
+        color: ${COLOR_1.white};
+      }
+      &:hover {
+        cursor: pointer;
+        background-color: ${COLOR_1.brown};
+        color: ${COLOR_1.white};
+      }
     }
   `,
 };
@@ -82,9 +95,9 @@ const AllPostsPage = () => {
     console.log(data.payload.data);
     console.log(data.payload.pageInfo);
     const pageData = data.payload.pageInfo;
-    const lastPage = () => setPage(pageData.totalpages);
+    const lastPage = () => setPage(pageData.totalPages);
     const firstPage = () => setPage(1);
-    const pagesArray = Array(pageData.totalpages)
+    const pagesArray = Array(pageData.totalPages)
       .fill(null)
       .map((_, i) => i + 1);
     return (
@@ -107,12 +120,17 @@ const AllPostsPage = () => {
               </li>
             ))}
           </ul>
-          <nav>
+          <S.Nav>
             <button onClick={firstPage} disabled={isPreviousData || page === 1}>
               {`<`}
             </button>
-            {pagesArray.map((el) => (
-              <PageButton key={el} page={el} setPage={setPage} />
+            {pagesArray.map((el, idx) => (
+              <PageButton
+                key={el}
+                active={page === idx + 1 ? "active" : null}
+                page={el}
+                setPage={setPage}
+              />
             ))}
             <button
               onClick={lastPage}
@@ -120,7 +138,7 @@ const AllPostsPage = () => {
             >
               {`>`}
             </button>
-          </nav>
+          </S.Nav>
         </S.Container>
       </>
     );

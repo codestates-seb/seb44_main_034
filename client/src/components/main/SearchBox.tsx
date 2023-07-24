@@ -12,6 +12,7 @@ import {
 import { HandleSearchAtom } from "../../recoil/mainState";
 import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 import { BsSearch } from "react-icons/bs";
+import { GoTriangleDown, GoTriangleUp } from "react-icons/go";
 import styled from "styled-components";
 
 const S = {
@@ -30,6 +31,7 @@ const S = {
   `,
   Toggle: styled.div`
     margin-right: 10px;
+    cursor: pointer;
     > span {
       font-size: ${FONT_SIZE_1.small_3};
       @media screen and (min-width: 767px) {
@@ -91,11 +93,12 @@ const SearchBox = () => {
   const setFacilitiesAtom = useSetRecoilState<string>(FacilitiesAtom);
   const setSearchValueState = useSetRecoilState<string>(SearchValueStateAtom);
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
-
+  const [triangle, setTriangle] = useState(true);
   // console.log(handleSearch);
 
   const handleToggleName = () => {
     setToggleName(toggleName === "카페이름" ? "메뉴이름" : "카페이름");
+    setTriangle((cur) => !cur);
   };
   const handleInputChange = (e: any) => {
     setInputValue(e.target.value);
@@ -123,6 +126,11 @@ const SearchBox = () => {
           }}
         >
           <span>{toggleName}</span>
+          {triangle ? (
+            <GoTriangleDown color='#23ec00' />
+          ) : (
+            <GoTriangleUp color='#23ec00' />
+          )}
         </S.Toggle>
         <input
           type={"text"}

@@ -182,8 +182,9 @@ const EditPostPage = () => {
     onSuccess: (data, context) => {
       console.log(context);
       console.log(data);
-      navigate(`./postpage/${postId}`);
+      console.log(postId.postId);
       resetPostItem();
+      navigate(`../postpage/${postId.postId}`);
     },
     onError: () => {
       alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
@@ -399,10 +400,10 @@ const EditPostPage = () => {
                   alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
                   return;
                 }
-                // if (content.length < 130) {
-                //   alert("내용을 130자 이상 적어주세요.");
-                //   return;
-                // }
+                if (content.length < 130) {
+                  alert("내용을 130자 이상 적어주세요.");
+                  return;
+                }
                 if (!previewImgUrl) {
                   alert("이미지를 첨부해주세요.");
                   return;

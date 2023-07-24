@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 // import { data as dataAll } from "../../mockData/cafePost.json";
 import { PostCafeAtom } from "../../recoil/postState";
 import { CafePostList } from "../../types/type";
 import { PostCafeType } from "../../types/type";
+import StablePagination from "../../common/post/StablePagination";
 import PostThumbnail from "../../common/post/PostThumbnail";
 import PlusButton from "../../common/post/PlusButton";
 import styled from "styled-components";
@@ -61,6 +63,14 @@ const PostList = ({ postData, cafeName, cafeId }: PostDataProp) => {
   const [cafe, setPostData] = useRecoilState<PostCafeType>(PostCafeAtom);
   const navigate = useNavigate();
 
+  //페이지네이션
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(6);
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  const currentPosts = data.slice(firstPostIndex, lastPostIndex);
+  console.log(setPostsPerPage);
+
   const handleClick = () => {
     setPostData((prev) => ({
       ...prev,
@@ -76,12 +86,10 @@ const PostList = ({ postData, cafeName, cafeId }: PostDataProp) => {
     <S.Container>
       <S.PostStart>
         <span>POST</span>
-        {/* <Link to='/postpage/create'> */}
         <PlusButton text={"+"} handleClick={handleClick} />
-        {/* </Link> */}
       </S.PostStart>
       <ul>
-        {data.map((el: CafePostList) => (
+        {currentPosts.map((el: CafePostList) => (
           <li key={el.postId}>
             <Link to={`../postpage/${el.postId}`}>
               <PostThumbnail
@@ -93,6 +101,12 @@ const PostList = ({ postData, cafeName, cafeId }: PostDataProp) => {
           </li>
         ))}
       </ul>
+      <StablePagination
+        totalElements={data.length}
+        elementsPerPage={postsPerPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </S.Container>
   );
 };

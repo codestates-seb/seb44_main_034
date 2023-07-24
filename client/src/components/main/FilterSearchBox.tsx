@@ -101,10 +101,11 @@ const S = {
   `,
   SearchButton: styled.button`
     height: 30px;
-    padding: 0 10px;
+    padding: 0 12px;
     border-radius: 25px;
-    box-shadow: 0px 2px 2px gray;
+    box-shadow: 0px 2px 4px rgba(96, 64, 64, 0.5);
     font-size: ${FONT_SIZE_1.normal_1};
+    font-family: "TheJamsil5Bold";
     border: none;
     background-color: ${COLOR_1.light_green};
     margin-top: 10px;
@@ -195,6 +196,7 @@ const FilterSearchBox = () => {
     const filterTag = facilities.filter((el) => el !== tagText);
     // const findFacil = facilitiesKeys.find((el) => (el === address));
     const filterFacil = facilAddress.filter((el) => el !== address);
+
     if (findTag) {
       setFacilities(() => [...filterTag]);
       setFacilAddress(() => [...filterFacil]);

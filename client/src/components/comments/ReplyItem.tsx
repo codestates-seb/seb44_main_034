@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { useSetRecoilState } from "recoil";
 // import { PostComment } from "../../types/type";
 import { PostReplies } from "../../types/type";
 // import { PostReply } from "../../types/type";
 import { decodeToken } from "../../common/token/decodeToken";
 import { baseURL } from "../../common/baseURL";
+import { GetPostAtom } from "../../recoil/postState";
+import { BsArrowReturnRight } from "react-icons/bs";
 import { styled } from "styled-components";
 import { COLOR_1 } from "../../common/common";
 
@@ -65,6 +69,7 @@ const S = {
   Author: styled.div`
     display: flex;
     > span {
+      margin-right: 14px;
       font-size: 14px;
       &:hover {
         cursor: pointer;
@@ -83,12 +88,17 @@ const S = {
   `,
   Content: styled.div`
     font-size: 14px;
+    margin-left: 40px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid ${COLOR_1.light_gray};
   `,
 };
 
 const ReplyItem = ({ reply }: ReplyItemProps) => {
   const [editing, setEditing] = useState(false);
   const [user, setUser] = useState("");
+  const setGetItem = useSetRecoilState(GetPostAtom);
   // const [editedText, setEditedText] = useState(comment.content);
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
@@ -121,12 +131,13 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       console.log(data);
       reset();
       setEditing(false);
+      setGetItem((prev) => !prev);
     },
   });
   console.log(reply);
 
-  const deleteReplyMutation = useMutation(() => {
-    return axios
+  const deleteReplyMutation = useMutation(async () => {
+    return await axios
       .delete(`${baseURL}/replys/${reply.replyId}`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
@@ -158,7 +169,12 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
           <li key={reply.replyId}>
             <S.FlexWrap>
               <S.Author>
-                <span>{reply.author}</span>
+                <span>
+                  <BsArrowReturnRight />
+                </span>
+                <Link to={`../otherusermy/${reply.authorId}`}>
+                  <span>{reply.author}</span>
+                </Link>
               </S.Author>
               {user ? (
                 user === reply.authorId ? (
@@ -181,7 +197,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
                 ) : null
               ) : null}
             </S.FlexWrap>
-            {reply.content}
+            <S.Content>{reply.content}</S.Content>
             {editing && (
               <S.EditForm
                 onSubmit={handleSubmit(onSubmitEdit)}

@@ -289,18 +289,28 @@ const CreatePostPage = () => {
               onClick={(e: any) => {
                 if (title === "") {
                   alert("제목을 입력해주세요.");
+                  return;
                 } else {
                   setCorrectValue({ ...correctValue, correctTitle: true });
-                  if (starRating < 1 || starRating > 5) {
-                    alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
-                  } else {
-                    setCorrectValue({
-                      ...correctValue,
-                      correctStarRating: true,
-                    });
-                    submitPost(e);
-                  }
                 }
+                if (starRating < 1 || starRating > 5) {
+                  alert("별점은 1점 이상 5점 이하의 정수만 넣어주세요.");
+                  return;
+                } else {
+                  setCorrectValue({
+                    ...correctValue,
+                    correctStarRating: true,
+                  });
+                }
+                if (postData.content.length < 130) {
+                  alert("내용을 130자 이상 적어주세요.");
+                  return;
+                }
+                if (!previewImgUrl) {
+                  alert("이미지를 첨부해주세요.");
+                  return;
+                }
+                submitPost(e);
               }}
             >
               출간하기

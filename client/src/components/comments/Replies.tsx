@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useSetRecoilState } from "recoil";
 // import { data as co } from "../../mockData/comments.json";
 import ReplyItem from "./ReplyItem";
 // import CommentsPagination from "./CommentsPagination";
+import { GetPostAtom } from "../../recoil/postState";
 import { baseURL } from "../../common/baseURL";
 import { PostReplies } from "../../types/type";
 import { styled } from "styled-components";
@@ -35,16 +37,22 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
-    height: 28px;
-    border: 1px solid ${COLOR_1.light_gray};
-    border-radius: 4px;
-    &:hover {
-      cursor: pointer;
-    }
+    width: 96%;
+    height: 40px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid ${COLOR_1.light_gray};
     > span {
       text-align: center;
+      width: 80px;
+      border: 1px solid ${COLOR_1.light_gray};
+      border-radius: 4px;
+      padding: 2px;
+      padding-top: 4px;
       font-size: ${FONT_SIZE_1.normal_1};
+      &:hover {
+        cursor: pointer;
+        background-color: ${COLOR_1.green};
+      }
     }
   `,
   WriteFrom: styled.form`
@@ -140,6 +148,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const [commentsData, setCommentsData] = useState([]);
   // const [currentPage, setCurrentPage] = useState(1);
   // const [commentsPerPage, setCommentsPerPage] = useState(10);
+  const setGetItem = useSetRecoilState(GetPostAtom);
   const [isEditing, setIsEditing] = useState(false);
   // console.log(currentPage);
   const {
@@ -159,6 +168,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
       console.log(context);
       console.log(data);
       reset();
+      setGetItem((prev) => !prev);
     },
     onError: () => {
       alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
