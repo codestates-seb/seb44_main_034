@@ -3,7 +3,7 @@
 
 <p align="center">
   <br>
-  <img src="./images/common/logo-sample.jpeg">
+  <img src="images/common/logo-sample.jpg">
   <br>
 </p>
 
@@ -51,8 +51,8 @@ GIF Images
 
 <!-- Stack Icon Refernces -->
 
-[js]: /images/stack/javascript.svg
-[ts]: /images/stack/typescript.svg
-[react]: /images/stack/react.svg
-[css]: /images/stack/css.svg
-[java]: /images/stack/java.svg
+[js]: images/js.svg
+[ts]: images/ts.svg
+[react]: images/react.svg
+[css]: images/css.svg
+[java]: images/java.svg
