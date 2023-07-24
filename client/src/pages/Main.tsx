@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Pagination from "react-js-pagination";
 import { useQuery } from "@tanstack/react-query";
 import { getCafes } from "../api/mainApi";
