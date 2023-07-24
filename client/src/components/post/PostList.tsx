@@ -8,7 +8,7 @@ import { CafePostList } from "../../types/type";
 import StablePagination from "../../common/post/StablePagination";
 import PostThumbnail from "../../common/post/PostThumbnail";
 import styled from "styled-components";
-import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+// import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
 
 type PostDataProp = {
   postData: CafePostList[];
