@@ -10,22 +10,23 @@ const S = {
     justify-content: center;
     align-items: center;
     height: 200px;
-    width: 80vw;
+    width: 260px;
     border: solid 1px black;
     border-radius: 10px;
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 500px) {
-      width: 330px;
+    @media screen and (min-width: 768px) {
+      width: 270px;
     }
   `,
   PostImgBox: styled.img`
     height: 140px;
-    width: 80vw;
+    width: 260px;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 500px) {
-      width: 330px;
+    object-fit: cover;
+    @media screen and (min-width: 768px) {
+      width: 270px;
     }
   `,
   PostInformaiton: styled.div`
@@ -34,35 +35,38 @@ const S = {
     align-items: center;
     justify-content: center;
     height: 60px;
-    width: 80vw;
-    @media screen and (min-width: 500px) {
-      width: 270px;
+    width: 240px;
+    @media screen and (min-width: 768px) {
+      width: 250px;
     }
   `,
   PostTitleBox: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 75vw;
-    @media screen and (min-width: 500px) {
-      width: 270px;
+    width: 230px;
+    @media screen and (min-width: 768px) {
+      width: 250px;
     }
   `,
   PostTitle: styled.div`
-    width: 80vw;
+    width: 200px;
     font-size: ${FONT_SIZE_1.normal_2};
   `,
   PostWriterBox: styled.div`
     display: flex;
     justify-content: right;
-    width: 60vw;
-    @media screen and (min-width: 500px) {
-      width: 270px;
+    width: 250px;
+    @media screen and (min-width: 768px) {
+      width: 260px;
     }
   `,
   Writer: styled.div`
     text-align: center;
-    width: 70px;
+    width: 130px;
     font-size: ${FONT_SIZE_1.normal_1};
+    @media screen and (min-width: 768px) {
+      width: 150px;
+    }
   `,
 };
 
