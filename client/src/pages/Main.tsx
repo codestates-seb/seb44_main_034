@@ -26,7 +26,8 @@ const S = {
     height: 80px;
     width: 90vw;
     margin-top: 10px;
-    @media screen and (min-width: 767px) {
+    border-top: solid 1px #cfcfcf;
+    @media screen and (min-width: 768px) {
       width: 768px;
     }
   `,
@@ -37,7 +38,7 @@ const S = {
     height: 80px;
     width: 90vw;
     margin-top: 10px;
-    @media screen and (min-width: 767px) {
+    @media screen and (min-width: 768px) {
       width: 728px;
     }
   `,
@@ -95,7 +96,8 @@ const S = {
     align-items: center;
     justify-content: center;
     width: 90vw;
-    @media screen and (min-width: 786px) {
+    @media screen and (min-width: 768px) {
+      margin-left: 68px;
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -160,13 +162,13 @@ const Main = () => {
 
   // 카페 ID 순으로 정렬하는 함수
   const sortByCafeId = () => {
-    setSortType("&sortType=countPost");
+    setSortType("&sortType=createdAt");
     setHandleSearch((prev) => !prev);
   };
 
   // 게시물 수 순으로 정렬하는 함수
   const sortByCountPost = () => {
-    setSortType("&sortType=createdAt");
+    setSortType("&sortType=countPost");
     setHandleSearch((prev) => !prev);
   };
   //카페 목록 요청 (api: ../api/mainApi.tsx)
@@ -202,8 +204,7 @@ const Main = () => {
   if (data) {
     const cafeData = data.payload.content;
     const totalPages = data.payload.totalPages;
-    console.log(sortType);
-
+    const totalItem = totalPages * 8;
     return (
       <S.Container>
         <SearchBox />
@@ -248,10 +249,11 @@ const Main = () => {
             return <Cafe data={data} key={data.cafeId} />;
           })}
         </S.ListBox>
+        {totalItem === 0 && <div>검색한 카페가 없습니다</div>}
         <Pagination
           activePage={page}
           itemsCountPerPage={cafePerPage}
-          totalItemsCount={100}
+          totalItemsCount={totalItem}
           pageRangeDisplayed={totalPages}
           prevPageText={"‹"}
           nextPageText={"›"}

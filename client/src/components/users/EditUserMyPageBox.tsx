@@ -166,14 +166,16 @@ const S = {
   `,
 };
 interface FormValue {
-  displayName: string;
-  password: string;
-  passwordConfirm: string;
+  displayName?: string;
+  password?: string;
+  passwordConfirm?: string;
   image?: FileList | null;
 }
 
 const EditUserMyPageBox = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useState<FormValue>();
+  const [avatarPreview, setAvatarPreview] = useState("");
   const replace = useNavigate();
   const openHandler = () => {
     if (!isOpen) {
@@ -189,8 +191,29 @@ const EditUserMyPageBox = () => {
     formState: { errors },
   } = useForm<FormValue>();
 
+  useEffect(() => {
+    axios
+      .get(`${baseURL}/members/get-update`, {
+        headers: {
+          withCredentials: true,
+          Authorization: localStorage.getItem("access_token"),
+        },
+      })
+      .then((response) => {
+        // Handle success.
+        console.log(response.data.payload);
+        setUserInfo(response.data.payload);
+        setAvatarPreview(response.data.payload.image);
+      })
+      .catch((error) => {
+        // Handle error.
+
+        console.log("An error occurred:", error.response);
+        // replace('/');
+      });
+  }, []);
+
   // image1은 File 객체이므로 원하는 작업을 수행할 수 있습니다.
-  const [avatarPreview, setAvatarPreview] = useState("");
 
   const image = watch("image");
   useEffect(() => {
@@ -199,14 +222,6 @@ const EditUserMyPageBox = () => {
       setAvatarPreview(URL.createObjectURL(file));
     }
   }, [image]);
-  // const fileInputRef = useRef();
-  // const defaultFilePath = "client/src/assets/profileimg.svg";
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트된 후에 파일 input의 value를 설정합니다.
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.value = defaultFilePath;
-  //   }
-  // }, []);
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { displayName } = data;
     const formData1 = new FormData();
@@ -222,10 +237,6 @@ const EditUserMyPageBox = () => {
       formData1.append("image", imageFile1);
     }
 
-    // for (const [key, value] of formData1.entries()) {
-    //   console.log(key, value);
-    // }
-    // formData.append("displayName", data.displayName);
     const json = JSON.stringify({ displayName: displayName });
     console.log(json);
     const info = new Blob([json], { type: "application/json" });
@@ -267,7 +278,6 @@ const EditUserMyPageBox = () => {
                 id='profileImg'
                 type='file'
                 accept='image/*'
-                // ref={fileInputRef}
                 {...register("image")}
               />
             </S.ProfileImgBox>
@@ -282,6 +292,7 @@ const EditUserMyPageBox = () => {
                   message: "2자이상 입력바랍니다",
                 },
               })}
+              defaultValue={userInfo?.displayName}
             ></S.InputBox>
             {errors.displayName ? (
               <S.InputInformation>

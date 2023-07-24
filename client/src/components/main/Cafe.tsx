@@ -16,22 +16,23 @@ const S = {
     justify-content: center;
     align-items: center;
     height: 200px;
-    width: 80vw;
+    width: 260px;
     border: solid 1px black;
     border-radius: 10px;
     box-shadow: 1px 2px 3px 1px gray;
     margin-bottom: 20px;
     cursor: pointer;
-    @media screen and (min-width: 500px) {
-      width: 330px;
+    @media screen and (min-width: 768px) {
+      width: 270px;
     }
   `,
   CafeImgBox: styled.img`
     height: 140px;
-    width: 80vw;
+    width: 260px;
     border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 500px) {
-      width: 330px;
+    object-fit: cover;
+    @media screen and (min-width: 768px) {
+      width: 270px;
     }
   `,
   CafeInformaiton: styled.div`
@@ -40,21 +41,21 @@ const S = {
     align-items: center;
     justify-content: center;
     height: 60px;
-    width: 80vw;
-    @media screen and (min-width: 500px) {
-      width: 300px;
+    width: 240px;
+    @media screen and (min-width: 768px) {
+      width: 250px;
     }
   `,
   CafeTitleBox: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 75vw;
-    @media screen and (min-width: 500px) {
-      width: 270px;
+    width: 220px;
+    @media screen and (min-width: 768px) {
+      width: 250px;
     }
   `,
   CafeTitle: styled.div`
-    width: 75vwpx;
+    width: 220px;
     font-size: ${FONT_SIZE_1.normal_2};
   `,
   CafeRating: styled.div`
@@ -63,26 +64,11 @@ const S = {
     font-size: ${FONT_SIZE_1.normal_1};
   `,
   CafeAddressBox: styled.div`
-    width: 75vw;
+    width: 220px;
     font-size: 10px;
-    @media screen and (min-width: 500px) {
-      width: 270px;
+    @media screen and (min-width: 768px) {
+      width: 250px;
     }
-  `,
-  CafeTagBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 60vw;
-    @media screen and (min-width: 500px) {
-      width: 270px;
-    }
-  `,
-  CafeTag: styled.div`
-    text-align: center;
-    width: 70px;
-    border: solid 1px black;
-    border-radius: 10px;
-    font-size: 10px;
   `,
 };
 
