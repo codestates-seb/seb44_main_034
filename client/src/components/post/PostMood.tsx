@@ -36,7 +36,7 @@ const PostMood = () => {
 
   // }
   const onClickEvent = (tagName: string): void => {
-    console.log(tagName);
+    // console.log(tagName);
     const tags = postData?.tags ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);
@@ -60,7 +60,7 @@ const PostMood = () => {
   //   saveTag();
   // }, [tag]);
   // console.log(tag);
-  console.log(postData);
+  // console.log(postData);
   return (
     <>
       <S.MoodAskWrap>

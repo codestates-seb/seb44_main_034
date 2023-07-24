@@ -48,7 +48,7 @@ const CafePage = () => {
         setIsBookmarked(true);
       }
 
-      console.log(isBookmarked);
+      // console.log(isBookmarked);
     } catch (error) {
       console.error("Error sending bookmark request:", error);
     }
@@ -79,7 +79,7 @@ const CafePage = () => {
     };
     fetchCafeData();
   }, []);
-  console.log(isBookmarked);
+  // console.log(isBookmarked);
 
   // const data = posts;
   const handleClick = () => {
@@ -89,7 +89,7 @@ const CafePage = () => {
       cafeId: cafeDetail.cafeId?.toString(),
     })); //카페 이름 받아오는 함수
     navigate("../postpage/create");
-    console.log("clicked");
+    // console.log("clicked");
   };
   return (
     <>

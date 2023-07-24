@@ -78,8 +78,8 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20px;
-    margin: 4px;
+    height: 16px;
+    margin: 4px 0 14px 0;
   `,
   Title: styled.span`
     font-size: ${FONT_SIZE_2.normal_3};
@@ -91,8 +91,8 @@ const S = {
     }
   `,
   AuthorWrap: styled.div`
-    /* display: flex; */
-    /* justify-content: end; */
+    display: flex;
+    justify-content: end;
     height: 16px;
     margin: 0 12px 6px auto;
     text-align: right;

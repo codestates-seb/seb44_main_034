@@ -80,7 +80,7 @@ const PostPage = () => {
   const postId = params.postId;
   const getItem = useRecoilValue(GetPostAtom);
 
-  console.log(postId);
+  // console.log(postId);
 
   const { data, isLoading, isError } = useQuery(
     ["getPostDetail", postId, getItem],
@@ -101,8 +101,6 @@ const PostPage = () => {
   }
 
   if (data) {
-    console.log(data);
-
     const postData = data.payload;
     const tagData = data.payload.tagNames;
 
