@@ -51,8 +51,8 @@ GIF Images
 
 <!-- Stack Icon Refernces -->
 
-[html]: images/html.svg
-[js]: images/javascript.svg
-[react]: images/react.svg
-[css]: images/css.svg
-[java]: images/java.svg
+[html]: images/stack/html.svg
+[js]: images/stack/javascript.svg
+[react]: images/stack/react.svg
+[css]: images/stack/css.svg
+[java]: images/stack/java.svg
