@@ -38,6 +38,8 @@ const Container = styled.div`
   width: 100%;
   min-width: 320px;
   max-width: 768px;
+  background-color: white;
+  padding: 30px; //여기 바꾸는거 여백봐주세요 !
 `;
 
 function App() {
