@@ -23,9 +23,9 @@ GIF Images
 
 ## 기술 스택
 
-| JavaScript | TypeScript |  React   |  CSS    |  JAVA   |
-| :--------: | :--------: | :------: | :-----: | :-----: |
-|   ![js]    |   ![ts]    | ![react] | ![css]  | ![java] |
+|   HTML    | JavaScript |  React   |   CSS   |  JAVA   |
+| :-------: | :--------: | :------: | :-----: | :-----: |
+|  ![html]  |   ![ts]    | ![react] | ![css]  | ![java] |
 
 <br>
 
@@ -51,8 +51,8 @@ GIF Images
 
 <!-- Stack Icon Refernces -->
 
-[js]: images/js.svg
-[ts]: images/ts.svg
+[html]: images/html.svg
+[js]: images/javascript.svg
 [react]: images/react.svg
 [css]: images/css.svg
 [java]: images/java.svg
