@@ -55,7 +55,8 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .selectFrom(cafeBookmark)
                                 .where(cafeBookmark.cafe.id.eq(cafeId),
                                         cafeBookmark.member.id.eq(loginId))
-                                .fetchFirst() != null)
+                                .limit(1)
+                                .fetchOne() != null)
                 ))
                 .from(cafe)
                 .where(cafe.id.eq(cafeId))
@@ -78,8 +79,8 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                                 .selectFrom(cafeBookmark)
                                 .where(cafeBookmark.cafe.id.eq(cafe.id),
                                         cafeBookmark.member.id.eq(loginId))
-                                .leftJoin(cafe)
-                                .fetchFirst() != null),
+                                .limit(1)
+                                .fetchOne() != null),
                         cafe.cafeBookmarks.size(),
                         cafe.posts.size()
                 ))
@@ -124,7 +125,13 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
             return null;
         }
 
-        return cafe.postTags.any().tag.tagId.in(tags);
+        BooleanExpression allTagsPresent = null;
+        for (Long tagId : tags) {
+            BooleanExpression tagPresent = cafe.postTags.any().tag.tagId.eq(tagId);
+            allTagsPresent = (allTagsPresent == null) ? tagPresent : allTagsPresent.and(tagPresent);
+        }
+
+        return allTagsPresent;
     }
 
     private BooleanExpression eqAddress(String shortAddress) {
@@ -180,7 +187,7 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
         if (StringUtils.isBlank(menuName)) {
             return null;
         }
-        return cafe.menus.any().name.eq(menuName);
+        return cafe.menus.any().name.contains(menuName);
     }
 
     private OrderSpecifier<?> orderType(String sortType) {
