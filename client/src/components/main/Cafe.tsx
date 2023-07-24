@@ -57,6 +57,9 @@ const S = {
   CafeTitle: styled.div`
     width: 220px;
     font-size: ${FONT_SIZE_1.normal_2};
+    @media screen and (min-width: 768px) {
+      width: 250px;
+    }
   `,
   CafeRating: styled.div`
     display: flex;

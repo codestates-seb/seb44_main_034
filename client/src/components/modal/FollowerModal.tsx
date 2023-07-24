@@ -92,6 +92,7 @@ const FollowerModal = () => {
       })
       .then((response) => {
         // Handle success.
+        console.log("되었다.");
         console.log(response);
         const followers: Follower[] = response.data.payload.data;
         const myListLength = followers.length;
@@ -109,7 +110,7 @@ const FollowerModal = () => {
   const fetchMoreData = () => {
     if (hasMore) {
       axios
-        .get(`${baseURL}/members/my-page/follower?size&id=${lastId}`, {
+        .get(`${baseURL}/members/my-page/follower?size=1&id=${lastId}`, {
           headers: {
             Authorization: localStorage.getItem("access_token"),
           },
@@ -147,7 +148,7 @@ const FollowerModal = () => {
               <SyncLoader color='#36d759' />
             </S.LoadingBox>
           }
-          endMessage={<S.EndMessageBox>불러올 유저가 없습니다</S.EndMessageBox>}
+          endMessage={<S.EndMessageBox></S.EndMessageBox>}
           height={230}
         >
           {dataSource.map((item) => {
