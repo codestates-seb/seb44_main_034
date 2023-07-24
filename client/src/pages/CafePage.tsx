@@ -89,8 +89,8 @@ const CafePage = () => {
           </S.Title>
           {menus && <CafeDetailMenu menu={menus} />}
           <S.Title>
-            {/* Post
-            <div></div> */}
+            Post
+            <div></div>
             <PostList
               postData={posts}
               cafeName={cafeDetail?.name}
@@ -109,6 +109,7 @@ const S = {
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     flex-direction: column;
+    padding: 20px;
     @media screen and (max-width: 767px) {
       width: 100%;
       flex-direction: column;
@@ -128,6 +129,7 @@ const S = {
     }
     @media screen and (max-width: 767px) {
       text-align: center;
+      font-size: 24px;
     }
   `,
   BookmarkDiv: styled.div`
