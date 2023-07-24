@@ -116,6 +116,9 @@ const S = {
     label {
     }
   `,
+  SunEditorBox: styled.div`
+    z-index: 0;
+  `,
 };
 
 const CreatePostPage = () => {
@@ -276,7 +279,9 @@ const CreatePostPage = () => {
           {previewImgUrl && (
             <S.UploadBtn htmlFor='fileUpload'>사진 수정하기</S.UploadBtn>
           )}
-          <SunEditor height='300px' onChange={handleContent} />
+          <S.SunEditorBox>
+            <SunEditor height='300px' onChange={handleContent} />
+          </S.SunEditorBox>
           <S.BtnWrap>
             <ConfirmBtn
               type='button'
