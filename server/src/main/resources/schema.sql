@@ -1,4 +1,59 @@
 
+CREATE TABLE tag (
+    tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    tag_name VARCHAR(255)
+);
+
+CREATE TABLE Member (
+    MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    createdAt DATETIME,
+    updatedAt DATETIME,
+    displayName VARCHAR(100),
+    MEMBER_EMAIL VARCHAR(100),
+    grade VARCHAR(30),
+    PROFILE_IMAGE TEXT,
+    isPrivacy BIT(1),
+    MEMBER_PASSWORD VARCHAR(100),
+    MEMBER_STATUS VARCHAR(30)
+);
+
+CREATE TABLE Owner (
+    OWNER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    createdAt DATETIME,
+    updatedAt DATETIME,
+    OWNER_DISPLAYNAME VARCHAR(255),
+    OWNER_EMAIL VARCHAR(255),
+    OWNER_STATUS VARCHAR(255),
+    OWNER_PASSWORD VARCHAR(255)
+);
+
+CREATE TABLE cafes (
+    cafe_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    createdAt DATETIME,
+    updatedAt DATETIME,
+    address VARCHAR(255),
+    close_time VARCHAR(255),
+    contact VARCHAR(255),
+    has_dessert BIT(1),
+    has_parking BIT(1),
+    cafe_image TEXT,
+    is_charging_available BIT(1),
+    is_open_all_time BIT(1),
+    is_pet_friendly BIT(1),
+    latitude DOUBLE,
+    longitude DOUBLE,
+    cafe_name VARCHAR(255),
+    notice VARCHAR(255),
+    open_time VARCHAR(255),
+    rating FLOAT,
+    short_address VARCHAR(255),
+    owner_id BIGINT,
+    CONSTRAINT fk_owner
+        FOREIGN KEY (owner_id) REFERENCES Owner (OWNER_ID)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT
+);
+
 CREATE TABLE posts (
     post_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
@@ -52,11 +107,6 @@ CREATE TABLE post_tag (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE tag (
-    tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    tag_name VARCHAR(255)
-);
-
 CREATE TABLE comments (
     comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
@@ -65,10 +115,6 @@ CREATE TABLE comments (
     member_id BIGINT,
     parent_comment_id BIGINT,
     post_id BIGINT,
-    CONSTRAINT fk_parent_comment
-        FOREIGN KEY (parent_comment_id) REFERENCES comments (comment_id)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT,
     CONSTRAINT fk_post
         FOREIGN KEY (post_id) REFERENCES posts (post_id)
         ON UPDATE RESTRICT
@@ -79,32 +125,11 @@ CREATE TABLE comments (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE cafes (
-    cafe_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    createdAt DATETIME,
-    updatedAt DATETIME,
-    address VARCHAR(255),
-    close_time VARCHAR(255),
-    contact VARCHAR(255),
-    has_dessert BIT(1),
-    has_parking BIT(1),
-    cafe_image TEXT,
-    is_charging_available BIT(1),
-    is_open_all_time BIT(1),
-    is_pet_friendly BIT(1),
-    latitude DOUBLE,
-    longitude DOUBLE,
-    cafe_name VARCHAR(255),
-    notice VARCHAR(255),
-    open_time VARCHAR(255),
-    rating FLOAT,
-    short_address VARCHAR(255),
-    owner_id BIGINT,
-    CONSTRAINT fk_owner
-        FOREIGN KEY (owner_id) REFERENCES Owner (OWNER_ID)
-        ON UPDATE RESTRICT
-        ON DELETE RESTRICT
-);
+ALTER TABLE comments
+ADD CONSTRAINT fk_parent_comment
+FOREIGN KEY (parent_comment_id) REFERENCES comments (comment_id)
+ON UPDATE RESTRICT
+ON DELETE RESTRICT;
 
 CREATE TABLE cafe_bookmarks (
     cafe_bookmark_id BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -149,19 +174,6 @@ CREATE TABLE menu_comments (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE Member (
-    MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    createdAt DATETIME,
-    updatedAt DATETIME,
-    displayName VARCHAR(100),
-    MEMBER_EMAIL VARCHAR(100),
-    grade VARCHAR(30),
-    PROFILE_IMAGE TEXT,
-    isPrivacy BIT(1),
-    MEMBER_PASSWORD VARCHAR(100),
-    MEMBER_STATUS VARCHAR(30)
-);
-
 CREATE TABLE Member_roles (
     Member_MEMBER_ID BIGINT,
     roles VARCHAR(255),
@@ -185,15 +197,6 @@ CREATE TABLE Follow (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE Owner (
-    OWNER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    createdAt DATETIME,
-    updatedAt DATETIME,
-    OWNER_DISPLAYNAME VARCHAR(255),
-    OWNER_EMAIL VARCHAR(255),
-    OWNER_STATUS VARCHAR(255),
-    OWNER_PASSWORD VARCHAR(255)
-);
 
 CREATE TABLE Owner_roles (
     Owner_OWNER_ID BIGINT,
