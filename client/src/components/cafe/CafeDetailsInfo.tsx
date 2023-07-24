@@ -80,6 +80,7 @@ const S = {
   CafeImg: styled.img`
     width: 380px;
     height: 300px;
+    object-fit: cover;
     @media screen and (max-width: 767px) {
       width: 100%;
       height: 200px;

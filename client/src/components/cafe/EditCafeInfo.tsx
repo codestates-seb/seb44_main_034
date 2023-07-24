@@ -354,6 +354,7 @@ const S = {
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center;
     flex-direction: row;
+    position: relative;
     @media screen and (max-width: 767px) {
       width: 100%;
       flex-direction: column;
@@ -380,6 +381,7 @@ const S = {
     height: 100%;
     width: 100%;
     margin: auto;
+    object-fit: cover;
   `,
   AddCafeInfoDiv: styled.div`
     width: 350px;
@@ -520,7 +522,7 @@ const RemoveImgButton = styled.button`
   height: 20px;
   font-size: ${FONT_SIZE_1.small_3};
   position: absolute;
-  top: 620px;
+  top: 315px;
   border: 2px solid ${COLOR_1.green};
   background-color: white;
   border-radius: 10px;
