@@ -110,11 +110,11 @@ const S = {
     background-color: ${COLOR_1.light_green};
     margin-top: 10px;
     &:hover {
-      background-color: ${COLOR_1.green};
+      background-color: rgba(150, 215, 143, 0.5);
       cursor: pointer;
     }
     &:active {
-      background-color: ${COLOR_1.green};
+      background-color: rgba(150, 215, 143, 0.5);
       transform: translateY(4px);
       box-shadow: none;
       cursor: pointer;

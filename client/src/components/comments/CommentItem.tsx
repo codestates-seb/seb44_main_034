@@ -94,6 +94,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     register,
     handleSubmit,
     reset,
+    setValue,
     // formState: { errors }
   } = useForm<InputData>();
   const setGetItem = useSetRecoilState(GetPostAtom);
@@ -108,8 +109,14 @@ const CommentItem = ({ comment }: CommentItemProps) => {
 
   const showEditComment = () => {
     //수정 창 보여주기
-    setEditing(true);
+    setEditing((cur) => !cur);
   };
+
+  useEffect(() => {
+    if (editing) {
+      setValue("content", comment.content);
+    }
+  }, [editing, setValue]);
 
   const editComment = (editedContent: EditComment) =>
     axios.patch(
@@ -190,8 +197,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               ) : null
             ) : null}
           </S.FlexWrap>
-          <S.Content>{comment.content}</S.Content>
-          {editing && (
+          {editing ? (
             <S.EditForm
               onSubmit={handleSubmit(onSubmit)}
               // className={comment.commentId ? "active" : ""}
@@ -199,45 +205,12 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               <input type='text' {...register("content", { required: true })} />
               <button type='submit'>등록</button>
             </S.EditForm>
+          ) : (
+            <S.Content>{comment.content}</S.Content>
           )}
           <Replies replies={comment?.replies} commentId={comment?.commentId} />
         </li>
       </ul>
-      {/* ) : ( */}
-      {/* <S.Comments>
-          <ul>
-            <li key={comment.commentId}>
-              <S.FlexWrap>
-                <Link to={`../otherusermy/${comment.authorId}`}>
-                  <span>{comment.author}</span>{" "}
-                </Link>
-
-                <S.Edit>
-                  <span
-                    onClick={() => {
-                      showEditComment();
-                    }}
-                  >
-                    수정
-                  </span>
-                  <span
-                    onClick={() => {
-                      deleteComment();
-                    }}
-                  >
-                    삭제
-                  </span>
-                </S.Edit>
-              </S.FlexWrap>
-              {comment.content}
-              <Replies
-                replies={comment?.replies}
-                commentId={comment?.commentId}
-              />
-            </li>
-          </ul>
-        </S.Comments>
-      )} */}
     </div>
   );
 };
