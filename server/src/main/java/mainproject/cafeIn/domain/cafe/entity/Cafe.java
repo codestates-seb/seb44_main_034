@@ -78,7 +78,7 @@ public class Cafe extends BaseEntity {
     @Column(name = "has_dessert")
     private boolean hasDessert;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
