@@ -36,7 +36,7 @@
 - [구현 기능](#구현-기능)
 - [기능별 담당자 소개](#기능별-담당자-소개)
 - [Documents](#Documents)
-- [✨Git Commit & PR Message](#✨Git-Commit-&-PR-Message)
+- [Git Commit & PR Message](#✨Git-Commit-&-PR-Message)
 
 <br>
 <br>
@@ -74,9 +74,9 @@ GIF Images
 | :-------: | :--------: | :------: | :-----: | :-----: |
 |  ![html]  |   ![js]    | ![react] | ![css]  | ![java] |
 
-|SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
-| :-------: | :--------: | :------: | :-----: | :-----: | 
-|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="180" height ="100">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="150" height ="100"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="120" height ="100">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="120" height ="100">   |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="120" height ="100">  |
+|  JAVA   |SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
+| :-----: | :-------: | :--------: | :------: | :-----: | :-----: | 
+| ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="180" height ="100">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="150" height ="100"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="120" height ="100">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="120" height ="100">   |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="120" height ="100">  |
 
 |   Amazon EC2 | Amazon S3 |  Amazon RDS   |
 | :-------: | :--------: | :------: | 
@@ -104,7 +104,7 @@ GIF Images
 ## Documents
 
 - [API 문서](https://documenter.getpostman.com/view/26575250/2s946o2oSh)
-- [ERD]
+- [ERD](https://www.erdcloud.com/d/HBWEXRzvdih98w3A5)
 - 
 
 <br>
