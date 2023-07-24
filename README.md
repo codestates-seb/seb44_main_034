@@ -73,9 +73,9 @@ GIF Images
 | :-------: | :--------: | :------: | :-----: | :-----: |
 |  ![html]  |   ![js]    | ![react] | ![css]  | ![java] |
 
-|   SPRINGBOOT    | SPRINGSECURITY |  JPA   |   MYSQL   |  JWT   |
-| :-------: | :--------: | :------: | :-----: | :-----: | :-----: |
-|  ![html]  |   ![js]    | ![react] | ![css]  | ![java] ||
+|SPRINGBOOT| SPRINGSECURITY |  JPA   |   MYSQL   |  JWT   |
+| :-------: | :--------: | :------: | :-----: | :-----: | 
+|  ![html]  |   ![js]    | ![react] | ![css]  | ![java] |
 
 
 
