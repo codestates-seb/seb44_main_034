@@ -339,7 +339,7 @@ const S = {
   ImageShow: styled.img`
     height: 100%;
     width: 100%;
-    background-size: cover;
+    object-fit: cover;
     margin: auto;
   `,
   AddCafeInfoDiv: styled.div`
