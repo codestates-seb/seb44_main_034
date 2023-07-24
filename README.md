@@ -32,10 +32,10 @@
 
 - [팀원소개](#팀원소개)
 - [프로젝트 소개](#프로젝트-소개)
-- [기술 스택](#기술-스택)
+- [기술 스택](#💎기술-스택)
 - [구현 기능](#구현-기능)
-- [기능별 담당자 소개](#기능별-담당자-소개)
-- [Documents](#Documents)
+- [기능별 담당자 소개](#🔎기능별-담당자-소개)
+- [Documents](#📄Documents)
 - [Git Commit & PR Message](#✨Git-Commit-&-PR-Message)
 
 <br>
@@ -50,7 +50,7 @@
 
 <br>
 
-## 기능별 담당자 소개
+## 🔎기능별 담당자 소개
 
 <br>
 
@@ -68,24 +68,30 @@ GIF Images
 
 <br>
 
-## 기술 스택
+## 💎기술 스택
 
-|   HTML    | JavaScript |  React   |   CSS   |  JAVA   |
-| :-------: | :--------: | :------: | :-----: | :-----: |
-|  ![html]  |   ![js]    | ![react] | ![css]  | ![java] |
+### 프론트 엔드 기술 스택
 
+|   HTML    | JavaScript |  React   |   CSS   |
+| :-------: | :--------: | :------: | :-----: | 
+|  ![html]  |   ![js]    | ![react] | ![css]  | 
+
+
+### 백엔드 기술 스택
 |  JAVA   |SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
 | :-----: | :-------: | :--------: | :------: | :-----: | :-----: | 
-| ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="180" height ="100">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="150" height ="100"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="120" height ="100">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="120" height ="100">   |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="120" height ="100">  |
+| ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="80" height ="50">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="80" height ="50">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="80" height ="50">  |
 
-|   Amazon EC2 | Amazon S3 |  Amazon RDS   |
-| :-------: | :--------: | :------: | 
-| <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/da49e603-1381-4748-86a8-f8df6fb73784" width ="200" height ="100">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/efcd0457-fb28-4503-ac7d-7c3a815cd3e2" width ="200" height ="100">    | <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/67443629-b3cf-4de7-b32a-40e590674755" width ="200" height ="100"> | 
+### 공통 기술 스택 
+|   Amazon| Git hub | 
+| :-------: | :--------: | 
+| <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/056f2c19-eba1-43b3-ae39-860b30aaee1e" width ="80" height ="80">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/d8741c52-c5b5-4280-b1d9-cf5a13d66b6f" width ="80" height ="50"> |
 
 
 
 
 <br>
+![Uploading github-color.svg…]()
 
 ## 구현 기능
 
@@ -101,11 +107,11 @@ GIF Images
 
 <br>
 
-## Documents
+## 📄Documents
 
 - [API 문서](https://documenter.getpostman.com/view/26575250/2s946o2oSh)
 - [ERD](https://www.erdcloud.com/d/HBWEXRzvdih98w3A5)
-- 
+
 
 <br>
 
