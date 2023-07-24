@@ -56,7 +56,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     try {
       const response = await axios.post(
         `${baseURL}/posts/${postId}/bookmark`,
-        {},
+        null,
         {
           headers: {
             Authorization: localStorage.getItem("access_token"),
