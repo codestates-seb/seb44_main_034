@@ -141,7 +141,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
       setGetItem((prev) => !prev);
     },
   });
-  console.log(reply);
+  // console.log(reply);
 
   const deleteReplyMutation = useMutation(async () => {
     return await axios
@@ -165,7 +165,7 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
   };
   const onSubmitEdit = (content: InputData) => {
     const reply = { ...content };
-    console.log(reply);
+    // console.log(reply);
     editReplyMutation.mutate(reply);
   };
 

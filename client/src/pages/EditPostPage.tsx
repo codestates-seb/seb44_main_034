@@ -205,16 +205,16 @@ const EditPostPage = () => {
     const post = new Blob([json], {
       type: "application/json",
     });
-    console.log(postData);
+    // console.log(postData);
     formData.append("dto", post);
     if (file) {
       formData.append("postImage", file);
     } else {
       formData.append("postImage", null);
     }
-    for (const entry of formData.entries()) {
-      console.log(entry[0] + ": " + entry[1]);
-    }
+    // for (const entry of formData.entries()) {
+    //   console.log(entry[0] + ": " + entry[1]);
+    // }
     editPostMutation.mutate(formData);
   };
 
@@ -248,7 +248,7 @@ const EditPostPage = () => {
   // };
 
   const onClickEvent = (tagName: string): void => {
-    console.log(tagName);
+    // console.log(tagName);
     const tags = postData?.tags ?? [];
     const findTag = tags.find((el) => el === tagName);
     const filterTag = tags.filter((el) => el !== tagName);

@@ -133,7 +133,7 @@ const CreatePostPage = () => {
   });
   const resetPostItem = useResetRecoilState(PostItemAtom);
   const navigate = useNavigate();
-  console.log(postCafe);
+  // console.log(postCafe);
 
   //api
   const createPost = (formData: FormData) =>
@@ -146,15 +146,17 @@ const CreatePostPage = () => {
 
   const createPostMutation = useMutation({
     mutationFn: createPost,
-    onSuccess: (data, context) => {
-      console.log(context);
-      console.log(data);
+    onSuccess: () => {
+      // console.log(context);
+      // console.log(data);
       resetPostItem();
       navigate(`../cafes/${postCafe.cafeId}`);
       //이동 로직 추가 해함(postId 받아와야 함)
     },
     onError: () => {
-      alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      alert(
+        "일시적인 오류가 발생했습니다. (사장님은 포스트를 작성할 수 없습니다.)"
+      );
       setDisabled(false);
     },
   });
@@ -177,14 +179,14 @@ const CreatePostPage = () => {
     const post = new Blob([json], {
       type: "application/json",
     });
-    console.log(postData);
+    // console.log(postData);
     formData.append("dto", post);
     if (file) {
       formData.append("postImage", file);
     }
-    for (const entry of formData.entries()) {
-      console.log(entry[0] + ": " + entry[1]);
-    }
+    // for (const entry of formData.entries()) {
+    //   console.log(entry[0] + ": " + entry[1]);
+    // }
     createPostMutation.mutate(formData);
   };
 
@@ -219,7 +221,7 @@ const CreatePostPage = () => {
   const handleContent = (contentValue: string) => {
     setPostData((current) => ({ ...current, content: contentValue })); //리코일: PostItemAtom에 변경된 내용 담기
   };
-  console.log(postData);
+  // console.log(postData);
   return (
     <S.Container>
       <form

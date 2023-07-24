@@ -114,6 +114,7 @@ const SearchBox = () => {
     setLocation(location);
     setMoodAtom(moodAtom);
     setFacilitiesAtom(facilitiesAtom);
+    console.log(searchValue, location, moodAtom, facilitiesAtom);
     setHandleSearch((prev) => !prev);
   };
   // console.log(searchValue);
