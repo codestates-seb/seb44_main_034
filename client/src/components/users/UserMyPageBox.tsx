@@ -88,9 +88,11 @@ const S = {
   `,
   ProfileImg: styled.img`
     width: 170px;
+    height: 170px;
     border-radius: 85px;
     @media screen and (min-width: 768px) {
       width: 200px;
+      height: 200px;
       border-radius: 100px;
     }
   `,
@@ -210,6 +212,7 @@ const S = {
     justify-content: center;
     width: 90vw;
     @media screen and (min-width: 768px) {
+      margin-left: 34px;
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -235,64 +238,6 @@ const S = {
     @media screen and (min-width: 768px) {
       width: 330px;
     }
-  `,
-  CafeImgBox: styled.img`
-    height: 140px;
-    width: 90vw;
-    border-radius: 10px 10px 0px 0px;
-    @media screen and (min-width: 768px) {
-      width: 330px;
-    }
-  `,
-  CafeInformaiton: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    width: 80vw;
-    @media screen and (min-width: 768px) {
-      width: 270px;
-    }
-  `,
-  CafeTitleBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 75vw;
-    @media screen and (min-width: 768px) {
-      width: 270px;
-    }
-  `,
-  CafeTitle: styled.div`
-    width: 60px;
-    font-size: ${FONT_SIZE_1.normal_2};
-  `,
-  CafeRating: styled.div`
-    display: flex;
-    width: 50px;
-    font-size: ${FONT_SIZE_1.normal_1};
-  `,
-  CafeAddressBox: styled.div`
-    width: 75vw;
-    font-size: 10px;
-    @media screen and (min-width: 768px) {
-      width: 270px;
-    }
-  `,
-  CafeTagBox: styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 60vw;
-    @media screen and (min-width: 768px) {
-      width: 270px;
-    }
-  `,
-  CafeTag: styled.div`
-    text-align: center;
-    width: 70px;
-    border: solid 1px black;
-    border-radius: 10px;
-    font-size: 10px;
   `,
   LoadingBox: styled.div`
     display: flex;
@@ -378,8 +323,6 @@ const UserMyPageBox = () => {
     axios
       .get(`${baseURL}/members/my-page`, {
         headers: {
-          "ngrok-skip-browser-warning": "true",
-          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
           Authorization: localStorage.getItem("access_token"),
         },
