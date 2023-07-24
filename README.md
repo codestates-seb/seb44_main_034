@@ -56,7 +56,9 @@
 ## 프로젝트 소개
 
 <p align="justify">
+  
 ## 프로젝트 개요/동기
+
 </p>
 
 <p align="center">
