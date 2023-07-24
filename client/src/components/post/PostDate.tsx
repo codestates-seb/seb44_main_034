@@ -22,7 +22,7 @@ const PostDate = ({ postDate }: PostDateProps) => {
   // const dateValue = new Date(postDate);
   const dateValue = new Date(postDate);
   const timeDifferenceHours = 9;
-  const currentDate = new Date();
+  // const currentDate = new Date();
   const modifiedDate = new Date(
     dateValue.getTime() + timeDifferenceHours * 60 * 60 * 1000
   );

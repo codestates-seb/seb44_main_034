@@ -1,4 +1,4 @@
-import { Styled } from "styled-components/dist/constructors/constructWithOptions";
+// import { Styled } from "styled-components/dist/constructors/constructWithOptions";
 
 type PageButtonProps = {
   page: number;

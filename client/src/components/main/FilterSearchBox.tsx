@@ -139,9 +139,8 @@ const FilterSearchBox = () => {
   const [facilitiesAtom, setFacilitiesAtom] =
     useRecoilState<string>(FacilitiesAtom);
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
-  const [FacilitiesState, setFacilitiesState] =
-    useRecoilState(FacilitiesStateAtom);
-  const [MoodState, setMoodState] = useRecoilState(MoodStateAtom);
+  const setFacilitiesState = useSetRecoilState(FacilitiesStateAtom);
+  const setMoodState = useSetRecoilState(MoodStateAtom);
   const resetMoodTags = useResetRecoilState(MoodAtom);
   const resetFacilities = useResetRecoilState(FacilitiesAtom);
   const resetMoodState = useResetRecoilState(MoodStateAtom);
