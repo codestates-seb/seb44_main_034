@@ -145,7 +145,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
           Authorization: localStorage.getItem("access_token"),
         },
       })
-      .then((res) => {
+      .then(() => {
         // console.log(res);
         alert("삭제되었습니다.");
       });

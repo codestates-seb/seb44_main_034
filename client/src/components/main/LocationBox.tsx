@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { LocationAtom } from "../../recoil/mainState";
+import { useRecoilState } from "recoil";
+// import { LocationAtom } from "../../recoil/mainState";
 import { LocationStateAtom } from "../../recoil/mainState";
 import styled from "styled-components";
 import { COLOR_1 } from "../../common/common";
@@ -57,11 +57,11 @@ const S = {
 
 const LocationBox = () => {
   const locationName = ["전체", "강서구", "양천구", "영등포구", "마포구"];
-  const shortAddress = useRecoilValue<string>(LocationAtom);
+  // const shortAddress = useRecoilValue<string>(LocationAtom);
   const [locationState, setLocationState] =
     useRecoilState<string>(LocationStateAtom);
   const [location, setLocation] = useState<string>("");
-  // console.log(setLocation);
+  console.log(setLocation);
   const handleClickEvent = (el: string) => {
     // setLocation(el);
     // console.log(el);
@@ -78,7 +78,7 @@ const LocationBox = () => {
   };
   // console.log(shortAddress);
   // console.log(location);
-  // console.log(locationState);
+  console.log(locationState);
   // if (location === "전체") {
   //   setShortAddress("");
   // }

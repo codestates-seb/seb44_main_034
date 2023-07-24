@@ -153,7 +153,7 @@ const CreatePostPage = () => {
       navigate(`../cafes/${postCafe.cafeId}`);
       //이동 로직 추가 해함(postId 받아와야 함)
     },
-    onError: (res) => {
+    onError: () => {
       alert(
         "일시적인 오류가 발생했습니다. (사장님은 포스트를 작성할 수 없습니다.)"
       );

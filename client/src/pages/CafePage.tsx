@@ -41,7 +41,7 @@ const CafePage = () => {
           },
         }
       );
-      // console.log(response);
+      console.log(response);
       if (isBookmarked) {
         setIsBookmarked(false);
       } else {
