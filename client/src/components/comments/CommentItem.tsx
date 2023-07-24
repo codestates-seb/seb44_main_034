@@ -146,7 +146,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
         },
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         alert("삭제되었습니다.");
       });
   });
@@ -159,9 +159,9 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     }
   };
   const onSubmit = (content: InputData) => {
-    console.log(content);
+    // console.log(content);
     const comment = { ...content };
-    console.log(comment);
+    // console.log(comment);
     editCommentMutation.mutate(comment);
   };
 

@@ -61,10 +61,10 @@ const LocationBox = () => {
   const [locationState, setLocationState] =
     useRecoilState<string>(LocationStateAtom);
   const [location, setLocation] = useState<string>("");
-  console.log(setLocation);
+  // console.log(setLocation);
   const handleClickEvent = (el: string) => {
     // setLocation(el);
-    console.log(el);
+    // console.log(el);
     if (el === "전체") {
       setLocationState("");
       setLocation("전체");
@@ -76,9 +76,9 @@ const LocationBox = () => {
       // setShortAddress(`shortaddress=${el}`);
     }
   };
-  console.log(shortAddress);
-  console.log(location);
-  console.log(locationState);
+  // console.log(shortAddress);
+  // console.log(location);
+  // console.log(locationState);
   // if (location === "전체") {
   //   setShortAddress("");
   // }

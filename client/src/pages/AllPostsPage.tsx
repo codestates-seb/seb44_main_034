@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { COLOR_1, FONT_SIZE_1 } from "../common/common";
+import { COLOR_1, FONT_SIZE_1, FONT_SIZE_2 } from "../common/common";
 // import { data as dataAll } from '../mockData/cafePost.json';
 import PostThumbnail from "../common/post/PostThumbnail";
 import { CafePostList } from "../types/type";
@@ -19,6 +19,7 @@ const S = {
       align-items: center;
       flex-wrap: wrap;
       padding: 0;
+      min-height: 340px;
       > li {
         margin: 20px;
         @media screen and (max-width: 500px) {
@@ -69,6 +70,18 @@ const S = {
       }
     }
   `,
+  Wrap: styled.div`
+    margin-top: 40px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    > p {
+      font-size: ${FONT_SIZE_2.normal_3};
+      text-align: center;
+    }
+  `,
 };
 
 const AllPostsPage = () => {
@@ -106,20 +119,27 @@ const AllPostsPage = () => {
           <S.PostStart>
             <span>POST</span>
           </S.PostStart>
-          <ul>
-            {postsData.map((el: CafePostList) => (
-              <li key={el.postId}>
-                <Link to={`../postpage/${el.postId}`}>
-                  <PostThumbnail
-                    key={el.postId}
-                    image={el.image}
-                    title={el.title}
-                    author={el.author}
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {postsData.length < 1 ? (
+            <S.Wrap>
+              <p>작성한 포스트가 없습니다.</p>
+              <p>플러스 버튼을 눌러 포스트를 작성해보세요.</p>
+            </S.Wrap>
+          ) : (
+            <ul>
+              {postsData.map((el: CafePostList) => (
+                <li key={el.postId}>
+                  <Link to={`../postpage/${el.postId}`}>
+                    <PostThumbnail
+                      key={el.postId}
+                      image={el.image}
+                      title={el.title}
+                      author={el.author}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
           <S.Nav>
             <button onClick={firstPage} disabled={isPreviousData || page === 1}>
               {`<`}

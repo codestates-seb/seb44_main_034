@@ -180,8 +180,8 @@ const FilterSearchBox = () => {
     setMoodAtom(`&tags=${moodToIds}`);
   };
 
-  console.log("시설 아톰" + facilitiesAtom);
-  console.log("무드 아톰" + moodAtom);
+  // console.log("시설 아톰" + facilitiesAtom);
+  // console.log("무드 아톰" + moodAtom);
   // console.log(moodAtom);
   // if (facilities === '전체') {
   //   setShortAddress('');

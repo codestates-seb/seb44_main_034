@@ -164,9 +164,9 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
     });
   const writeCommentMutation = useMutation({
     mutationFn: writeReply,
-    onSuccess: (data, context) => {
-      console.log(context);
-      console.log(data);
+    onSuccess: () => {
+      // console.log(context);
+      // console.log(data);
       reset();
       setIsEditing(false);
       setGetItem((prev) => !prev);
@@ -178,7 +178,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
 
   const onSubmit = (content: InputData) => {
     const reply = { ...content };
-    console.log(reply); // 폼 데이터 콘솔에 출력 (여기서는 댓글 데이터를 처리하는 로직을 추가하면 됩니다.)
+    // console.log(reply);
     writeCommentMutation.mutate(reply);
   };
 

@@ -11,6 +11,7 @@ import { ResPostData } from "../../types/type";
 import { PostItemAtom } from "../../recoil/postState";
 import { PostImgAtom } from "../../recoil/postState";
 import { GetPostAtom } from "../../recoil/postState";
+import KakaoShare from "../../common/KakaoShare";
 import { decodeToken } from "../../common/token/decodeToken";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
@@ -38,8 +39,8 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     starRating,
     tagNames,
   } = postData;
-  console.log(postId);
-  console.log(typeof postId);
+  // console.log(postId);
+  // console.log(typeof postId);
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const setPostImg = useSetRecoilState<string>(PostImgAtom);
   const [user, setUser] = useState("");
@@ -64,8 +65,8 @@ const PostItemHead = ({ postData }: PostItemProps) => {
         }
       );
       setGetItem((prev) => !prev);
-      console.log("clicked");
-      console.log(response.data);
+      // console.log("clicked");
+      // console.log(response.data);
     } catch (error) {
       alert("일시적인 오류가 발생했습니다. 잠시 후, 다시 시도해주세요.");
     }
@@ -108,6 +109,25 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     }
   };
 
+  const clickSocial = () => {
+    // useEffect(() => {
+    // kakaoMessage();
+    // }, []);
+
+    const kakaoMessage = () => {
+      if (window.Kakao) {
+        const kakao = window.Kakao;
+
+        if (!kakao.isInitialized()) {
+          kakao.init("61eed962b53ec01e122316ed9170a6e2");
+        }
+      }
+    };
+    kakaoMessage();
+    KakaoShare({ title: title, image: image });
+
+    // window.Kakao.Share.createDefaultButton();
+  };
   return (
     <>
       <S.CafeNameWrap>
@@ -126,7 +146,13 @@ const PostItemHead = ({ postData }: PostItemProps) => {
         </S.InfoWrap>
         <S.CircleWrap>
           <S.Circle>
-            <IoShareSocial size='30' />
+            <IoShareSocial
+              size='30'
+              onClick={() => {
+                clickSocial();
+              }}
+            />
+            {/* <KakaoShare /> */}
           </S.Circle>
           <S.Circle>
             {postData.isBookmarked ? (
