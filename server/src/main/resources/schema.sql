@@ -1,8 +1,5 @@
 
-
-DROP TABLE posts IF EXISTS;
-
-CREATE TABLE posts (
+CREATE TABLE posts IF NOT EXISTS (
     post_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -22,9 +19,7 @@ CREATE TABLE posts (
         ON DELETE CASCADE
 );
 
-DROP TABLE PostBookmark IF EXISTS;
-
-CREATE TABLE PostBookmark (
+CREATE TABLE PostBookmark IF NOT EXISTS (
     postBookmarkId BIGINT AUTO_INCREMENT PRIMARY KEY,
     member_id BIGINT,
     post_id BIGINT,
@@ -38,9 +33,7 @@ CREATE TABLE PostBookmark (
         ON DELETE RESTRICT
 );
 
-DROP TABLE post_tag IF EXISTS;
-
-CREATE TABLE post_tag (
+CREATE TABLE post_tag IF NOT EXISTS (
     post_tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cafe_id BIGINT,
     post_id BIGINT,
@@ -59,16 +52,12 @@ CREATE TABLE post_tag (
         ON DELETE RESTRICT
 );
 
-DROP TABLE tag IF EXISTS;
-
-CREATE TABLE tag (
+CREATE TABLE tag IF NOT EXISTS (
     tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(255)
 );
 
-DROP TABLE comments IF EXISTS;
-
-CREATE TABLE comments (
+CREATE TABLE comments IF NOT EXISTS (
     comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -90,9 +79,7 @@ CREATE TABLE comments (
         ON DELETE RESTRICT
 );
 
-DROP TABLE cafes IF EXISTS;
-
-CREATE TABLE cafes (
+CREATE TABLE cafes IF NOT EXISTS (
     cafe_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -119,9 +106,7 @@ CREATE TABLE cafes (
         ON DELETE RESTRICT
 );
 
-DROP TABLE cafe_bookmarks IF EXISTS;
-
-CREATE TABLE cafe_bookmarks (
+CREATE TABLE cafe_bookmarks IF NOT EXISTS (
     cafe_bookmark_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cafe_id BIGINT,
     member_id BIGINT,
@@ -135,9 +120,7 @@ CREATE TABLE cafe_bookmarks (
         ON DELETE CASCADE
 );
 
-DROP TABLE menus IF EXISTS;
-
-CREATE TABLE menus (
+CREATE TABLE menus IF NOT EXISTS (
     menu_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     menu_type VARCHAR(255),
     menu_name VARCHAR(255),
@@ -149,9 +132,7 @@ CREATE TABLE menus (
         ON DELETE CASCADE
 );
 
-DROP TABLE menu_comments IF EXISTS;
-
-CREATE TABLE menu_comments (
+CREATE TABLE menu_comments IF NOT EXISTS (
     menu_comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -167,9 +148,8 @@ CREATE TABLE menu_comments (
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
 );
-DROP TABLE Member IF EXISTS;
 
-CREATE TABLE Member (
+CREATE TABLE Member IF NOT EXISTS (
     MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -182,7 +162,7 @@ CREATE TABLE Member (
     MEMBER_STATUS VARCHAR(30)
 );
 
-CREATE TABLE Member_roles (
+CREATE TABLE Member_roles IF NOT EXISTS (
     Member_MEMBER_ID BIGINT,
     roles VARCHAR(255),
     CONSTRAINT fk_member_roles
@@ -191,9 +171,7 @@ CREATE TABLE Member_roles (
         ON DELETE RESTRICT
 );
 
-DROP TABLE Follow IF EXISTS;
-
-CREATE TABLE Follow (
+CREATE TABLE Follow IF NOT EXISTS (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     FOLLOWER_ID BIGINT,
     FOLLOWING_ID BIGINT,
@@ -207,9 +185,7 @@ CREATE TABLE Follow (
         ON DELETE RESTRICT
 );
 
-DROP TABLE Owner IF EXISTS;
-
-CREATE TABLE Owner (
+CREATE TABLE Owner IF NOT EXISTS (
     OWNER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -219,9 +195,7 @@ CREATE TABLE Owner (
     OWNER_PASSWORD VARCHAR(255)
 );
 
-DROP TABLE Owner_roles IF EXISTS;
-
-CREATE TABLE Owner_roles (
+CREATE TABLE Owner_roles IF NOT EXISTS (
     Owner_OWNER_ID BIGINT,
     roles VARCHAR(255),
     CONSTRAINT fk_owner_roles
