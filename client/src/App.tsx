@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import { RecoilRoot } from "recoil";
 import { styled } from "styled-components";
@@ -28,6 +28,7 @@ import AddCafeInfoPage from "./pages/AddCafeInfoPage";
 import AddCafeMenuPage from "./pages/AddCafeMenuPage";
 import EditMenuCafe from "./pages/EditMenuCafePage";
 import OauthLoading from "./pages/OauthLoading";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 const Container = styled.div`
@@ -45,6 +46,7 @@ function App() {
       <RecoilRoot>
         <Header />
         <Container>
+          <ScrollToTop />
           <Routes>
             <Route path='/' element={<StartPage />} />
             <Route path='/main' element={<Main />} />

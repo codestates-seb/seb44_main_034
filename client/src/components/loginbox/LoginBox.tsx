@@ -106,7 +106,6 @@ interface FormValue {
 const LoginBox = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
   const [posterror, setPostError] = useState<string>("");
-  const [authorization, setAuthorization] = useState<string | null>("");
   const replace = useNavigate();
   useEffect(() => {
     if (isLogin) {
@@ -160,18 +159,7 @@ const LoginBox = () => {
         setPostError("이메일또는 비밀번호가 맞지않습니다.");
       });
   };
-  //Oauth로그인시
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const urlAccessToken = url.searchParams.get("access_token");
-    setAuthorization(urlAccessToken);
-    if (urlAccessToken !== null && urlAccessToken.length >= 10) {
-      localStorage.setItem("access_token", authorization || "");
-      localStorage.setItem("role_token", "member");
-      console.log("Oauth등록");
-      setIsLogin(true);
-    }
-  });
+
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -18,7 +18,6 @@ const OauthLoading = () => {
     const url = new URL(window.location.href);
     const urlAccessToken = url.searchParams.get("access_token");
     setAuthorization(urlAccessToken);
-    console.log(authorization);
     if (urlAccessToken !== null && urlAccessToken.length >= 10) {
       localStorage.setItem("access_token", "Bearer " + authorization);
       localStorage.setItem("role_token", "member");
