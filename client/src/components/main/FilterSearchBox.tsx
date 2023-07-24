@@ -139,8 +139,9 @@ const FilterSearchBox = () => {
   const [facilitiesAtom, setFacilitiesAtom] =
     useRecoilState<string>(FacilitiesAtom);
   const [moodAtom, setMoodAtom] = useRecoilState<string>(MoodAtom);
-  const setFacilitiesState = useSetRecoilState(FacilitiesStateAtom);
-  const setMoodState = useSetRecoilState(MoodStateAtom);
+  const [FacilitiesState, setFacilitiesState] =
+    useRecoilState(FacilitiesStateAtom);
+  const [MoodState, setMoodState] = useRecoilState(MoodStateAtom);
   const resetMoodTags = useResetRecoilState(MoodAtom);
   const resetFacilities = useResetRecoilState(FacilitiesAtom);
   const resetMoodState = useResetRecoilState(MoodStateAtom);
@@ -196,6 +197,7 @@ const FilterSearchBox = () => {
     const filterTag = facilities.filter((el) => el !== tagText);
     // const findFacil = facilitiesKeys.find((el) => (el === address));
     const filterFacil = facilAddress.filter((el) => el !== address);
+
     if (findTag) {
       setFacilities(() => [...filterTag]);
       setFacilAddress(() => [...filterFacil]);

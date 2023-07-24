@@ -93,7 +93,7 @@ const SearchBox = () => {
   const setFacilitiesAtom = useSetRecoilState<string>(FacilitiesAtom);
   const setSearchValueState = useSetRecoilState<string>(SearchValueStateAtom);
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
-  const [tryangle, setTriangle] = useState(true);
+  const [triangle, setTriangle] = useState(true);
   // console.log(handleSearch);
 
   const handleToggleName = () => {
@@ -126,7 +126,7 @@ const SearchBox = () => {
           }}
         >
           <span>{toggleName}</span>
-          {tryangle ? (
+          {triangle ? (
             <GoTriangleDown color='#23ec00' />
           ) : (
             <GoTriangleUp color='#23ec00' />
