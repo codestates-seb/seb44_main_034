@@ -1,10 +1,13 @@
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import axios from 'axios';
-import { styled } from 'styled-components';
-import { COLOR_1, FONT_SIZE_1 } from '../../common/common';
-import { FONT_SIZE_2 } from '../../common/common';
-import { FaSquareMinus, FaSquarePlus } from 'react-icons/fa6';
-import { MdDriveFileRenameOutline } from 'react-icons/md';
+import { useFieldArray, useFormContext } from "react-hook-form";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+import { styled } from "styled-components";
+import { COLOR_1, FONT_SIZE_1 } from "../../common/common";
+import { FONT_SIZE_2 } from "../../common/common";
+import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
+import { baseURL } from "../../common/baseURL";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
 
 export type FormValues = {
   menu: {
@@ -18,9 +21,12 @@ export type FormValues = {
 /* useFormContext -> 자식 컴포넌트에서 부모컴포넌트 값을 사용할 수 있음 */
 /* type = signature , name = '시그니처' */
 function EditMenuForm({ type, name }: { type: string; name: string }) {
+  const { id } = useParams();
   const {
     control,
     register,
+    setValue,
+    getValues,
     // formState: { errors },
   } = useFormContext();
 
@@ -28,30 +34,61 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
     name: type,
     control,
   });
-  const onUpdateMenu = async (updatedMenu: any, menuId: number) => {
-    const parameterMenuId = updatedMenu.menuId;
+  const onUpdateMenu = async (menuId: number, menu: any) => {
     try {
-      const response = await axios.patch(
-        `http://localhost:3001/menus/${parameterMenuId}`,
-        updatedMenu
-      );
+      console.log(menu);
+      const response = await axios.patch(`${baseURL}/menus/${menuId}`, menu, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          withCredentials: true,
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
       console.log(menuId);
       console.log(response.data);
+      alert("메뉴가 수정되었습니다.");
     } catch (error) {
       console.error(error);
     }
   };
-  const onDeleteMenu = async (menuId: number) => {
+  const onDeleteMenu = async (menuId: any) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/menus/${menuId}`
-      );
+      const response = await axios.delete(`${baseURL}/menus/${menuId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          withCredentials: true,
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+      alert("메뉴가 삭제되었습니다.");
       console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
+  const onAddMenu = async (data: any) => {
+    console.log(data);
+    try {
+      const response = await axios.post(`${baseURL}/menus/${id}`, [data], {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
+
+      console.log(response.data);
+      alert("메뉴가 추가되었습니다.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <S.MainDiv>
@@ -70,6 +107,10 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
                     required: true,
                   })}
                   // className={errors?.menu?.[index]?.name ? 'error' : ''}
+                  onChange={(e: any) => {
+                    // 입력한 값을 변경하고 싶은 경우 setValue를 사용한다
+                    setValue(`${type}.${index}.name`, e.target.value);
+                  }}
                 />
                 가격
                 <S.MenuInput
@@ -79,19 +120,45 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
                     valueAsNumber: true,
                     required: true,
                   })}
+                  onChange={(e: any) => {
+                    // 입력한 값을 변경하고 싶은 경우 setValue를 사용한다
+                    setValue(`${type}.${index}.price`, e.target.value);
+                  }}
                   // className={errors?.menu?.[index]?.price ? 'error' : ''}
                 />
-                <S.EditBtn
-                  type='button'
-                  onClick={() => onUpdateMenu(fields[index], index)}
-                />
-                <S.RemoveBtn
-                  type='button'
-                  onClick={() => {
-                    remove(index);
-                    onDeleteMenu(index);
-                  }}
-                ></S.RemoveBtn>
+                {getValues(`${type}[${index}].menuId`) !== undefined ? (
+                  <>
+                    <S.EditBtn
+                      type='button'
+                      onClick={() =>
+                        onUpdateMenu(
+                          getValues(`${type}[${index}].menuId`),
+                          getValues(`${type}[${index}]`)
+                        )
+                      }
+                    />
+                    <S.RemoveBtn
+                      type='button'
+                      onClick={() => {
+                        onDeleteMenu(getValues(`${type}[${index}].menuId`));
+                        remove(index);
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <S.AddBtn
+                      type='button'
+                      onClick={() => onAddMenu(getValues(`${type}[${index}]`))}
+                    />
+                    <S.RemoveBtn
+                      type='button'
+                      onClick={() => {
+                        remove(index);
+                      }}
+                    />
+                  </>
+                )}
               </S.FormDiv>
             </div>
           );
@@ -102,7 +169,7 @@ function EditMenuForm({ type, name }: { type: string; name: string }) {
             type='button'
             onClick={() =>
               append({
-                name: '',
+                name: "",
                 price: 0,
                 menuType: type.toUpperCase(),
               })
@@ -182,9 +249,21 @@ const S = {
       height: 15px;
     }
   `,
-  EditBtn: styled(MdDriveFileRenameOutline)`
+  EditBtn: styled(FiEdit)`
     width: 20px;
     height: 20px;
+    &:hover {
+      cursor: pointer;
+    }
+    @media screen and (max-width: 767px) {
+      width: 15px;
+      height: 15px;
+    }
+  `,
+  AddBtn: styled(BsPlusCircleFill)`
+    width: 20px;
+    height: 20px;
+    color: orange;
     &:hover {
       cursor: pointer;
     }

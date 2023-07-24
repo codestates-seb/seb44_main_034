@@ -1,13 +1,14 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
-import { LoginState } from '../../recoil/recoil';
-import { useRecoilState } from 'recoil';
-import axios from 'axios';
-import GoogleLoginButton from '../googleoauth/GoogleOauth';
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { LoginState } from "../../recoil/recoil";
+import { useRecoilState } from "recoil";
+import axios from "axios";
+import GoogleLoginButton from "../googleoauth/GoogleOauth";
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { baseURL } from "../../common/baseURL";
 
 const S = {
   Container: styled.div`
@@ -78,11 +79,12 @@ const S = {
   `,
   InputBox: styled.input`
     height: 50px;
-    width: 78vw;
-    padding: 3px;
+    width: 75vw;
+    padding-left: 10px;
     border-radius: 15px;
     border: solid 1.5px ${COLOR_1.dark_sand};
     background-color: ${COLOR_1.white};
+    font-size: ${FONT_SIZE_1.normal_2};
     cursor: pointer;
 
     &:hover {
@@ -92,7 +94,7 @@ const S = {
       box-shadow: 0px 0px 1px 5px #e1e1e1;
     }
     @media screen and (min-width: 550px) {
-      width: 460px;
+      width: 455px;
     }
   `,
 };
@@ -103,10 +105,11 @@ interface FormValue {
 
 const LoginBox = () => {
   const [isLogin, setIsLogin] = useRecoilState(LoginState);
+  const [posterror, setPostError] = useState<string>("");
   const replace = useNavigate();
   useEffect(() => {
     if (isLogin) {
-      replace('/');
+      replace("/main");
     }
   });
   const {
@@ -118,48 +121,45 @@ const LoginBox = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     const { username, password } = data;
     axios
-      .post(
-        'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api/users/log-in',
-        {
-          username: username,
-          password: password,
-        }
-      )
+      .post(`${baseURL}/users/log-in`, {
+        username: username,
+        password: password,
+      })
       .then((response) => {
         // Handle success.
-        console.log('Login successful!');
-        console.log(response);
-        console.log(response.headers.role);
-        console.log(response.headers.refresh);
-        localStorage.setItem('access_token', response.headers.authorization);
-        localStorage.setItem('refresh_token', response.headers.refresh);
-        localStorage.setItem('role_token', response.headers.role);
+        localStorage.setItem("access_token", response.headers.authorization);
+        localStorage.setItem("refresh_token", response.headers.refresh);
+        localStorage.setItem("role_token", response.headers.role);
         setIsLogin(true);
-        replace('/');
-        const waitForTokenExpiration = async (expirationTime: number) => {
-          const currentTime = Date.now();
-          const remainingTime = expirationTime - currentTime;
+        console.log(response.headers.authorization);
+        alert("로그인되었습니다.");
+        replace("/main");
+        // const waitForTokenExpiration = async (expirationTime: number) => {
+        //   const currentTime = Date.now();
+        //   const remainingTime = expirationTime - currentTime;
 
-          if (remainingTime > 0) {
-            await new Promise((resolve) => setTimeout(resolve, remainingTime));
-            localStorage.removeItem('recoil-persist');
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-            localStorage.removeItem('role_token');
-            window.location.replace('/');
-          } else {
-            console.log('토큰이 이미 만료되었습니다.');
-          }
-        };
-        // 예시: 토큰 만료 시간 설정
-        const expirationTime = Date.now() + 604700000; // 현재 시간으로부터 7일 후
-        waitForTokenExpiration(expirationTime);
+        //   if (remainingTime > 0) {
+        //     await new Promise((resolve) => setTimeout(resolve, remainingTime));
+        //     localStorage.removeItem("recoil-persist");
+        //     localStorage.removeItem("access_token");
+        //     localStorage.removeItem("refresh_token");
+        //     localStorage.removeItem("role_token");
+        //     window.location.replace("/main");
+        //   } else {
+        //     console.log("토큰이 이미 만료되었습니다.");
+        //   }
+        // };
+        // // 예시: 토큰 만료 시간 설정
+        // const expirationTime = Date.now() + 604700000; // 현재 시간으로부터 7일 후
+        // waitForTokenExpiration(expirationTime);
       })
       .catch((error) => {
         // Handle error.
-        console.log('An error occurred:', error.response);
+        console.log(error.response);
+        setPostError("이메일또는 비밀번호가 맞지않습니다.");
       });
   };
+
   return (
     <S.Container>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -169,47 +169,44 @@ const LoginBox = () => {
             id='email'
             type='text'
             placeholder='이메일을 입력하세요'
-            {...register('username', {
-              required: '이메일은 필수 입력입니다.',
+            {...register("username", {
+              required: "이메일은 필수 입력입니다.",
               pattern: {
                 value:
                   /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
-                message: '이메일 형식에 맞지 않습니다.',
+                message: "이메일 형식에 맞지 않습니다.",
               },
             })}
           />
-          {errors.username ? (
+          {errors.username && (
             <S.InputInformation>{errors.username.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
           <S.SubTitle htmlFor='password'>비밀번호</S.SubTitle>
           <S.InputBox
             id='password'
             type='password'
             placeholder='비밀번호를 입력하세요'
-            {...register('password', {
-              required: '비밀번호는 필수 입력입니다',
+            {...register("password", {
+              required: "비밀번호는 필수 입력입니다",
               minLength: {
                 value: 8,
-                message: '8자 이상입력바랍니다',
+                message: "8자 이상입력바랍니다",
               },
               maxLength: {
                 value: 16,
-                message: '16자 이하로 입력바랍니다',
+                message: "16자 이하로 입력바랍니다",
               },
               pattern: {
                 value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/,
                 message:
-                  '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요',
+                  "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요",
               },
             })}
           ></S.InputBox>
-          {errors.password ? (
+          {errors.password && (
             <S.InputInformation>{errors.password.message}</S.InputInformation>
-          ) : (
-            <S.InputInformation>{null}</S.InputInformation>
           )}
+          <S.InputInformation>{posterror}</S.InputInformation>
         </S.SubMiniBox>
         <S.Submitbutton type='submit'>로그인</S.Submitbutton>
       </form>

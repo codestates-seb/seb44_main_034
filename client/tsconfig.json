@@ -5,6 +5,9 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    "types": [
+      "kakao.maps.d.ts"
+    ],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -18,7 +21,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": false,
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
