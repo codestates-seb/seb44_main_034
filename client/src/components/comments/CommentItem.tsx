@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 // import { PostComment } from "../../types/type";
 import { PostComments } from "../../types/type";
+import { GetPostAtom } from "../../recoil/postState";
 import { baseURL } from "../../common/baseURL";
 import Replies from "./Replies";
 import { decodeToken } from "../../common/token/decodeToken";
@@ -80,6 +82,9 @@ const S = {
   `,
   Content: styled.div`
     font-size: 14px;
+    margin-left: 20px;
+    padding: 20px 4px;
+    margin-bottom: 20px;
   `,
 };
 
@@ -91,6 +96,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
     reset,
     // formState: { errors }
   } = useForm<InputData>();
+  const setGetItem = useSetRecoilState(GetPostAtom);
   const [user, setUser] = useState("");
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
@@ -121,6 +127,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       console.log(comment.commentId);
       reset();
       setEditing(false);
+      setGetItem((prev) => !prev);
     },
   });
 
@@ -183,7 +190,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
               ) : null
             ) : null}
           </S.FlexWrap>
-          {comment.content}
+          <S.Content>{comment.content}</S.Content>
           {editing && (
             <S.EditForm
               onSubmit={handleSubmit(onSubmit)}

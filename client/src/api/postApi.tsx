@@ -13,6 +13,7 @@ export const getAllPosts = async (pageParam: number) => {
   const res = await createBaseUrl.get(`/posts?page=${pageParam}&size=8`, {
     headers: {
       // 'ngrok-skip-browser-warning': 'true'
+      Authorization: localStorage.getItem("access_token"),
       withCredentials: true,
     },
   });
@@ -25,6 +26,7 @@ export const getPostDetailAPI = {
     const res = await createBaseUrl.get(`/posts/${postId}`, {
       headers: {
         // 'ngrok-skip-browser-warning': 'true'
+        Authorization: localStorage.getItem("access_token"),
         withCredentials: true,
       },
     });

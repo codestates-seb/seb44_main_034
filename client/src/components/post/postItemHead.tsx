@@ -10,7 +10,7 @@ import { ReqPostData } from "../../types/type";
 import { ResPostData } from "../../types/type";
 import { PostItemAtom } from "../../recoil/postState";
 import { PostImgAtom } from "../../recoil/postState";
-// import { GetPostAtom } from "../../recoil/postState";
+import { GetPostAtom } from "../../recoil/postState";
 import { decodeToken } from "../../common/token/decodeToken";
 import { IoShareSocial } from "react-icons/io5";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
@@ -43,7 +43,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const setPostImg = useSetRecoilState<string>(PostImgAtom);
   const [user, setUser] = useState("");
-  // const setGetItem = useSetRecoilState(GetPostAtom);
+  const setGetItem = useSetRecoilState(GetPostAtom);
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
   const decodedPayLoad = decodeToken(token);
@@ -63,7 +63,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
           },
         }
       );
-      // setGetItem((prev) => !prev);
+      setGetItem((prev) => !prev);
       console.log("clicked");
       console.log(response.data);
     } catch (error) {
