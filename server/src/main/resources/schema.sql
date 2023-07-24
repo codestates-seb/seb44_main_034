@@ -1,10 +1,10 @@
 
-CREATE TABLE tag (
+CREATE TABLE IF NOT EXISTS tag (
     tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(255)
 );
 
-CREATE TABLE Member (
+CREATE TABLE IF NOT EXISTS Member (
     MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -17,7 +17,7 @@ CREATE TABLE Member (
     MEMBER_STATUS VARCHAR(30)
 );
 
-CREATE TABLE Owner (
+CREATE TABLE IF NOT EXISTS Owner (
     OWNER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -27,7 +27,7 @@ CREATE TABLE Owner (
     OWNER_PASSWORD VARCHAR(255)
 );
 
-CREATE TABLE cafes (
+CREATE TABLE IF NOT EXISTS cafes (
     cafe_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -54,7 +54,7 @@ CREATE TABLE cafes (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE posts (
+CREATE TABLE IF NOT EXISTS posts (
     post_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -74,7 +74,7 @@ CREATE TABLE posts (
         ON DELETE CASCADE
 );
 
-CREATE TABLE PostBookmark (
+CREATE TABLE IF NOT EXISTS PostBookmark (
     postBookmarkId BIGINT AUTO_INCREMENT PRIMARY KEY,
     member_id BIGINT,
     post_id BIGINT,
@@ -88,7 +88,7 @@ CREATE TABLE PostBookmark (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE post_tag (
+CREATE TABLE IF NOT EXISTS post_tag (
     post_tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cafe_id BIGINT,
     post_id BIGINT,
@@ -107,7 +107,7 @@ CREATE TABLE post_tag (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE comments (
+CREATE TABLE IF NOT EXISTS comments (
     comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -115,6 +115,10 @@ CREATE TABLE comments (
     member_id BIGINT,
     parent_comment_id BIGINT,
     post_id BIGINT,
+    CONSTRAINT fk_parent_comment
+    FOREIGN KEY (parent_comment_id) REFERENCES comments (comment_id)
+        ON UPDATE RESTRICT
+        ON DELETE RESTRICT,
     CONSTRAINT fk_comment_post
         FOREIGN KEY (post_id) REFERENCES posts (post_id)
         ON UPDATE RESTRICT
@@ -125,13 +129,7 @@ CREATE TABLE comments (
         ON DELETE RESTRICT
 );
 
-ALTER TABLE comments
-ADD CONSTRAINT fk_parent_comment
-FOREIGN KEY (parent_comment_id) REFERENCES comments (comment_id)
-ON UPDATE RESTRICT
-ON DELETE RESTRICT;
-
-CREATE TABLE cafe_bookmarks (
+CREATE TABLE IF NOT EXISTS cafe_bookmarks (
     cafe_bookmark_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cafe_id BIGINT,
     member_id BIGINT,
@@ -145,7 +143,7 @@ CREATE TABLE cafe_bookmarks (
         ON DELETE CASCADE
 );
 
-CREATE TABLE menus (
+CREATE TABLE IF NOT EXISTS menus (
     menu_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     menu_type VARCHAR(255),
     menu_name VARCHAR(255),
@@ -157,7 +155,7 @@ CREATE TABLE menus (
         ON DELETE CASCADE
 );
 
-CREATE TABLE menu_comments (
+CREATE TABLE IF NOT EXISTS menu_comments (
     menu_comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     createdAt DATETIME,
     updatedAt DATETIME,
@@ -174,7 +172,7 @@ CREATE TABLE menu_comments (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE Member_roles (
+CREATE TABLE IF NOT EXISTS Member_roles (
     Member_MEMBER_ID BIGINT,
     roles VARCHAR(255),
     CONSTRAINT fk_member_roles
@@ -183,7 +181,7 @@ CREATE TABLE Member_roles (
         ON DELETE RESTRICT
 );
 
-CREATE TABLE Follow (
+CREATE TABLE IF NOT EXISTS Follow (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     FOLLOWER_ID BIGINT,
     FOLLOWING_ID BIGINT,
@@ -198,7 +196,7 @@ CREATE TABLE Follow (
 );
 
 
-CREATE TABLE Owner_roles (
+CREATE TABLE IF NOT EXISTS Owner_roles (
     Owner_OWNER_ID BIGINT,
     roles VARCHAR(255),
     CONSTRAINT fk_owner_roles
