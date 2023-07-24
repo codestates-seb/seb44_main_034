@@ -77,6 +77,11 @@ GIF Images
 | :-------: | :--------: | :------: | :-----: | :-----: | 
 |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="180" height ="100">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="150" height ="100"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="120" height ="100">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="120" height ="100">   |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="120" height ="100">  |
 
+|   Amazon EC2 | Amazon S3 |  Amazon RDS   |
+| :-------: | :--------: | :------: | 
+| <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/da49e603-1381-4748-86a8-f8df6fb73784" width ="200" height ="100">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/efcd0457-fb28-4503-ac7d-7c3a815cd3e2" width ="200" height ="100">    | <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/67443629-b3cf-4de7-b32a-40e590674755" width ="200" height ="100"> | 
+
+
 
 
 <br>
