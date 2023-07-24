@@ -12,7 +12,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
