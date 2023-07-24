@@ -103,7 +103,7 @@ GIF Images
 
 ## Documents
 
-- [API 문서](#https://documenter.getpostman.com/view/26575250/2s946o2oSh)
+- [API 문서](https://documenter.getpostman.com/view/26575250/2s946o2oSh)
 
 <br>
 
