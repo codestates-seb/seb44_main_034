@@ -48,7 +48,7 @@ CREATE TABLE cafes (
     rating FLOAT,
     short_address VARCHAR(255),
     owner_id BIGINT,
-    CONSTRAINT fk_owner
+    CONSTRAINT fk_cafe_owner
         FOREIGN KEY (owner_id) REFERENCES Owner (OWNER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
@@ -64,11 +64,11 @@ CREATE TABLE posts (
     post_title VARCHAR(255),
     cafe_id BIGINT,
     member_id BIGINT,
-    CONSTRAINT fk_member
+    CONSTRAINT fk_post_member
         FOREIGN KEY (member_id) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    CONSTRAINT fk_cafe
+    CONSTRAINT fk_post_cafe
         FOREIGN KEY (cafe_id) REFERENCES cafes (cafe_id)
         ON UPDATE RESTRICT
         ON DELETE CASCADE
@@ -78,11 +78,11 @@ CREATE TABLE PostBookmark (
     postBookmarkId BIGINT AUTO_INCREMENT PRIMARY KEY,
     member_id BIGINT,
     post_id BIGINT,
-    CONSTRAINT fk_member
+    CONSTRAINT fk_postbookmark_member
         FOREIGN KEY (member_id) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    CONSTRAINT fk_post
+    CONSTRAINT fk_postbookmark_post
         FOREIGN KEY (post_id) REFERENCES posts (post_id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
@@ -93,15 +93,15 @@ CREATE TABLE post_tag (
     cafe_id BIGINT,
     post_id BIGINT,
     tag_id BIGINT,
-    CONSTRAINT fk_tag
+    CONSTRAINT fk_posttag_tag
         FOREIGN KEY (tag_id) REFERENCES tag (tag_id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    CONSTRAINT fk_cafe
+    CONSTRAINT fk_posttag_cafe
         FOREIGN KEY (cafe_id) REFERENCES cafes (cafe_id)
         ON UPDATE RESTRICT
         ON DELETE CASCADE,
-    CONSTRAINT fk_post
+    CONSTRAINT fk_posttag_post
         FOREIGN KEY (post_id) REFERENCES posts (post_id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
@@ -115,11 +115,11 @@ CREATE TABLE comments (
     member_id BIGINT,
     parent_comment_id BIGINT,
     post_id BIGINT,
-    CONSTRAINT fk_post
+    CONSTRAINT fk_comment_post
         FOREIGN KEY (post_id) REFERENCES posts (post_id)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    CONSTRAINT fk_member
+    CONSTRAINT fk_comment_member
         FOREIGN KEY (member_id) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
@@ -135,11 +135,11 @@ CREATE TABLE cafe_bookmarks (
     cafe_bookmark_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cafe_id BIGINT,
     member_id BIGINT,
-    CONSTRAINT fk_cafe
+    CONSTRAINT fk_cafebookmark_cafe
         FOREIGN KEY (cafe_id) REFERENCES cafes (cafe_id)
         ON UPDATE RESTRICT
         ON DELETE CASCADE,
-    CONSTRAINT fk_member
+    CONSTRAINT fk_cafebookmark_member
         FOREIGN KEY (member_id) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE CASCADE
@@ -151,7 +151,7 @@ CREATE TABLE menus (
     menu_name VARCHAR(255),
     price INT,
     cafe_id BIGINT,
-    CONSTRAINT fk_cafes
+    CONSTRAINT fk_menu_cafes
         FOREIGN KEY (cafe_id) REFERENCES cafes (cafe_id)
         ON UPDATE RESTRICT
         ON DELETE CASCADE
@@ -164,11 +164,11 @@ CREATE TABLE menu_comments (
     menu_content VARCHAR(255),
     member_id BIGINT,
     menu_id BIGINT,
-    CONSTRAINT fk_menu
+    CONSTRAINT fk_menucomment_menu
         FOREIGN KEY (menu_id) REFERENCES menus (menu_id)
         ON UPDATE RESTRICT
         ON DELETE CASCADE,
-    CONSTRAINT fk_member
+    CONSTRAINT fk_menucomment_member
         FOREIGN KEY (member_id) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
@@ -187,11 +187,11 @@ CREATE TABLE Follow (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     FOLLOWER_ID BIGINT,
     FOLLOWING_ID BIGINT,
-    CONSTRAINT fk_follower
+    CONSTRAINT fk_follow_follower
         FOREIGN KEY (FOLLOWER_ID) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT,
-    CONSTRAINT fk_following
+    CONSTRAINT fk_follow_following
         FOREIGN KEY (FOLLOWING_ID) REFERENCES Member (MEMBER_ID)
         ON UPDATE RESTRICT
         ON DELETE RESTRICT
