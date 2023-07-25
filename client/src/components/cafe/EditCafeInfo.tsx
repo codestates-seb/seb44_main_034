@@ -29,9 +29,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     shortAddress: "",
     latitude: 0,
     longitude: 0,
-    image: "",
     openTime: "",
     closeTime: "",
+    image: "",
     isOpenAllTime: false,
     isChargingAvailable: false,
     hasParking: false,
@@ -39,7 +39,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     hasDessert: false,
   });
   const [imageFile, setImageFile] = useState<string | Blob>("");
-  const [previewImage, setPreviewImage] = useState<string | null>("");
+  const [previewImage, setPreviewImage] = useState<string>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -53,8 +53,9 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
   };
   const handleRemoveImageButtonClick = () => {
     setImageFile("");
-    setPreviewImage(null);
+    setPreviewImage("");
   };
+
   const convertAddressToCoordinates = async (address: string) => {
     try {
       const response = await axios.get(
@@ -112,7 +113,7 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
             },
           }
         );
-        if (response.data.payload.image) {
+        if (response.data.payload.image !== null) {
           setPreviewImage(response.data.payload.image); // 이미지 URL 설정
         }
         console.log(response.data.payload);
@@ -151,16 +152,21 @@ const EditCafeInfo = ({ cafeId }: { cafeId: string | undefined }) => {
     console.log(imageFile);
 
     const formData = new FormData();
-
+    const dataToSend = { ...editData };
+    delete dataToSend.image;
     if (imageFile) {
       formData.append("cafeImage", imageFile);
     }
+    // } else {
+    //   formData.append("cafeImage", "");
+    // }
 
-    const json = JSON.stringify(editData);
+    const json = JSON.stringify(dataToSend);
     const info = new Blob([json], { type: "application/json" });
     formData.append("dto", info);
     console.log(json);
     console.log(info);
+
     try {
       for (const entry of formData.entries()) {
         console.log(entry[0] + ": " + entry[1]);

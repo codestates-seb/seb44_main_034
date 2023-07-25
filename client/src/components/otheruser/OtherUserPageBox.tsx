@@ -211,6 +211,7 @@ const S = {
     justify-content: center;
     width: 90vw;
     @media screen and (min-width: 768px) {
+      margin-left: 34px;
       width: 700px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -352,7 +353,7 @@ const OtherUserMyPageBox = () => {
   //특정회원 포스터 불러오기
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/${id}/post?size&id`, {
+      .get(`${baseURL}/members/${id}/post?size=4&id`, {
         headers: {
           Authorization: localStorage.getItem("access_token"),
         },
@@ -378,7 +379,7 @@ const OtherUserMyPageBox = () => {
   const fetchMoreData = () => {
     if (hasMore) {
       axios
-        .get(`${baseURL}/members/${id}/post?size=1&id=${lastId}`, {
+        .get(`${baseURL}/members/${id}/post?size=4&id=${lastId}`, {
           headers: {
             Authorization: localStorage.getItem("access_token"),
           },
@@ -468,7 +469,7 @@ const OtherUserMyPageBox = () => {
             <SyncLoader color='#36d759' />
           </S.LoadingBox>
         }
-        endMessage={<S.EndMessageBox>불러올 포스트가 없습니다</S.EndMessageBox>}
+        endMessage={<S.EndMessageBox></S.EndMessageBox>}
         height={400}
       >
         <S.ListBox>

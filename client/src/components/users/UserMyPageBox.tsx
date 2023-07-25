@@ -341,7 +341,7 @@ const UserMyPageBox = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseURL}/members/my-page/${selectedTab}?size&id`, {
+      .get(`${baseURL}/members/my-page/${selectedTab}?size=4&id`, {
         headers: {
           ...defaultHeader,
           Authorization: localStorage.getItem("access_token"),
@@ -377,7 +377,7 @@ const UserMyPageBox = () => {
   const fetchMoreData = () => {
     if (hasMore) {
       axios
-        .get(`${baseURL}/members/my-page/${selectedTab}?size=1&id=${lastId}`, {
+        .get(`${baseURL}/members/my-page/${selectedTab}?size=4&id=${lastId}`, {
           headers: {
             ...defaultHeader,
             Authorization: localStorage.getItem("access_token"),
@@ -386,7 +386,7 @@ const UserMyPageBox = () => {
         .then((response) => {
           // Handle success.
           setTimeout(() => {
-            console.log("success");
+            console.log("fetchmore");
             console.log(response);
             setDataSource((prevData) => [
               ...prevData,
@@ -515,7 +515,7 @@ const UserMyPageBox = () => {
             <SyncLoader color='#36d759' />
           </S.LoadingBox>
         }
-        endMessage={<p>마지막 리스트입니다</p>}
+        endMessage={<p></p>}
         height={400}
       >
         <S.ListBox>

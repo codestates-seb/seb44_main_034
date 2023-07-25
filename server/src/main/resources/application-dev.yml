@@ -1,0 +1,59 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${AWS_RDS_Endpoint}/cafe?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${RDS_MYSQL_ID}
+    password: ${RDS_MYSQL_PW}
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  sql:
+    init:
+      mode: always
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${CLIENT_ID} # EC2 환경변수 설정하기
+            clientSecret: ${CLIENT_SECRET}  #EC2 환경변수 설정하기
+            scope:
+              - email
+              - profile
+
+logging.level:
+  org.hibernate.SQL: debug
+
+jwt:
+  key: ${JWT_SECRET_KEY} # EC2 환경변수 설정하기
+  access-token-expiration-minutes: 1440
+  refresh-token-expiration-minutes: 14400
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: be-cafein
+    stack:
+      auto: false

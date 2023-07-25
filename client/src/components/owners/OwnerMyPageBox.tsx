@@ -5,6 +5,7 @@ import { FONT_SIZE_1 } from "../../common/common";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { baseURL } from "../../common/baseURL";
+import nocafe from "../../assets/nocafe.svg";
 import DeleteCafe from "../cafe/DeleteCafe";
 const S = {
   Container: styled.div`
@@ -250,11 +251,15 @@ const UserMyPageBox = () => {
         // replace('/');
       });
   }, []);
+  const imageUrl =
+    cafeInfo?.image instanceof Blob
+      ? URL.createObjectURL(cafeInfo?.image)
+      : cafeInfo?.image;
   return (
     <S.Container>
       <S.MiddleBox>
         <S.ProfileImgBox>
-          <S.ProfileImg src={`${cafeInfo?.image}`}></S.ProfileImg>
+          <S.ProfileImg src={imageUrl || nocafe}></S.ProfileImg>
         </S.ProfileImgBox>
         <S.ProfileListBox>
           <S.TitleInformaitonBox>
