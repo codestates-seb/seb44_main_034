@@ -283,7 +283,7 @@ const EditPostPage = () => {
       // );
       // } else {
       fileReader.readAsDataURL(file);
-      // setFile(file);
+      setFile(file);
       // }
       fileReader.onload = () => {
         if (typeof fileReader.result === "string") {
