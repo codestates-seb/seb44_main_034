@@ -123,10 +123,11 @@ const PostItemHead = ({ postData }: PostItemProps) => {
         }
       }
     };
+    const url = `${baseURL}/postpage/${postId}`;
     kakaoMessage();
-    KakaoShare({ title: title, image: image });
+    KakaoShare({ title: title, image: image, url: url });
 
-    // window.Kakao.Share.createDefaultButton();
+    // window.Ksakao.Share.createDefaultButton();
   };
   return (
     <>
