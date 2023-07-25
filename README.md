@@ -77,14 +77,6 @@
 </p>
 <br><br>
 
-## 프로젝트 개요/동기
-
-</p>
-
-<p align="center">
-GIF Images
-</p>
-
 <br><br>
 
 ## 💎기술 스택
