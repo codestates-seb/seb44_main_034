@@ -106,7 +106,7 @@ GIF Images
 |  JAVA   |SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
 | :-----: | :-------: | :--------: | :------: | :-----: | :-----: | 
 | ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="80" height ="50">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="80" height ="50">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="80" height ="50">  |
-<br><br>
+
 ### 공통
 |   Amazon| Git hub | 
 | :-------: | :--------: | 
@@ -118,24 +118,24 @@ GIF Images
 ## 구현 기능
 
 ### 기능 1
-<br><strong>회원 가입 기능</strong><br>
+<strong>회원 가입 기능</strong><br>
 사장님 회원과 개인 회원으로 가입이 가능하고,<br>
 유저별로 다른 기능을 이용할 수 있습니다.<br>
 토큰 방식으로 가입을 구현하였고,<br>
 Google OAuth 방식으로 가입 및 로그인할 수 있습니다.<br><br>
 ### 기능 2
-<br><strong>유저 팔로우, 북마크 기능</strong><br>
+<strong>유저 팔로우, 북마크 기능</strong><br>
 사장님 회원은 카페 팔로우를 확인할 수 있습니다. <br>
 개인 회원은 다른 회원을 팔로우할 수 있고, 나를 팔로우한 사람을 조회할 수 있습니다.<br>
 개인 회원은 카페와 포스트를 북마크할 수 있습니다.<br><br>
 ### 기능 3
-<br><strong>회원별 기능</strong><br>
+<strong>회원별 기능</strong><br>
 사장님 회원: 카페 등록, 수정, 삭제, 메뉴 등록, 수정, 삭제. 카페 팔로워 조회<br>
 개인 회원: 포스트 등록, 수정, 삭제, 댓글, 대댓글 등록, 수정, 삭제.<br>
 회원 팔로우, 팔로잉. 카페, 포스트 북마크. 카카오톡 소셜 공유.<br>
 글 작성은 회원만 등록할 수 있고, 작성자만 수정, 삭제할 수 있습니다.<br><br>
 ### 기능 4
-<br><strong>검색 기능</strong><Br>
+<strong>검색 기능</strong><Br>
 메인에서 카페 이름, 메뉴 이름으로 검색할 수 있고,<br>
 태그 검색을 활용하여 취향에 맞는 카페를 조회할 수 있습니다.<br>
 카페 포스트 순, 별점 순 조회로 인기 있는 카페를 한눈에 확인할 수 있습니다.<br><br>
