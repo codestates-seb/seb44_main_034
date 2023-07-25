@@ -81,13 +81,13 @@ GIF Images
 
 ### Front-End
 
-|   HTML    |    CSS    | JavaScript |  React   |  TypeScript  | StyledComponents | ReactQuery | Recoil|
-| :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: | :----: |
-|  ![html]  |  ![css]   |   ![js]    | ![react] | ![Typescript]| ![StyledComponents](./images/stack/styledcomponents.svg)| ![ReactQuery](./images/stack/reactquery.svg)| ![Recoil]| 
+|   HTML    |    CSS    | JavaScript | TypeScript | React     | StyledComponents | ReactQuery | Recoil|
+| :-------: | :-------: | :--------: | :--------: | :-------: |  :-------------: | :--------: | :----: |
+|  ![html]  |  ![css]   | ![js](./images/stack/js2.svg) | ![Typescript](./images/stack/ts.svg) |![react] | ![StyledComponents](./images/stack/styledcomponents.svg)| ![ReactQuery](./images/stack/reactquery.svg)| ![Recoil]| 
 
 |   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | 
 | :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: |
-|  ![vite](./images/stack/vite.svg)  |  ![jwt](./images/stack/jwtimg.png)   |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.png)| ![axios](./images/stack/axios.svg)| ![vercel](./images/stack/vercel.svg)|
+|  ![vite](./images/stack/vite.svg)  |  ![jwt](./images/stack/jwtimg.png)   |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)| ![vercel](./images/stack/vercel.svg)|
 
 
 
