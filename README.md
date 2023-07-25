@@ -83,11 +83,11 @@ GIF Images
 
 |   HTML    |    CSS    | JavaScript | TypeScript | React     | StyledComponents | ReactQuery | Recoil|
 | :-------: | :-------: | :--------: | :--------: | :-------: |  :-------------: | :--------: | :----: |
-|  ![html]  |  ![css]   | ![js](./images/stack/js2.svg) | ![Typescript](./images/stack/ts.svg) |![react] | ![StyledComponents](./images/stack/styledcomponents.svg)| ![ReactQuery](./images/stack/reactquery.svg)| ![Recoil]| 
+|  ![html]  |  ![css]   | ![js](./images/stack/js2.svg) | ![Typescript](./images/stack/ts.svg) |![react] | ![StyledComponents](./images/stack/styledcomponents.svg)| ![ReactQuery](./images/stack/reactquery.svg)|  <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/recoil2.svg width=60px height=60px>| 
 
 |   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | 
 | :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: |
-|  ![vite](./images/stack/vite.svg)  |  ![jwt](./images/stack/jwtimg.png)   |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)| ![vercel](./images/stack/vercel.svg)|
+|  ![vite](./images/stack/vite.svg)  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)| ![vercel](./images/stack/vercel.svg)|
 
 
 
