@@ -193,7 +193,7 @@ const CreatePostPage = () => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     // const previewImgHandler = (e) => {
-    const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
+    // const correctForm = /(.*?)\.(jpg|gif|png|jpeg|bmp|tif|heic|)$/;
     const fileReader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
@@ -202,14 +202,14 @@ const CreatePostPage = () => {
         alert("4MB 이상의 이미지는 업로드 할 수 없습니다.");
         return;
       }
-      if (!file.name.match(correctForm)) {
-        alert(
-          "이미지 파일만 업로드가 가능합니다. (*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *heic)"
-        );
-      } else {
-        fileReader.readAsDataURL(file);
-        setFile(file);
-      }
+      // if (!file.name.match(correctForm)) {
+      //   alert(
+      //     "이미지 파일만 업로드가 가능합니다. (*.jpg, *.gif, *.png, *.jpeg, *.bmp, *.tif, *heic)"
+      //   );
+      // } else {
+      fileReader.readAsDataURL(file);
+      setFile(file);
+      // }
       fileReader.onload = () => {
         if (typeof fileReader.result === "string") {
           setPreviewImgUrl(fileReader.result);
