@@ -89,7 +89,7 @@
 
 |   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | 
 | :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: |
-|  ![vite](./images/stack/vite.svg)  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)| ![vercel](./images/stack/vercel.svg)|
+|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vite-js-logo.png width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|
 
 
 <br><br>
@@ -173,4 +173,3 @@ Google OAuth 방식으로 가입 및 로그인할 수 있습니다.<br><br>
 [man]: images/common/man.jpg
 [woman]: images/common/woman.jpg
 [cafein]: images/common/cafein.svg
-
