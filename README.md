@@ -64,9 +64,11 @@
 |:---------:|:---------:|:---------:|:---------:|
 | 카페 CRUD <br> 메뉴 CRUD<br>  메뉴 댓글 CRUD <br> 동적 쿼리를 이용한 필터, 정렬 기능 <br> S3 이미지 업로드 <br> 인프라(도메인, 로드밸런서, https)<br> | 회원 CRUD<br>  follow 기능 <br>| Security<br>  JWT <br>  OAuth2 구글로그인 <br>  점주CRUD <br>| 포스트 CRUD<br>  댓글 CRUD<br> 대댓글 CRUD <br>  포스트 북마크<br> 포스트 태그<br> 초기 SQL 설정<br>|
 
+
+<br><br>
 ## 프로젝트 소개
 
-
+<br><br>
 <p align="center">
 <strong> " 어디가 핫하지? 내 취향인 카페는 어딨을까? "</strong><br> 라는 물음에서 시작된 카페인 사이트는<br>
 인기 있는 카페 순으로 정렬해볼 수 있고, 취향별로 찾아볼 수 있는 기능이 구현되어 있습니다.<br><br>
@@ -77,7 +79,6 @@
 </p>
 <br><br>
 
-<br><br>
 
 ## 💎기술 스택
 
@@ -92,8 +93,6 @@
 |<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vite-js-logo.png width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/Oauth_logo.svg width =60 height =60>| ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/figma.png" width ="48" height ="50"> 
 
 
-<br><br>
-
 ### Back-end
 |  JAVA   |SpringBoot| SpringSecurity |  JPA   |   MYSQL   |  JWT   |
 | :-----: | :-------: | :--------: | :------: | :-----: | :-----: | 
@@ -105,28 +104,28 @@
 | <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/056f2c19-eba1-43b3-ae39-860b30aaee1e" width ="80" height ="80">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/d8741c52-c5b5-4280-b1d9-cf5a13d66b6f" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/git.png" width ="80" height ="80">|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/discord.svg" width ="80" height ="50"> 
 
 
-<br>
+<br><br>
 
-## 🏆구현 기능
+## 💡구현 기능
 
-### 💡 기능 1
+### ☕️ 기능 1
 <strong>회원 가입 기능</strong><br>
 사장님 회원과 개인 회원으로 가입이 가능하고,<br>
 유저별로 다른 기능을 이용할 수 있습니다.<br>
 토큰 방식으로 가입을 구현하였고,<br>
 Google OAuth 방식으로 가입 및 로그인할 수 있습니다.<br><br>
-### 💡 기능 2
+### ☕️ 기능 2
 <strong>유저 팔로우, 북마크 기능</strong><br>
 사장님 회원은 카페 팔로우를 확인할 수 있습니다. <br>
 개인 회원은 다른 회원을 팔로우할 수 있고, 나를 팔로우한 사람을 조회할 수 있습니다.<br>
 개인 회원은 카페와 포스트를 북마크할 수 있습니다.<br><br>
-### 💡 기능 3
+### ☕️ 기능 3
 <strong>회원별 기능</strong><br>
 👨‍🍳사장님 회원: 카페 등록, 수정, 삭제, 메뉴 등록, 수정, 삭제. 카페 팔로워 조회<br>
 🙎‍♂️개인 회원: 포스트 등록, 수정, 삭제, 댓글, 대댓글 등록, 수정, 삭제.<br>
 회원 팔로우, 팔로잉. 카페, 포스트 북마크. 카카오톡 소셜 공유.<br>
 글 작성은 회원만 등록할 수 있고, 작성자만 수정, 삭제할 수 있습니다.<br><br>
-### 💡 기능 4
+### ☕️ 기능 4
 <strong>검색 기능</strong><Br>
 메인에서 카페 이름, 메뉴 이름으로 검색할 수 있고,<br>
 태그 검색을 활용하여 취향에 맞는 카페를 조회할 수 있습니다.<br>
