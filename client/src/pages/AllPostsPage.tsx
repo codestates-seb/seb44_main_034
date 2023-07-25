@@ -13,7 +13,7 @@ const S = {
   Container: styled.div`
     display: block;
     padding: 20px;
-    width: 50%;
+    min-width: 50%;
     > ul {
       display: flex;
       justify-content: center;
