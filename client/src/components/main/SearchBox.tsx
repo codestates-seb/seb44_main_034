@@ -91,7 +91,8 @@ const SearchBox = () => {
   const setMoodAtom = useSetRecoilState<string>(MoodAtom);
   const facilitiesAtom = useRecoilValue<string>(FacilitiesStateAtom);
   const setFacilitiesAtom = useSetRecoilState<string>(FacilitiesAtom);
-  const setSearchValueState = useSetRecoilState<string>(SearchValueStateAtom);
+  const [searchValueState, setSearchValueState] =
+    useRecoilState<string>(SearchValueStateAtom);
   const setHandleSearch = useSetRecoilState(HandleSearchAtom);
   const [triangle, setTriangle] = useState(true);
   // console.log(handleSearch);
@@ -106,18 +107,28 @@ const SearchBox = () => {
   const handleSearchIcon = (toggle: string) => {
     if (toggle === "카페이름") {
       setSearchValueState(`&cafeName=${inputValue}`);
+      setSearchValue(searchValueState);
+      setLocation(location);
+      setMoodAtom(moodAtom);
+      setFacilitiesAtom(facilitiesAtom);
+      setHandleSearch((prev) => !prev);
+      return;
     }
     if (toggle === "메뉴이름") {
       setSearchValueState(`&menuName=${inputValue}`);
+      setSearchValue(searchValueState);
+      setLocation(location);
+      setMoodAtom(moodAtom);
+      setFacilitiesAtom(facilitiesAtom);
+      setHandleSearch((prev) => !prev);
+      return;
     }
-    setSearchValue(searchValue);
-    setLocation(location);
-    setMoodAtom(moodAtom);
-    setFacilitiesAtom(facilitiesAtom);
-    console.log(searchValue, location, moodAtom, facilitiesAtom);
-    setHandleSearch((prev) => !prev);
   };
   // console.log(searchValue);
+  // console.log(inputValue);
+
+  // console.log(searchValueState);
+
   return (
     <S.Container>
       <S.InputBox>
