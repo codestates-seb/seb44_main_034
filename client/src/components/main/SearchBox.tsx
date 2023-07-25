@@ -84,7 +84,7 @@ const S = {
 const SearchBox = () => {
   const [toggleName, setToggleName] = useState<string>("카페이름");
   const [inputValue, setInputValue] = useState<string>("");
-  const [searchValue, setSearchValue] = useRecoilState<string>(SearchValueAtom);
+  const setSearchValue = useSetRecoilState<string>(SearchValueAtom);
   const location = useRecoilValue(LocationStateAtom);
   const setLocation = useSetRecoilState(LocationAtom);
   const moodAtom = useRecoilValue<string>(MoodStateAtom);
