@@ -123,6 +123,9 @@ const CafeInfo = () => {
     const formData = new FormData();
     if (imageFile) {
       formData.append("cafeImage", imageFile);
+    } else {
+      alert("사진을 첨부해주세요 !");
+      return;
     }
     const json = JSON.stringify(CafeData);
     const info = new Blob([json], { type: "application/json" });
