@@ -87,9 +87,9 @@
 | :-------: | :-------: | :--------: | :--------: | :-------: |  :-------------: | :--------: | :----: |
 |  ![html]  |  ![css]   | ![js](./images/stack/js2.svg) | ![Typescript](./images/stack/ts.svg) |![react] | ![StyledComponents](./images/stack/styledcomponents.svg)| ![ReactQuery](./images/stack/reactquery.svg)|  <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/recoil2.svg width=60px height=60px>| 
 
-|   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | 
-| :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: |
-|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vite-js-logo.png width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> |   ![googleoauth](./images/stack/google.svg)    | ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|
+|   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | Figma |
+| :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: | :-------: |
+|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vite-js-logo.png width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/Oauth_logo.svg width =60 height =60>| ![eslint](./images/stack/eslint.svg) | ![prettier](./images/stack/prettier.svg)| ![axios](./images/stack/axios.svg)|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/figma.png" width ="48" height ="50"> 
 
 
 <br><br>
@@ -100,14 +100,14 @@
 | ![java] |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/48fb4b1c-16db-43f5-9d72-1ac2ff7a640d" width ="80" height ="50">|<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/3183de14-78c3-41ea-8812-f9cfc1965ece" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/78414aad-c1af-4bcb-a2f7-8f6703c87b96" width ="80" height ="50">  |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/e92edcd5-6dca-4e63-b006-2b1b7973b2dc" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/80fe6786-8c00-4080-890d-b2a207dc5889" width ="80" height ="50">  |
 
 ### 공통
-|   Amazon| Git hub | 
-| :-------: | :--------: | 
-| <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/056f2c19-eba1-43b3-ae39-860b30aaee1e" width ="80" height ="80">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/d8741c52-c5b5-4280-b1d9-cf5a13d66b6f" width ="80" height ="50"> |
+|   Amazon| Git hub | Git | DisCord |
+| :-------: | :--------: | :-----: | :-----: |
+| <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/056f2c19-eba1-43b3-ae39-860b30aaee1e" width ="80" height ="80">  |   <img src="https://github.com/codestates-seb/seb44_main_034/assets/111395967/d8741c52-c5b5-4280-b1d9-cf5a13d66b6f" width ="80" height ="50"> |<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/git.png" width ="80" height ="80">|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/discord.svg" width ="80" height ="50"> 
 
 
 <br>
 
-## 구현 기능
+## 💡구현 기능
 
 ### 기능 1
 <strong>회원 가입 기능</strong><br>
@@ -122,8 +122,8 @@ Google OAuth 방식으로 가입 및 로그인할 수 있습니다.<br><br>
 개인 회원은 카페와 포스트를 북마크할 수 있습니다.<br><br>
 ### 기능 3
 <strong>회원별 기능</strong><br>
-사장님 회원: 카페 등록, 수정, 삭제, 메뉴 등록, 수정, 삭제. 카페 팔로워 조회<br>
-개인 회원: 포스트 등록, 수정, 삭제, 댓글, 대댓글 등록, 수정, 삭제.<br>
+👨‍🍳사장님 회원: 카페 등록, 수정, 삭제, 메뉴 등록, 수정, 삭제. 카페 팔로워 조회<br>
+🙎‍♂️개인 회원: 포스트 등록, 수정, 삭제, 댓글, 대댓글 등록, 수정, 삭제.<br>
 회원 팔로우, 팔로잉. 카페, 포스트 북마크. 카카오톡 소셜 공유.<br>
 글 작성은 회원만 등록할 수 있고, 작성자만 수정, 삭제할 수 있습니다.<br><br>
 ### 기능 4
