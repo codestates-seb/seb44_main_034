@@ -4,9 +4,10 @@
 type KakaoProps = {
   title: string;
   image: string;
+  url: string;
 };
 
-const KakaoShare = ({ title, image }: KakaoProps) => {
+const KakaoShare = ({ title, image, url }: KakaoProps) => {
   const shareMessage = () => {
     window.Kakao.Share.sendDefault({
       objectType: "feed",
@@ -15,8 +16,8 @@ const KakaoShare = ({ title, image }: KakaoProps) => {
         imageUrl: image,
         link: {
           // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-          mobileWebUrl: "https://cafein34.vercel.app/ ",
-          webUrl: "https://cafein34.vercel.app/ ",
+          mobileWebUrl: url,
+          webUrl: url,
         },
       },
       buttons: [

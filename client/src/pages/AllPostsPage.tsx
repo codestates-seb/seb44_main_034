@@ -13,6 +13,7 @@ const S = {
   Container: styled.div`
     display: block;
     padding: 20px;
+    width: 50%;
     > ul {
       display: flex;
       justify-content: center;
@@ -32,6 +33,7 @@ const S = {
     display: flex;
     justify-content: space-between;
     height: 60px;
+    min-width: 80%;
     border-bottom: 1px solid ${COLOR_1.dark_brown};
     @media screen and (max-width: 500px) {
       font-size: ${FONT_SIZE_1.big_1};
@@ -122,7 +124,7 @@ const AllPostsPage = () => {
           {postsData.length < 1 ? (
             <S.Wrap>
               <p>작성한 포스트가 없습니다.</p>
-              <p>플러스 버튼을 눌러 포스트를 작성해보세요.</p>
+              <p>카페 페이지에서 포스트를 작성해보세요.</p>
             </S.Wrap>
           ) : (
             <ul>
