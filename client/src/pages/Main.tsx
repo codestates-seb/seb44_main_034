@@ -87,6 +87,7 @@ const S = {
   `,
   Container: styled.div`
     display: flex;
+    padding: 12px 0;
     flex-direction: column;
     align-items: center;
   `,
