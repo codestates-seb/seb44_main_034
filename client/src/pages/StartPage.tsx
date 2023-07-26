@@ -112,6 +112,9 @@ const S = {
     &:active {
       background-color: #737e3c;
     }
+    @media screen and (min-width: 550px) {
+      font-size: ${FONT_SIZE_1.normal_2};
+    }
   `,
 };
 
