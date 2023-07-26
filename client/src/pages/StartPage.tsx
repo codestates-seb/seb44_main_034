@@ -136,12 +136,12 @@ const StartPage = () => {
       <S.Container>
         {isVisible ? (
           <>
-            <S.TextBox1>내가 원하는 스타일에 카페 찾기! CafeIn</S.TextBox1>
+            <S.TextBox1>내가 원하는 스타일의 카페 찾기! CafeIn</S.TextBox1>
             <S.StartButton1>시작하기!</S.StartButton1>
           </>
         ) : (
           <>
-            <S.TextBox2>내가 원하는 스타일에 카페 찾기! CafeIn</S.TextBox2>
+            <S.TextBox2>내가 원하는 스타일의 카페 찾기! CafeIn</S.TextBox2>
             <Link to='/main'>
               <S.StartButton2>시작하기!</S.StartButton2>
             </Link>
