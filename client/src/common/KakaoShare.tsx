@@ -24,8 +24,8 @@ const KakaoShare = ({ title, image, url }: KakaoProps) => {
         {
           title: "카페인 방문하기",
           link: {
-            mobileWebUrl: "https://cafein34.vercel.app/ ",
-            webUrl: "https://cafein34.vercel.app/ ",
+            mobileWebUrl: "https://cafein34.vercel.app/",
+            webUrl: "https://cafein34.vercel.app/",
           },
         },
       ],
