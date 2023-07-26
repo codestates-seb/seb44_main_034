@@ -91,7 +91,7 @@
 
 |   Vite    |    Jwt    | GoogleOauth |  EsLint   |  Prettier  | Axios | Vercel | Figma |
 | :-------: | :-------: | :--------: | :------: | :----------: |  :-------------: | :--------: | :-------: |
-|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vite-js-logo.png width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/Oauth_logo.svg width =60 height =60>| <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/eslint.svg width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/prettier.svg width=60px height=60px>| <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/axios.svg width=60px height=60px>|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/figma.png" width ="48" height ="50"> 
+|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/client/public/vite.svg width=80px height=60px>  | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/jwtimg.png width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/Oauth_logo.svg width =60 height =60>| <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/eslint.svg width=60px height=60px> | <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/prettier.svg width=60px height=60px>| <img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/axios.svg width=60px height=60px>|<img src=https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/vercel1868.jpeg width=70px height=80px>|<img src="https://github.com/codestates-seb/seb44_main_034/raw/README/images/stack/figma.png" width ="48" height ="50"> 
 
 
 ### Back-end
@@ -131,6 +131,11 @@ Google OAuth 방식으로 가입 및 로그인할 수 있습니다.<br><br>
 메인에서 카페 이름, 메뉴 이름으로 검색할 수 있고,<br>
 태그 검색을 활용하여 취향에 맞는 카페를 조회할 수 있습니다.<br>
 카페 포스트 순, 별점 순 조회로 인기 있는 카페를 한눈에 확인할 수 있습니다.<br><br>
+### ☕️ 기능 4
+<strong>별점 기능</strong><br>
+회원들이 포스트를 쓰면서 카페에 대한 별점을 남길 수 있습니다.<br>
+카페 정보에서는 그 별점들을 계산하여 평균을 나타냅니다.<br>
+메인 페이지에서 별점 순으로 조회할 수 있어서 지금 핫하고 인기 많은 카페를 찾아볼 수 있습니다.<br><br>
 
 
 ## 📄Documents

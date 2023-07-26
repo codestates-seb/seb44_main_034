@@ -149,6 +149,7 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
   // const [currentPage, setCurrentPage] = useState(1);
   // const [commentsPerPage, setCommentsPerPage] = useState(10);
   const setGetItem = useSetRecoilState(GetPostAtom);
+  const token = localStorage.getItem("access_token");
   const [isEditing, setIsEditing] = useState(false);
   // console.log(currentPage);
   const {
@@ -172,7 +173,13 @@ const Replies = ({ replies, commentId }: ReplyItemProps) => {
       setGetItem((prev) => !prev);
     },
     onError: () => {
-      alert("일시적인 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      if (token) {
+        alert(
+          "일시적인 오류가 발생했습니다. (사장님은 포스트를 작성할 수 없습니다.)"
+        );
+      } else {
+        alert("로그인 사용자만 이용이 가능합니다.");
+      }
     },
   });
 

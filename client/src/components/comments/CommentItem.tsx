@@ -148,6 +148,7 @@ const CommentItem = ({ comment }: CommentItemProps) => {
       .then(() => {
         // console.log(res);
         alert("삭제되었습니다.");
+        setGetItem((prev) => !prev);
       });
   });
 
