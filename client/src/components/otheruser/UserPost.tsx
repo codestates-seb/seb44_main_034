@@ -73,7 +73,13 @@ const UserPost = (props: { data: ListType }) => {
         <S.PostImgBox src={data?.image ?? ""} />
         <S.PostInformaiton>
           <S.PostTitleBox>
-            <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
+            <S.PostTitle>
+              {data?.title && typeof data.title === "string"
+                ? data.title.length > 18
+                  ? `${data.title.slice(0, 18)}...`
+                  : data.title
+                : ""}
+            </S.PostTitle>
           </S.PostTitleBox>
           <S.PostWriterBox>
             <S.Writer>-{data?.author ?? ""}</S.Writer>

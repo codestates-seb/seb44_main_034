@@ -512,10 +512,10 @@ const UserMyPageBox = () => {
         hasMore={hasMore} // 추가 데이터가 있는지 여부
         loader={
           <S.LoadingBox>
-            <SyncLoader color='#36d759' />
+            <SyncLoader color='#36d759' /> //로딩 화면
           </S.LoadingBox>
         }
-        endMessage={<p></p>}
+        endMessage={<p></p>} //더 불러올 파일이 없음 알림
         height={400}
       >
         <S.ListBox>

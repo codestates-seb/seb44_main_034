@@ -118,7 +118,6 @@ const FollowingModal = () => {
         .then((response) => {
           // Handle success.
           setTimeout(() => {
-            console.log(response);
             setDataSource((prevData) => [
               ...prevData,
               ...response.data.payload.data,
