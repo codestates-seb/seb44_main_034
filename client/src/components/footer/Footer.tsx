@@ -1,9 +1,9 @@
-import { COLOR_1 } from '../../common/common';
-import { FONT_SIZE_1 } from '../../common/common';
-import Logo from '../../assets/Logo.svg';
-import logonaver from '../../assets/logonaver.png';
-import logoinstargram from '../../assets/logoinstargram.svg';
-import styled from 'styled-components';
+import { COLOR_1 } from "../../common/common";
+import { FONT_SIZE_1 } from "../../common/common";
+import Logo from "../../assets/Logo.svg";
+import logonaver from "../../assets/logonaver.png";
+import logoinstargram from "../../assets/logoinstargram.svg";
+import styled from "styled-components";
 
 const S = {
   Container: styled.div`

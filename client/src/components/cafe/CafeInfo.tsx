@@ -1,68 +1,91 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ConfirmBtn, CancelButton } from '../../common/button/button';
-import styled from 'styled-components';
-import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from '../../common/common';
-import { cafeType } from '../../recoil/recoil';
-const Base_URL =
-  'http://ec2-13-209-42-25.ap-northeast-2.compute.amazonaws.com/api';
+import axios from "axios";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "../../common/button/button";
+import styled from "styled-components";
+import { COLOR_1, FONT_SIZE_2, FONT_SIZE_1 } from "../../common/common";
+import { cafeType } from "../../recoil/recoil";
+import { baseURL } from "../../common/baseURL";
+import { BiImageAdd } from "react-icons/bi";
 const facilityName = [
-  '24시간 운영여부',
-  '콘센트 유무',
-  '주차공간',
-  '동물 출입 가능 여부',
-  '디저트 판매 여부',
+  "24시간 운영여부",
+  "콘센트 유무",
+  "주차공간",
+  "동물 출입 가능 여부",
+  "디저트 판매 여부",
 ];
+
 const CafeInfo = () => {
   // const [cafes, setCafes] = useRecoilState(AllcafeState);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const [CafeData, setCafeData] = useState<cafeType>({
-    id: 0,
-    ownerId: 0,
-    name: '',
-    address: '',
-    contact: '',
-    notice: '',
-    cafeImg: '',
-    rating: 0,
-    openTime: '',
-    closeTime: '',
+    name: "",
+    address: "",
+    contact: "",
+    shortAddress: "",
+    latitude: 0,
+    longitude: 0,
+    notice: "",
+    openTime: "",
+    closeTime: "",
     isOpenAllTime: false,
     isChargingAvailable: false,
     hasParking: false,
     isPetFriendly: false,
     hasDessert: false,
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<string | Blob>("");
+  const [previewImage, setPreviewImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       setImageFile(selectedFile);
-      console.log(imageFile);
+      setPreviewImage(URL.createObjectURL(selectedFile));
     }
   };
-  // const handleSaveImg = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const reader = new FileReader();
+  const handleAddImageButtonClick = () => {
+    fileInputRef.current?.click(); // 파일 선택 창 열기
+  };
+  const handleRemoveImageButtonClick = () => {
+    setImageFile("");
+    setPreviewImage(null);
+  };
+  const convertAddressToCoordinates = async (address: string) => {
+    try {
+      const response = await axios.get(
+        "https://dapi.kakao.com/v2/local/search/address.json",
+        {
+          headers: {
+            Authorization: "KakaoAK 39c175a34af51dbed869e39dfcb03014",
+          },
+          params: {
+            query: address,
+          },
+        }
+      );
+      console.log("좌표변환");
+      const documents = response.data.documents;
+      if (documents.length === 0) {
+        console.log("검색된 주소가 없습니다.");
+        alert("정확한 주소를 기입해주세요 ! "); //이부분은 나중에 경고 문구로 대체 될 예정
+        return null;
+      }
+      // 응답 데이터에서 좌표 정보 추출
+      const coordinates = response.data.documents[0].address;
+      console.log(coordinates);
+      return coordinates;
+    } catch (error) {
+      console.error(error);
+      // 에러 처리
+    }
+  };
 
-  //   reader.onload = function (e) {
-  //     if (e.target) {
-  //       setCafeImg(e.target.result);
-  //     }
-  //   };
-  //   if (e.target.files) {
-  //     reader.readAsDataURL(e.target.files[0]);
-  //   }
-  // };
-
-  // const saveCafe = (cafe: CafeType) => {
-  //   setCafes((prevCafes) => [...prevCafes, cafe]);
-  // };
   const handleCafeInfoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = event.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       setCafeData((prevCafeData) => ({
         ...prevCafeData,
         [name]: checked,
@@ -75,49 +98,70 @@ const CafeInfo = () => {
     }
   };
 
-  /* 이미지를 전송하고 받은 Url로 Cafedata 를 요청보내는게 맞는건지 */
+  const handleAddressInputBlur = () => {
+    convertAddressToCoordinates(CafeData.address).then((coordinates) => {
+      if (coordinates) {
+        setCafeData((prevCafeData) => ({
+          ...prevCafeData,
+          address: coordinates.address_name,
+          shortAddress: coordinates.region_2depth_name,
+          latitude: coordinates.y,
+          longitude: coordinates.x,
+        }));
+      }
+    });
+  };
   const handleSaveCafeInfo = async (
     event: React.FormEvent<HTMLFormElement>
   ) => {
     event.preventDefault();
-    // if (imageFile) {
-    //   console.log(imageFile);
-    //   const formData = new FormData();
-    //   console.log(formData);
-    //   formData.append('image', imageFile);
-    // }
-    try {
-      // const responseImg = await axios.post(
-      //   'http://localhost:3001/cafes',
-      //   FormData
-      // );
-      // if (responseImg.status === 201) {
-      //   //이미지 업로드 성공일 때
-      //   const cafeDataWithImage = {
-      //     ...CafeData,
-      //     cafeImg: responseImg.data.imageUrl,
-      //   };
 
-      const response = await axios.post(`${Base_URL}/cafes`, CafeData, {
+    console.log(imageFile);
+    console.log(CafeData.latitude);
+    console.log(CafeData.longitude);
+    console.log(CafeData.shortAddress);
+    const formData = new FormData();
+    if (imageFile) {
+      formData.append("cafeImage", imageFile);
+    } else {
+      alert("사진을 첨부해주세요 !");
+      return;
+    }
+    const json = JSON.stringify(CafeData);
+    const info = new Blob([json], { type: "application/json" });
+    console.log(json);
+    console.log(CafeData);
+    formData.append("dto", info);
+    try {
+      for (const entry of formData.entries()) {
+        console.log(entry[0] + ": " + entry[1]);
+      }
+      const response = await axios.post(`${baseURL}/cafes`, formData, {
+        // const response = await axios.post(
+        //   'http://localhost:3000/cafes',
+        //   formData,
         headers: {
-          Authorization: localStorage.getItem('access_token'),
+          // 'Content-Type': 'application/json;charset=UTF-8',
+          "Content-Type": "multipart/form-data",
+          "ngrok-skip-browser-warning": "true",
+          // 'Content-Type': 'application/json',
+          Authorization: localStorage.getItem("access_token"),
         },
       });
-      // console.log(response.data.imageUrl);
+
       console.log(response.data);
-      const cafeId = response.data.id;
-      alert('카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다');
-      navigate(`${Base_URL}/menus/${cafeId}`);
+      console.log(response);
+      const cafeId = response.data.payload;
+      alert("카페 정보 등록이 완료 되었습니다. 메뉴 등록 페이지로 이동합니다");
+      navigate(`/menus/${cafeId}/add`);
       // } else {
       //   throw new Error('Image upload failed');
       // }
-      console.log('성공');
+      console.log("성공");
     } catch (error) {
       console.error(error);
       // alert('Image upload failed');
     }
-    // saveCafe(CafeData);
-    // console.log(cafes);
   };
 
   return (
@@ -125,15 +169,22 @@ const CafeInfo = () => {
       <form onSubmit={handleSaveCafeInfo}>
         <S.MainDiv>
           <S.AddImageDiv>
-            <input type='file' onChange={handleFileChange} />
-            {/* <input
+            <input
               type='file'
-              accept='image/*'
-              ref={fileInput}
-              style={{ display: 'none' }}
-              onChange={handleSaveImg}
-            /> */}
-            {/* <S.ImageShow alt='대표 카페 사진' src={cafeImg} /> */}
+              onChange={handleFileChange}
+              ref={fileInputRef}
+              style={{ display: "none" }}
+            />
+            {previewImage ? (
+              <>
+                <RemoveImgButton onClick={handleRemoveImageButtonClick}>
+                  사진 수정
+                </RemoveImgButton>
+                <S.ImageShow src={previewImage} alt='미리보기' />
+              </>
+            ) : (
+              <AddImgButton onClick={handleAddImageButtonClick} />
+            )}
           </S.AddImageDiv>
 
           {/* <AddImage onClick={handleButtonClick} /> */}
@@ -175,6 +226,7 @@ const CafeInfo = () => {
                 value={CafeData.address}
                 name='address'
                 onChange={handleCafeInfoChange}
+                onBlur={handleAddressInputBlur}
                 required
               />
             </S.CafeInputLabel>
@@ -243,14 +295,14 @@ const CafeInfo = () => {
         </S.MainDiv>
         <S.ButtonDiv>
           {/* <AddImage onClick={handleButtonClick} /> */}
-          <ConfirmBtn type='submit'>등록</ConfirmBtn>
-          <CancelButton
+          <Button type='submit' text='등록' theme='Confirm' />
+          <Button
+            text='나가기'
             onClick={() => {
-              navigate('/');
+              navigate("/ownermy/");
             }}
-          >
-            나가기
-          </CancelButton>
+            theme='Cancel'
+          />
         </S.ButtonDiv>
       </form>
     </>
@@ -258,18 +310,20 @@ const CafeInfo = () => {
 };
 const S = {
   MainDiv: styled.div`
-    width: 768px;
+    width: 100%;
     display: flex;
     justify-content: center; /* 수평 가운데 정렬 */
     align-items: center;
     flex-direction: row;
+    position: relative;
     @media screen and (max-width: 767px) {
-      width: 100%;
       flex-direction: column;
       justify-content: flex-start;
     }
   `,
   AddImageDiv: styled.div`
+    /* z-index: -1; */
+    position: relative;
     width: 300px;
     height: 300px;
     border: 2px solid ${COLOR_1.black};
@@ -288,6 +342,7 @@ const S = {
   ImageShow: styled.img`
     height: 100%;
     width: 100%;
+    object-fit: cover;
     margin: auto;
   `,
   AddCafeInfoDiv: styled.div`
@@ -352,17 +407,24 @@ const S = {
     padding: 2%;
     color: ${COLOR_1.dark_brown};
     font-size: ${FONT_SIZE_2.normal_2};
+    display: flex;
+    justify-content: center;
+    align-items: center;
     @media screen and (max-width: 767px) {
-      display: block;
-      text-align: start;
+      font-size: ${FONT_SIZE_2.small_1};
     }
   `,
   CafeFacility: styled.input`
     transform: scale(1.5);
     font-size: ${FONT_SIZE_2.normal_4};
     margin-top: 1%;
+    margin-right: 10px;
+
     &:hover {
       cursor: pointer;
+    }
+    @media screen and (max-width: 767px) {
+      transform: scale(1.2);
     }
   `,
   ButtonDiv: styled.div`
@@ -370,7 +432,7 @@ const S = {
     justify-content: end;
     margin-top: 2%;
     width: 100%;
-    @media screen and (max-width: 500px) {
+    @media screen and (max-width: 767px) {
       justify-content: center;
     }
   `,
@@ -411,6 +473,38 @@ const CafeNotice = styled(S.InputBase)`
   margin: auto;
   @media screen and (max-width: 767px) {
     height: 40%;
+  }
+`;
+const AddImgButton = styled(BiImageAdd)`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const RemoveImgButton = styled.button`
+  width: 80px;
+  height: 20px;
+  font-size: ${FONT_SIZE_1.small_3};
+  position: absolute;
+  top: 310px;
+  border: 2px solid ${COLOR_1.green};
+  background-color: white;
+  border-radius: 10px;
+  color: ${COLOR_1.dark_brown};
+  &:hover {
+    background-color: ${COLOR_1.green};
+    cursor: pointer;
+  }
+  @media screen and (max-width: 767px) {
+    top: 185px;
+    width: 70px;
+    height: 18px;
+    font-size: ${FONT_SIZE_1.small_2};
   }
 `;
 export default CafeInfo;

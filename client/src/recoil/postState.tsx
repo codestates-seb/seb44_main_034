@@ -1,23 +1,31 @@
-import { atom } from 'recoil';
-import { PostData } from '../types/type';
+import { atom } from "recoil";
+import { ReqPostData } from "../types/type";
+import { PostCafeType } from "../types/type";
 
-
-export const PostItemAtom = atom<PostData>({
-  key:'postItemAtom',
-  default:{
-    cafeId: '',
-    cafeName: '',
-    postId: undefined,
-    title: '',
-    createdAt: '',
-    updatedAt: '',
-    authorId: '',
-    author: '',
-    image: '',
-    content: '',
+export const PostItemAtom = atom<ReqPostData>({
+  key: "postItemAtom",
+  default: {
+    title: "",
+    content: "",
     starRating: 0,
-    isBookmarked: false,
-    tag:[],
-    comment: []
-  }
-})
+    tags: [],
+  },
+});
+
+export const PostImgAtom = atom<string | null>({
+  key: "postImgAtom",
+  default: "",
+});
+
+export const PostCafeAtom = atom<PostCafeType>({
+  key: "editPostAtom",
+  default: {
+    cafeName: "",
+    cafeId: "",
+  },
+});
+
+export const GetPostAtom = atom({
+  key: "getPostAtom",
+  default: false,
+});

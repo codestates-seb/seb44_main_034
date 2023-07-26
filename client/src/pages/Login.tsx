@@ -1,4 +1,4 @@
-import LoginBox from '../components/loginbox/LoginBox';
+import LoginBox from "../components/loginbox/LoginBox";
 
 const Login = () => {
   return (

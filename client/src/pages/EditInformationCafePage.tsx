@@ -1,9 +1,12 @@
-import styled from 'styled-components';
-import EditCafeInfo from '../components/cafe/EditCafeInfo';
+import styled from "styled-components";
+import EditCafeInfo from "../components/cafe/EditCafeInfo";
+import { useParams } from "react-router-dom";
 const EditInfomationCafe = () => {
+  const { id } = useParams();
+
   return (
     <S.Container>
-      <EditCafeInfo />
+      <EditCafeInfo cafeId={id} />
     </S.Container>
   );
 };

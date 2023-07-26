@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
-import static mainproject.cafeIn.global.exception.ErrorCode.COMMENT_NOT_FOUND;
-import static mainproject.cafeIn.global.exception.ErrorCode.INTERNAL_SERVER_ERROR;
+import static mainproject.cafeIn.global.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +44,8 @@ public class MenuCommentService {
     public Long updateMenuComment(Long loginId, Long commentId, MenuCommentRequest request) {
         Member member = memberService.findById(loginId);
         MenuComment menuComment = findMenuCommentById(commentId);
+        validateAuthor(menuComment.getMember().getId(), loginId);
+
         menuComment.update(request.getContent());
 
         return menuComment.getMenu().getId();
@@ -54,9 +56,17 @@ public class MenuCommentService {
         Member member = memberService.findById(loginId);
         MenuComment menuComment = findMenuCommentById(commentId);
         Long menuId = menuComment.getMenu().getId();
+        validateAuthor(menuComment.getMember().getId(), loginId);
+
         menuCommentRepository.delete(menuComment);
 
         return menuId;
+    }
+
+    private void validateAuthor(Long authorId, Long loginId) {
+        if (!Objects.equals(authorId, loginId)) {
+            throw new CustomException(NOT_AUTHOR);
+        }
     }
 
     public MenuComment findMenuCommentById(Long commentId) {
