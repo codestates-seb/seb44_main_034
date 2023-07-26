@@ -23,10 +23,6 @@ spring:
         show_sql: true
         format_sql: true
 
-  sql:
-    init:
-      mode: always
-
   security:
     oauth2:
       client:
