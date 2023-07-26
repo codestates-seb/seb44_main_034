@@ -54,7 +54,7 @@ const S = {
   Nav: styled.nav`
     display: flex;
     justify-content: center;
-    margin: 40px 0 20px 0;
+    margin: 40px 0 10px 0;
     > button {
       background-color: ${COLOR_1.white};
       margin: 3px;

@@ -27,6 +27,7 @@ const CafePage = () => {
   const [posts, setPosts] = useState<CafePostList[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [postData, setPostData] = useRecoilState<PostCafeType>(PostCafeAtom);
+  const token = localStorage.getItem("access_token");
   const { id } = useParams();
   const navigate = useNavigate();
   console.log(postData);
@@ -83,13 +84,17 @@ const CafePage = () => {
 
   // const data = posts;
   const handleClick = () => {
-    setPostData((prev) => ({
-      ...prev,
-      cafeName: cafeDetail.name,
-      cafeId: cafeDetail.cafeId?.toString(),
-    })); //카페 이름 받아오는 함수
-    navigate("../postpage/create");
-    // console.log("clicked");
+    if (token) {
+      setPostData((prev) => ({
+        ...prev,
+        cafeName: cafeDetail.name,
+        cafeId: cafeDetail.cafeId?.toString(),
+      })); //카페 이름 받아오는 함수
+      navigate("../postpage/create");
+    }
+    if (!token) {
+      alert("로그인을 해주세요!");
+    }
   };
   return (
     <>

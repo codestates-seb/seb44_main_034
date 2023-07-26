@@ -1,4 +1,3 @@
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -31,7 +30,6 @@ import EditMenuCafe from "./pages/EditMenuCafePage";
 import OauthLoading from "./pages/OauthLoading";
 import ScrollToTop from "./components/ScrollToTop";
 
-
 const queryClient = new QueryClient();
 const Container = styled.div`
   display: flex;
@@ -48,7 +46,6 @@ const Container = styled.div`
 `;
 
 function App() {
-
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
@@ -88,7 +85,6 @@ function App() {
           </Routes>
         </Container>
         <Nav />
-
       </RecoilRoot>
     </QueryClientProvider>
   );
