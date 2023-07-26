@@ -41,10 +41,28 @@ const S = {
     margin: 2px 0 24px 0;
     min-height: 80px;
     > ul {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0;
+      min-height: 340px;
       > li {
-        margin: 30px;
+        margin: 20px;
+        @media screen and (max-width: 500px) {
+          margin: 10px;
+        }
       }
     }
+    /* > ul {
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      > li {
+        margin: 30px;
+      } */
   `,
   Div: styled.div`
     display: flex;

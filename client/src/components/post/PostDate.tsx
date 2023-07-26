@@ -18,7 +18,7 @@ const S = {
 };
 
 const PostDate = ({ postDate }: PostDateProps) => {
-  console.log(postDate);
+  // console.log(postDate);
   // const dateValue = new Date(postDate);
   const dateValue = new Date(postDate);
   const timeDifferenceHours = 9;
@@ -43,7 +43,7 @@ const PostDate = ({ postDate }: PostDateProps) => {
     modifiedDate.getMinutes() < 10
       ? `0${modifiedDate.getMinutes()}`
       : modifiedDate.getMinutes();
-  console.log(modifiedDate);
+  // console.log(modifiedDate);
   // console.log(date);
   // console.log(dateValue.getMonth());
   // console.log(hours);
