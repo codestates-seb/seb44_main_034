@@ -201,7 +201,7 @@ const EditUserMyPageBox = () => {
       })
       .then((response) => {
         // Handle success.
-        console.log(response.data.payload);
+        // console.log(response.data.payload);
         setUserInfo(response.data.payload);
         setAvatarPreview(response.data.payload.image);
       })
@@ -251,10 +251,10 @@ const EditUserMyPageBox = () => {
           Authorization: localStorage.getItem("access_token"),
         },
       })
-      .then((response) => {
+      .then(() => {
         // Handle success.
-        console.log("Well done!");
-        console.log("User profile", response);
+        // console.log("Well done!");
+        // console.log("User profile", response);
         alert("수정이 완료되었습니디.");
         replace("/usermy");
       })

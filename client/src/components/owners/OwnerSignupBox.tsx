@@ -125,10 +125,10 @@ const OwnerSignupBox = () => {
         password: password,
         privacy: true,
       })
-      .then((response) => {
+      .then(() => {
         // Handle success.
-        console.log("Well done!");
-        console.log("User profile", response);
+        // console.log("Well done!");
+        // console.log("User profile", response);
         alert("가입이 완료되었습니다.");
         replace("/login");
       })

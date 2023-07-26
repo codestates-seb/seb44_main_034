@@ -205,10 +205,10 @@ const EditOwnerMyPageBox = () => {
           },
         }
       )
-      .then((response) => {
+      .then(() => {
         // Handle success.
-        console.log("Well done!");
-        console.log("User profile", response);
+        // console.log("Well done!");
+        // console.log("User profile", response);
         alert("수정이 완료되었습니디.");
         replace("/ownermy");
       })

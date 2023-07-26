@@ -1,8 +1,8 @@
 import { COLOR_1 } from "../../common/common";
 import { FONT_SIZE_1 } from "../../common/common";
 import Logo from "../../assets/Logo.svg";
-import logonaver from "../../assets/logonaver.png";
-import logoinstargram from "../../assets/logoinstargram.svg";
+// import logonaver from "../../assets/logonaver.png";
+// import logoinstargram from "../../assets/logoinstargram.svg";
 import styled from "styled-components";
 
 const S = {
@@ -95,10 +95,10 @@ const Footer: React.FC = () => {
             cafeinplus@zmail.com
           </S.ProjectInformation>
         </S.MainBox>
-        <S.LinkBox>
+        {/* <S.LinkBox>
           <S.LogoNaverBox src={logonaver}></S.LogoNaverBox>
           <S.LogoInstarBox src={logoinstargram}></S.LogoInstarBox>
-        </S.LinkBox>
+        </S.LinkBox> */}
       </S.Container>
     </footer>
   );
