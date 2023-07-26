@@ -49,7 +49,7 @@ const S = {
     }
   `,
   PostTitle: styled.div`
-    width: 200px;
+    width: 240px;
     font-size: ${FONT_SIZE_1.normal_2};
   `,
   PostWriterBox: styled.div`
@@ -78,7 +78,13 @@ const BookmarkPost = (props: { data: ListType }) => {
         <S.PostImgBox src={data?.image ?? ""} />
         <S.PostInformaiton>
           <S.PostTitleBox>
-            <S.PostTitle>{data?.title ?? ""}</S.PostTitle>
+            <S.PostTitle>
+              {data?.title && typeof data.title === "string"
+                ? data.title.length > 18
+                  ? `${data.title.slice(0, 18)}...`
+                  : data.title
+                : ""}
+            </S.PostTitle>
           </S.PostTitleBox>
           <S.PostWriterBox>
             <S.Writer>-{data?.author ?? ""}</S.Writer>

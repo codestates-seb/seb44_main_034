@@ -231,18 +231,17 @@ const UserMyPageBox = () => {
     axios
       .get(`${baseURL}/owners/my-page`, {
         headers: {
-          "ngrok-skip-browser-warning": "true",
           withCredentials: true,
           Authorization: localStorage.getItem("access_token"),
         },
       })
       .then((response) => {
         // Handle success.
-        console.log("success");
-        console.log(response.data);
+        // console.log("success");
+        // console.log(response.data);
         setOwnerInfo(response.data.payload.ownerResponse);
         setCafeInfo(response.data.payload.cafe);
-        console.log(cafeInfo?.cafeId);
+        // console.log(cafeInfo?.cafeId);
       })
       .catch((error) => {
         // Handle error.
