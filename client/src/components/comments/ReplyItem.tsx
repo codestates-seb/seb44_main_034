@@ -150,9 +150,10 @@ const ReplyItem = ({ reply }: ReplyItemProps) => {
           Authorization: localStorage.getItem("access_token"),
         },
       })
-      .then((res) => {
-        console.log(res);
+      .then(() => {
+        // console.log(res);
         alert("삭제되었습니다.");
+        setGetItem((prev) => !prev);
       });
   });
 

@@ -146,6 +146,9 @@ const S = {
     label {
     }
   `,
+  SunEditorBox: styled.div`
+    z-index: 0;
+  `,
 };
 
 const EditPostPage = () => {
@@ -160,8 +163,8 @@ const EditPostPage = () => {
   // const [tags, setTags] = useState<string[]>([]);
   const resetPostItem = useResetRecoilState(PostItemAtom);
   const navigate = useNavigate();
-  console.log(postId.postId);
-  console.log(previewImgUrl);
+  // console.log(postId.postId);
+  // console.log(previewImgUrl);
   console.log(isResImg);
   //카페 아이디를 새로고침 해도 저장할 수  있게 객체 새로 복사
   //게시글 수정 시  이미지 업로드
@@ -369,10 +372,12 @@ const EditPostPage = () => {
             <S.UploadBtn htmlFor='fileUpload'>사진 추가하기</S.UploadBtn>
           )}
           <S.AddImg
-            id='fileupload'
+            id='fileUpload'
             type='file'
             accept='image/*'
-            onChange={handleFileChange}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleFileChange(e)
+            }
           ></S.AddImg>
           {previewImgUrl && (
             <S.ImgPreview>
@@ -382,11 +387,13 @@ const EditPostPage = () => {
           {previewImgUrl && (
             <S.UploadBtn htmlFor='fileUpload'>사진 수정하기</S.UploadBtn>
           )}
-          <SunEditor
-            height='300px'
-            onChange={handleContent}
-            setContents={content}
-          />
+          <S.SunEditorBox>
+            <SunEditor
+              height='300px'
+              onChange={handleContent}
+              setContents={content}
+            />
+          </S.SunEditorBox>
           <S.BtnWrap>
             <ConfirmBtn
               type='button'

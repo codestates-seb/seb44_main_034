@@ -44,6 +44,7 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   const setPostState = useSetRecoilState<ReqPostData>(PostItemAtom);
   const setPostImg = useSetRecoilState<string>(PostImgAtom);
   const [user, setUser] = useState("");
+  const url = `https://cafein34.vercel.app/postpage/${postId}`;
   const setGetItem = useSetRecoilState(GetPostAtom);
   const navigate = useNavigate();
   const token = localStorage.getItem("access_token");
@@ -55,20 +56,20 @@ const PostItemHead = ({ postData }: PostItemProps) => {
   }, []);
   const clickBookmark = async () => {
     try {
-      const response = await axios.post(
-        `${baseURL}/posts/${postId}/bookmark`,
-        null,
-        {
-          headers: {
-            Authorization: localStorage.getItem("access_token"),
-          },
-        }
-      );
+      await axios.post(`${baseURL}/posts/${postId}/bookmark`, null, {
+        headers: {
+          Authorization: localStorage.getItem("access_token"),
+        },
+      });
       setGetItem((prev) => !prev);
       // console.log("clicked");
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
-      alert("일시적인 오류가 발생했습니다. 잠시 후, 다시 시도해주세요.");
+      if (token) {
+        alert("일시적인 오류가 발생했습니다. 잠시 후, 다시 시도해주세요.");
+      } else {
+        alert("로그인을 해주세요.");
+      }
     }
   };
   const deleteMutation = useMutation(
@@ -99,11 +100,9 @@ const PostItemHead = ({ postData }: PostItemProps) => {
     setPostState(reqData);
     setPostImg(image);
     navigate(`/postpage/edit/${postId}`);
-    console.log(reqData);
   };
   const handleDelete = () => {
     //if user Id와 지금 userId가 일치하면
-    console.log("clicked");
     if (confirm("삭제하신 글은 복구되지 않습니다. 정말로 삭제하시겠습니까?")) {
       deleteMutation.mutate();
     }
@@ -123,11 +122,8 @@ const PostItemHead = ({ postData }: PostItemProps) => {
         }
       }
     };
-    const url = `${baseURL}/postpage/${postId}`;
     kakaoMessage();
     KakaoShare({ title: title, image: image, url: url });
-
-    // window.Ksakao.Share.createDefaultButton();
   };
   return (
     <>

@@ -39,7 +39,7 @@ const Container = styled.div`
   min-width: 320px;
   max-width: 768px;
   background-color: white;
-  padding: 30px; //여기 바꾸는거 여백봐주세요 !
+  padding: 0 30px; //상하는 없애고 좌우만 넣을게요
   @media screen and (max-width: 767px) {
     padding: 0;
   }

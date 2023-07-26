@@ -328,7 +328,6 @@ const S = {
     margin-right: 20px;
     margin-bottom: 20px;
     overflow: hidden;
-
     > span {
       color: ${COLOR_1.dark_sand};
       text-shadow: 1px 1px 1px ${COLOR_1.dark_brown};
@@ -337,6 +336,7 @@ const S = {
     &:hover {
       color: white;
       background-color: ${COLOR_1.brown};
+      cursor: pointer;
     }
     &:active {
       transform: translateY(2px);

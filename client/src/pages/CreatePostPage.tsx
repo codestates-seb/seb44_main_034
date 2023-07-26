@@ -131,6 +131,7 @@ const CreatePostPage = () => {
     correctTitle: false,
     correctStarRating: false,
   });
+  const token = localStorage.getItem("access_token");
   const resetPostItem = useResetRecoilState(PostItemAtom);
   const navigate = useNavigate();
   // console.log(postCafe);
@@ -154,9 +155,13 @@ const CreatePostPage = () => {
       //이동 로직 추가 해함(postId 받아와야 함)
     },
     onError: () => {
-      alert(
-        "일시적인 오류가 발생했습니다. (사장님은 포스트를 작성할 수 없습니다.)"
-      );
+      if (token) {
+        alert(
+          "일시적인 오류가 발생했습니다. (사장님은 포스트를 작성할 수 없습니다.)"
+        );
+      } else {
+        alert("로그인 사용자만 이용이 가능합니다.");
+      }
       setDisabled(false);
     },
   });
