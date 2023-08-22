@@ -1,6 +1,7 @@
 package mainproject.cafeIn.domain.cafe.entity;
 
 import lombok.*;
+import mainproject.cafeIn.domain.cafe.dto.request.CafeInfoRequest;
 import mainproject.cafeIn.domain.menu.entity.Menu;
 import mainproject.cafeIn.domain.owner.entity.Owner;
 import mainproject.cafeIn.domain.post.entity.Post;
@@ -119,21 +120,21 @@ public class Cafe extends BaseEntity {
         this.owner = owner;
     }
 
-    public void updateCafe(Cafe cafe) {
-        this.name = cafe.name;
-        this.address = cafe.address;
-        this.shortAddress = cafe.shortAddress;
-        this.contact = cafe.contact;
-        this.latitude = cafe.latitude;
-        this.longitude = cafe.longitude;
-        this.notice = cafe.notice;
-        this.openTime = cafe.openTime;
-        this.closeTime = cafe.closeTime;
-        this.isOpenAllTime = cafe.isOpenAllTime;
-        this.isChargingAvailable = cafe.isChargingAvailable;
-        this.hasParking = cafe.hasParking;
-        this.isPetFriendly = cafe.isPetFriendly;
-        this.hasDessert = cafe.hasDessert;
+    public void updateCafe(CafeInfoRequest cafe) {
+        this.name = cafe.getName();
+        this.address = cafe.getAddress();
+        this.shortAddress = cafe.getShortAddress();
+        this.contact = cafe.getContact();
+        this.latitude = cafe.getLatitude();
+        this.longitude = cafe.getLongitude();
+        this.notice = cafe.getNotice();
+        this.openTime = cafe.getOpenTime();
+        this.closeTime = cafe.getCloseTime();
+        this.isOpenAllTime = cafe.isOpenAllTime();
+        this.isChargingAvailable = cafe.isChargingAvailable();
+        this.hasParking = cafe.isHasParking();
+        this.isPetFriendly = cafe.isPetFriendly();
+        this.hasDessert = cafe.isHasDessert();
     }
 
     public void validateOwner(Long ownerId) {

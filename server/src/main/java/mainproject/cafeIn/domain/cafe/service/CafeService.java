@@ -53,7 +53,7 @@ public class CafeService {
     public void updateCafe(Long loginId, Long cafeId, CafeInfoRequest cafeInfoRequest, MultipartFile image) throws IOException {
         Cafe cafe = findCafeById(cafeId);
         cafe.validateOwner(loginId);
-        cafe.updateCafe(cafeInfoRequest.toEntity());
+        cafe.updateCafe(cafeInfoRequest);
 
         if (image != null && !image.isEmpty()) {
             String storedImageUrl = imageService.update(cafe.getImage(), image, "cafes");
