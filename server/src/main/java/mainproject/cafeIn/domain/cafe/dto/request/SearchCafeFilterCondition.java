@@ -24,6 +24,10 @@ public class SearchCafeFilterCondition {
 
     private Boolean hasDessert;
 
+    private Boolean hasWifi;
+
+    private Boolean hasSmokingZone;
+
     private String sortType;
 
     private List<Long> tags = new ArrayList<>();
@@ -33,13 +37,15 @@ public class SearchCafeFilterCondition {
     private String menuName;
 
     @Builder
-    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert, String sortType, List<Long> tags, String cafeName, String menuName) {
+    public SearchCafeFilterCondition(String shortAddress, Boolean isOpenAllTime, Boolean isChargingAvailable, Boolean hasParking, Boolean isPetFriendly, Boolean hasDessert, Boolean hasWifi, Boolean hasSmokingZone, String sortType, List<Long> tags, String cafeName, String menuName) {
         this.shortAddress = shortAddress;
         this.isOpenAllTime = isOpenAllTime;
         this.isChargingAvailable = isChargingAvailable;
         this.hasParking = hasParking;
         this.isPetFriendly = isPetFriendly;
         this.hasDessert = hasDessert;
+        this.hasWifi = hasWifi;
+        this.hasSmokingZone = hasSmokingZone;
         this.sortType = sortType;
         this.tags = tags;
         this.cafeName = cafeName;

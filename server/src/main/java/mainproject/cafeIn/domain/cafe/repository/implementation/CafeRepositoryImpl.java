@@ -110,7 +110,9 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
                 .and(parking(searchCafeFilterCondition.getHasParking()))
                 .and(dessert(searchCafeFilterCondition.getHasDessert()))
                 .and(eqCafeName(searchCafeFilterCondition.getCafeName()))
-                .and(eqMenuName(searchCafeFilterCondition.getMenuName()));
+                .and(eqMenuName(searchCafeFilterCondition.getMenuName()))
+                .and(wifi(searchCafeFilterCondition.getHasWifi()))
+                .and(smoking(searchCafeFilterCondition.getHasSmokingZone()));
 
         BooleanExpression tagExpression = hasTag(searchCafeFilterCondition.getTags());
         if (tagExpression != null) {
@@ -188,6 +190,20 @@ public class CafeRepositoryImpl implements CafeRepositoryCustom {
             return null;
         }
         return cafe.menus.any().name.contains(menuName);
+    }
+
+    private BooleanExpression wifi(Boolean hasWifi) {
+        if (hasWifi == null) {
+            return null;
+        }
+        return cafe.hasWifi.eq(hasWifi);
+    }
+
+    private BooleanExpression smoking(Boolean hasSmokingZone) {
+        if (hasSmokingZone == null) {
+            return null;
+        }
+        return cafe.hasSmokingZone.eq(hasSmokingZone);
     }
 
     private OrderSpecifier<?> orderType(String sortType) {

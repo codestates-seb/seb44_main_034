@@ -79,6 +79,12 @@ public class Cafe extends BaseEntity {
     @Column(name = "has_dessert")
     private boolean hasDessert;
 
+    @Column(name = "has_wifi")
+    private boolean hasWifi;
+
+    @Column(name = "has_smoking_zone")
+    private boolean hasSmokingZone;
+
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "owner_id")
     private Owner owner;
@@ -100,7 +106,7 @@ public class Cafe extends BaseEntity {
     private List<PostTag> postTags = new ArrayList<>();
 
     @Builder
-    public Cafe(String name, String address, String shortAddress, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, Owner owner) {
+    public Cafe(String name, String address, String shortAddress, String contact, double latitude, double longitude, String notice, String image, String openTime, String closeTime, boolean isOpenAllTime, boolean isChargingAvailable, boolean hasParking, boolean isPetFriendly, boolean hasDessert, boolean hasWifi, boolean hasSmokingZone, Owner owner) {
         this.name = name;
         this.address = address;
         this.shortAddress = shortAddress;
@@ -116,6 +122,8 @@ public class Cafe extends BaseEntity {
         this.hasParking = hasParking;
         this.isPetFriendly = isPetFriendly;
         this.hasDessert = hasDessert;
+        this.hasWifi = hasWifi;
+        this.hasSmokingZone = hasSmokingZone;
         this.rating = 0;
         this.owner = owner;
     }
@@ -135,6 +143,8 @@ public class Cafe extends BaseEntity {
         this.hasParking = cafe.isHasParking();
         this.isPetFriendly = cafe.isPetFriendly();
         this.hasDessert = cafe.isHasDessert();
+        this.hasWifi = cafe.isHasWifi();
+        this.hasSmokingZone = cafe.isHasSmokingZone();
     }
 
     public void validateOwner(Long ownerId) {

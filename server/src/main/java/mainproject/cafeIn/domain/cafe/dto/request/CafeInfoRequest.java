@@ -49,24 +49,9 @@ public class CafeInfoRequest {
 
     private boolean hasDessert;
 
-    public Cafe toEntity() {
-        return Cafe.builder()
-                .name(name)
-                .address(address)
-                .shortAddress(shortAddress)
-                .contact(contact)
-                .latitude(latitude)
-                .longitude(longitude)
-                .notice(notice)
-                .openTime(openTime)
-                .closeTime(closeTime)
-                .isOpenAllTime(isOpenAllTime)
-                .isChargingAvailable(isChargingAvailable)
-                .isPetFriendly(isPetFriendly)
-                .hasParking(hasParking)
-                .hasDessert(hasDessert)
-                .build();
-    }
+    private boolean hasWifi;
+
+    private boolean hasSmokingZone;
 
     public Cafe toEntity(Owner owner) {
         return Cafe.builder()
@@ -84,6 +69,8 @@ public class CafeInfoRequest {
                 .isPetFriendly(isPetFriendly)
                 .hasParking(hasParking)
                 .hasDessert(hasDessert)
+                .hasWifi(hasWifi)
+                .hasSmokingZone(hasSmokingZone)
                 .owner(owner)
                 .build();
     }
