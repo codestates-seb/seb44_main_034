@@ -40,7 +40,7 @@ public class MenuService {
         Cafe cafe = menu.getCafe();
         cafe.validateOwner(loginId);
 
-        menu.updateMenu(menuRequest.toEntity());
+        menu.updateMenu(menuRequest);
     }
 
     @Transactional

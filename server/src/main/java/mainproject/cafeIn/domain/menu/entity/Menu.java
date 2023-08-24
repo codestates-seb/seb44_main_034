@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mainproject.cafeIn.domain.cafe.entity.Cafe;
+import mainproject.cafeIn.domain.menu.dto.request.MenuRequest;
 import mainproject.cafeIn.domain.menu.entity.enums.MenuType;
 import mainproject.cafeIn.domain.menucomment.entity.MenuComment;
 import org.hibernate.annotations.OnDelete;
@@ -54,9 +55,9 @@ public class Menu {
         this.cafe = cafe;
     }
 
-    public void updateMenu(Menu menu) {
-        this.name = menu.name;
-        this.price = menu.price;
-        this.menuType = menu.menuType;
+    public void updateMenu(MenuRequest menu) {
+        this.name = menu.getName();
+        this.price = menu.getPrice();
+        this.menuType = menu.getMenuType();
     }
 }
