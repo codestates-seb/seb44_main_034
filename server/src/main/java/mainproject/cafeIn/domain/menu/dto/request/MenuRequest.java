@@ -16,14 +16,6 @@ public class MenuRequest {
 
     private MenuType menuType;
 
-    public Menu toEntity() {
-        return Menu.builder()
-                .name(name)
-                .price(price)
-                .menuType(menuType)
-                .build();
-    }
-
     public Menu toEntity(Cafe cafe) {
         return Menu.builder()
                 .name(name)
